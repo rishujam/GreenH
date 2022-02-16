@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/imPlants"
+        android:title="Plants"
+        android:icon="@drawable/ic_plant"/>
+
+    <item
+        android:id="@+id/imBag"
+        android:title="Bag"
+        android:icon="@drawable/ic_order"/>
+    <item
+        android:id="@+id/imOrder"
+        android:title="Orders"
+        android:icon="@drawable/ic_order"/>
+
+    <item
+        android:id="@+id/imSetting"
+        android:title="Setting"
+        android:icon="@drawable/ic_setting"/>
+
+</menu>
