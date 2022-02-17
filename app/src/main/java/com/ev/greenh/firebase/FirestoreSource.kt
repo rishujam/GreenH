@@ -1,5 +1,6 @@
 package com.ev.greenh.firebase
 
+import android.util.Log
 import com.ev.greenh.models.Plant
 import com.ev.greenh.models.Response
 import com.google.firebase.firestore.SetOptions
@@ -57,7 +58,9 @@ class FirestoreSource {
                 for(i in data.keys){
                     async {
                         val plant = getSinglePlant(collPlant,i)
-                        map[plant] = ref[plant.id].toString()
+                        val quantity = ref[plant.id].toString()
+                        val price = plant.price.toInt()*quantity.toInt()
+                        map[plant] = "$quantity,$price"
                     }
                 }
             }

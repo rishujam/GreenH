@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ev.greenh.adapters.BagAdapter
@@ -14,12 +16,14 @@ import com.ev.greenh.models.Plant
 import com.ev.greenh.util.Resource
 import com.ev.greenh.util.visible
 import com.ev.greenh.viewmodels.PlantViewModel
+import kotlinx.coroutines.*
 
 class BagFragment: Fragment() {
 
     private var _binding: FragmentBagBinding?=null
     private val binding get() = _binding!!
     private lateinit var viewModel: PlantViewModel
+    val totalLive = MutableLiveData<Int>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +38,11 @@ class BagFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.readEmail()
+
+        totalLive.observe(viewLifecycleOwner, Observer {
+            binding.tvTotal.text = "Total: ₹${it}"
+        })
 
         viewModel.email.observe(viewLifecycleOwner, Observer {
             when(it){
@@ -41,7 +50,9 @@ class BagFragment: Fragment() {
                     viewModel.getBagItems(getString(R.string.cart),getString(R.string.plant_sample_ref),it.data!!)
                 }
                 is Resource.Loading ->{}
-                is Resource.Error -> {}
+                is Resource.Error -> {
+                    Toast.makeText(context,"Error",Toast.LENGTH_SHORT).show()
+                }
             }
         })
 
@@ -53,23 +64,21 @@ class BagFragment: Fragment() {
                 }
                 is Resource.Error -> {
                     binding.pbBag.visible(false)
-                    Toast.makeText(context, "Error Loading Items", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Loading -> {}
             }
         })
-
-
     }
 
     private fun setupRv(map:Map<Plant,String>){
-        var total = 0;
-        for(i in map.keys){
-            total+=i.price.toInt()
+        var total = 0
+        for(i in map.values.toList()){
+            total +=i.split(",")[1].toInt()
         }
-        binding.tvTotal.text = "Total Price: ₹${total}"
+        totalLive.value = total
         binding.noItemsBag.text = "No Of Items: ${map.size}"
-        val bagAdapter = BagAdapter(map)
+        val bagAdapter = BagAdapter(map,totalLive)
         binding.rvBagItems.apply {
             adapter = bagAdapter
             layoutManager = LinearLayoutManager(context)
