@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/plant"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="150dp"
     android:layout_marginRight="16dp"
     android:layout_marginLeft="16dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
     android:paddingBottom="16dp"
     android:divider="@android:color/transparent"
     android:dividerHeight="0.0px"
@@ -50,63 +51,54 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.40" />
+            app:layout_constraintGuide_percent="0.33" />
 
         <TextView
             android:id="@+id/tvItemName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="ItemName"
             android:paddingLeft="16dp"
             android:paddingTop="16dp"
+            android:text="ItemName"
+            android:paddingEnd="8dp"
+            android:textAlignment="viewStart"
             android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/tvQuantity"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:text="Quantity"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/ibPlus"
-            app:layout_constraintEnd_toEndOf="@+id/ibMinus"
-            app:layout_constraintStart_toStartOf="@+id/ibPlus" />
-
-        <ImageButton
-            android:id="@+id/ibMinus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="8dp"
-            android:src="@drawable/ic_minus"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <ImageButton
-            android:id="@+id/ibPlus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:background="@color/white"
-            android:padding="8dp"
-            android:layout_marginRight="8dp"
-            android:src="@drawable/ic_plus"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tvQuantity" />
 
         <TextView
             android:id="@+id/tvQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1"
-            android:paddingRight="8dp"
+            android:paddingTop="16dp"
+            android:layout_marginRight="16dp"
+            android:text="Quantity: 1"
             android:textSize="18sp"
-            android:paddingBottom="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnRemove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remove"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ibMinus" />
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:paddingTop="8dp"
+            android:paddingRight="16dp"
+            android:textColor="@color/theme_color"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/tvQuantity"
+            app:layout_constraintTop_toBottomOf="@+id/tvQuantity" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package com.ev.greenh.firebase
 import android.util.Log
 import com.ev.greenh.models.Plant
 import com.ev.greenh.models.Response
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -49,6 +50,20 @@ class FirestoreSource {
         return Response(true)
     }
 
+    suspend fun updateQuantity(user:String,collection: String,newQuantity:Int,plantId: String):Response{
+        val res = Response()
+        val ref = fireRef.collection(collection).document(user)
+        Firebase.firestore.runTransaction { transaction ->
+            transaction.update(ref,plantId,newQuantity.toString())
+            null
+        }.addOnSuccessListener {
+            res.success = true
+        }.addOnFailureListener {
+            res.errorMsg = it.message
+        }.await()
+        return res
+    }
+
     suspend fun getBagItems(collBag: String,collPlant:String,user:String):Map<Plant,String>{
         val map = mutableMapOf<Plant,String>()
         val ref = fireRef.collection(collBag).document(user).get().await()
@@ -66,5 +81,19 @@ class FirestoreSource {
             }
         }
         return map
+    }
+
+    suspend fun deleteItemFromBag(user:String,collection: String,plantId: String):Response{
+        val res = Response()
+        val docRef = fireRef.collection(collection).document(user)
+        val updates = hashMapOf<String,Any>(
+            plantId to FieldValue.delete()
+        )
+        docRef.update(updates).addOnSuccessListener {
+            res.success = true
+        }.addOnFailureListener {
+            res.errorMsg = it.message
+        }.await()
+        return res
     }
 }

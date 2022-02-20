@@ -28,4 +28,12 @@ class PlantRepository(
     suspend fun getBagItems(collBag: String,collPlant:String,user:String)= safeApiCall {
         source.getBagItems(collBag, collPlant, user)
     }
+
+    suspend fun updateQuantity(user:String,collection: String,newQuantity:Int,plantId: String) = safeApiCall {
+        source.updateQuantity(user, collection, newQuantity, plantId)
+    }
+
+    suspend fun deleteItemFromBag(user:String,collection: String,plantId: String) = safeApiCall {
+        source.deleteItemFromBag(user, collection, plantId)
+    }
 }

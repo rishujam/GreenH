@@ -34,6 +34,10 @@ class PlantViewModel(
     val success:LiveData<Resource<Response>>
         get() = _success
 
+    private val _deleteBagItem:MutableLiveData<Resource<Response>> = MutableLiveData()
+    val deleteBagItem :LiveData<Resource<Response>>
+        get() = _deleteBagItem
+
 
     fun getAllPlants(collection: String) = viewModelScope.launch {
         _plantsResponse.value = repository.getAllPlants(collection)
@@ -53,6 +57,14 @@ class PlantViewModel(
 
     fun getBagItems(collBag: String,collPlant:String,user:String) = viewModelScope.launch {
         _bagItems.value = repository.getBagItems(collBag, collPlant, user)
+    }
+
+    fun updateQuantity(user:String,collection: String,newQuantity:Int,plantId: String) = viewModelScope.launch {
+        _success.value = repository.updateQuantity(user, collection, newQuantity, plantId)
+    }
+
+    fun deleteItemFromBag(user:String,collection: String,plantId: String) = viewModelScope.launch {
+        _deleteBagItem.value = repository.deleteItemFromBag(user, collection, plantId)
     }
 
 }
