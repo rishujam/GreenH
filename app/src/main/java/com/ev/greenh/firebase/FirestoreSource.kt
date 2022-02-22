@@ -2,6 +2,7 @@ package com.ev.greenh.firebase
 
 import android.util.Log
 import com.ev.greenh.models.Plant
+import com.ev.greenh.models.Profile
 import com.ev.greenh.models.Response
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
@@ -95,5 +96,15 @@ class FirestoreSource {
             res.errorMsg = it.message
         }.await()
         return res
+    }
+
+    suspend fun saveProfile(collection: String,profile: Profile): Response {
+        fireRef.collection(collection).document(profile.emailId).set(profile).await()
+        return Response(true)
+    }
+
+    suspend fun getUserDetails(collection: String,email:String):Profile {
+        val snap = fireRef.collection(collection).document(email).get().await()
+        return snap.toObject<Profile>()!!
     }
 }

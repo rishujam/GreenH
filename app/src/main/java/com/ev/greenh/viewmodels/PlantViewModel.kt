@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ev.greenh.models.Plant
+import com.ev.greenh.models.Profile
 import com.ev.greenh.models.Response
 import com.ev.greenh.repository.PlantRepository
 import com.ev.greenh.util.Resource
@@ -65,6 +66,14 @@ class PlantViewModel(
 
     fun deleteItemFromBag(user:String,collection: String,plantId: String) = viewModelScope.launch {
         _deleteBagItem.value = repository.deleteItemFromBag(user, collection, plantId)
+    }
+
+    fun getUserDetails(collection: String,email:String) = viewModelScope.launch {
+        repository.getUserDetails(collection, email)
+    }
+
+    fun saveProfile(collection: String,profile: Profile) = viewModelScope.launch {
+        repository.saveProfile(collection, profile)
     }
 
 }

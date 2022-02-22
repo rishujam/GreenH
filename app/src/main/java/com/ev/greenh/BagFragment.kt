@@ -122,6 +122,11 @@ class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
                 is Resource.Loading -> {}
             }
         })
+
+        binding.btnCheckout.setOnClickListener {
+            val buyFragment = BuyFragment()
+            (activity as MainActivity).setCurrentFragmentBack(buyFragment)
+        }
     }
 
     private fun setupRv(map:Map<Plant,String>){

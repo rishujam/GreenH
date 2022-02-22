@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-anydpi/ic_home.xml" value="0.2495" />
+        <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-anydpi/ic_logout.xml" value="0.2495" />
+        <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-anydpi/ic_whatsapp.xml" value="0.2495" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-hdpi/plant_gradient.xml" value="0.1105" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-v24/custom_edittext.xml" value="0.1" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/activity_auth.xml" value="0.1" />
@@ -10,6 +13,7 @@
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/fragment_bag.xml" value="0.264" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/fragment_login.xml" value="0.25416666666666665" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/fragment_plant.xml" value="0.11302083333333333" />
+        <entry key="..\:/rishu/GreenH/app/src/main/res/layout/fragment_settings.xml" value="0.25416666666666665" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/item_bag.xml" value="0.25416666666666665" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/item_plant.xml" value="0.11302083333333333" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/sheet_quantity.xml" value="0.25416666666666665" />

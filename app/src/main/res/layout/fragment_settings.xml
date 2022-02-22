@@ -1,6 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cdUserInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/theme_color"
+        app:cardCornerRadius="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/profileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hi Rishu"
+                android:paddingLeft="16dp"
+                android:paddingTop="16dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/profileAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="G-14/A, Sector-9, New Vijay Nagar"
+                android:textColor="@color/white"
+                android:drawableStart="@drawable/ic_home"
+                android:drawablePadding="8dp"
+                android:textSize="18sp"
+                android:paddingTop="16dp"
+                android:paddingLeft="16dp"/>
+
+            <TextView
+                android:id="@+id/profileCityPin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ghaziabad, 201009"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:paddingTop="6dp"
+                android:paddingLeft="16dp"/>
+
+            <TextView
+                android:id="@+id/profilePhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8076861086"
+                android:drawableStart="@drawable/ic_phone"
+                android:drawablePadding="8dp"
+                android:textSize="18sp"
+                android:paddingLeft="16dp"
+                android:paddingTop="16dp"
+                android:textColor="@color/white"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/editProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_gravity="right">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EDIT"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textColor="@color/theme_color"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cdUserInfo"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:divider="?android:dividerHorizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/query"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DM for Query"
+                android:paddingBottom="8dp"
+                android:drawableStart="@drawable/ic_whatsapp"
+                android:drawablePadding="8dp"
+                android:paddingTop="16dp"
+                android:paddingLeft="16dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/aboutus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="About Us"
+                android:textSize="18sp"
+                android:paddingTop="16dp"
+                android:paddingLeft="16dp"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:drawableStart="@drawable/ic_logout"
+                android:drawablePadding="8dp"
+                android:textSize="18sp"
+                android:paddingLeft="16dp"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"/>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

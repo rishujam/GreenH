@@ -2,6 +2,7 @@ package com.ev.greenh.repository
 
 import com.ev.greenh.firebase.FirestoreSource
 import com.ev.greenh.localdatastore.UserPreferences
+import com.ev.greenh.models.Profile
 
 
 class PlantRepository(
@@ -35,5 +36,13 @@ class PlantRepository(
 
     suspend fun deleteItemFromBag(user:String,collection: String,plantId: String) = safeApiCall {
         source.deleteItemFromBag(user, collection, plantId)
+    }
+
+    suspend fun saveProfile(collection: String,profile: Profile) = safeApiCall {
+        source.saveProfile(collection, profile)
+    }
+
+    suspend fun getUserDetails(collection: String,email:String) = safeApiCall {
+        source.getUserDetails(collection, email)
     }
 }
