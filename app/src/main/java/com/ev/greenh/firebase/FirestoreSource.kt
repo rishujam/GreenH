@@ -1,22 +1,23 @@
 package com.ev.greenh.firebase
 
 import android.util.Log
+import com.ev.greenh.models.Order
 import com.ev.greenh.models.Plant
 import com.ev.greenh.models.Profile
 import com.ev.greenh.models.Response
+import com.ev.greenh.models.uimodels.MyOrder
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
 
 class FirestoreSource {
 
-    private val storageRef = Firebase.storage.reference
+    //private val storageRef = Firebase.storage.reference
     private val fireRef = Firebase.firestore
 
     suspend fun getSamplePlants(collection:String):List<Plant>{
@@ -98,13 +99,68 @@ class FirestoreSource {
         return res
     }
 
-    suspend fun saveProfile(collection: String,profile: Profile): Response {
-        fireRef.collection(collection).document(profile.emailId).set(profile).await()
-        return Response(true)
-    }
-
-    suspend fun getUserDetails(collection: String,email:String):Profile {
+    suspend fun getUserDetails(collection: String, email: String): Profile {
         val snap = fireRef.collection(collection).document(email).get().await()
         return snap.toObject<Profile>()!!
+    }
+
+    suspend fun updateAddress(collection: String,email:String, address:String,name:String):Response {
+        //Complete Profile Function and update the completeProfile Boolean.
+        val response = Response()
+        return try {
+            fireRef.collection(collection).document(email).update(mapOf("address" to address, "name" to name, "profileComplete" to true)).await()
+            response.success =true
+            response
+        }catch (e:Exception){
+            response.errorMsg = e.message
+            response
+        }
+    }
+
+    suspend fun placeOrder(order:Order,collection: String):Response{
+        val response = Response()
+        return try {
+            fireRef.collection(collection).document(order.orderId).set(order).await()
+            response.success = true
+            response
+        }catch (e:Exception){
+            response.errorMsg=  e.message
+            response
+        }
+    }
+
+    suspend fun getUserOrders(user:String,collectionOrder: String, collectionPlant:String):List<MyOrder>{
+        val out = mutableListOf<MyOrder>()
+        val snap = fireRef.collection(collectionOrder).get().await()
+        for(i in snap.documents){
+            val order = i.toObject<Order>()
+            if(order!=null && order.user == user){
+                val myOrder = MyOrder(orderId = order.orderId, deliveryStatus = order.deliveryStatus, deliveryDate = order.dateDelivered, orderedDate = order.dateOrdered)
+                for(plantId in order.items){
+                    val plant = getSinglePlant(collectionPlant,plantId.split(",")[0])
+                    myOrder.plantName = plant.name
+                    myOrder.plantPhoto = plant.imageLocation
+                    out.add(myOrder)
+                }
+            }
+        }
+        return out
+    }
+
+    suspend fun getSingleOrder(orderId:String,collection: String):Order{
+        val snap = fireRef.collection(collection).document(orderId).get().await()
+        return snap.toObject<Order>()!!
+    }
+
+    suspend fun emptyUserCart(user:String,collection: String):Response{
+        val response = Response()
+        return try {
+            fireRef.collection(collection).document(user).delete().await()
+            response.success = true
+            response
+        }catch (e:Exception){
+            response.errorMsg= e.message
+            response
+        }
     }
 }

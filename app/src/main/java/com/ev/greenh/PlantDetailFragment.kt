@@ -10,6 +10,7 @@ import com.ev.greenh.viewmodels.PlantViewModel
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.*
 import android.widget.*
 import com.ev.greenh.databinding.FragmentPlantDetailBinding
@@ -44,9 +45,10 @@ class PlantDetailFragment: Fragment() {
                     binding.pbPlantDetail.visible(true)
                 }
                 is Resource.Success -> {
-                    if(it.data!=null){
-                        plant = it.data!!
-                        setupData(plant)
+                    val data = it.data
+                    if(data!=null){
+                        plant = it.data
+                        setupData(data)
                     }
                     binding.pbPlantDetail.visible(false)
                 }
@@ -59,7 +61,11 @@ class PlantDetailFragment: Fragment() {
         viewModel.getSinglePlant(getString(R.string.plant_sample_ref),plantId)
 
         binding.buy.setOnClickListener {
-
+            val buyFragment = DirectBuyFragment()
+            val bundle = Bundle()
+            bundle.putString("plantIdBF",plantId)
+            buyFragment.arguments = bundle
+            (activity as MainActivity).setCurrentFragmentBack(buyFragment)
         }
 
         binding.addToCart.setOnClickListener {
@@ -95,7 +101,6 @@ class PlantDetailFragment: Fragment() {
         val quantityMinus:ImageButton = dialog.findViewById(R.id.quantityMinus)
         val pb:ProgressBar = dialog.findViewById(R.id.pbQuantity)
 
-        Glide.with(dialog.context).load(plant.imageLocation).into(image)
         tvName.text = plant.name
         tvPrice.text = "₹${plant.price}"
         tvQuantity.text = "1"
@@ -103,6 +108,8 @@ class PlantDetailFragment: Fragment() {
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window?.setGravity(Gravity.BOTTOM)
+
+        Glide.with(dialog.context).load(plant.imageLocation).into(image)
 
         pb.visible(false)
         add.setOnClickListener {

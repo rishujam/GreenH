@@ -7,5 +7,6 @@ data class Plant(
     val price:String="",
     val store:String="",
     val description:String="",
-    val height:String=""
+    val height:String="",
+    val status:String=""
 )

@@ -1,8 +1,12 @@
 package com.ev.greenh.repository
 
+import android.util.Log
 import com.ev.greenh.firebase.FirestoreSource
 import com.ev.greenh.localdatastore.UserPreferences
+import com.ev.greenh.models.Order
 import com.ev.greenh.models.Profile
+import com.ev.greenh.razorpayapi.RazorpayInstance
+import com.ev.greenh.util.Resource
 
 
 class PlantRepository(
@@ -38,11 +42,32 @@ class PlantRepository(
         source.deleteItemFromBag(user, collection, plantId)
     }
 
-    suspend fun saveProfile(collection: String,profile: Profile) = safeApiCall {
-        source.saveProfile(collection, profile)
-    }
-
-    suspend fun getUserDetails(collection: String,email:String) = safeApiCall {
+    suspend fun getUserDetails(collection: String,email:String)= safeApiCall {
         source.getUserDetails(collection, email)
     }
+
+    suspend fun updateAddress(collection: String,email:String, address:String,name:String) =safeApiCall {
+        source.updateAddress(collection, email, address, name)
+    }
+
+    suspend fun generateOrderId(amount:HashMap<String,Int>)= safeApiCall {
+        RazorpayInstance.api.generateOrderId(amount)
+    }
+
+    suspend fun placeOrder(order: Order, collection: String)=safeApiCall {
+        source.placeOrder(order, collection)
+    }
+
+    suspend fun getUserOrders(user:String,collectionOrder: String, collectionPlant:String)=safeApiCall {
+        source.getUserOrders(user, collectionOrder, collectionPlant)
+    }
+
+    suspend fun getSingleOrder(orderId:String,collection: String) = safeApiCall {
+        source.getSingleOrder(orderId, collection)
+    }
+
+    suspend fun emptyUserCart(user:String,collection: String)= safeApiCall {
+        source.emptyUserCart(user, collection)
+    }
+
 }

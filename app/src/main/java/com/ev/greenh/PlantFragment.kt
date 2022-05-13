@@ -1,6 +1,7 @@
 package com.ev.greenh
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,8 @@ class PlantFragment:Fragment(), PlantAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.readEmail()
+
         viewModel.plantsResponse.observe(viewLifecycleOwner, Observer {
             when(it){
                 is Resource.Loading -> {
@@ -54,6 +57,7 @@ class PlantFragment:Fragment(), PlantAdapter.OnItemClickListener {
             }
         })
         viewModel.getAllPlants(getString(R.string.plant_sample_ref))
+
     }
 
     override fun onDestroy() {

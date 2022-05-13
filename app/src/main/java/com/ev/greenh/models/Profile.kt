@@ -5,5 +5,5 @@ data class Profile(
     val name:String="",
     val address:String="",
     val phone:String="",
-    val empty:String=""
+    val profileComplete:Boolean = false
 )

@@ -3,26 +3,21 @@ package com.ev.greenh
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.ev.greenh.adapters.BagAdapter
-import com.ev.greenh.adapters.PlantAdapter
 import com.ev.greenh.databinding.FragmentBagBinding
-import com.ev.greenh.databinding.SheetQuantityBinding
 import com.ev.greenh.models.Plant
 import com.ev.greenh.util.Resource
 import com.ev.greenh.util.visible
 import com.ev.greenh.viewmodels.PlantViewModel
-import kotlinx.coroutines.*
 
 class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
 
@@ -123,9 +118,10 @@ class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
             }
         })
 
+        Log.e("listenRazor: BagFrag",(activity as MainActivity).successListener)
         binding.btnCheckout.setOnClickListener {
-            val buyFragment = BuyFragment()
-            (activity as MainActivity).setCurrentFragmentBack(buyFragment)
+            val bagBuyFragment = BagBuyFragment()
+            (activity as MainActivity).setCurrentFragmentBack(bagBuyFragment)
         }
     }
 
