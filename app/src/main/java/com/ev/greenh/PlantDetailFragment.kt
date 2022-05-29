@@ -24,6 +24,7 @@ class PlantDetailFragment: Fragment() {
     private lateinit var plantId:String
     private lateinit var viewModel: PlantViewModel
     private lateinit var plant: Plant
+    private lateinit var email:String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -117,24 +118,31 @@ class PlantDetailFragment: Fragment() {
             dialog.setCancelable(false)
             viewModel.readEmail()
             viewModel.email.observe(viewLifecycleOwner, Observer {
-                when(it){
+                when(it.getContentIfNotHandled()){
                     is Resource.Error -> {
                         pb.visible(false)
                         Toast.makeText(context, "Error Adding Item", Toast.LENGTH_SHORT).show()
                         dialog.setCancelable(true)
                     }
                     is Resource.Success -> {
-                        pb.visible(false)
-                        viewModel.addPlantToBag(
-                            plantId,
-                            it.data!!,
-                            getString(R.string.cart),
-                            tvQuantity.text.toString()
-                        )
-                        Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show()
-                        dialog.dismiss()
+                        val email = it.peekContent().data
+                        if(email!=null){
+                            viewModel.addPlantToBag(
+                                plantId,
+                                email,
+                                getString(R.string.cart),
+                                tvQuantity.text.toString()
+                            )
+                            Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show()
+                            pb.visible(false)
+                            dialog.dismiss()
+                        }else{
+                            Toast.makeText(context, "Error Adding Item", Toast.LENGTH_SHORT).show()
+                            pb.visible(false)
+                        }
                     }
                     is Resource.Loading -> {}
+                    else ->{}
                 }
             })
 

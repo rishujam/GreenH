@@ -52,29 +52,38 @@ class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
         })
 
         viewModel.email.observe(viewLifecycleOwner, Observer {
-            when(it){
+            when(it.getContentIfNotHandled()){
                 is Resource.Success -> {
-                    email = it.data!!
-                    viewModel.getBagItems(getString(R.string.cart),getString(R.string.plant_sample_ref),email)
+                    val user = it.peekContent().data
+                    if(user!=null){
+                        email = user
+                        viewModel.getBagItems(getString(R.string.cart),getString(R.string.plant_sample_ref),email)
+                    }else{
+                        Toast.makeText(context,"Something went wrong",Toast.LENGTH_SHORT).show()
+                    }
                 }
                 is Resource.Loading ->{}
                 is Resource.Error -> {
-                    Toast.makeText(context,"Error: ${it.message}",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,"Something went wrong",Toast.LENGTH_SHORT).show()
+                    Log.e("BagFrag: email",it.peekContent().message.toString())
                 }
+                else -> {}
             }
         })
 
         viewModel.bagItems.observe(viewLifecycleOwner, Observer {
-            when(it){
+            when(it.getContentIfNotHandled()){
                 is Resource.Success -> {
-                    if(it.data!=null) setupRv(it.data)
+                    val data = it.peekContent().data
+                    if(data!=null) setupRv(data)
                     binding.pbBag.visible(false)
                 }
                 is Resource.Error -> {
                     binding.pbBag.visible(false)
-                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, it.peekContent().message.toString(), Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Loading -> {}
+                else -> {}
             }
         })
 

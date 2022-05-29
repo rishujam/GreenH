@@ -19,8 +19,9 @@ class PlantAdapter(
         }
         override fun onClick(p0: View?) {
             val posi =adapterPosition
+            val plantId = list[posi].id
             if(posi!=RecyclerView.NO_POSITION){
-                listener.onItemClick(posi)
+                listener.onItemClick(plantId)
             }
         }
     }
@@ -41,6 +42,6 @@ class PlantAdapter(
     }
 
     interface OnItemClickListener{
-        fun onItemClick(position: Int)
+        fun onItemClick(plantId:String)
     }
 }

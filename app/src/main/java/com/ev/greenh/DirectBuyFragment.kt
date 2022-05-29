@@ -19,6 +19,8 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.ev.greenh.databinding.FragmentBuyDirectBinding
 import com.ev.greenh.models.Order
+import com.ev.greenh.models.Plant
+import com.ev.greenh.models.Profile
 import com.ev.greenh.util.Resource
 import com.ev.greenh.util.visible
 import com.ev.greenh.viewmodels.PlantViewModel
@@ -33,7 +35,9 @@ class DirectBuyFragment : Fragment() {
     private var _binding: FragmentBuyDirectBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: PlantViewModel
-    private lateinit var order: Order
+    private lateinit var plantInfo:Plant
+    private lateinit var profile:Profile
+    private lateinit var totalAmount:String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +47,6 @@ class DirectBuyFragment : Fragment() {
         _binding = FragmentBuyDirectBinding.inflate(inflater, container, false)
         viewModel = (activity as MainActivity).viewModel
         val plantId = arguments?.getString("plantIdBF").toString()
-        viewModel.readEmail()
         viewModel.getSinglePlant(getString(R.string.plant_sample_ref), plantId)
 
         Checkout.preload(context?.applicationContext)
@@ -54,16 +57,22 @@ class DirectBuyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.readEmail()
+
         viewModel.email.observe(viewLifecycleOwner, Observer {
-            when (it) {
+            when (it.getContentIfNotHandled()) {
                 is Resource.Success -> {
-                    order = Order(user = it.data.toString())
-                    viewModel.getUserDetails(getString(R.string.user_ref), order.user)
+                    val user = it.peekContent().data
+                    if(user!=null){
+                        viewModel.getUserDetails(getString(R.string.user_ref), user)
+                    }
                 }
                 is Resource.Loading -> {}
                 is Resource.Error -> {
-                    Toast.makeText(context, "Can't read email", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
+                    Log.e("DirectBuy:email", it.peekContent().message.toString())
                 }
+                else ->{}
             }
         })
         viewModel.profile.observe(viewLifecycleOwner, Observer {
@@ -73,9 +82,10 @@ class DirectBuyFragment : Fragment() {
                     if (data != null) {
                         if (data.profileComplete) {
                             val address = data.address.split("%")
-                            binding.tvAddress.text = address[0] + "," + address[1]
+                            binding.tvAddress.text = address[0] + ", " + address[1]
                             binding.tvProfileName.text = data.name
                             binding.tvPhoneBD.text = "Phone: ${data.phone}"
+                            profile = data
                         } else {
                             dialogOpen()
                         }
@@ -102,12 +112,8 @@ class DirectBuyFragment : Fragment() {
                         if (plant.price.toInt() > 299) {
                             deliveryCharge = 0
                         }
-                        order = Order(
-                            user = order.user,
-                            totalAmount = (plant.price.toInt() + deliveryCharge).toString(),
-                            items = listOf("${plant.id},1"),
-                            deliveryCharges = deliveryCharge.toString()
-                        )
+                        totalAmount = (plant.price.toInt() + deliveryCharge).toString()
+                        plantInfo = plant
                     }
                 }
                 is Resource.Error -> {
@@ -132,19 +138,24 @@ class DirectBuyFragment : Fragment() {
                     (activity as MainActivity).setCurrentFragment(ordersFragment)
                     (activity as MainActivity).setCurrentIcon()
                 }
-                is Resource.Error -> {}
+                is Resource.Error -> {
+                    binding.progressBar2.visibility = View.INVISIBLE
+                    Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_SHORT)
+                        .show()
+                    Log.e("DirectBuy: placeOrder",it.peekContent().message.toString())
+                }
                 else -> {}
             }
         })
         viewModel.razorpayOrderId.observe(viewLifecycleOwner, Observer {
             when (it.getContentIfNotHandled()) {
                 is Resource.Error -> {
-                    binding.cdPb.visibility = View.GONE
-                    Toast.makeText(context, it.peekContent().message.toString(), Toast.LENGTH_SHORT)
+                    binding.progressBar2.visibility = View.INVISIBLE
+                    Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_SHORT)
                         .show()
+                    Log.e("DirectBuy: placeOrder",it.peekContent().message.toString())
                 }
                 is Resource.Success -> {
-                    binding.cdPb.visibility = View.GONE
                     val data = it.peekContent().data
                     if (data != null) {
                         val sdf = SimpleDateFormat("dd/MM/yyyy,hh:mm:ss", Locale.ENGLISH)
@@ -158,17 +169,19 @@ class DirectBuyFragment : Fragment() {
                             R.id.payCod -> viewModel.placeOrder(
                                 Order(
                                     data.id,
-                                    order.user,
-                                    order.items,
+                                    profile.emailId,
+                                    mutableListOf("${plantInfo.id},1"),
                                     currentDate,
-                                    order.deliveryCharges,
-                                    order.totalAmount,
+                                    (totalAmount.toInt()-plantInfo.price.toInt()).toString(),
+                                    totalAmount,
                                     "Order Placed",
                                     estDeliveryDate,
-                                    ""
+                                    "",
+                                    profile.address,
+                                    profile.phone
                                 ), getString(R.string.orders)
                             )
-                            R.id.payOnline -> startPayment(order.totalAmount, data.id)
+                            R.id.payOnline -> startPayment(totalAmount, data.id)
                         }
                     }
                 }
@@ -179,11 +192,11 @@ class DirectBuyFragment : Fragment() {
 
         binding.btnContinue.setOnClickListener {
             binding.cdPb.visibility = View.VISIBLE
-            viewModel.generateOrderId(hashMapOf("amount" to order.totalAmount.toInt()))
+            viewModel.generateOrderId(hashMapOf("amount" to totalAmount.toInt()))
         }
         binding.btnChangeAddress.setOnClickListener {
             val bundle = Bundle()
-            bundle.putString("email", viewModel.email.value?.data)
+            bundle.putString("email", profile.emailId)
             val editProfileFragment = EditProfileFragment()
             editProfileFragment.arguments = bundle
             (activity as MainActivity).setCurrentFragmentBack(editProfileFragment)
@@ -213,7 +226,7 @@ class DirectBuyFragment : Fragment() {
         btnCompleteProfile.setOnClickListener {
             val editProfileFragment = EditProfileFragment()
             val bundle = Bundle()
-            bundle.putString("email", viewModel.email.value?.data!!)
+            bundle.putString("email", profile.emailId)
             editProfileFragment.arguments = bundle
             (activity as MainActivity).setCurrentFragmentBack(editProfileFragment)
         }
@@ -267,17 +280,20 @@ class DirectBuyFragment : Fragment() {
                 currentDate.replaceRange(0, 2, "${currentDate.split("/")[0].toInt() + 2}")
             val paymentData = (activity as MainActivity).paymentData
             if (paymentData != null) {
+                val deliveryCharge = totalAmount.toInt()-plantInfo.price.toInt()
                 viewModel.placeOrder(
                     Order(
                         paymentData.orderId,
-                        order.user,
-                        order.items,
+                        profile.emailId,
+                        mutableListOf("${plantInfo.id},1"),
                         currentDate,
-                        order.deliveryCharges,
-                        order.totalAmount,
+                        deliveryCharge.toString(),
+                        totalAmount,
                         "Order Placed",
                         estDeliveryDate,
-                        paymentData.paymentId
+                        paymentData.paymentId,
+                        profile.address,
+                        profile.phone
                     ), getString(R.string.orders)
                 )
             }

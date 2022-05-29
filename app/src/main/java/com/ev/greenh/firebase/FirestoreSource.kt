@@ -1,11 +1,12 @@
 package com.ev.greenh.firebase
 
-import android.util.Log
 import com.ev.greenh.models.Order
 import com.ev.greenh.models.Plant
 import com.ev.greenh.models.Profile
 import com.ev.greenh.models.Response
 import com.ev.greenh.models.uimodels.MyOrder
+import com.ev.greenh.models.uimodels.MyOrderDetail
+import com.ev.greenh.models.uimodels.PlantMyOrder
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -135,8 +136,8 @@ class FirestoreSource {
         for(i in snap.documents){
             val order = i.toObject<Order>()
             if(order!=null && order.user == user){
-                val myOrder = MyOrder(orderId = order.orderId, deliveryStatus = order.deliveryStatus, deliveryDate = order.dateDelivered, orderedDate = order.dateOrdered)
                 for(plantId in order.items){
+                    val myOrder = MyOrder(orderId = order.orderId, deliveryStatus = order.deliveryStatus, deliveryDate = order.dateDelivered, orderedDate = order.dateOrdered)
                     val plant = getSinglePlant(collectionPlant,plantId.split(",")[0])
                     myOrder.plantName = plant.name
                     myOrder.plantPhoto = plant.imageLocation
@@ -147,9 +148,35 @@ class FirestoreSource {
         return out
     }
 
-    suspend fun getSingleOrder(orderId:String,collection: String):Order{
-        val snap = fireRef.collection(collection).document(orderId).get().await()
-        return snap.toObject<Order>()!!
+    suspend fun getSingleOrderDetails(
+        orderId: String,
+        collectionOrder: String,
+        collectionPlant: String
+    ): MyOrderDetail {
+        val snap = fireRef.collection(collectionOrder).document(orderId).get().await()
+        val order = snap.toObject<Order>()!!
+        val listOfPlantMyOrder = mutableListOf<PlantMyOrder>()
+        for (i in order.items) {
+            val plantId = i.split(",")[0]
+            val quantity = i.split(",")[1]
+            val plant = getSinglePlant(collectionPlant, plantId)
+            val plantMyOrder = PlantMyOrder(plantId ,plant.name, plant.imageLocation, plant.price, quantity)
+            listOfPlantMyOrder.add(plantMyOrder)
+        }
+        val itemsAmount = (order.totalAmount.toInt() - order.deliveryCharges.toInt()).toString()
+        return MyOrderDetail(
+            order.dateOrdered,
+            orderId,
+            order.totalAmount,
+            order.deliveryStatus,
+            order.dateDelivered,
+            listOfPlantMyOrder,
+            order.paymentId,
+            order.address,
+            order.phone,
+            itemsAmount,
+            order.deliveryCharges
+        )
     }
 
     suspend fun emptyUserCart(user:String,collection: String):Response{
@@ -162,5 +189,17 @@ class FirestoreSource {
             response.errorMsg= e.message
             response
         }
+    }
+
+    suspend fun getBagItemIds(email:String,collection: String):List<String>{
+        val list = mutableListOf<String>()
+        val snap = fireRef.collection(collection).document(email).get().await()
+        val data = snap.data
+        if(data!=null){
+            for(i in data){
+                list.add("${i.key},${i.value}")
+            }
+        }
+        return list
     }
 }

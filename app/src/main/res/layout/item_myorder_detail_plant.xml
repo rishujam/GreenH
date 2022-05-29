@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/myOrder"
+    android:id="@+id/itemOrderDetail"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginRight="16dp"
@@ -23,37 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:src="@drawable/ic_delivered"
-            app:layout_constraintBottom_toBottomOf="@+id/dateDelivered"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/orderStatus" />
-
-        <TextView
-            android:id="@+id/orderStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="8dp"
-            android:text="Delivered"
-            android:layout_marginTop="16dp"
-            android:textColor="@color/dark_green"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/imageView5"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/dateDelivered"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="On 26/05/22"
-            android:paddingLeft="8dp"
-            app:layout_constraintStart_toEndOf="@+id/imageView5"
-            app:layout_constraintTop_toBottomOf="@+id/orderStatus" />
-
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView4"
@@ -63,7 +32,7 @@
             app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dateDelivered">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/itemImage"
@@ -79,20 +48,31 @@
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:paddingTop="16dp"
-            android:text="Money Plant"
+            android:text=""
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/cardView4"
-            app:layout_constraintTop_toBottomOf="@+id/dateDelivered" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
+        <TextView
+            android:id="@+id/cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:background="@color/white"
-            android:src="@drawable/ic_forward_arrow"
+            android:text="$"
+            android:paddingRight="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/quantityMOD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quantity:"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/cardView4"
+            app:layout_constraintTop_toBottomOf="@+id/itemName" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

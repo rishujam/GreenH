@@ -10,4 +10,6 @@
     <color name="grey">#DDD4D4</color>
     <color name="theme_color">#2F9A5A</color>
     <color name="dark_green">#0f3923</color>
+    <color name="orange_pending">#F29339</color>
+    <color name="red">#FF0000</color>
 </resources>

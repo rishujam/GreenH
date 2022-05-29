@@ -55,7 +55,7 @@ class LoginFragment:Fragment() {
                 }
                 is Resource.Error ->{
                     binding.pbLogin.visible(false)
-                    Toast.makeText(requireContext(), "Authentication Failure", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 }
             }
         })

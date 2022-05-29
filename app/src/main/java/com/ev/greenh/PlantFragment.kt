@@ -36,8 +36,6 @@ class PlantFragment:Fragment(), PlantAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.readEmail()
-
         viewModel.plantsResponse.observe(viewLifecycleOwner, Observer {
             when(it){
                 is Resource.Loading -> {
@@ -75,9 +73,9 @@ class PlantFragment:Fragment(), PlantAdapter.OnItemClickListener {
         binding.pbPlants.visible(false)
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onItemClick(plantId:String) {
         val bundle = Bundle()
-        bundle.putString("ID",plants[position].id)
+        bundle.putString("ID",plantId)
         val plantDetailFragment = PlantDetailFragment()
         plantDetailFragment.arguments = bundle
         (activity as MainActivity).setCurrentFragmentBack(plantDetailFragment)

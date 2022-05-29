@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.datastore.dataStore
+import androidx.datastore.dataStoreFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ev.greenh.databinding.ActivityMainBinding
@@ -16,6 +18,7 @@ import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultListener
 import com.razorpay.PaymentResultWithDataListener
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
 
@@ -87,5 +90,17 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
 
     fun setCurrentIcon(){
         binding.bottomNavigationView.selectedItemId = R.id.imOrder
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e("MainActivity", "onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e("MainActivity", "onDestroy")
+        finishAffinity()
+        exitProcess(0)
     }
 }

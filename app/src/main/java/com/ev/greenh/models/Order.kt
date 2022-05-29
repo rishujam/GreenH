@@ -9,5 +9,7 @@ data class Order(
     val totalAmount:String="",
     var deliveryStatus:String="",
     val dateDelivered:String="",
-    val paymentId:String=""
+    val paymentId:String="",
+    val address:String="",
+    val phone:String=""
 )

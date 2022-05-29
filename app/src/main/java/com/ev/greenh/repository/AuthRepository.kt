@@ -25,8 +25,4 @@ class AuthRepository(
     suspend fun saveAuthEmail(email:String){
         preferences.setData(email)
     }
-
-    suspend fun readEmail(){
-        preferences.readData()
-    }
 }

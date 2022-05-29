@@ -8,5 +8,6 @@ data class Plant(
     val store:String="",
     val description:String="",
     val height:String="",
-    val status:String=""
+    val status:String="",
+    val featureNo:String=""
 )

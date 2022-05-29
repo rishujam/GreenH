@@ -13,6 +13,7 @@ import com.ev.greenh.models.Profile
 import com.ev.greenh.util.Resource
 import com.ev.greenh.util.visible
 import com.ev.greenh.viewmodels.PlantViewModel
+import kotlinx.coroutines.flow.first
 
 class SettingFragment:Fragment() {
 
@@ -51,17 +52,20 @@ class SettingFragment:Fragment() {
             }
         })
         viewModel.email.observe(viewLifecycleOwner, Observer {
-            when(it){
+            when(it.getContentIfNotHandled()){
                 is Resource.Success -> {
-                    if(it.data!=null){
-                        email = it.data
-                        viewModel.getUserDetails(getString(R.string.user_ref),it.data.toString())
+                    val user = it.peekContent().data
+                    if(user!=null){
+                        email = user
+                        viewModel.getUserDetails(getString(R.string.user_ref),user)
                     }
                 }
                 is Resource.Error ->{
                     Toast.makeText(context,"Error Loading Profile",Toast.LENGTH_SHORT).show()
+                    Log.e("Setting Frag",it.peekContent().message.toString())
                 }
                 is Resource.Loading->{}
+                else ->{}
             }
         })
 

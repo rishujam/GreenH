@@ -20,7 +20,7 @@ class AuthViewModel(
     fun loginUser(
         email:String,
         pass:String
-    )= viewModelScope.launch {
+    ) = viewModelScope.launch {
         _authResponse.value = repository.login(email, pass)
     }
 
@@ -33,9 +33,5 @@ class AuthViewModel(
 
     fun saveEmailLocally(email: String) = viewModelScope.launch{
         repository.saveAuthEmail(email)
-    }
-
-    fun readEmail() = viewModelScope.launch {
-        repository.readEmail()
     }
 }

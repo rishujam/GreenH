@@ -1,12 +1,12 @@
 package com.ev.greenh.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ev.greenh.models.*
 import com.ev.greenh.models.uimodels.MyOrder
+import com.ev.greenh.models.uimodels.MyOrderDetail
 import com.ev.greenh.repository.PlantRepository
 import com.ev.greenh.util.Resource
 import com.ev.greenh.util.ViewModelEventWrapper
@@ -26,12 +26,12 @@ class PlantViewModel(
     val plantResponse: LiveData<Resource<Plant>>
         get() = _plantResponse
 
-    private val _bagItems:MutableLiveData<Resource<Map<Plant, String>>> = MutableLiveData()
-    val bagItems : LiveData<Resource<Map<Plant, String>>>
+    private val _bagItems:MutableLiveData<ViewModelEventWrapper<Resource<Map<Plant, String>>>> = MutableLiveData()
+    val bagItems : LiveData<ViewModelEventWrapper<Resource<Map<Plant, String>>>>
         get() = _bagItems
 
-    private val _email:MutableLiveData<Resource<String?>> = MutableLiveData()
-    val email: LiveData<Resource<String?>>
+    private val _email:MutableLiveData<ViewModelEventWrapper<Resource<String?>>> = MutableLiveData()
+    val email: LiveData<ViewModelEventWrapper<Resource<String?>>>
         get() = _email
 
     private val _profile:MutableLiveData<Resource<Profile>> = MutableLiveData()
@@ -57,9 +57,9 @@ class PlantViewModel(
     val getUserOrders:LiveData<Resource<List<MyOrder>>>
         get() = _getUserOrders
 
-    private val _getSingleOrder: MutableLiveData<Resource<Order>> = MutableLiveData()
-    val getSingleOrder:LiveData<Resource<Order>>
-        get() = _getSingleOrder
+    private val _getSingleOrderDetails: MutableLiveData<Resource<MyOrderDetail>> = MutableLiveData()
+    val getSingleOrderDetails:LiveData<Resource<MyOrderDetail>>
+        get() = _getSingleOrderDetails
 
     private val _razorpayOrderId:MutableLiveData<ViewModelEventWrapper<Resource<RazorpayOrderId>>> = MutableLiveData()
     val razorpayOrderId:LiveData<ViewModelEventWrapper<Resource<RazorpayOrderId>>>
@@ -73,6 +73,10 @@ class PlantViewModel(
     val emptyUserCart:LiveData<ViewModelEventWrapper<Resource<Response>>>
         get() = _emptyUserCart
 
+    private val _bagItemIds:MutableLiveData<Resource<List<String>>> = MutableLiveData()
+    val bagItemIds : LiveData<Resource<List<String>>>
+        get() = _bagItemIds
+
     fun getAllPlants(collection: String) = viewModelScope.launch {
         _plantsResponse.value = repository.getAllPlants(collection)
     }
@@ -82,7 +86,7 @@ class PlantViewModel(
     }
 
     fun readEmail() = viewModelScope.launch {
-        _email.value = repository.readEmail()
+        _email.value = ViewModelEventWrapper(repository.readEmail())
     }
 
     fun addPlantToBag(plantId:String,user:String,collection:String,quantity:String) = viewModelScope.launch {
@@ -90,7 +94,7 @@ class PlantViewModel(
     }
 
     fun getBagItems(collBag: String,collPlant:String,user:String) = viewModelScope.launch {
-        _bagItems.value = repository.getBagItems(collBag, collPlant, user)
+        _bagItems.value = ViewModelEventWrapper(repository.getBagItems(collBag, collPlant, user))
     }
 
     fun updateQuantity(user:String,collection: String,newQuantity:Int,plantId: String) = viewModelScope.launch {
@@ -117,8 +121,8 @@ class PlantViewModel(
         _getUserOrders.value = repository.getUserOrders(user, collectionOrder, collectionPlant)
     }
 
-    fun getSingleOrder(orderId:String,collection: String) = viewModelScope.launch {
-        _getSingleOrder.value = repository.getSingleOrder(orderId, collection)
+    fun getSingleOrderDetail(orderId:String,collectionOrder: String, collectionPlant: String) = viewModelScope.launch {
+        _getSingleOrderDetails.value = repository.getSingleOrderDetail(orderId, collectionOrder, collectionPlant)
     }
 
     fun generateOrderId(amount:HashMap<String,Int>) =viewModelScope.launch {
@@ -128,5 +132,11 @@ class PlantViewModel(
     fun emptyUserCart(user:String,collection: String) = viewModelScope.launch {
         _emptyUserCart.value = ViewModelEventWrapper(repository.emptyUserCart(user, collection))
     }
+
+    fun getBagItemIds(email:String,collection: String) = viewModelScope.launch {
+        _bagItemIds.value = repository.getBagItemIds(email, collection)
+    }
+
+
 
 }

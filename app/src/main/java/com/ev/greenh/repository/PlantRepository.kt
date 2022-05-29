@@ -14,8 +14,9 @@ class PlantRepository(
     private val preferences: UserPreferences
 ) : BaseRepository(){
 
-    suspend fun readEmail() =safeApiCall {
-        preferences.readData()
+
+    suspend fun readEmail() = safeApiCall {
+        preferences.read()
     }
 
     suspend fun getAllPlants(collection:String) = safeApiCall{
@@ -62,12 +63,19 @@ class PlantRepository(
         source.getUserOrders(user, collectionOrder, collectionPlant)
     }
 
-    suspend fun getSingleOrder(orderId:String,collection: String) = safeApiCall {
-        source.getSingleOrder(orderId, collection)
+    suspend fun getSingleOrderDetail(orderId:String,collectionOrder: String, collectionPlant: String) = safeApiCall {
+        source.getSingleOrderDetails(orderId, collectionOrder, collectionPlant)
     }
 
     suspend fun emptyUserCart(user:String,collection: String)= safeApiCall {
         source.emptyUserCart(user, collection)
     }
 
+    suspend fun getBagItemIds(email:String,collection: String) = safeApiCall {
+        source.getBagItemIds(email, collection)
+    }
+
+    suspend fun clearDataStore() = safeApiCall{
+        preferences.clearData()
+    }
 }
