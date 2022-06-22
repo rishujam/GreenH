@@ -45,13 +45,13 @@ class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.readEmail()
+        viewModel.readUid()
 
         totalLive.observe(viewLifecycleOwner, Observer {
             binding.tvTotal.text = "Total: ₹${it}"
         })
 
-        viewModel.email.observe(viewLifecycleOwner, Observer {
+        viewModel.uid.observe(viewLifecycleOwner, Observer {
             when(it.getContentIfNotHandled()){
                 is Resource.Success -> {
                     val user = it.peekContent().data

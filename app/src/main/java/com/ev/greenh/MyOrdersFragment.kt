@@ -36,8 +36,8 @@ class MyOrdersFragment:Fragment(), MyOrderAdapter.OrderDetails {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.readEmail()
-        viewModel.email.observe(viewLifecycleOwner, Observer {
+        viewModel.readUid()
+        viewModel.uid.observe(viewLifecycleOwner, Observer {
             when(it.getContentIfNotHandled()){
                 is Resource.Success ->{
                     val user = it.peekContent().data

@@ -105,18 +105,18 @@ class FirestoreSource {
         return snap.toObject<Profile>()!!
     }
 
-    suspend fun updateAddress(collection: String,email:String, address:String,name:String):Response {
-        //Complete Profile Function and update the completeProfile Boolean.
-        val response = Response()
-        return try {
-            fireRef.collection(collection).document(email).update(mapOf("address" to address, "name" to name, "profileComplete" to true)).await()
-            response.success =true
-            response
-        }catch (e:Exception){
-            response.errorMsg = e.message
-            response
-        }
-    }
+//    suspend fun updateAddress(collection: String,email:String, address:String,name:String):Response {
+//        //Complete Profile Function and update the completeProfile Boolean.
+//        val response = Response()
+//        return try {
+//            fireRef.collection(collection).document(email).update(mapOf("address" to address, "name" to name, "profileComplete" to true)).await()
+//            response.success =true
+//            response
+//        }catch (e:Exception){
+//            response.errorMsg = e.message
+//            response
+//        }
+//    }
 
     suspend fun placeOrder(order:Order,collection: String):Response{
         val response = Response()
@@ -201,5 +201,22 @@ class FirestoreSource {
             }
         }
         return list
+    }
+
+    suspend fun updateUserDetails(collection: String,profile:Profile):Response{
+        val response  = Response()
+        return try {
+            fireRef.collection(collection).document(profile.uid).set(profile).await()
+            response.success = true
+            response
+        }catch (e:Exception){
+            response.errorMsg = e.message
+            response
+        }
+    }
+
+    suspend fun getNotifyToken(uid:String, collection: String):String{
+        val snap = fireRef.collection(collection).document(uid).get().await()
+        return snap["token"].toString()
     }
 }

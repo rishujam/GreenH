@@ -35,7 +35,7 @@ class SettingFragment:Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.readEmail()
+        viewModel.readUid()
 
         viewModel.profile.observe(viewLifecycleOwner, Observer {
             when(it){
@@ -51,7 +51,7 @@ class SettingFragment:Fragment() {
                 is Resource.Loading ->{}
             }
         })
-        viewModel.email.observe(viewLifecycleOwner, Observer {
+        viewModel.uid.observe(viewLifecycleOwner, Observer {
             when(it.getContentIfNotHandled()){
                 is Resource.Success -> {
                     val user = it.peekContent().data
@@ -81,9 +81,14 @@ class SettingFragment:Fragment() {
     private fun setupProfileData(profile:Profile){
         binding.apply {
             profileName.text = "Hi ${profile.name}!"
-            profileAddress.text = profile.address
             profilePhone.text = profile.phone
-            profileEmail.text = profile.emailId
+            if(profile.address!="" && profile.emailId!=""){
+                profileAddress.text = profile.address
+                profileEmail.text = profile.emailId
+            }else{
+                profileAddress.visibility = View.GONE
+                profileEmail.visibility = View.GONE
+            }
         }
     }
 

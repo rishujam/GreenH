@@ -9,9 +9,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.ev.greenh.databinding.FragmentEditProfileBinding
+import com.ev.greenh.models.Profile
 import com.ev.greenh.models.Response
+import com.ev.greenh.util.Constants.VERSION
 import com.ev.greenh.util.Resource
 import com.ev.greenh.viewmodels.PlantViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -25,6 +28,7 @@ class EditProfileFragment : Fragment() {
     private var _binding: FragmentEditProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: PlantViewModel
+    private lateinit var userDetails:Profile
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,17 +46,18 @@ class EditProfileFragment : Fragment() {
 
         val email = arguments?.getString("email")
 
-        viewModel.updateAddress.observe(viewLifecycleOwner,Observer{
-            when(it){
+        viewModel.updateProfile.observe(viewLifecycleOwner,Observer{
+            when(it.getContentIfNotHandled()){
                 is Resource.Success -> {
-                    Toast.makeText(context, "Address Updated", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, "Profile completed", Snackbar.LENGTH_SHORT).show()
                     (activity as MainActivity).supportFragmentManager.popBackStack()
                 }
                 is Resource.Error -> {
                     Toast.makeText(context, "Error Updating Address", Toast.LENGTH_SHORT).show()
-                    Log.e("updateAddress",it.message.toString())
+                    Log.e("updateAddress",it.peekContent().message.toString())
                 }
                 is Resource.Loading -> {}
+                else ->{}
             }
         })
 
@@ -61,10 +66,22 @@ class EditProfileFragment : Fragment() {
                 is Resource.Success -> {
                     val profile = it.data
                     if(profile!=null){
+                        userDetails = profile
                         binding.etNameEdit.setText(profile.name)
-                        binding.etAddress.setText(profile.address.split("%")[0])
-                        binding.etPincode.setText(profile.address.split("%")[1])
-                        binding.etPhone.setText(profile.phone)
+                        if(profile.address!=""){
+                            binding.etAddress.setText(profile.address.split("%")[0])
+                            binding.etPincode.setText(profile.address.split("%")[1])
+                        }
+                        binding.tvPhoneEP.text = "Phone: ${profile.phone}"
+                        when(profile.gender){
+                            "Male" ->{ binding.rbMale.isChecked = true }
+                            "Female" -> { binding.rbFemale.isChecked = true }
+                        }
+                        when(profile.ageGroup){
+                            "Below 20" ->{binding.rbBelow20.isChecked = true }
+                            "20 - 25" ->{binding.rb20to25.isChecked = true }
+                            "Above 25" ->{binding.rbAbove25.isChecked = true }
+                        }
                     }
                 }
                 is Resource.Error -> {
@@ -81,8 +98,23 @@ class EditProfileFragment : Fragment() {
             val name = binding.etNameEdit.text.toString().trim()
             val address = binding.etAddress.text.toString().trim()
             val pin = binding.etPincode.text.toString().trim()
-            if (name.isNotEmpty() && address.isNotEmpty() && pin.isNotEmpty()) {
-                viewModel.updateAddress(getString(R.string.user_ref),email.toString(),"$address%$pin",name)
+            val emailId = binding.etEmailEP.text.toString().trim()
+            var gender = ""
+            var ageGroup = ""
+            when(binding.rgGender.checkedRadioButtonId){
+                R.id.rbMale -> {gender = "Male"}
+                R.id.rbFemale -> {gender = "Female"}
+            }
+            when(binding.rgAgeGroup.checkedRadioButtonId){
+                R.id.rbBelow20 ->{ageGroup = binding.rbBelow20.text.toString()}
+                R.id.rb20to25 ->{ageGroup = binding.rb20to25.text.toString()}
+                R.id.rbAbove25 ->{ageGroup = binding.rbAbove25.text.toString()}
+            }
+            if (name.isNotEmpty() && address.isNotEmpty() && pin.isNotEmpty() && gender!="" && ageGroup!="") {
+                val profile = Profile(emailId,name, "$address%$pin",userDetails.phone,VERSION,userDetails.uid,gender, ageGroup,true)
+                viewModel.updateUserDetails(getString(R.string.user_ref),profile)
+            }else{
+                Toast.makeText(context, "Fill details properly", Toast.LENGTH_SHORT).show()
             }
         }
 

@@ -2,6 +2,7 @@ package com.ev.greenh.repository
 
 import com.ev.greenh.firebase.AuthSource
 import com.ev.greenh.localdatastore.UserPreferences
+import com.ev.greenh.models.Profile
 
 class AuthRepository(
     private val source: AuthSource,
@@ -15,14 +16,22 @@ class AuthRepository(
         source.loginUser(email, pass)
     }
 
-    suspend fun registerUser(
-        email: String,
-        pass: String
-    ) = safeApiCall {
-        source.registerUser(email,pass, "users")
+//    suspend fun registerUser(
+//        email: String,
+//        pass: String
+//    ) = safeApiCall {
+//        source.registerUser(email,pass, "users")
+//    }
+
+    suspend fun saveUserProfile(collection: String,profile: Profile) = safeApiCall {
+        source.saveProfile(collection, profile)
     }
 
-    suspend fun saveAuthEmail(email:String){
-        preferences.setData(email)
+    suspend fun saveUidLocally(email:String){
+        preferences.setUid(email)
+    }
+
+    suspend fun saveNotifyToken(uid:String,token:String,collection: String) = safeApiCall {
+        source.saveNotifyToken(uid,token,collection)
     }
 }

@@ -48,7 +48,7 @@ class LoginFragment:Fragment() {
                     binding.pbLogin.visible(true)
                 }
                 is Resource.Success -> {
-                    viewModel.saveEmailLocally(email)
+                    //viewModel.saveEmailLocally(email)
                     binding.pbLogin.visible(false)
                     requireActivity().startNewActivity(MainActivity::class.java)
                     Toast.makeText(requireContext(), "Login Success", Toast.LENGTH_SHORT).show()

@@ -54,15 +54,15 @@ class BagBuyFragment:Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.readEmail()
-        viewModel.email.observe(viewLifecycleOwner, Observer {
+        viewModel.readUid()
+        viewModel.uid.observe(viewLifecycleOwner, Observer {
             when(it.getContentIfNotHandled()) {
                 is Resource.Success ->{
-                    val email = it.peekContent().data
-                    if(email!=null){
-                        user = email
-                        viewModel.getUserDetails(getString(R.string.user_ref),email)
-                        viewModel.getBagItems(getString(R.string.cart),getString(R.string.plant_sample_ref),email)
+                    val uid = it.peekContent().data
+                    if(uid!=null){
+                        user = uid
+                        viewModel.getProfileSingleTime(getString(R.string.user_ref),uid)
+                        viewModel.getBagItems(getString(R.string.cart),getString(R.string.plant_sample_ref),uid)
                     }else{
                         Toast.makeText(context, "Something Went Wrong", Toast.LENGTH_SHORT).show()
                     }
@@ -74,10 +74,10 @@ class BagBuyFragment:Fragment() {
                 else -> {}
             }
         })
-        viewModel.profile.observe(viewLifecycleOwner, Observer {
-            when(it){
+        viewModel.singleTimeProfile.observe(viewLifecycleOwner, Observer {
+            when(it.getContentIfNotHandled()){
                 is Resource.Success -> {
-                    val data = it.data
+                    val data = it.peekContent().data
                     if(data!=null){
                         if(data.profileComplete){
                             binding.tvProfileName.text = data.name
@@ -90,9 +90,10 @@ class BagBuyFragment:Fragment() {
                     }
                 }
                 is Resource.Error -> {
-                    Log.e("BagBuyFragment:getUserDetails()",it.message.toString())
+                    Log.e("BagBuyFragment:getUserDetails()",it.peekContent().message.toString())
                 }
                 is Resource.Loading -> {}
+                else -> {}
             }
         })
 
@@ -105,6 +106,7 @@ class BagBuyFragment:Fragment() {
                         for(i in data){
                             plantIds.add("${i.key.id},${i.value.split(",")[0]}")
                         }
+                        Log.e("BagBuyFrag1", plantIds.size.toString())
                         Log.e("BagBuyFragment", "BagItems Loaded Successfully")
                     }
                     binding.cdPb.visibility = View.GONE
@@ -138,11 +140,12 @@ class BagBuyFragment:Fragment() {
                             "${currentDate.split("/")[0].toInt() + 2}"
                         )
                         var deliveryCharge = if(amount.toInt()>299) "0" else "29"
+                        Log.e("BagBuyFrag2", plantIds.size.toString())
                         when (binding.rgPayMethodBB.checkedRadioButtonId) {
                             R.id.payCodBB -> viewModel.placeOrder(
                                 Order(
                                     data.id,
-                                    profile.emailId,
+                                    profile.uid,
                                     plantIds,
                                     currentDate,
                                     deliveryCharge,
@@ -186,7 +189,7 @@ class BagBuyFragment:Fragment() {
         })
 
         binding.btnContinue.setOnClickListener {
-            binding.cdPb.visibility = View.GONE
+            binding.cdPb.visibility = View.VISIBLE
             viewModel.generateOrderId(hashMapOf("amount" to amount.toInt()))
         }
 
@@ -218,6 +221,7 @@ class BagBuyFragment:Fragment() {
         errorDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         btnCompleteProfile.setOnClickListener {
+            errorDialog.dismiss()
             val editProfileFragment  = EditProfileFragment()
             val bundle = Bundle()
             bundle.putString("email",user)
@@ -260,13 +264,13 @@ class BagBuyFragment:Fragment() {
             options.put("amount",amount.toInt()*100)
 
             val retryObj =  JSONObject()
-            retryObj.put("enabled", true);
-            retryObj.put("max_count", 4);
-            options.put("retry", retryObj);
+            retryObj.put("enabled", true)
+            retryObj.put("max_count", 4)
+            options.put("retry", retryObj)
 
             val prefill = JSONObject()
-            prefill.put("email","rishuparashar7@gmail.com")
-            prefill.put("contact","8076861086")
+            prefill.put("email", profile.emailId)
+            prefill.put("contact",profile.phone)
             options.put("prefill",prefill)
             co.open(activity,options)
         }catch (e: Exception){
@@ -290,7 +294,7 @@ class BagBuyFragment:Fragment() {
                 viewModel.placeOrder(
                     Order(
                         paymentData.orderId,
-                        profile.emailId,
+                        profile.uid,
                         plantIds,
                         currentDate,
                         deliveryCharge,

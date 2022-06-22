@@ -1,20 +1,23 @@
 package com.ev.greenh
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
-import com.ev.greenh.models.Plant
-import com.ev.greenh.util.Resource
-import com.ev.greenh.viewmodels.PlantViewModel
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.util.Log
+import android.media.MediaPlayer
+import android.media.MediaPlayer.OnPreparedListener
+import android.net.Uri
+import android.os.Bundle
 import android.view.*
 import android.widget.*
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.ev.greenh.databinding.FragmentPlantDetailBinding
+import com.ev.greenh.models.Plant
+import com.ev.greenh.util.Resource
 import com.ev.greenh.util.visible
+import com.ev.greenh.viewmodels.PlantViewModel
+import com.google.android.material.snackbar.Snackbar
 
 
 class PlantDetailFragment: Fragment() {
@@ -24,7 +27,6 @@ class PlantDetailFragment: Fragment() {
     private lateinit var plantId:String
     private lateinit var viewModel: PlantViewModel
     private lateinit var plant: Plant
-    private lateinit var email:String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,14 +74,30 @@ class PlantDetailFragment: Fragment() {
         binding.addToCart.setOnClickListener {
             showDialog()
         }
+        binding.playVideo.setOnClickListener {
+            if(plant.videoLink!=""){
+//                binding.videoView.visibility=  View.VISIBLE
+//                binding.videoView.setVideoPath(plant.videoLink)
+//                binding.pbPlantDetail.visibility = View.VISIBLE
+//                binding.videoView.setOnPreparedListener {
+//                    it.start()
+//                }
+                val videoPlay = VideoPlay()
+                (activity as MainActivity).setCurrentFragmentBack(videoPlay)
+            }else{
+                Toast.makeText(context, "No Video Available", Toast.LENGTH_SHORT).show()
+            }
+
+        }
     }
 
     private fun setupData(plant: Plant){
         binding.pbPlantDetail.visible(true)
-        binding.tName.text = plant.name
+        binding.plantName.text = plant.name
         binding.tPrive.text = "₹${plant.price}"
-        binding.height.text= "Height above soil: ${plant.height} cm"
-        binding.tvDescription.text = plant.description
+        binding.tvSunlight.text = plant.sunlight
+        binding.tvWater.text = plant.water
+        //binding.tvDescription.text = plant.description
         Glide.with(binding.root).load(plant.imageLocation).into(binding.plantImage)
         binding.pbPlantDetail.visible(false)
     }
@@ -116,8 +134,8 @@ class PlantDetailFragment: Fragment() {
         add.setOnClickListener {
             pb.visible(true)
             dialog.setCancelable(false)
-            viewModel.readEmail()
-            viewModel.email.observe(viewLifecycleOwner, Observer {
+            viewModel.readUid()
+            viewModel.uid.observe(viewLifecycleOwner, Observer {
                 when(it.getContentIfNotHandled()){
                     is Resource.Error -> {
                         pb.visible(false)
@@ -133,7 +151,7 @@ class PlantDetailFragment: Fragment() {
                                 getString(R.string.cart),
                                 tvQuantity.text.toString()
                             )
-                            Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show()
+                            Snackbar.make(binding.root, "Item Added to cart", Snackbar.LENGTH_SHORT).show()
                             pb.visible(false)
                             dialog.dismiss()
                         }else{

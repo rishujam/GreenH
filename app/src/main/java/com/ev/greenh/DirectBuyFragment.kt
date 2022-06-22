@@ -57,9 +57,9 @@ class DirectBuyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.readEmail()
+        viewModel.readUid()
 
-        viewModel.email.observe(viewLifecycleOwner, Observer {
+        viewModel.uid.observe(viewLifecycleOwner, Observer {
             when (it.getContentIfNotHandled()) {
                 is Resource.Success -> {
                     val user = it.peekContent().data
@@ -169,7 +169,7 @@ class DirectBuyFragment : Fragment() {
                             R.id.payCod -> viewModel.placeOrder(
                                 Order(
                                     data.id,
-                                    profile.emailId,
+                                    profile.uid,
                                     mutableListOf("${plantInfo.id},1"),
                                     currentDate,
                                     (totalAmount.toInt()-plantInfo.price.toInt()).toString(),
@@ -256,10 +256,9 @@ class DirectBuyFragment : Fragment() {
             retryObj.put("max_count", 4)
             options.put("retry", retryObj)
 
-            //TODO prefill user data
             val prefill = JSONObject()
-            prefill.put("email", "rishuparashar7@gmail.com")
-            prefill.put("contact", "8076861086")
+            prefill.put("email", profile.emailId)
+            prefill.put("contact", profile.phone)
             options.put("prefill", prefill)
             co.open(activity, options)
         } catch (e: Exception) {
@@ -284,7 +283,7 @@ class DirectBuyFragment : Fragment() {
                 viewModel.placeOrder(
                     Order(
                         paymentData.orderId,
-                        profile.emailId,
+                        profile.uid,
                         mutableListOf("${plantInfo.id},1"),
                         currentDate,
                         deliveryCharge.toString(),

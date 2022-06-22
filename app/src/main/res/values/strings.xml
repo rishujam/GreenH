@@ -4,6 +4,7 @@
     <string name="user_ref">users</string>
     <string name="cart">cart</string>
     <string name="orders">orders</string>
+    <string name="token">notifyTokens</string>
     <string name="razor_pay">rzp_test_enry2NCuVwvAJ6</string>
     <string-array name="delivery_status">
         <item>Order Placed</item>

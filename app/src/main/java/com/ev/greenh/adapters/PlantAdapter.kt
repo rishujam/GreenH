@@ -33,6 +33,7 @@ class PlantAdapter(
     override fun onBindViewHolder(holder: PlantViewHolder, position: Int) {
         holder.binding.apply {
             tvPrice.text = "₹${list[position].price}"
+            tvPlantName.text = list[position].name
             Glide.with(holder.binding.root).load(list[position].imageLocation).into(holder.binding.thumbnail)
         }
     }

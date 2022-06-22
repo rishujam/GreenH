@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GreenH" >
 
+        <service android:name=".services.FirebaseNotify"
+            android:exported="false"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
         <receiver
             android:name="com.razorpay.RzpTokenReceiver"
             android:exported="false">
@@ -45,13 +54,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-<!--        <meta-data-->
-<!--            android:name="com.razorpay.ApiKey"-->
-<!--            android:value="@string/razor_pay"-->
-<!--            />-->
-<!--        <meta-data-->
-<!--            android:name="com.google.android.gms.wallet.api.enabled"-->
-<!--            android:value="true" />-->
     </application>
 
 </manifest>

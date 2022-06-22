@@ -30,13 +30,17 @@ class PlantViewModel(
     val bagItems : LiveData<ViewModelEventWrapper<Resource<Map<Plant, String>>>>
         get() = _bagItems
 
-    private val _email:MutableLiveData<ViewModelEventWrapper<Resource<String?>>> = MutableLiveData()
-    val email: LiveData<ViewModelEventWrapper<Resource<String?>>>
-        get() = _email
+    private val _uid:MutableLiveData<ViewModelEventWrapper<Resource<String?>>> = MutableLiveData()
+    val uid: LiveData<ViewModelEventWrapper<Resource<String?>>>
+        get() = _uid
 
     private val _profile:MutableLiveData<Resource<Profile>> = MutableLiveData()
     val profile:LiveData<Resource<Profile>>
         get() =  _profile
+
+    private val _singleTimeProfile:MutableLiveData<ViewModelEventWrapper<Resource<Profile>>> = MutableLiveData()
+    val singleTimeProfile:LiveData<ViewModelEventWrapper<Resource<Profile>>>
+        get() = _singleTimeProfile
 
     // add wrapper
     private val _success:MutableLiveData<Resource<Response>> = MutableLiveData()
@@ -47,11 +51,6 @@ class PlantViewModel(
     private val _deleteBagItem:MutableLiveData<Resource<Response>> = MutableLiveData()
     val deleteBagItem :LiveData<Resource<Response>>
         get() = _deleteBagItem
-
-    // Add wrapper
-    private val _updateAddress:MutableLiveData<Resource<Response>> = MutableLiveData()
-    val updateAddress:LiveData<Resource<Response>>
-        get() = _updateAddress
 
     private val _getUserOrders:MutableLiveData<Resource<List<MyOrder>>> = MutableLiveData()
     val getUserOrders:LiveData<Resource<List<MyOrder>>>
@@ -77,6 +76,10 @@ class PlantViewModel(
     val bagItemIds : LiveData<Resource<List<String>>>
         get() = _bagItemIds
 
+    private val _updateProfile:MutableLiveData<ViewModelEventWrapper<Resource<Response>>> = MutableLiveData()
+    val updateProfile: LiveData<ViewModelEventWrapper<Resource<Response>>>
+        get() = _updateProfile
+
     fun getAllPlants(collection: String) = viewModelScope.launch {
         _plantsResponse.value = repository.getAllPlants(collection)
     }
@@ -85,8 +88,8 @@ class PlantViewModel(
         _plantResponse.value = repository.getSinglePlant(collection,id)
     }
 
-    fun readEmail() = viewModelScope.launch {
-        _email.value = ViewModelEventWrapper(repository.readEmail())
+    fun readUid() = viewModelScope.launch {
+        _uid.value = ViewModelEventWrapper(repository.readUid())
     }
 
     fun addPlantToBag(plantId:String,user:String,collection:String,quantity:String) = viewModelScope.launch {
@@ -107,10 +110,6 @@ class PlantViewModel(
 
     fun getUserDetails(collection: String,email:String) = viewModelScope.launch {
         _profile.value = repository.getUserDetails(collection, email)
-    }
-
-    fun updateAddress(collection: String,email:String, address:String,name:String) = viewModelScope.launch {
-        _updateAddress.value = repository.updateAddress(collection, email, address, name)
     }
 
     fun placeOrder(order: Order, collection: String) = viewModelScope.launch {
@@ -137,6 +136,12 @@ class PlantViewModel(
         _bagItemIds.value = repository.getBagItemIds(email, collection)
     }
 
+    fun updateUserDetails(collection: String,profile:Profile) = viewModelScope.launch {
+        _updateProfile.value = ViewModelEventWrapper(repository.updateUserDetails(collection, profile))
+    }
 
+    fun getProfileSingleTime(collection: String,uid:String) = viewModelScope.launch {
+        _singleTimeProfile.value = ViewModelEventWrapper(repository.getUserDetails(collection,uid))
+    }
 
 }

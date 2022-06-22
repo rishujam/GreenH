@@ -16,25 +16,30 @@ class UserPreferences(
 ){
     val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth_data")
 
-    suspend fun read(): String? {
+    suspend fun readUid(): String? {
         val preferences =context.dataStore.data.first()
         return preferences[KEY_EMAIL]
     }
 
-    suspend fun setData(value:String) {
+    suspend fun setUid(value:String) {
         context.dataStore.edit { authdata ->
             authdata[KEY_EMAIL] = value
         }
     }
 
-    suspend fun clearData(){
-        context.dataStore.edit {
-            it.remove(KEY_EMAIL)
-            it.clear()
-        }
-    }
+//    suspend fun readToken():String?{
+//        val preferences = context.dataStore.data.first()
+//        return preferences[TOKEN_KEY]
+//    }
+//
+//    suspend fun setToken(value:String){
+//        context.dataStore.edit { tokendata ->
+//            tokendata[TOKEN_KEY] = value
+//        }
+//    }
 
     companion object{
         private val KEY_EMAIL = stringPreferencesKey("key_email")
+        //private val TOKEN_KEY = stringPreferencesKey("token")
     }
 }

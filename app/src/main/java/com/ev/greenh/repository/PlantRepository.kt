@@ -15,8 +15,8 @@ class PlantRepository(
 ) : BaseRepository(){
 
 
-    suspend fun readEmail() = safeApiCall {
-        preferences.read()
+    suspend fun readUid() = safeApiCall {
+        preferences.readUid()
     }
 
     suspend fun getAllPlants(collection:String) = safeApiCall{
@@ -47,10 +47,6 @@ class PlantRepository(
         source.getUserDetails(collection, email)
     }
 
-    suspend fun updateAddress(collection: String,email:String, address:String,name:String) =safeApiCall {
-        source.updateAddress(collection, email, address, name)
-    }
-
     suspend fun generateOrderId(amount:HashMap<String,Int>)= safeApiCall {
         RazorpayInstance.api.generateOrderId(amount)
     }
@@ -75,7 +71,7 @@ class PlantRepository(
         source.getBagItemIds(email, collection)
     }
 
-    suspend fun clearDataStore() = safeApiCall{
-        preferences.clearData()
+    suspend fun updateUserDetails(collection: String,profile:Profile) = safeApiCall {
+        source.updateUserDetails(collection, profile)
     }
 }
