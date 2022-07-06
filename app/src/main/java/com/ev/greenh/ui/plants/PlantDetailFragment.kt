@@ -1,19 +1,18 @@
-package com.ev.greenh
+package com.ev.greenh.ui.plants
 
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.media.MediaPlayer
-import android.media.MediaPlayer.OnPreparedListener
-import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentPlantDetailBinding
 import com.ev.greenh.models.Plant
+import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.util.Resource
 import com.ev.greenh.util.visible
 import com.ev.greenh.viewmodels.PlantViewModel
@@ -63,12 +62,16 @@ class PlantDetailFragment: Fragment() {
         })
         viewModel.getSinglePlant(getString(R.string.plant_sample_ref),plantId)
 
-        binding.buy.setOnClickListener {
-            val buyFragment = DirectBuyFragment()
-            val bundle = Bundle()
-            bundle.putString("plantIdBF",plantId)
-            buyFragment.arguments = bundle
-            (activity as MainActivity).setCurrentFragmentBack(buyFragment)
+//        binding.buy.setOnClickListener {
+//            val buyFragment = DirectBuyFragment()
+//            val bundle = Bundle()
+//            bundle.putString("plantIdBF",plantId)
+//            buyFragment.arguments = bundle
+//            (activity as MainActivity).setCurrentFragmentBack(buyFragment)
+//        }
+
+        binding.backButton.setOnClickListener {
+            (activity as MainActivity).supportFragmentManager.popBackStack()
         }
 
         binding.addToCart.setOnClickListener {
@@ -76,14 +79,16 @@ class PlantDetailFragment: Fragment() {
         }
         binding.playVideo.setOnClickListener {
             if(plant.videoLink!=""){
-//                binding.videoView.visibility=  View.VISIBLE
-//                binding.videoView.setVideoPath(plant.videoLink)
-//                binding.pbPlantDetail.visibility = View.VISIBLE
-//                binding.videoView.setOnPreparedListener {
-//                    it.start()
-//                }
-                val videoPlay = VideoPlay()
-                (activity as MainActivity).setCurrentFragmentBack(videoPlay)
+                binding.videoView.visibility=  View.VISIBLE
+                binding.videoView.setVideoPath("https://firebasestorage.googleapis.com/v0/b/fir-yt-a8191.appspot.com/o/samplevideo%2Fsnow.mp4?alt=media&token=77e8fe2f-b005-4a0a-b6e2-61778a039e43")
+                binding.pbPlantDetail.visibility = View.VISIBLE
+                binding.videoView.setOnPreparedListener {
+                    binding.pbPlantDetail.visibility = View.INVISIBLE
+                    it.start()
+                }
+                binding.videoView.setOnCompletionListener {
+                    binding.videoView.visibility = View.GONE
+                }
             }else{
                 Toast.makeText(context, "No Video Available", Toast.LENGTH_SHORT).show()
             }
@@ -97,7 +102,7 @@ class PlantDetailFragment: Fragment() {
         binding.tPrive.text = "₹${plant.price}"
         binding.tvSunlight.text = plant.sunlight
         binding.tvWater.text = plant.water
-        //binding.tvDescription.text = plant.description
+        binding.tvDescription.text = plant.description
         Glide.with(binding.root).load(plant.imageLocation).into(binding.plantImage)
         binding.pbPlantDetail.visible(false)
     }

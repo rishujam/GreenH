@@ -36,14 +36,15 @@ class MyOrderAdapter(
         val myOrder = list[position]
         holder.binding.apply {
             itemName.text = myOrder.plantName
-            if(myOrder.deliveryStatus=="Order Placed" || myOrder.deliveryStatus=="Order Placed To Nursery" || myOrder.deliveryStatus=="Order on way"){
+            if(myOrder.deliveryStatus=="Order Placed" || myOrder.deliveryStatus=="Order Placed To Nursery" || myOrder.deliveryStatus=="Order on way" || myOrder.deliveryStatus=="Cancel Requested"){
                 orderStatus.text = "In Transit"
                 dateDelivered.text = "Est time: ${myOrder.deliveryDate.split(",")[0]}"
                 imageView5.setImageResource(R.drawable.ic_transit)
             }
-            if(myOrder.deliveryStatus=="Order Rejected from nursery"){
+            if(myOrder.deliveryStatus=="Order Rejected from nursery" || myOrder.deliveryStatus=="Cancelled"){
                 orderStatus.text = "Cancelled"
-                dateDelivered.visibility = View.INVISIBLE
+                dateDelivered.visibility = View.GONE
+                orderStatus.setTextColor(Color.RED)
                 imageView5.setImageResource(R.drawable.ic_order_cancelled)
             }
             if(myOrder.deliveryStatus=="Order Delivered"){

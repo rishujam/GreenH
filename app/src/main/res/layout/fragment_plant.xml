@@ -36,31 +36,33 @@
         android:id="@+id/filter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
         android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12">
 
         <LinearLayout
+            android:id="@+id/llFilter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/filterAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/carmen_bold"
                 android:paddingTop="6dp"
                 android:paddingRight="16dp"
+                android:paddingLeft="16dp"
                 android:textColor="@color/theme_color"
                 android:paddingBottom="6dp"
                 android:text="All"
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/filterOutdoor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/carmen_bold"
@@ -72,6 +74,7 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/filterIndoor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/carmen_bold"
@@ -83,6 +86,7 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/filterTable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/carmen_bold"
@@ -93,40 +97,34 @@
                 android:text="Work table"
                 android:textSize="16sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/carmen_bold"
-                android:paddingLeft="16dp"
-                android:paddingTop="6dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="6dp"
-                android:text="Flower plants"
-                android:textSize="16sp" />
-
-
         </LinearLayout>
     </HorizontalScrollView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPlants"
-        android:layout_width="0dp"
+    <FrameLayout
+        android:id="@+id/flPlants"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter" />
+        app:layout_constraintTop_toBottomOf="@+id/filter" />
 
-    <ProgressBar
-        android:id="@+id/pbPlants"
-        style="?android:attr/progressBarStyle"
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/rvPlants"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/filter" />-->
+
+    <TextView
+        android:id="@+id/sendDtaa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="16dp"
+        android:textSize="18sp"
+        android:text="Send Dtaa"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

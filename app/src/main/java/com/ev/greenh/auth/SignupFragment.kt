@@ -1,7 +1,5 @@
 package com.ev.greenh.auth
 
-import android.accounts.AccountManager
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,24 +8,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import com.ev.greenh.MainActivity
+import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentSignupBinding
 import com.ev.greenh.models.Profile
 import com.ev.greenh.services.FirebaseNotify
-import com.ev.greenh.util.Resource
-import com.ev.greenh.util.startNewActivity
 import com.ev.greenh.util.visible
 import com.ev.greenh.viewmodels.AuthViewModel
-import com.google.android.gms.common.AccountPicker
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
 import com.google.firebase.messaging.FirebaseMessaging
 import java.util.*
 import java.util.concurrent.TimeUnit
+
 
 class SignupFragment:Fragment() {
 
@@ -125,6 +121,47 @@ class SignupFragment:Fragment() {
                 Toast.makeText(context, "Please enter a valid number", Toast.LENGTH_SHORT).show()
             }
         }
+
+        binding.etCode1.addTextChangedListener{
+            it?.let {
+                if(it.toString().length==1){
+                    binding.etCode2.requestFocus()
+                }
+            }
+        }
+
+        binding.etCode2.addTextChangedListener{
+            it?.let {
+                if(it.toString().length==1){
+                    binding.etCode3.requestFocus()
+                }
+            }
+        }
+
+        binding.etCode3.addTextChangedListener{
+            it?.let {
+                if(it.toString().length==1){
+                    binding.etCode4.requestFocus()
+                }
+            }
+        }
+
+        binding.etCode4.addTextChangedListener{
+            it?.let {
+                if(it.toString().length==1){
+                    binding.etCode5.requestFocus()
+                }
+            }
+        }
+
+        binding.etCode5.addTextChangedListener{
+            it?.let {
+                if(it.toString().length==1){
+                    binding.etCode6.requestFocus()
+                }
+            }
+        }
+
 
 //        binding.etEmail.setOnClickListener {
 //            openSomeActivityForResult()

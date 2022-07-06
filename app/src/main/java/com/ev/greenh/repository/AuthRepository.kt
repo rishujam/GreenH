@@ -16,13 +16,6 @@ class AuthRepository(
         source.loginUser(email, pass)
     }
 
-//    suspend fun registerUser(
-//        email: String,
-//        pass: String
-//    ) = safeApiCall {
-//        source.registerUser(email,pass, "users")
-//    }
-
     suspend fun saveUserProfile(collection: String,profile: Profile) = safeApiCall {
         source.saveProfile(collection, profile)
     }

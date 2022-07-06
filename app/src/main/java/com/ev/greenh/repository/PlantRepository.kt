@@ -19,8 +19,12 @@ class PlantRepository(
         preferences.readUid()
     }
 
-    suspend fun getAllPlants(collection:String) = safeApiCall{
-        source.getSamplePlants(collection)
+    suspend fun getAllPlants(collection:String, page:Int) = safeApiCall{
+        source.getAllPlants(collection,page)
+    }
+
+    suspend fun getPlantsByCategory(collection: String, category:String, lastFeatureNo:Int) = safeApiCall {
+        source.getPlantsByCategory(collection, category, lastFeatureNo)
     }
 
     suspend fun getSinglePlant(collection: String,plantId:String) = safeApiCall {
@@ -73,5 +77,17 @@ class PlantRepository(
 
     suspend fun updateUserDetails(collection: String,profile:Profile) = safeApiCall {
         source.updateUserDetails(collection, profile)
+    }
+
+    suspend fun sendCancelRequest(orderId:String,collection: String)=safeApiCall {
+        source.sendCancelRequest(orderId,collection)
+    }
+
+    suspend fun getApiKey(collection: String) = safeApiCall {
+        source.getApiKey(collection)
+    }
+
+    suspend fun getMinVersionToRun(collection: String) = safeApiCall {
+        source.getMinVersionToRun(collection)
     }
 }

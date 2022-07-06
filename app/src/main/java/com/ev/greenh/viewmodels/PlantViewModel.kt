@@ -18,10 +18,30 @@ class PlantViewModel(
 
     //todo get context and check internet connection before each network call
 
-    private val _plantsResponse : MutableLiveData<Resource<List<Plant>>> = MutableLiveData()
-    val plantsResponse: LiveData<Resource<List<Plant>>>
-        get() = _plantsResponse
+    // For list of all plants
+    var plantsPage = 0
+    var plantsResponse:Plants?=null
+    val plants:MutableLiveData<Resource<Plants>> = MutableLiveData()
 
+    //For list of outdoor Plants
+    var plantsOutdoorPage = 0
+    var lastFeatureNoOutdoor = 0
+    var plantsOutdoorResponse :Plants?= null
+    val plantsOutdoor:MutableLiveData<Resource<Plants>> = MutableLiveData()
+
+    //For list of indoor Plants
+    var plantsIndoorPage = 0
+    var lastFeatureNoIndoor = 0
+    var plantsIndoorResponse : Plants?=null
+    val plantsIndoor:MutableLiveData<Resource<Plants>> = MutableLiveData()
+
+    //For list of table Plants
+    var plantsTablePage = 0
+    var lastFeatureNoTable = 0
+    var plantsTableResponse:Plants?=null
+    val plantsTable: MutableLiveData<Resource<Plants>> = MutableLiveData()
+
+    //For single plant
     private val _plantResponse: MutableLiveData<Resource<Plant>> = MutableLiveData()
     val plantResponse: LiveData<Resource<Plant>>
         get() = _plantResponse
@@ -68,10 +88,6 @@ class PlantViewModel(
     val placeOrder:LiveData<ViewModelEventWrapper<Resource<Response>>>
         get() = _placeOrder
 
-    private val _emptyUserCart:MutableLiveData<ViewModelEventWrapper<Resource<Response>>> = MutableLiveData()
-    val emptyUserCart:LiveData<ViewModelEventWrapper<Resource<Response>>>
-        get() = _emptyUserCart
-
     private val _bagItemIds:MutableLiveData<Resource<List<String>>> = MutableLiveData()
     val bagItemIds : LiveData<Resource<List<String>>>
         get() = _bagItemIds
@@ -80,8 +96,102 @@ class PlantViewModel(
     val updateProfile: LiveData<ViewModelEventWrapper<Resource<Response>>>
         get() = _updateProfile
 
+    private val  _cancelOrderReq:MutableLiveData<ViewModelEventWrapper<Resource<Response>>> = MutableLiveData()
+    val cancelOrderReq: LiveData<ViewModelEventWrapper<Resource<Response>>>
+        get() = _cancelOrderReq
+
+    val apiKey:MutableLiveData<ViewModelEventWrapper<Resource<String>>> = MutableLiveData()
+
+    val minVersion:MutableLiveData<Resource<Int>> = MutableLiveData()
+
     fun getAllPlants(collection: String) = viewModelScope.launch {
-        _plantsResponse.value = repository.getAllPlants(collection)
+        plants.postValue(Resource.Loading())
+        val response = repository.getAllPlants(collection,plantsPage)
+        plants.postValue(handlePlantsResponse(response))
+    }
+
+    private fun handlePlantsResponse(response: Resource<Plants>) : Resource<Plants> {
+        response.data?.let {
+            plantsPage++
+            if(plantsResponse==null){
+                plantsResponse = it
+            }else{
+                val oldPlants = plantsResponse?.plants
+                val newPlants = it.plants
+                oldPlants?.addAll(newPlants)
+            }
+            return Resource.Success(plantsResponse ?:it)
+        }
+        return Resource.Error(response.message)
+    }
+
+    fun getOutdoorPlants(collection: String) = viewModelScope.launch {
+        plantsOutdoor.postValue(Resource.Loading())
+        val response = repository.getPlantsByCategory(collection, "Outdoor", lastFeatureNoOutdoor)
+        plantsOutdoor.postValue(handlePlantsOutdoorResponse(response))
+    }
+
+    private fun handlePlantsOutdoorResponse(response: Resource<Plants>) : Resource<Plants> {
+        response.data?.let {
+            plantsOutdoorPage++
+            if(plantsOutdoorResponse==null){
+                plantsOutdoorResponse = it
+                lastFeatureNoOutdoor = it.plants[it.plants.lastIndex].featureNo
+            }else{
+                val oldPlantsByCategory = plantsOutdoorResponse?.plants
+                val newPlantsByCategory = it.plants
+                oldPlantsByCategory?.addAll(newPlantsByCategory)
+                lastFeatureNoOutdoor = oldPlantsByCategory!![oldPlantsByCategory.lastIndex].featureNo
+            }
+            return Resource.Success(plantsOutdoorResponse ?:it)
+        }
+        return Resource.Error(response.message)
+    }
+
+    fun getIndoorPlants(collection: String) = viewModelScope.launch {
+        plantsIndoor.postValue(Resource.Loading())
+        val response = repository.getPlantsByCategory(collection,"Indoor", lastFeatureNoIndoor)
+        plantsIndoor.postValue(handlePlantsIndoorResponse(response))
+    }
+
+    private fun handlePlantsIndoorResponse(response:Resource<Plants>):Resource<Plants>{
+        response.data?.let {
+            plantsIndoorPage++
+            if(plantsIndoorResponse==null){
+                plantsIndoorResponse = it
+                lastFeatureNoIndoor = it.plants[it.plants.lastIndex].featureNo
+            }else{
+                val oldPlantsByCategory = plantsIndoorResponse?.plants
+                val newPlantsByCategory = it.plants
+                oldPlantsByCategory?.addAll(newPlantsByCategory)
+                lastFeatureNoIndoor = oldPlantsByCategory!![oldPlantsByCategory.lastIndex].featureNo
+            }
+            return Resource.Success(plantsIndoorResponse ?:it)
+        }
+        return Resource.Error(response.message)
+    }
+
+    fun getTablePlants(collection: String) = viewModelScope.launch {
+        plantsTable.postValue(Resource.Loading())
+        val response = repository.getPlantsByCategory(collection,"Table", lastFeatureNoTable)
+        plantsTable.postValue(handlePlantsTableResponse(response))
+    }
+
+    private fun handlePlantsTableResponse(response: Resource<Plants>) : Resource<Plants> {
+        response.data?.let {
+            plantsTablePage++
+            if(plantsTableResponse==null){
+                plantsTableResponse = it
+                lastFeatureNoTable = it.plants[it.plants.lastIndex].featureNo
+            }else{
+                val oldPlantsByCategory = plantsTableResponse?.plants
+                val newPlantsByCategory = it.plants
+                oldPlantsByCategory?.addAll(newPlantsByCategory)
+                lastFeatureNoTable = oldPlantsByCategory!![oldPlantsByCategory.lastIndex].featureNo
+            }
+            return Resource.Success(plantsTableResponse ?:it)
+        }
+        return Resource.Error(response.message)
     }
 
     fun getSinglePlant(collection: String, id:String) = viewModelScope.launch {
@@ -129,7 +239,7 @@ class PlantViewModel(
     }
 
     fun emptyUserCart(user:String,collection: String) = viewModelScope.launch {
-        _emptyUserCart.value = ViewModelEventWrapper(repository.emptyUserCart(user, collection))
+        ViewModelEventWrapper(repository.emptyUserCart(user, collection))
     }
 
     fun getBagItemIds(email:String,collection: String) = viewModelScope.launch {
@@ -144,4 +254,15 @@ class PlantViewModel(
         _singleTimeProfile.value = ViewModelEventWrapper(repository.getUserDetails(collection,uid))
     }
 
+    fun sendCancelRequest(orderId:String,collection: String) = viewModelScope.launch {
+        _cancelOrderReq.value = ViewModelEventWrapper(repository.sendCancelRequest(orderId,collection))
+    }
+
+    fun getApiKey(collection: String) = viewModelScope.launch {
+        apiKey.value = ViewModelEventWrapper(repository.getApiKey(collection))
+    }
+
+    fun getMinVersionToRun(collection: String) = viewModelScope.launch {
+        minVersion.value = repository.getMinVersionToRun(collection)
+    }
 }

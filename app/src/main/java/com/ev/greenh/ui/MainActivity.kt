@@ -1,22 +1,23 @@
-package com.ev.greenh
+package com.ev.greenh.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.datastore.dataStore
-import androidx.datastore.dataStoreFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.ev.greenh.*
 import com.ev.greenh.databinding.ActivityMainBinding
 import com.ev.greenh.firebase.FirestoreSource
-import com.ev.greenh.localdatastore.UserPreferences
 import com.ev.greenh.repository.PlantRepository
+import com.ev.greenh.ui.order.BagFragment
+import com.ev.greenh.ui.order.MyOrdersFragment
+import com.ev.greenh.ui.plants.PlantFragment
+import com.ev.greenh.ui.profile.SettingFragment
 import com.ev.greenh.viewmodels.PlantViewModel
 import com.ev.greenh.viewmodels.ViewModelFactory
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
-import com.razorpay.PaymentResultListener
 import com.razorpay.PaymentResultWithDataListener
 import kotlin.system.exitProcess
 
@@ -24,7 +25,6 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
 
     private lateinit var binding: ActivityMainBinding
     lateinit var viewModel: PlantViewModel
-    private lateinit var userPreferences: UserPreferences
     var successListener=""
     var paymentData:PaymentData? = null
 
@@ -33,13 +33,12 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        userPreferences = UserPreferences(this)
         val plantFragment = PlantFragment()
         setCurrentFragment(plantFragment)
 
         //Setting viewModel
         val plantSource = FirestoreSource()
-        val repo = PlantRepository(plantSource,userPreferences)
+        val repo = PlantRepository(plantSource,(application as GreenApp).userPreferences)
         val factory = ViewModelFactory(repo)
         viewModel = ViewModelProvider(this,factory)[PlantViewModel::class.java]
         //end setting up viewModel
@@ -100,7 +99,5 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
     override fun onDestroy() {
         super.onDestroy()
         Log.e("MainActivity", "onDestroy")
-        finishAffinity()
-        exitProcess(0)
     }
 }

@@ -222,13 +222,12 @@
         android:id="@+id/cdAdd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
         app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cdB"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
@@ -236,43 +235,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/dark_green"
+            android:fontFamily="@font/carmen_bold"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:text="Add To Bag"
-            android:fontFamily="@font/carmen_bold"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cdB"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp"
-        app:cardCornerRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cdAdd">
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/cdB"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginRight="16dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        app:cardCornerRadius="8dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/cdAdd">-->
 
-        <TextView
-            android:id="@+id/buy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/dark_green"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:text="Buy"
-            android:fontFamily="@font/carmen_bold"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            android:id="@+id/buy"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@color/dark_green"-->
+<!--            android:paddingTop="8dp"-->
+<!--            android:paddingBottom="8dp"-->
+<!--            android:text="Buy"-->
+<!--            android:fontFamily="@font/carmen_bold"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textStyle="bold" />-->
 
-    </androidx.cardview.widget.CardView>
+<!--    </androidx.cardview.widget.CardView>-->
 
     <ProgressBar
         android:id="@+id/pbPlantDetail"

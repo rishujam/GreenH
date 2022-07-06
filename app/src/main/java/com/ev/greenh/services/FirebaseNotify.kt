@@ -12,8 +12,8 @@ import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import com.ev.greenh.MainActivity
 import com.ev.greenh.R
+import com.ev.greenh.ui.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlin.random.Random
@@ -46,9 +46,7 @@ class FirebaseNotify : FirebaseMessagingService() {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationID = Random.nextInt()
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel(notificationManager)
-        }
+        createNotificationChannel(notificationManager)
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_ONE_SHOT)

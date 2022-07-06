@@ -1,17 +1,16 @@
 package com.ev.greenh.firebase
 
-import com.ev.greenh.models.Order
-import com.ev.greenh.models.Plant
-import com.ev.greenh.models.Profile
-import com.ev.greenh.models.Response
+import com.ev.greenh.models.*
 import com.ev.greenh.models.uimodels.MyOrder
 import com.ev.greenh.models.uimodels.MyOrderDetail
 import com.ev.greenh.models.uimodels.PlantMyOrder
+import com.ev.greenh.util.Constants.QUERY_PAGE_SIZE
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firestore.v1.DocumentTransform
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
@@ -21,17 +20,34 @@ class FirestoreSource {
     //private val storageRef = Firebase.storage.reference
     private val fireRef = Firebase.firestore
 
-    suspend fun getSamplePlants(collection:String):List<Plant>{
+    suspend fun getAllPlants(collection:String, page:Int):Plants{
         val list = mutableListOf<Plant>()
-        val data = fireRef.collection(collection).get().await()
+        val data = fireRef.collection(collection).orderBy("featureNo").startAfter(page*5).limit(5).get().await()
         for(i in data.documents){
             val plant = i.toObject<Plant>()
             if(plant!=null){
                 list.add(plant)
             }
         }
-        return list
+        return Plants(list)
     }
+
+    suspend fun getPlantsByCategory(collection: String, category:String,lastFeatureNo:Int):Plants{
+        val list = mutableListOf<Plant>()
+        val data = if(lastFeatureNo==0){
+            fireRef.collection(collection).whereEqualTo("category", category).orderBy("featureNo").limit(5).get().await()
+        }else{
+            fireRef.collection(collection).whereEqualTo("category", category).orderBy("featureNo").startAfter(lastFeatureNo).limit(5).get().await()
+        }
+        for(i in data.documents){
+            val plant = i.toObject<Plant>()
+            if(plant!=null){
+                list.add(plant)
+            }
+        }
+        return Plants(list)
+    }
+
     suspend fun getSinglePlant(collection: String,id:String): Plant {
         val ref = fireRef.collection(collection).document(id).get().await()
         val plant = ref.toObject<Plant>()
@@ -215,8 +231,36 @@ class FirestoreSource {
         }
     }
 
+    suspend fun sendCancelRequest(orderId:String,collection: String):Response{
+        val response = Response()
+        val docRef =fireRef.collection(collection).document(orderId)
+        val updates = hashMapOf<String,Any>(
+            "deliveryStatus" to "Cancel Requested"
+        )
+        docRef.update(updates).addOnSuccessListener {
+            response.success = true
+        }.addOnFailureListener {
+            response.errorMsg = it.message
+        }.await()
+        return response
+    }
+
     suspend fun getNotifyToken(uid:String, collection: String):String{
         val snap = fireRef.collection(collection).document(uid).get().await()
         return snap["token"].toString()
+    }
+
+    suspend fun getApiKey(collection: String):String {
+        val snap = fireRef.collection(collection).document("razorpay").get().await()
+        return snap["api_key"].toString()
+    }
+
+    suspend fun getMinVersionToRun(collection: String):Int {
+        val snap = fireRef.collection(collection).document("minVersion").get().await()
+        return snap["v"].toString().toInt()
+    }
+
+    suspend fun addPlant(plant:Plant){
+        fireRef.collection("samplePlants").document(plant.id).set(plant).await()
     }
 }

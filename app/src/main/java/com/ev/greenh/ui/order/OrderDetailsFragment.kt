@@ -1,23 +1,27 @@
-package com.ev.greenh
+package com.ev.greenh.ui.order
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ev.greenh.R
 import com.ev.greenh.adapters.MyOrderDetailAdapter
-import com.ev.greenh.adapters.PlantAdapter
 import com.ev.greenh.databinding.OrderDetailsFragmentBinding
 import com.ev.greenh.models.uimodels.MyOrderDetail
 import com.ev.greenh.models.uimodels.PlantMyOrder
+import com.ev.greenh.ui.MainActivity
+import com.ev.greenh.ui.plants.PlantDetailFragment
 import com.ev.greenh.util.Resource
 import com.ev.greenh.viewmodels.PlantViewModel
 import com.google.android.material.snackbar.Snackbar
 
-class OrderDetailsFragment:Fragment(), PlantAdapter.OnItemClickListener {
+class OrderDetailsFragment:Fragment(), MyOrderDetailAdapter.OnItemClickListener {
 
     private var _binding:OrderDetailsFragmentBinding?=null
     private val binding get() = _binding!!
@@ -58,17 +62,35 @@ class OrderDetailsFragment:Fragment(), PlantAdapter.OnItemClickListener {
             }
         })
 
+        viewModel.cancelOrderReq.observe(viewLifecycleOwner, Observer {
+            when(it.getContentIfNotHandled()){
+                is Resource.Success ->{
+                    binding.progressBar4.visibility = View.INVISIBLE
+                    Snackbar.make(binding.root,"Cancel request sent", Snackbar.LENGTH_SHORT).show()
+                }
+                is Resource.Error -> {
+                    Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
+                    Log.e("OrderDetailFrag", it.peekContent().message.toString())
+                }
+                is Resource.Loading -> {}
+                else ->{}
+            }
+        })
+
         binding.cancelOrder.setOnClickListener {
             AlertDialog.Builder(context)
                 .setTitle("Cancel Order")
-                .setMessage("Are you sure you want to cancel your order ?")
+                .setMessage("Do you want to send a cancel request for this order ?")
                 .setPositiveButton("Yes") { _, _ ->
-
+                    binding.progressBar4.visibility = View.VISIBLE
+                    viewModel.sendCancelRequest(orderId.toString(), getString(R.string.orders))
                 }
-                .setNegativeButton("No") { _, _ ->
-
-                }
+                .setNegativeButton("No") { _, _ -> }
                 .create().show()
+        }
+
+        binding.backButton.setOnClickListener {
+            (activity as MainActivity).supportFragmentManager.popBackStack()
         }
     }
 
@@ -86,6 +108,21 @@ class OrderDetailsFragment:Fragment(), PlantAdapter.OnItemClickListener {
         binding.itemsCost.text = "₹${myOrderDetail.itemsAmount}"
         binding.deliveryChargeOD.text = "₹${myOrderDetail.deliveryCharge}"
         binding.orderTotalOD.text = "₹${myOrderDetail.orderTotal}"
+        when(myOrderDetail.orderStatus){
+            resources.getStringArray(R.array.delivery_status)[5] -> {
+                binding.tvOrderCancelText.visibility = View.VISIBLE
+                binding.tvOrderCancelText.text = getString(R.string.cancel_req_text)
+                binding.cancelOrder.visibility = View.GONE
+            }
+            resources.getStringArray(R.array.delivery_status)[6] -> {
+                binding.ivCancelShow.visibility = View.VISIBLE
+                binding.cancelOrder.visibility = View.GONE
+                if (myOrderDetail.paymentId!=""){
+                    binding.tvOrderCancelText.visibility = View.VISIBLE
+                    binding.tvOrderCancelText.text = getString(R.string.refund_text)
+                }
+            }
+        }
         setupRv(myOrderDetail.items)
     }
 

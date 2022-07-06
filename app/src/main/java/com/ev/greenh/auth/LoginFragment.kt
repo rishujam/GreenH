@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.ev.greenh.MainActivity
+import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.databinding.FragmentLoginBinding
 import com.ev.greenh.util.Resource
 import com.ev.greenh.util.enable

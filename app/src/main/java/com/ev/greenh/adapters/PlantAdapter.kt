@@ -3,46 +3,52 @@ package com.ev.greenh.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ev.greenh.databinding.ItemPlantBinding
 import com.ev.greenh.models.Plant
 
-class PlantAdapter(
-    val list:List<Plant>,
-    private val listener: OnItemClickListener
-) :RecyclerView.Adapter<PlantAdapter.PlantViewHolder>(){
+class PlantAdapter:RecyclerView.Adapter<PlantAdapter.PlantViewHolder>(){
 
-    inner class PlantViewHolder (val binding: ItemPlantBinding): RecyclerView.ViewHolder(binding.root), View.OnClickListener{
-        init {
-            binding.plant.setOnClickListener(this)
+    inner class PlantViewHolder (val binding: ItemPlantBinding): RecyclerView.ViewHolder(binding.root)
+
+    private val differCallback = object : DiffUtil.ItemCallback<Plant>() {
+        override fun areItemsTheSame(oldItem: Plant, newItem: Plant): Boolean {
+            return oldItem.id == newItem.id
         }
-        override fun onClick(p0: View?) {
-            val posi =adapterPosition
-            val plantId = list[posi].id
-            if(posi!=RecyclerView.NO_POSITION){
-                listener.onItemClick(plantId)
-            }
+
+        override fun areContentsTheSame(oldItem: Plant, newItem: Plant): Boolean {
+            return oldItem == newItem
         }
     }
+    val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlantViewHolder {
         return PlantViewHolder(ItemPlantBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
+    private var onItemClickListener: ((Plant) -> Unit)? = null
+
     override fun onBindViewHolder(holder: PlantViewHolder, position: Int) {
+        val plant = differ.currentList[position]
         holder.binding.apply {
-            tvPrice.text = "₹${list[position].price}"
-            tvPlantName.text = list[position].name
-            Glide.with(holder.binding.root).load(list[position].imageLocation).into(holder.binding.thumbnail)
+            tvPrice.text = "₹${plant.price}"
+            tvPlantName.text = plant.name
+            Glide.with(root).load(plant.imageLocation).into(thumbnail)
+            plantItem.setOnClickListener {
+                onItemClickListener?.let { it(plant) }
+            }
         }
     }
 
     override fun getItemCount(): Int {
-        return list.size
+        return differ.currentList.size
     }
 
-    interface OnItemClickListener{
-        fun onItemClick(plantId:String)
+    fun setOnItemClickListener(listener: (Plant) -> Unit) {
+        onItemClickListener = listener
     }
+
 }

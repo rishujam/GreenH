@@ -15,32 +15,21 @@
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
         android:text="Green Bag"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:textSize="18sp"
+        android:fontFamily="@font/carmen_heavy"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/noItemsBag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No Of Item"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:paddingTop="16dp"
-        android:paddingLeft="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvBagItems"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnCheckout"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noItemsBag" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Button
         android:id="@+id/btnCheckout"
@@ -68,11 +57,38 @@
         android:id="@+id/tvTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total Amount: "
-        android:textStyle="bold"
         android:paddingTop="16dp"
         android:paddingEnd="16dp"
-        android:textSize="18sp"
+        android:text=" "
+        android:paddingBottom="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnCheckout"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingBottom="8dp"
+        android:text="Total"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnCheckout"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/emptyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Items"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

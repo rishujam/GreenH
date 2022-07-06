@@ -11,13 +11,13 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/carmen_bold"
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
         android:paddingRight="16dp"
         android:text="Incomplete Profile"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/dark_green"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,8 +28,9 @@
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
         android:paddingRight="16dp"
+        android:fontFamily="@font/carmen_regular"
         android:text="Complete your profile first to place order."
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -50,6 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Complete Profile"
+        android:backgroundTint="@color/dark_green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />

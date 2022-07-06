@@ -21,6 +21,9 @@ import com.ev.greenh.databinding.FragmentBuyDirectBinding
 import com.ev.greenh.models.Order
 import com.ev.greenh.models.Plant
 import com.ev.greenh.models.Profile
+import com.ev.greenh.ui.MainActivity
+import com.ev.greenh.ui.order.MyOrdersFragment
+import com.ev.greenh.ui.profile.EditProfileFragment
 import com.ev.greenh.util.Resource
 import com.ev.greenh.util.visible
 import com.ev.greenh.viewmodels.PlantViewModel
@@ -238,34 +241,34 @@ class DirectBuyFragment : Fragment() {
     }
 
     private fun startPayment(amount: String, orderId: String) {
-        val activity: Activity = (activity as MainActivity)
-        val co = Checkout()
-        co.setKeyID(getString(R.string.razor_pay))
-        try {
-            val options = JSONObject()
-            options.put("name", "Razorpay Corp")
-            options.put("description", "Demoing Charges")
-            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png")
-            options.put("theme.color", "#3399cc")
-            options.put("currency", "INR")
-            options.put("order_id", orderId);
-            options.put("amount", amount.toInt() * 100)
-
-            val retryObj = JSONObject()
-            retryObj.put("enabled", true)
-            retryObj.put("max_count", 4)
-            options.put("retry", retryObj)
-
-            val prefill = JSONObject()
-            prefill.put("email", profile.emailId)
-            prefill.put("contact", profile.phone)
-            options.put("prefill", prefill)
-            co.open(activity, options)
-        } catch (e: Exception) {
-            Toast.makeText(activity, "Error in payment", Toast.LENGTH_LONG).show()
-            Log.e("DirectBuyFrag", e.message.toString())
-            e.printStackTrace()
-        }
+//        val activity: Activity = (activity as MainActivity)
+//        val co = Checkout()
+//        co.setKeyID(getString(R.string.razor_pay))
+//        try {
+//            val options = JSONObject()
+//            options.put("name", "Razorpay Corp")
+//            options.put("description", "Demoing Charges")
+//            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png")
+//            options.put("theme.color", "#3399cc")
+//            options.put("currency", "INR")
+//            options.put("order_id", orderId);
+//            options.put("amount", amount.toInt() * 100)
+//
+//            val retryObj = JSONObject()
+//            retryObj.put("enabled", true)
+//            retryObj.put("max_count", 4)
+//            options.put("retry", retryObj)
+//
+//            val prefill = JSONObject()
+//            prefill.put("email", profile.emailId)
+//            prefill.put("contact", profile.phone)
+//            options.put("prefill", prefill)
+//            co.open(activity, options)
+//        } catch (e: Exception) {
+//            Toast.makeText(activity, "Error in payment", Toast.LENGTH_LONG).show()
+//            Log.e("DirectBuyFrag", e.message.toString())
+//            e.printStackTrace()
+//        }
     }
 
     override fun onResume() {

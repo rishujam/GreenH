@@ -1,4 +1,4 @@
-package com.ev.greenh
+package com.ev.greenh.ui.order
 
 import android.app.Dialog
 import android.graphics.Color
@@ -12,9 +12,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.ev.greenh.R
 import com.ev.greenh.adapters.BagAdapter
 import com.ev.greenh.databinding.FragmentBagBinding
 import com.ev.greenh.models.Plant
+import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.util.Resource
 import com.ev.greenh.util.visible
 import com.ev.greenh.viewmodels.PlantViewModel
@@ -48,7 +50,7 @@ class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
         viewModel.readUid()
 
         totalLive.observe(viewLifecycleOwner, Observer {
-            binding.tvTotal.text = "Total: ₹${it}"
+            binding.tvTotal.text = "₹${it}"
         })
 
         viewModel.uid.observe(viewLifecycleOwner, Observer {
@@ -140,11 +142,13 @@ class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
             total +=i.split(",")[1].toInt()
         }
         totalLive.value = total
-        binding.noItemsBag.text = "No Of Items: ${map.size}"
         bagAdapter = BagAdapter(map,this)
         binding.rvBagItems.apply {
             adapter = bagAdapter
             layoutManager = LinearLayoutManager(context)
+        }
+        if(map.isEmpty()){
+            binding.emptyText.visibility = View.VISIBLE
         }
     }
 

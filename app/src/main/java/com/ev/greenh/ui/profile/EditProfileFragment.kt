@@ -1,4 +1,4 @@
-package com.ev.greenh
+package com.ev.greenh.ui.profile
 
 import android.os.Bundle
 import android.util.Log
@@ -8,20 +8,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentEditProfileBinding
 import com.ev.greenh.models.Profile
-import com.ev.greenh.models.Response
+import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.util.Constants.VERSION
 import com.ev.greenh.util.Resource
 import com.ev.greenh.viewmodels.PlantViewModel
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.FirebaseException
-import com.google.firebase.FirebaseTooManyRequestsException
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.PhoneAuthCredential
-import com.google.firebase.auth.PhoneAuthOptions
-import com.google.firebase.auth.PhoneAuthProvider
-import java.util.concurrent.TimeUnit
 
 class EditProfileFragment : Fragment() {
 
@@ -39,7 +33,6 @@ class EditProfileFragment : Fragment() {
         viewModel = (activity as MainActivity).viewModel
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -116,6 +109,10 @@ class EditProfileFragment : Fragment() {
             }else{
                 Toast.makeText(context, "Fill details properly", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        binding.backButton.setOnClickListener {
+            (activity as MainActivity).supportFragmentManager.popBackStack()
         }
 
     }

@@ -1,4 +1,4 @@
-package com.ev.greenh
+package com.ev.greenh.ui.order
 
 import android.os.Bundle
 import android.util.Log
@@ -9,10 +9,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ev.greenh.R
 import com.ev.greenh.adapters.MyOrderAdapter
 import com.ev.greenh.databinding.FragmentMyordersBinding
-import com.ev.greenh.models.Order
 import com.ev.greenh.models.uimodels.MyOrder
+import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.util.Resource
 import com.ev.greenh.viewmodels.PlantViewModel
 import com.google.android.material.snackbar.Snackbar

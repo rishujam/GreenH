@@ -11,7 +11,7 @@ import kotlin.math.cos
 
 class MyOrderDetailAdapter(
     val list:List<PlantMyOrder>,
-    val listener: PlantAdapter.OnItemClickListener
+    val listener: OnItemClickListener
 ) :RecyclerView.Adapter<MyOrderDetailAdapter.OrderDetailPlantViewHolder>(){
 
     inner class OrderDetailPlantViewHolder(val binding:ItemMyorderDetailPlantBinding):RecyclerView.ViewHolder(binding.root), View.OnClickListener {
@@ -42,5 +42,9 @@ class MyOrderDetailAdapter(
 
     override fun getItemCount(): Int {
         return list.size
+    }
+
+    interface OnItemClickListener{
+        fun onItemClick(plantId:String)
     }
 }

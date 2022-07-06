@@ -9,8 +9,9 @@ data class Plant(
     val description:String="",
     val height:String="",
     val status:String="",
-    val featureNo:String="",
+    val featureNo:Int=1000,
     val videoLink:String="",
     val water:String="",
-    val sunlight:String=""
+    val sunlight:String="",
+    val category:String=""
 )

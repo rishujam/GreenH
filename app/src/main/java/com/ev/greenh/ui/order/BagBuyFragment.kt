@@ -1,4 +1,4 @@
-package com.ev.greenh
+package com.ev.greenh.ui.order
 
 import android.app.Activity
 import android.app.Dialog
@@ -15,14 +15,13 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.ev.greenh.adapters.BagBuyAdapter
-import com.ev.greenh.databinding.FragmentBagBuyBinding
+import com.ev.greenh.R
+import com.ev.greenh.databinding.FragmentBagBuyyBinding
 import com.ev.greenh.models.Order
-import com.ev.greenh.models.Plant
 import com.ev.greenh.models.Profile
+import com.ev.greenh.ui.MainActivity
+import com.ev.greenh.ui.profile.EditProfileFragment
 import com.ev.greenh.util.Resource
-import com.ev.greenh.util.visible
 import com.ev.greenh.viewmodels.PlantViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.razorpay.Checkout
@@ -32,20 +31,22 @@ import java.util.*
 
 class BagBuyFragment:Fragment() {
 
-    private var _binding:FragmentBagBuyBinding?=null
+    private var _binding: FragmentBagBuyyBinding?=null
     private val binding get() = _binding!!
     private lateinit var viewModel:PlantViewModel
-    private lateinit var amount: String
+    private lateinit var subTotalGlobal: String
+    private lateinit var total:String
     private val plantIds = mutableListOf<String>()
     private lateinit var profile:Profile
     private lateinit var user:String
+    private lateinit var apiKey:String
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentBagBuyBinding.inflate(inflater,container,false)
+        _binding = FragmentBagBuyyBinding.inflate(inflater,container,false)
         viewModel = (activity as MainActivity).viewModel
         Checkout.preload(context?.applicationContext)
         return binding.root
@@ -55,6 +56,9 @@ class BagBuyFragment:Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.readUid()
+
+        viewModel.getApiKey(getString(R.string.utils))
+
         viewModel.uid.observe(viewLifecycleOwner, Observer {
             when(it.getContentIfNotHandled()) {
                 is Resource.Success ->{
@@ -80,9 +84,8 @@ class BagBuyFragment:Fragment() {
                     val data = it.peekContent().data
                     if(data!=null){
                         if(data.profileComplete){
-                            binding.tvProfileName.text = data.name
-                            binding.tvAddress.text = data.address.split("%")[0]+", "+data.address.split("%")[1]
-                            binding.phoneBB.text = "Phone: ${data.phone}"
+                            binding.tvAddress.text = data.address.split("%")[0]+"\n"+data.address.split("%")[1]
+                            binding.tvPhoneBB.text = data.phone
                             profile = data
                         }else{
                            dialogOpen()
@@ -97,16 +100,33 @@ class BagBuyFragment:Fragment() {
             }
         })
 
+        viewModel.apiKey.observe(viewLifecycleOwner, Observer {
+            when(it.getContentIfNotHandled()){
+                is Resource.Success ->{
+                    apiKey = it.peekContent().data.toString()
+                }
+                is Resource.Error -> {}
+                is Resource.Loading ->{}
+                else -> {}
+            }
+        })
+
         viewModel.bagItems.observe(viewLifecycleOwner, Observer {
             when(it.getContentIfNotHandled()){
                 is Resource.Success -> {
                     val data = it.peekContent().data
                     if(data!=null){
-                        setupData(data)
+                        var subTotal = 0
                         for(i in data){
+                            subTotal+=i.value.split(",")[1].toInt()
                             plantIds.add("${i.key.id},${i.value.split(",")[0]}")
                         }
-                        Log.e("BagBuyFrag1", plantIds.size.toString())
+                        subTotalGlobal = subTotal.toString()
+                        val deliveryCharge = if(subTotalGlobal.toInt()>500) "0" else "59"
+                        total = (deliveryCharge.toInt()+subTotalGlobal.toInt()).toString()
+                        binding.tvSubtotal.text = "₹${subTotal}"
+                        binding.tvDeliveryCharges.text = "₹${deliveryCharge}"
+                        binding.tvTotal.text = "₹$total"
                         Log.e("BagBuyFragment", "BagItems Loaded Successfully")
                     }
                     binding.cdPb.visibility = View.GONE
@@ -139,7 +159,6 @@ class BagBuyFragment:Fragment() {
                             2,
                             "${currentDate.split("/")[0].toInt() + 2}"
                         )
-                        var deliveryCharge = if(amount.toInt()>299) "0" else "29"
                         Log.e("BagBuyFrag2", plantIds.size.toString())
                         when (binding.rgPayMethodBB.checkedRadioButtonId) {
                             R.id.payCodBB -> viewModel.placeOrder(
@@ -148,8 +167,8 @@ class BagBuyFragment:Fragment() {
                                     profile.uid,
                                     plantIds,
                                     currentDate,
-                                    deliveryCharge,
-                                    (deliveryCharge.toInt()+amount.toInt()).toString(),
+                                    (total.toInt()-subTotalGlobal.toInt()).toString(),
+                                    total,
                                     "Order Placed",
                                     estDeliveryDate,
                                     "",
@@ -157,7 +176,7 @@ class BagBuyFragment:Fragment() {
                                     profile.phone
                                 ), getString(R.string.orders)
                             )
-                            R.id.payOnlineBB -> startPayment((deliveryCharge.toInt()+amount.toInt()).toString(), data.id)
+                            R.id.payOnlineBB -> startPayment(total, data.id)
                         }
                     }
                 }
@@ -170,6 +189,7 @@ class BagBuyFragment:Fragment() {
                 is Resource.Success -> {
                     (activity as MainActivity).paymentData = null
                     (activity as MainActivity).successListener = ""
+                    viewModel.emptyUserCart(user,getString(R.string.cart))
                     binding.cdPb.visibility = View.GONE
                     Snackbar.make(binding.root, "Order Placed Successfully", Snackbar.LENGTH_SHORT)
                         .show()
@@ -190,7 +210,7 @@ class BagBuyFragment:Fragment() {
 
         binding.btnContinue.setOnClickListener {
             binding.cdPb.visibility = View.VISIBLE
-            viewModel.generateOrderId(hashMapOf("amount" to amount.toInt()))
+            viewModel.generateOrderId(hashMapOf("amount" to total.toInt()))
         }
 
         binding.payCodBB.setOnClickListener {
@@ -200,7 +220,11 @@ class BagBuyFragment:Fragment() {
             binding.btnContinue.text = "Continue to payment"
         }
 
-        binding.btnChangeAddress.setOnClickListener {
+        binding.backButton.setOnClickListener {
+            (activity as MainActivity).supportFragmentManager.popBackStack()
+        }
+
+        binding.edit.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("email",user)
             val editProfileFragment = EditProfileFragment()
@@ -217,7 +241,7 @@ class BagBuyFragment:Fragment() {
         val ibCloseDialog: ImageButton = errorDialog.findViewById(R.id.ibCloseDialog)
         errorDialog.show()
         errorDialog.setCancelable(false)
-        errorDialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        errorDialog.window?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         errorDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         btnCompleteProfile.setOnClickListener {
@@ -235,24 +259,10 @@ class BagBuyFragment:Fragment() {
         }
     }
 
-    private fun setupData(map:Map<Plant,String>){
-        var total = 0
-        for(i in map.values.toList()){
-            total +=i.split(",")[1].toInt()
-        }
-        binding.totalBB.text = "Total Amount to be paid: ₹$total"
-        val bagBuyAdapter = BagBuyAdapter(map)
-        binding.rvBagBuy.apply{
-            adapter = bagBuyAdapter
-            layoutManager = LinearLayoutManager(context)
-        }
-        amount = total.toString()
-    }
-
     private fun startPayment(amount:String, orderId:String) {
         val activity: Activity = (activity as MainActivity)
         val co = Checkout()
-        co.setKeyID(getString(R.string.razor_pay))
+        co.setKeyID(apiKey)
         try {
             val options = JSONObject()
             options.put("name","Razorpay Corp")
@@ -289,16 +299,14 @@ class BagBuyFragment:Fragment() {
                 currentDate.replaceRange(0, 2, "${currentDate.split("/")[0].toInt() + 2}")
             val paymentData = (activity as MainActivity).paymentData
             if (paymentData != null) {
-                val deliveryCharge = if(amount.toInt()>299) "0" else "29"
-                val totalAmount = (deliveryCharge.toInt()+amount.toInt()).toString()
                 viewModel.placeOrder(
                     Order(
                         paymentData.orderId,
                         profile.uid,
                         plantIds,
                         currentDate,
-                        deliveryCharge,
-                        totalAmount,
+                        (total.toInt()-subTotalGlobal.toInt()).toString(),
+                        total,
                         "Order Placed",
                         estDeliveryDate,
                         paymentData.paymentId,

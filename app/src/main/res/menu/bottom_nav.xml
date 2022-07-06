@@ -13,11 +13,11 @@
     <item
         android:id="@+id/imOrder"
         android:title="Orders"
-        android:icon="@drawable/ic_order"/>
+        android:icon="@drawable/ic_order_icon"/>
 
     <item
         android:id="@+id/imSetting"
-        android:title="Setting"
-        android:icon="@drawable/ic_setting"/>
+        android:title="Profile"
+        android:icon="@drawable/ic_profile"/>
 
 </menu>
