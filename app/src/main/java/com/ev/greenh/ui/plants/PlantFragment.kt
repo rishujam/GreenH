@@ -7,20 +7,23 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ev.greenh.*
+import com.ev.greenh.adapters.PlantAdapter
 import com.ev.greenh.databinding.FragmentPlantBinding
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.ui.profile.EditProfileFragment
+import com.ev.greenh.util.Constants
 import com.ev.greenh.util.Constants.VERSION
 import com.ev.greenh.util.Resource
 import com.ev.greenh.viewmodels.PlantViewModel
@@ -30,7 +33,9 @@ class PlantFragment:Fragment() {
     private var _binding: FragmentPlantBinding?=null
     private val binding get() = _binding!!
     private lateinit var viewModel: PlantViewModel
-    private var currentFilter= "All"
+    private lateinit var plantAdapter: PlantAdapter
+    private lateinit var indoorPlantAdapter:PlantAdapter
+    private lateinit var tablePlantAdapter:PlantAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,19 +44,111 @@ class PlantFragment:Fragment() {
     ): View? {
         _binding = FragmentPlantBinding.inflate(inflater,container,false)
         viewModel = (activity as MainActivity).viewModel
+        (activity as MainActivity).viewNav()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getMinVersionToRun(getString(R.string.utils))
+
+
+        when(viewModel.currentFilter){
+            "All" ->{
+                setupRv()
+                viewModel.getAllPlants(getString(R.string.plant_sample_ref))
+                setAllFilterColorDefault()
+                binding.filterAll.setTextColor(ContextCompat.getColor(requireContext(),
+                    R.color.theme_color
+                ))
+            }
+            "Indoor" ->{
+                setupIndoorRv()
+                viewModel.getIndoorPlants(getString(R.string.plant_sample_ref))
+                setAllFilterColorDefault()
+                binding.filterIndoor.setTextColor(ContextCompat.getColor(requireContext(),
+                    R.color.theme_color
+                ))
+            }
+            "Table" ->{
+                setupTableRv()
+                viewModel.getTablePlants(getString(R.string.plant_sample_ref))
+                setAllFilterColorDefault()
+                binding.filterTable.setTextColor(ContextCompat.getColor(requireContext(),
+                    R.color.theme_color
+                ))
+            }
+        }
+
+        viewModel.plants.observe(viewLifecycleOwner, Observer {
+            when(it){
+                is Resource.Loading -> {
+                    showProgressBar()
+                }
+                is Resource.Success -> {
+                    hideProgressBar()
+                    if(it.data!=null) {
+                        val plants = it.data.plants
+                        plantAdapter.differ.submitList(plants.toList())
+                        val totalPages = plants.size/ Constants.QUERY_PAGE_SIZE + 2
+                        isLastPage = viewModel.plantsPage == totalPages
+                    }
+                }
+                is Resource.Error ->{
+                    hideProgressBar()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+        viewModel.plantsIndoor.observe(viewLifecycleOwner, Observer {
+            when(it){
+                is Resource.Loading -> {
+                    showProgressBar()
+                }
+                is Resource.Success -> {
+                    hideProgressBar()
+                    if(it.data!=null) {
+                        val plants = it.data.plants
+                        indoorPlantAdapter.differ.submitList(plants.toList())
+                        val totalPages = plants.size/ Constants.QUERY_PAGE_SIZE + 2
+                        isLastPage = viewModel.plantsIndoorPage == totalPages
+                    }
+                }
+                is Resource.Error ->{
+                    hideProgressBar()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+
+        viewModel.plantsTable.observe(viewLifecycleOwner, Observer {
+            when(it){
+                is Resource.Loading -> {
+                    showProgressBar()
+                }
+                is Resource.Success -> {
+                    hideProgressBar()
+                    if(it.data!=null) {
+                        val plants = it.data.plants
+                        tablePlantAdapter.differ.submitList(plants.toList())
+                        val totalPages = plants.size/ Constants.QUERY_PAGE_SIZE + 2
+                        isLastPage = viewModel.plantsTablePage == totalPages
+                    }
+                }
+                is Resource.Error ->{
+                    hideProgressBar()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
 
 //        binding.sendDtaa.setOnClickListener {
 //            val source = FirestoreSource()
 //            CoroutineScope(Dispatchers.IO).launch {
 //                try {
-//                    var no = 27
-//                    while(no<50){
-//                        source.addPlant(Plant(id = "s_$no", sunlight = "High", water = "1 time", status = "Available", category = "Indoor", featureNo = no, height = "20 cm", store = "Ganpati"))
+//                    var no = 55
+//                    while(no<101){
+//                        source.addUrl(getString(R.string.image_coll),"s_$no")
 //                        no++
 //                    }
 //                    withContext(Dispatchers.Main){
@@ -64,11 +161,6 @@ class PlantFragment:Fragment() {
 //                }
 //            }
 //        }
-
-        val allPlantsFragment = AllPlantsFragment()
-        setCurrentFrag(allPlantsFragment)
-
-        viewModel.getMinVersionToRun(getString(R.string.utils))
 
         viewModel.minVersion.observe(viewLifecycleOwner, Observer {
             when(it){
@@ -85,49 +177,140 @@ class PlantFragment:Fragment() {
         })
 
         binding.filterAll.setOnClickListener {
-            if(currentFilter!="All"){
-                setCurrentFrag(allPlantsFragment)
+            if(viewModel.currentFilter!="All"){
+                setupRv()
+                viewModel.getAllPlants(getString(R.string.plant_sample_ref))
                 setAllFilterColorDefault()
                 binding.filterAll.setTextColor(ContextCompat.getColor(requireContext(),
                     R.color.theme_color
                 ))
-                currentFilter = "All"
+                viewModel.currentFilter = "All"
             }
         }
         binding.filterTable.setOnClickListener {
-            if(currentFilter!="Table"){
-                val tablePlantsFragment = TablePlantsFragment()
-                setCurrentFrag(tablePlantsFragment)
+            if(viewModel.currentFilter!="Table"){
+                setupTableRv()
+                viewModel.getTablePlants(getString(R.string.plant_sample_ref))
                 setAllFilterColorDefault()
                 binding.filterTable.setTextColor(ContextCompat.getColor(requireContext(),
                     R.color.theme_color
                 ))
-                currentFilter  = "Table"
+                viewModel.currentFilter  = "Table"
             }
         }
         binding.filterIndoor.setOnClickListener {
-            if(currentFilter!="Indoor"){
-                val indoorPlantsFragment = IndoorPlantsFragment()
-                setCurrentFrag(indoorPlantsFragment)
+            if(viewModel.currentFilter!="Indoor"){
+                setupIndoorRv()
+                viewModel.getIndoorPlants(getString(R.string.plant_sample_ref))
                 setAllFilterColorDefault()
                 binding.filterIndoor.setTextColor(ContextCompat.getColor(requireContext(),
                     R.color.theme_color
                 ))
-                currentFilter = "Indoor"
-            }
-        }
-        binding.filterOutdoor.setOnClickListener {
-            if(currentFilter!="Outdoor"){
-                val outdoorPlantsFragment = OutdoorPlantsFragment()
-                setCurrentFrag(outdoorPlantsFragment)
-                setAllFilterColorDefault()
-                binding.filterOutdoor.setTextColor(ContextCompat.getColor(requireContext(),
-                    R.color.theme_color
-                ))
-                currentFilter = "Outdoor"
+                viewModel.currentFilter = "Indoor"
             }
         }
     }
+
+    var isLoading = false
+    var isLastPage = false
+    var isScrolling = false
+
+    val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+            val visibleItemCount = layoutManager.childCount
+            val totalItemCount = layoutManager.itemCount
+
+            val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
+            val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
+            val isNotAtBeginning = firstVisibleItemPosition >= 0
+            val isTotalMoreThanVisible = totalItemCount >= Constants.QUERY_PAGE_SIZE
+            val shouldPaginate = isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
+                    isTotalMoreThanVisible && isScrolling
+            Log.e("scrolled ${viewModel.currentFilter}", "$isScrolling")
+            if (shouldPaginate) {
+                if(viewModel.currentFilter=="All"){
+                    viewModel.getAllPlants(getString(R.string.plant_sample_ref))
+                }else if (viewModel.currentFilter == "Indoor"){
+                    viewModel.getIndoorPlants(getString(R.string.plant_sample_ref))
+                } else if( viewModel.currentFilter == "Table") {
+                    viewModel.getTablePlants(getString(R.string.plant_sample_ref))
+                }
+                isScrolling = false
+            }
+        }
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                isScrolling = true
+            }
+        }
+    }
+
+    private fun hideProgressBar() {
+        binding.pbAllPlants.visibility = View.INVISIBLE
+        isLoading = false
+    }
+
+    private fun showProgressBar() {
+        binding.pbAllPlants.visibility = View.VISIBLE
+        isLoading = true
+    }
+
+    private fun setupRv(){
+        plantAdapter = PlantAdapter()
+        binding.rvAllPlants.apply {
+            adapter = plantAdapter
+            layoutManager = GridLayoutManager(activity,2)
+            addOnScrollListener(this@PlantFragment.scrollListener)
+        }
+
+        plantAdapter.setOnItemClickListener {
+            val bundle = Bundle()
+            bundle.putString("ID",it.id)
+            val plantDetailFragment = PlantDetailFragment()
+            plantDetailFragment.arguments = bundle
+            (activity as MainActivity).setCurrentFragmentBack(plantDetailFragment)
+        }
+    }
+
+    private fun setupIndoorRv(){
+        indoorPlantAdapter = PlantAdapter()
+        binding.rvAllPlants.apply {
+            adapter = indoorPlantAdapter
+            layoutManager = GridLayoutManager(activity,2)
+            addOnScrollListener(this@PlantFragment.scrollListener)
+        }
+
+        indoorPlantAdapter.setOnItemClickListener {
+            val bundle = Bundle()
+            bundle.putString("ID",it.id)
+            val plantDetailFragment = PlantDetailFragment()
+            plantDetailFragment.arguments = bundle
+            (activity as MainActivity).setCurrentFragmentBack(plantDetailFragment)
+        }
+    }
+
+    private fun setupTableRv(){
+        tablePlantAdapter = PlantAdapter()
+        binding.rvAllPlants.apply {
+            adapter = tablePlantAdapter
+            layoutManager = GridLayoutManager(activity,2)
+            addOnScrollListener(this@PlantFragment.scrollListener)
+        }
+
+        tablePlantAdapter.setOnItemClickListener {
+            val bundle = Bundle()
+            bundle.putString("ID",it.id)
+            val plantDetailFragment = PlantDetailFragment()
+            plantDetailFragment.arguments = bundle
+            (activity as MainActivity).setCurrentFragmentBack(plantDetailFragment)
+        }
+    }
+
 
     private fun updateDialog(){
         val errorDialog = Dialog(requireContext())
@@ -155,25 +338,36 @@ class PlantFragment:Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPause() {
+        super.onPause()
+        Log.e("Life","PlantF: onPause" )
+    }
+    override fun onStop() {
+        super.onStop()
+        Log.e("Life","PlantF: onStop")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("Life", "PlantF: onResume")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.e("Life", "PlantF: onStart")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.e("Life", "PlantF: onDestroyView")
         _binding=null
     }
 
-    private fun setCurrentFrag(fragment: Fragment){
-        childFragmentManager.beginTransaction().apply {
-            replace(R.id.flPlants,fragment)
-            commit()
-        }
-    }
     private fun setAllFilterColorDefault(){
         binding.filterAll.setTextColor(ContextCompat.getColor(requireContext(),
             R.color.default_text_color
         ))
         binding.filterIndoor.setTextColor(ContextCompat.getColor(requireContext(),
-            R.color.default_text_color
-        ))
-        binding.filterOutdoor.setTextColor(ContextCompat.getColor(requireContext(),
             R.color.default_text_color
         ))
         binding.filterTable.setTextColor(ContextCompat.getColor(requireContext(),

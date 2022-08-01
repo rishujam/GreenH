@@ -10,11 +10,16 @@
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-anydpi/ic_verify_phone.xml" value="0.2495" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-anydpi/ic_whatsapp.xml" value="0.2495" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-hdpi/plant_gradient.xml" value="0.1105" />
+        <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-mdpi/gradient_top_detail.xml" value="0.2015" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-v24/custom_edittext.xml" value="0.1" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable/back_button_bg.xml" value="0.2545" />
+        <entry key="..\:/rishu/GreenH/app/src/main/res/drawable/gradient_sun.xml" value="0.2015" />
+        <entry key="..\:/rishu/GreenH/app/src/main/res/drawable/ic_play_video.xml" value="0.2015" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable/logo_bg.xml" value="0.2005" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable/logo_layer.xml" value="0.2005" />
+        <entry key="..\:/rishu/GreenH/app/src/main/res/drawable/rv_gradient.xml" value="0.202" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/activity_auth.xml" value="0.1" />
+        <entry key="..\:/rishu/GreenH/app/src/main/res/layout/activity_bag_buy.xml" value="0.25416666666666665" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/dialog_error.xml" value="0.25416666666666665" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/fragment_all_plants.xml" value="0.25416666666666665" />

@@ -1,5 +1,6 @@
 package com.ev.greenh.firebase
 
+import android.util.Log
 import com.ev.greenh.models.Profile
 import com.ev.greenh.models.Response
 import com.google.firebase.auth.FirebaseAuth
@@ -27,9 +28,17 @@ class AuthSource(
         return Response(true)
     }
 
-    suspend fun saveProfile(collection: String,profile: Profile): Response {
-        fireRef.collection(collection).document(profile.uid).set(profile).await()
-        return Response(true)
+    suspend fun saveProfile(collection: String, profile: Profile): Response {
+        return try {
+            val doc = fireRef.collection(collection).document(profile.uid).get().await()
+            Log.e("FirebaseSaveProfile","${doc["name"]}, ${doc["name"]}")
+            if(doc["name"]==null || doc["name"]==""){
+                fireRef.collection(collection).document(profile.uid).set(profile).await()
+            }
+            Response(true)
+        }catch (e:Exception){
+            Response(errorMsg = e.message)
+        }
     }
 
     suspend fun saveNotifyToken(uid:String,token:String,collection: String):Response {

@@ -111,7 +111,7 @@ class EditProfileFragment : Fragment() {
             }
         }
 
-        binding.backButton.setOnClickListener {
+        binding.backBtn.setOnClickListener {
             (activity as MainActivity).supportFragmentManager.popBackStack()
         }
 

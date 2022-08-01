@@ -36,7 +36,7 @@
         android:id="@+id/filter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,24 +53,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/carmen_bold"
-                android:paddingTop="6dp"
+                android:paddingTop="8dp"
                 android:paddingRight="16dp"
                 android:paddingLeft="16dp"
                 android:textColor="@color/theme_color"
-                android:paddingBottom="6dp"
+                android:paddingBottom="8dp"
                 android:text="All"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/filterOutdoor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/carmen_bold"
-                android:paddingLeft="16dp"
-                android:paddingTop="6dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="6dp"
-                android:text="Outdoor"
                 android:textSize="16sp" />
 
             <TextView
@@ -79,9 +67,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/carmen_bold"
                 android:paddingLeft="16dp"
-                android:paddingTop="6dp"
+                android:paddingTop="8dp"
                 android:paddingRight="16dp"
-                android:paddingBottom="6dp"
+                android:paddingBottom="8dp"
                 android:text="Indoor"
                 android:textSize="16sp" />
 
@@ -91,40 +79,46 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/carmen_bold"
                 android:paddingLeft="16dp"
-                android:paddingTop="6dp"
+                android:paddingTop="8dp"
                 android:paddingRight="16dp"
-                android:paddingBottom="6dp"
-                android:text="Work table"
+                android:paddingBottom="8dp"
+                android:text="Table"
                 android:textSize="16sp" />
 
         </LinearLayout>
     </HorizontalScrollView>
 
-    <FrameLayout
-        android:id="@+id/flPlants"
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAllPlants"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:fadingEdge="horizontal"
+        android:fadingEdgeLength="10dp"
+        android:fillViewport="false"
+        android:requiresFadingEdge="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/filter" />
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/rvPlants"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:layout_marginBottom="8dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--    <TextView-->
+<!--        android:id="@+id/sendDtaa"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:padding="16dp"-->
+<!--        android:text="Send Data"-->
+<!--        android:textSize="16sp"-->
 <!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/filter" />-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <TextView
-        android:id="@+id/sendDtaa"
+    <ProgressBar
+        android:id="@+id/pbAllPlants"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textSize="18sp"
-        android:text="Send Dtaa"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

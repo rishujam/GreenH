@@ -3,7 +3,7 @@ package com.ev.greenh.models
 data class Plant(
     val id:String="",
     val name:String="",
-    val imageLocation:String="",
+    var imageLocation:String="", //var so that we can replace the HQ image after fetching the actual plant in FirestoreSource file
     val price:String="",
     val store:String="",
     val description:String="",

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/plant"
     android:layout_width="match_parent"
-    android:layout_height="136dp"
+    android:layout_height="wrap_content"
     android:layout_marginRight="16dp"
     android:layout_marginLeft="16dp"
     android:layout_marginTop="16dp"
@@ -17,7 +17,7 @@
     app:cardElevation="10dp"
     app:cardPreventCornerOverlap="false"
     android:elevation="10dp"
-    app:cardCornerRadius="20dp">
+    app:cardCornerRadius="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
         <ImageView
             android:id="@+id/thumbnail"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:scaleType="centerCrop"
             android:src="@color/theme_color"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -40,6 +40,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:paddingBottom="16dp"
+            android:fontFamily="@font/carmen_regular"
             android:text="₹100"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -51,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.30" />
+            app:layout_constraintGuide_percent="0.27" />
 
         <TextView
             android:id="@+id/tvItemName"
@@ -61,6 +62,7 @@
             android:paddingTop="16dp"
             android:text="ItemName"
             android:paddingEnd="8dp"
+            android:fontFamily="@font/carmen_regular"
             android:textAlignment="viewStart"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/tvQuantity"
@@ -74,19 +76,25 @@
             android:paddingTop="16dp"
             android:layout_marginRight="16dp"
             android:text="Quantity: 1"
+            android:fontFamily="@font/carmen_regular"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <TextView
             android:id="@+id/btnRemove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/carmen_bold"
+            android:paddingTop="8dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="8dp"
             android:text="Remove"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:textColor="@color/dark_green"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/edit"
+            app:layout_constraintTop_toBottomOf="@+id/edit" />
 
         <TextView
             android:id="@+id/edit"
@@ -94,8 +102,11 @@
             android:layout_height="wrap_content"
             android:text="Edit"
             android:paddingTop="8dp"
+            android:paddingLeft="8dp"
+            android:paddingBottom="8dp"
+            android:fontFamily="@font/carmen_bold"
             android:paddingRight="16dp"
-            android:textColor="@color/theme_color"
+            android:textColor="@color/dark_green"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/tvQuantity"
             app:layout_constraintTop_toBottomOf="@+id/tvQuantity" />

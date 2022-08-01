@@ -19,8 +19,8 @@ class PlantRepository(
         preferences.readUid()
     }
 
-    suspend fun getAllPlants(collection:String, page:Int) = safeApiCall{
-        source.getAllPlants(collection,page)
+    suspend fun getAllPlants(collection:String, page:Int, lastFeatureNo: Int) = safeApiCall{
+        source.getAllPlants(collection,page, lastFeatureNo)
     }
 
     suspend fun getPlantsByCategory(collection: String, category:String, lastFeatureNo:Int) = safeApiCall {

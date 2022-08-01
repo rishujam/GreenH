@@ -35,6 +35,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
+            android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -83,6 +84,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
+                    android:fontFamily="@font/carmen_regular"
                     android:paddingRight="16dp"
                     android:text="Order Date:" />
 
@@ -92,6 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:paddingTop="16dp"
+                    android:fontFamily="@font/carmen_regular"
                     android:paddingRight="16dp"
                     android:text="" />
             </RelativeLayout>
@@ -106,6 +109,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingTop="8dp"
+                    android:fontFamily="@font/carmen_regular"
                     android:text="Order Id:" />
 
                 <TextView
@@ -115,6 +119,7 @@
                     android:layout_alignParentEnd="true"
                     android:paddingLeft="16dp"
                     android:paddingTop="8dp"
+                    android:fontFamily="@font/carmen_regular"
                     android:paddingRight="16dp"
                     android:text="" />
 
@@ -128,6 +133,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/carmen_regular"
                     android:paddingLeft="16dp"
                     android:paddingTop="8dp"
                     android:paddingRight="16dp"
@@ -141,6 +147,7 @@
                     android:layout_alignParentEnd="true"
                     android:paddingTop="8dp"
                     android:paddingRight="16dp"
+                    android:fontFamily="@font/carmen_regular"
                     android:text="" />
             </RelativeLayout>
 
@@ -186,8 +193,8 @@
                 android:layout_marginTop="16dp"
                 android:textColor="@color/black"
                 android:text="Payment &amp; Address"
+                android:fontFamily="@font/carmen_bold"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView6" />
 
@@ -215,7 +222,7 @@
                         android:paddingTop="16dp"
                         android:text="Payment Method"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/carmen_bold" />
 
                     <TextView
                         android:id="@+id/payMethod"
@@ -223,6 +230,7 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="16dp"
                         android:paddingTop="6dp"
+                        android:fontFamily="@font/carmen_regular"
                         android:text=""
                         android:textSize="16sp" />
 
@@ -233,7 +241,7 @@
                         android:paddingTop="16dp"
                         android:text="Shipping Address"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/carmen_bold" />
 
                     <TextView
                         android:id="@+id/shippingAddress"
@@ -244,6 +252,7 @@
                         android:paddingRight="8dp"
                         android:paddingBottom="16dp"
                         android:text=""
+                        android:fontFamily="@font/carmen_regular"
                         android:textSize="16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -257,7 +266,7 @@
                 android:text="Order Summary"
                 android:textSize="16sp"
                 android:textColor="@color/black"
-                android:textStyle="bold"
+                android:fontFamily="@font/carmen_bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView7" />
 
@@ -289,6 +298,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Items Cost:  "
+                            android:fontFamily="@font/carmen_regular"
                             android:textSize="16sp" />
 
                         <TextView
@@ -298,6 +308,7 @@
                             android:layout_alignParentEnd="true"
                             android:paddingRight="16dp"
                             android:text=""
+                            android:fontFamily="@font/carmen_regular"
                             android:textSize="16sp" />
                     </RelativeLayout>
 
@@ -312,6 +323,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Delivery Charges:  "
+                            android:fontFamily="@font/carmen_regular"
                             android:textSize="16sp" />
 
                         <TextView
@@ -319,6 +331,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
+                            android:fontFamily="@font/carmen_regular"
                             android:paddingRight="16dp"
                             android:text=""
                             android:textSize="16sp" />
@@ -337,7 +350,7 @@
                             android:layout_height="wrap_content"
                             android:text="Order Total:  "
                             android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/carmen_bold" />
 
                         <TextView
                             android:id="@+id/orderTotalOD"
@@ -347,7 +360,7 @@
                             android:paddingRight="16dp"
                             android:text=""
                             android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/carmen_bold"/>
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -379,7 +392,7 @@
                 android:textAlignment="center"
                 android:paddingBottom="16dp"
                 android:textSize="16sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/carmen_bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvOrderCancelText" />

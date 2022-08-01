@@ -38,19 +38,7 @@
             android:layout_height="0dp"
             android:src="@drawable/plant_gradient"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvPrice" />
-
-        <TextView
-            android:id="@+id/tvPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/carmen_bold"
-            android:paddingLeft="16dp"
-            android:text="₹100"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/tvPlantName"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/tvPlantName" />
 
         <TextView
             android:id="@+id/tvPlantName"
@@ -62,7 +50,7 @@
             android:text="Cactus H"
             android:paddingRight="8dp"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:maxLines="2"
             android:tooltipText="Cactus"
             app:layout_constraintBottom_toBottomOf="@+id/thumbnail"

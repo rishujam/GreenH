@@ -89,6 +89,7 @@ class SettingFragment:Fragment() {
         }
 
         binding.logout.setOnClickListener {
+            binding.pbSettings.visibility = View.VISIBLE
             auth.signOut()
             checkCurrentState()
         }

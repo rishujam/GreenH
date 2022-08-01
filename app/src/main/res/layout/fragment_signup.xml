@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#f9f9f8"
     android:layout_height="match_parent">
 
 
@@ -106,15 +107,15 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
-        android:layout_marginTop="8dp"
         android:backgroundTint="#EAF5EF"
         android:text="Verify"
         android:visibility="gone"
         android:textColor="#008036"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resendTimer" />
+        app:layout_constraintTop_toBottomOf="@+id/btnResendCode" />
 
 
     <ProgressBar
@@ -133,8 +134,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/custom_edittext"
         android:layout_marginLeft="32dp"
-        android:visibility="gone"
         android:maxLength="1"
+        android:visibility="gone"
         android:inputType="number"
         android:hint=" "
         android:layout_marginTop="16dp"
@@ -147,9 +148,9 @@
         android:layout_height="wrap_content"
         android:background="@drawable/custom_edittext"
         android:layout_marginLeft="16dp"
-        android:visibility="gone"
         android:maxLength="1"
         android:hint=" "
+        android:visibility="gone"
         android:inputType="number"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@id/etCode1"
@@ -163,8 +164,8 @@
         android:layout_marginLeft="16dp"
         android:maxLength="1"
         android:hint=" "
-        android:inputType="number"
         android:visibility="gone"
+        android:inputType="number"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@id/etCode2"
         app:layout_constraintTop_toBottomOf="@+id/etPhone_til" />
@@ -176,8 +177,8 @@
         android:background="@drawable/custom_edittext"
         android:layout_marginLeft="16dp"
         android:maxLength="1"
-        android:visibility="gone"
         android:hint=" "
+        android:visibility="gone"
         android:inputType="number"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@id/etCode3"
@@ -205,24 +206,20 @@
         android:layout_marginLeft="16dp"
         android:maxLength="1"
         android:hint=" "
-        android:inputType="number"
         android:visibility="gone"
+        android:inputType="number"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@id/etCode5"
         app:layout_constraintTop_toBottomOf="@+id/etPhone_til" />
-
-
-
 
     <TextView
         android:id="@+id/resendTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Resend Code in: 10s"
-        android:textColor="@color/white"
+        android:text="Resend Code in"
         android:textStyle="bold"
-        android:paddingTop="8dp"
         android:visibility="gone"
+        android:paddingTop="8dp"
         app:layout_constraintStart_toStartOf="@+id/etCode1"
         app:layout_constraintTop_toBottomOf="@+id/etCode1" />
 
@@ -237,12 +234,14 @@
         android:id="@+id/btnResendCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#EAF5EF"
         android:text="Resend"
-        android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
         android:visibility="gone"
-        app:layout_constraintStart_toEndOf="@+id/etCode4"
-        app:layout_constraintTop_toBottomOf="@+id/etPhone_til" />
+        android:textColor="#008036"
+        app:layout_constraintStart_toEndOf="@+id/resendTimer"
+        app:layout_constraintTop_toBottomOf="@+id/etCode1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

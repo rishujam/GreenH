@@ -35,6 +35,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
+            android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -59,29 +60,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingTop="16dp"
-                android:text="Shipping details"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 app:cardCornerRadius="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView15">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -89,9 +78,22 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/carmen_bold"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="16dp"
+                        android:text="Shipping details"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
                         android:id="@+id/tvPhoneBB"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/carmen_regular"
                         android:paddingLeft="16dp"
                         android:paddingTop="16dp"
                         android:text="8076861086"
@@ -101,6 +103,7 @@
                         android:id="@+id/tvAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/carmen_regular"
                         android:paddingLeft="16dp"
                         android:paddingTop="8dp"
                         android:paddingRight="16dp"
@@ -111,6 +114,7 @@
                         android:id="@+id/edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/carmen_bold"
                         android:padding="16dp"
                         android:text="Edit"
                         android:textColor="@color/dark_green"
@@ -119,18 +123,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/textView16"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingTop="16dp"
-                android:text="Payment Method"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView" />
-
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView9"
                 android:layout_width="match_parent"
@@ -138,36 +130,60 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 app:cardCornerRadius="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView16">
+                app:layout_constraintTop_toBottomOf="@+id/cardView">
 
-                <RadioGroup
-                    android:id="@+id/rgPayMethodBB"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:divider="@color/black"
-                    android:dividerPadding="8dp"
-                    android:paddingLeft="8dp"
-                    android:showDividers="middle">
+                    android:orientation="vertical">
 
-                    <RadioButton
-                        android:id="@+id/payCodBB"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/textView16"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:text="Cash On Delivery" />
+                        android:paddingTop="16dp"
+                        android:text="Payment Method"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/carmen_bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-                    <RadioButton
-                        android:id="@+id/payOnlineBB"
+
+                    <RadioGroup
+                        android:id="@+id/rgPayMethodBB"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:text="Card/UPI/Wallet" />
-                </RadioGroup>
+                        android:divider="@color/black"
+                        android:dividerPadding="8dp"
+                        android:paddingLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:showDividers="middle">
+
+                        <RadioButton
+                            android:id="@+id/payCodBB"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:fontFamily="@font/carmen_regular"
+                            android:text="Cash On Delivery" />
+
+                        <RadioButton
+                            android:id="@+id/payOnlineBB"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="16dp"
+                            android:fontFamily="@font/carmen_regular"
+                            android:paddingRight="16dp"
+                            android:text="Card/UPI/Wallet" />
+                    </RadioGroup>
+
+                </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -192,9 +208,9 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="16dp"
                         android:paddingTop="16dp"
+                        android:fontFamily="@font/carmen_bold"
                         android:text="Order Summary"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -207,6 +223,7 @@
                             android:layout_weight="1"
                             android:paddingLeft="16dp"
                             android:paddingTop="16dp"
+                            android:fontFamily="@font/carmen_regular"
                             android:text="Subtotal"
                             android:textSize="16sp" />
 
@@ -217,6 +234,7 @@
                             android:layout_weight="1"
                             android:paddingTop="16dp"
                             android:paddingRight="16dp"
+                            android:fontFamily="@font/carmen_regular"
                             android:text="$10"
                             android:textAlignment="viewEnd"
                             android:textSize="16sp" />
@@ -233,6 +251,7 @@
                             android:layout_weight="1"
                             android:paddingLeft="16dp"
                             android:paddingTop="8dp"
+                            android:fontFamily="@font/carmen_regular"
                             android:text="Delivery charges"
                             android:textSize="16sp" />
 
@@ -242,6 +261,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingTop="8dp"
+                            android:fontFamily="@font/carmen_regular"
                             android:paddingRight="16dp"
                             android:text="$2"
                             android:textAlignment="viewEnd"
@@ -262,7 +282,7 @@
                             android:paddingBottom="16dp"
                             android:text="Total"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/carmen_bold" />
 
                         <TextView
                             android:id="@+id/tvTotal"
@@ -275,7 +295,7 @@
                             android:text="$12"
                             android:textAlignment="viewEnd"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/carmen_bold" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

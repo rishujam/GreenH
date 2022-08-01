@@ -34,7 +34,6 @@ class PlantAdapter:RecyclerView.Adapter<PlantAdapter.PlantViewHolder>(){
     override fun onBindViewHolder(holder: PlantViewHolder, position: Int) {
         val plant = differ.currentList[position]
         holder.binding.apply {
-            tvPrice.text = "₹${plant.price}"
             tvPlantName.text = plant.name
             Glide.with(root).load(plant.imageLocation).into(thumbnail)
             plantItem.setOnClickListener {

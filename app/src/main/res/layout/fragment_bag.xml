@@ -62,7 +62,7 @@
         android:text=" "
         android:paddingBottom="8dp"
         android:textSize="16sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/carmen_bold"
         app:layout_constraintBottom_toTopOf="@+id/btnCheckout"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -74,8 +74,8 @@
         android:paddingLeft="16dp"
         android:paddingBottom="8dp"
         android:text="Total"
+        android:fontFamily="@font/carmen_bold"
         android:textSize="16sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btnCheckout"
         app:layout_constraintStart_toStartOf="parent" />
 

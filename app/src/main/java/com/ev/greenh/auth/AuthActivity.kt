@@ -1,17 +1,18 @@
 package com.ev.greenh.auth
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ev.greenh.GreenApp
-import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.R
 import com.ev.greenh.databinding.ActivityAuthBinding
 import com.ev.greenh.firebase.AuthSource
 import com.ev.greenh.repository.AuthRepository
+import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.viewmodels.AuthViewModel
 import com.ev.greenh.viewmodels.ViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
@@ -57,6 +58,16 @@ class AuthActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         checkLoginState()
+    }
+
+    private fun setDisplayMode(){
+        val nightModeFlags: Int = resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK
+        when (nightModeFlags) {
+            Configuration.UI_MODE_NIGHT_YES -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            Configuration.UI_MODE_NIGHT_NO -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
     }
 
     private fun checkLoginState(){

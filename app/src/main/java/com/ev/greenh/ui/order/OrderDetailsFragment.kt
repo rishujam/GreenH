@@ -89,7 +89,7 @@ class OrderDetailsFragment:Fragment(), MyOrderDetailAdapter.OnItemClickListener 
                 .create().show()
         }
 
-        binding.backButton.setOnClickListener {
+        binding.backBtn.setOnClickListener {
             (activity as MainActivity).supportFragmentManager.popBackStack()
         }
     }

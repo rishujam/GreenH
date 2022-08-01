@@ -88,7 +88,7 @@ class BagBuyFragment:Fragment() {
                             binding.tvPhoneBB.text = data.phone
                             profile = data
                         }else{
-                           dialogOpen()
+                            dialogOpen()
                         }
                     }
                 }
@@ -154,10 +154,15 @@ class BagBuyFragment:Fragment() {
                     if (data != null) {
                         val sdf = SimpleDateFormat("dd/MM/yyyy,hh:mm:ss", Locale.ENGLISH)
                         val currentDate = sdf.format(Date())
+                        val nextDay = currentDate.split("/")[0].toInt() +2
+                        var replacement = "$nextDay"
+                        if(nextDay>30){
+                            replacement ="02"
+                        }
                         val estDeliveryDate = currentDate.replaceRange(
                             0,
                             2,
-                            "${currentDate.split("/")[0].toInt() + 2}"
+                            replacement
                         )
                         Log.e("BagBuyFrag2", plantIds.size.toString())
                         when (binding.rgPayMethodBB.checkedRadioButtonId) {
@@ -209,8 +214,12 @@ class BagBuyFragment:Fragment() {
         })
 
         binding.btnContinue.setOnClickListener {
-            binding.cdPb.visibility = View.VISIBLE
-            viewModel.generateOrderId(hashMapOf("amount" to total.toInt()))
+            if(binding.payCodBB.isChecked || binding.payOnlineBB.isChecked){
+                binding.cdPb.visibility = View.VISIBLE
+                viewModel.generateOrderId(hashMapOf("amount" to total.toInt()))
+            }else{
+                Toast.makeText(context, "Select Payment Method", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.payCodBB.setOnClickListener {
@@ -220,7 +229,7 @@ class BagBuyFragment:Fragment() {
             binding.btnContinue.text = "Continue to payment"
         }
 
-        binding.backButton.setOnClickListener {
+        binding.backBtn.setOnClickListener {
             (activity as MainActivity).supportFragmentManager.popBackStack()
         }
 
@@ -250,6 +259,7 @@ class BagBuyFragment:Fragment() {
             val bundle = Bundle()
             bundle.putString("email",user)
             editProfileFragment.arguments  = bundle
+            (activity as MainActivity).supportFragmentManager.popBackStack()
             (activity as MainActivity).setCurrentFragmentBack(editProfileFragment)
         }
 
@@ -268,10 +278,10 @@ class BagBuyFragment:Fragment() {
             options.put("name","Razorpay Corp")
             options.put("description","Demoing Charges")
             options.put("image","https://s3.amazonaws.com/rzp-mobile/images/rzp.png")
-            options.put("theme.color", "#3399cc")
+            options.put("theme.color", "#2F9A5A")
             options.put("currency","INR")
-            options.put("order_id", orderId);
-            options.put("amount",amount.toInt()*100)
+            options.put("order_id", orderId)
+            options.put("amount",1*100)
 
             val retryObj =  JSONObject()
             retryObj.put("enabled", true)
@@ -291,12 +301,21 @@ class BagBuyFragment:Fragment() {
 
     override fun onResume() {
         super.onResume()
+        binding.cdPb.visibility = View.GONE
         if((activity as MainActivity).successListener=="Y"){
             binding.cdPb.visibility = View.VISIBLE
             val sdf = SimpleDateFormat("dd/MM/yyyy,hh:mm:ss", Locale.ENGLISH)
             val currentDate = sdf.format(Date())
-            val estDeliveryDate =
-                currentDate.replaceRange(0, 2, "${currentDate.split("/")[0].toInt() + 2}")
+            val nextDay = currentDate.split("/")[0].toInt() +2
+            var replacement = "$nextDay"
+            if(nextDay>30){
+                replacement ="02"
+            }
+            val estDeliveryDate = currentDate.replaceRange(
+                0,
+                2,
+                replacement
+            )
             val paymentData = (activity as MainActivity).paymentData
             if (paymentData != null) {
                 viewModel.placeOrder(

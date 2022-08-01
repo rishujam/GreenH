@@ -18,16 +18,13 @@ class PlantViewModel(
 
     //todo get context and check internet connection before each network call
 
+    var currentFilter = "All"
+
     // For list of all plants
     var plantsPage = 0
+    var lastFeatureNoAll = 0
     var plantsResponse:Plants?=null
     val plants:MutableLiveData<Resource<Plants>> = MutableLiveData()
-
-    //For list of outdoor Plants
-    var plantsOutdoorPage = 0
-    var lastFeatureNoOutdoor = 0
-    var plantsOutdoorResponse :Plants?= null
-    val plantsOutdoor:MutableLiveData<Resource<Plants>> = MutableLiveData()
 
     //For list of indoor Plants
     var plantsIndoorPage = 0
@@ -106,7 +103,7 @@ class PlantViewModel(
 
     fun getAllPlants(collection: String) = viewModelScope.launch {
         plants.postValue(Resource.Loading())
-        val response = repository.getAllPlants(collection,plantsPage)
+        val response = repository.getAllPlants(collection,plantsPage, lastFeatureNoAll)
         plants.postValue(handlePlantsResponse(response))
     }
 
@@ -115,35 +112,14 @@ class PlantViewModel(
             plantsPage++
             if(plantsResponse==null){
                 plantsResponse = it
+                lastFeatureNoAll = it.plants[it.plants.lastIndex].featureNo
             }else{
                 val oldPlants = plantsResponse?.plants
                 val newPlants = it.plants
                 oldPlants?.addAll(newPlants)
+                lastFeatureNoAll = oldPlants!![oldPlants.lastIndex].featureNo
             }
             return Resource.Success(plantsResponse ?:it)
-        }
-        return Resource.Error(response.message)
-    }
-
-    fun getOutdoorPlants(collection: String) = viewModelScope.launch {
-        plantsOutdoor.postValue(Resource.Loading())
-        val response = repository.getPlantsByCategory(collection, "Outdoor", lastFeatureNoOutdoor)
-        plantsOutdoor.postValue(handlePlantsOutdoorResponse(response))
-    }
-
-    private fun handlePlantsOutdoorResponse(response: Resource<Plants>) : Resource<Plants> {
-        response.data?.let {
-            plantsOutdoorPage++
-            if(plantsOutdoorResponse==null){
-                plantsOutdoorResponse = it
-                lastFeatureNoOutdoor = it.plants[it.plants.lastIndex].featureNo
-            }else{
-                val oldPlantsByCategory = plantsOutdoorResponse?.plants
-                val newPlantsByCategory = it.plants
-                oldPlantsByCategory?.addAll(newPlantsByCategory)
-                lastFeatureNoOutdoor = oldPlantsByCategory!![oldPlantsByCategory.lastIndex].featureNo
-            }
-            return Resource.Success(plantsOutdoorResponse ?:it)
         }
         return Resource.Error(response.message)
     }

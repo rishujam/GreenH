@@ -20,9 +20,13 @@ class FirestoreSource {
     //private val storageRef = Firebase.storage.reference
     private val fireRef = Firebase.firestore
 
-    suspend fun getAllPlants(collection:String, page:Int):Plants{
+    suspend fun getAllPlants(collection:String, page:Int, lastFeatureNo: Int):Plants{
         val list = mutableListOf<Plant>()
-        val data = fireRef.collection(collection).orderBy("featureNo").startAfter(page*5).limit(5).get().await()
+        val data = if (lastFeatureNo==0){
+            fireRef.collection(collection).orderBy("featureNo").startAfter(page*5).limit(5).get().await()
+        }else{
+            fireRef.collection(collection).orderBy("featureNo").startAfter(lastFeatureNo).limit(5).get().await()
+        }
         for(i in data.documents){
             val plant = i.toObject<Plant>()
             if(plant!=null){
@@ -51,7 +55,15 @@ class FirestoreSource {
     suspend fun getSinglePlant(collection: String,id:String): Plant {
         val ref = fireRef.collection(collection).document(id).get().await()
         val plant = ref.toObject<Plant>()
-        return plant!!
+        val imageUrl = getHQImageOfPlant(plant!!.id)
+        if(imageUrl!="" || imageUrl!=null)
+        plant.imageLocation = imageUrl
+        return plant
+    }
+
+    private suspend fun getHQImageOfPlant(plantId:String):String {
+        val ref = fireRef.collection("hqPlantImage").document(plantId).get().await()
+        return ref["url"].toString()
     }
 
     suspend fun addPlantToBag(plantId:String,user:String,collection:String,quantity:String): Response {
@@ -258,9 +270,5 @@ class FirestoreSource {
     suspend fun getMinVersionToRun(collection: String):Int {
         val snap = fireRef.collection(collection).document("minVersion").get().await()
         return snap["v"].toString().toInt()
-    }
-
-    suspend fun addPlant(plant:Plant){
-        fireRef.collection("samplePlants").document(plant.id).set(plant).await()
     }
 }
