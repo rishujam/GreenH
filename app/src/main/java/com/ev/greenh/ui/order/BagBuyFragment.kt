@@ -60,9 +60,9 @@ class BagBuyFragment:Fragment() {
         viewModel.getApiKey(getString(R.string.utils))
 
         viewModel.uid.observe(viewLifecycleOwner, Observer {
-            when(it.getContentIfNotHandled()) {
+            when(it) {
                 is Resource.Success ->{
-                    val uid = it.peekContent().data
+                    val uid = it.data
                     if(uid!=null){
                         user = uid
                         viewModel.getProfileSingleTime(getString(R.string.user_ref),uid)

@@ -54,9 +54,9 @@ class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
         })
 
         viewModel.uid.observe(viewLifecycleOwner, Observer {
-            when(it.getContentIfNotHandled()){
+            when(it){
                 is Resource.Success -> {
-                    val user = it.peekContent().data
+                    val user = it.data
                     if(user!=null){
                         email = user
                         viewModel.getBagItems(getString(R.string.cart),getString(R.string.plant_sample_ref),email)
@@ -67,7 +67,7 @@ class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
                 is Resource.Loading ->{}
                 is Resource.Error -> {
                     Toast.makeText(context,"Something went wrong",Toast.LENGTH_SHORT).show()
-                    Log.e("BagFrag: email",it.peekContent().message.toString())
+                    Log.e("BagFrag: email",it.message.toString())
                 }
                 else -> {}
             }
@@ -90,21 +90,22 @@ class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
         })
 
         viewModel.success.observe(viewLifecycleOwner, Observer {
-            when(it){
+            when(it.getContentIfNotHandled()){
                 is Resource.Success ->{
                     if(isClickedUpdate){
                         isCompleted.value = true
-                        Toast.makeText(context, "Data Updated", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Quantity Updated", Toast.LENGTH_SHORT).show()
 
                     }
                 }
                 is Resource.Error -> {
                     if(isClickedUpdate){
                         isCompleted.value = true
-                        Toast.makeText(context,"Error: ${it.message}",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context,"Error: ${it.peekContent().message}",Toast.LENGTH_SHORT).show()
                     }
                 }
                 is Resource.Loading -> {}
+                else ->{}
             }
         })
 

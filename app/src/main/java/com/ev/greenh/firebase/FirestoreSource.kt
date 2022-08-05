@@ -10,6 +10,7 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.google.firestore.v1.DocumentTransform
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -17,15 +18,14 @@ import kotlinx.coroutines.tasks.await
 
 class FirestoreSource {
 
-    //private val storageRef = Firebase.storage.reference
     private val fireRef = Firebase.firestore
 
     suspend fun getAllPlants(collection:String, page:Int, lastFeatureNo: Int):Plants{
         val list = mutableListOf<Plant>()
         val data = if (lastFeatureNo==0){
-            fireRef.collection(collection).orderBy("featureNo").startAfter(page*5).limit(5).get().await()
+            fireRef.collection(collection).whereEqualTo("status", "Available").orderBy("featureNo").startAfter(page*5).limit(5).get().await()
         }else{
-            fireRef.collection(collection).orderBy("featureNo").startAfter(lastFeatureNo).limit(5).get().await()
+            fireRef.collection(collection).whereEqualTo("status", "Available").orderBy("featureNo").startAfter(lastFeatureNo).limit(5).get().await()
         }
         for(i in data.documents){
             val plant = i.toObject<Plant>()
@@ -39,9 +39,9 @@ class FirestoreSource {
     suspend fun getPlantsByCategory(collection: String, category:String,lastFeatureNo:Int):Plants{
         val list = mutableListOf<Plant>()
         val data = if(lastFeatureNo==0){
-            fireRef.collection(collection).whereEqualTo("category", category).orderBy("featureNo").limit(5).get().await()
+            fireRef.collection(collection).whereEqualTo("status","Available").whereEqualTo("category", category).orderBy("featureNo").limit(5).get().await()
         }else{
-            fireRef.collection(collection).whereEqualTo("category", category).orderBy("featureNo").startAfter(lastFeatureNo).limit(5).get().await()
+            fireRef.collection(collection).whereEqualTo("status","Available").whereEqualTo("category", category).orderBy("featureNo").startAfter(lastFeatureNo).limit(5).get().await()
         }
         for(i in data.documents){
             val plant = i.toObject<Plant>()
@@ -56,14 +56,19 @@ class FirestoreSource {
         val ref = fireRef.collection(collection).document(id).get().await()
         val plant = ref.toObject<Plant>()
         val imageUrl = getHQImageOfPlant(plant!!.id)
-        if(imageUrl!="" || imageUrl!=null)
-        plant.imageLocation = imageUrl
+        if(imageUrl!=""){
+            plant.imageLocation = imageUrl
+        }
         return plant
     }
 
     private suspend fun getHQImageOfPlant(plantId:String):String {
-        val ref = fireRef.collection("hqPlantImage").document(plantId).get().await()
-        return ref["url"].toString()
+        val ref = fireRef.collection("imageDetailScreen").document(plantId).get().await()
+        return if(ref.exists()){
+            ref["url"].toString()
+        }else{
+            ""
+        }
     }
 
     suspend fun addPlantToBag(plantId:String,user:String,collection:String,quantity:String): Response {

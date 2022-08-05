@@ -39,9 +39,9 @@ class MyOrdersFragment:Fragment(), MyOrderAdapter.OrderDetails {
 
         viewModel.readUid()
         viewModel.uid.observe(viewLifecycleOwner, Observer {
-            when(it.getContentIfNotHandled()){
+            when(it){
                 is Resource.Success ->{
-                    val user = it.peekContent().data
+                    val user = it.data
                     if(user!=null){
                         viewModel.getUserOrders(user,getString(R.string.orders),getString(R.string.plant_sample_ref))
                     }
@@ -49,7 +49,7 @@ class MyOrdersFragment:Fragment(), MyOrderAdapter.OrderDetails {
                 is Resource.Loading ->{}
                 is Resource.Error ->{
                     Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
-                    Log.e("MyOrderFrag:email",it.peekContent().message.toString())
+                    Log.e("MyOrderFrag:email",it.message.toString())
                 }
                 else ->{}
             }
@@ -94,8 +94,8 @@ class MyOrdersFragment:Fragment(), MyOrderAdapter.OrderDetails {
         (activity as MainActivity).setCurrentFragmentBack(orderDetailsFragment)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding =null
     }
 }

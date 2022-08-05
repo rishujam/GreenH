@@ -130,6 +130,7 @@
 
     <EditText
         android:id="@+id/etCode1"
+        style="@style/TextAppearance.MdcTypographyStyles.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_edittext"
@@ -144,6 +145,7 @@
 
     <EditText
         android:id="@+id/etCode2"
+        style="@style/TextAppearance.MdcTypographyStyles.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_edittext"
@@ -158,6 +160,7 @@
 
     <EditText
         android:id="@+id/etCode3"
+        style="@style/TextAppearance.MdcTypographyStyles.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_edittext"
@@ -172,6 +175,7 @@
 
     <EditText
         android:id="@+id/etCode4"
+        style="@style/TextAppearance.MdcTypographyStyles.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_edittext"
@@ -186,6 +190,7 @@
 
     <EditText
         android:id="@+id/etCode5"
+        style="@style/TextAppearance.MdcTypographyStyles.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_edittext"
@@ -200,6 +205,7 @@
 
     <EditText
         android:id="@+id/etCode6"
+        style="@style/TextAppearance.MdcTypographyStyles.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_edittext"

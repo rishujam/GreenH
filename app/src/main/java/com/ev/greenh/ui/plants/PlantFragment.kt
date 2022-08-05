@@ -22,11 +22,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ev.greenh.*
 import com.ev.greenh.adapters.PlantAdapter
 import com.ev.greenh.databinding.FragmentPlantBinding
+import com.ev.greenh.firebase.FirestoreSource
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.util.Constants
 import com.ev.greenh.util.Constants.VERSION
 import com.ev.greenh.util.Resource
 import com.ev.greenh.viewmodels.PlantViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class PlantFragment:Fragment() {
 
@@ -96,6 +101,7 @@ class PlantFragment:Fragment() {
                 }
                 is Resource.Error ->{
                     hideProgressBar()
+                    Log.e("PlantsError", it.message.toString())
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 }
             }
@@ -143,19 +149,22 @@ class PlantFragment:Fragment() {
         })
 
 //        binding.sendDtaa.setOnClickListener {
+//            binding.pbAllPlants.visibility = View.VISIBLE
 //            val source = FirestoreSource()
 //            CoroutineScope(Dispatchers.IO).launch {
 //                try {
-//                    var no = 55
-//                    while(no<101){
-//                        source.addUrl(getString(R.string.image_coll),"s_$no")
+//                    var no = 50
+//                    while(no<94){
+//                        source.addUrl("s_$no")
 //                        no++
 //                    }
 //                    withContext(Dispatchers.Main){
+//                        binding.pbAllPlants.visibility = View.INVISIBLE
 //                        Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show()
 //                    }
 //                }catch (e:Exception){
 //                    withContext(Dispatchers.Main){
+//                        binding.pbAllPlants.visibility = View.INVISIBLE
 //                        Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
 //                    }
 //                }

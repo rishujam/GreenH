@@ -47,8 +47,8 @@ class PlantViewModel(
     val bagItems : LiveData<ViewModelEventWrapper<Resource<Map<Plant, String>>>>
         get() = _bagItems
 
-    private val _uid:MutableLiveData<ViewModelEventWrapper<Resource<String?>>> = MutableLiveData()
-    val uid: LiveData<ViewModelEventWrapper<Resource<String?>>>
+    private val _uid:MutableLiveData<Resource<String?>> = MutableLiveData()
+    val uid: LiveData<Resource<String?>>
         get() = _uid
 
     private val _profile:MutableLiveData<Resource<Profile>> = MutableLiveData()
@@ -60,8 +60,8 @@ class PlantViewModel(
         get() = _singleTimeProfile
 
     // add wrapper
-    private val _success:MutableLiveData<Resource<Response>> = MutableLiveData()
-    val success:LiveData<Resource<Response>>
+    private val _success:MutableLiveData<ViewModelEventWrapper<Resource<Response>>> = MutableLiveData()
+    val success:LiveData<ViewModelEventWrapper<Resource<Response>>>
         get() = _success
 
     // Add wrapper
@@ -175,11 +175,11 @@ class PlantViewModel(
     }
 
     fun readUid() = viewModelScope.launch {
-        _uid.value = ViewModelEventWrapper(repository.readUid())
+        _uid.value = repository.readUid()
     }
 
     fun addPlantToBag(plantId:String,user:String,collection:String,quantity:String) = viewModelScope.launch {
-        _success.value = repository.addPlantToBag(plantId, user, collection, quantity)
+        _success.value = ViewModelEventWrapper(repository.addPlantToBag(plantId, user, collection, quantity))
     }
 
     fun getBagItems(collBag: String,collPlant:String,user:String) = viewModelScope.launch {
@@ -187,7 +187,7 @@ class PlantViewModel(
     }
 
     fun updateQuantity(user:String,collection: String,newQuantity:Int,plantId: String) = viewModelScope.launch {
-        _success.value = repository.updateQuantity(user, collection, newQuantity, plantId)
+        _success.value = ViewModelEventWrapper(repository.updateQuantity(user, collection, newQuantity, plantId))
     }
 
     fun deleteItemFromBag(user:String,collection: String,plantId: String) = viewModelScope.launch {

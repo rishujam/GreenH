@@ -96,7 +96,7 @@
                         android:fontFamily="@font/carmen_regular"
                         android:paddingLeft="16dp"
                         android:paddingTop="16dp"
-                        android:text="8076861086"
+                        android:text=""
                         android:textSize="16sp" />
 
                     <TextView
@@ -107,7 +107,7 @@
                         android:paddingLeft="16dp"
                         android:paddingTop="8dp"
                         android:paddingRight="16dp"
-                        android:text="G-14/A, Sector-9, New Vijay Nagar, Ghaziabad\n201009"
+                        android:text=""
                         android:textSize="16sp" />
 
                     <TextView
@@ -235,7 +235,7 @@
                             android:paddingTop="16dp"
                             android:paddingRight="16dp"
                             android:fontFamily="@font/carmen_regular"
-                            android:text="$10"
+                            android:text=""
                             android:textAlignment="viewEnd"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -263,7 +263,7 @@
                             android:paddingTop="8dp"
                             android:fontFamily="@font/carmen_regular"
                             android:paddingRight="16dp"
-                            android:text="$2"
+                            android:text=""
                             android:textAlignment="viewEnd"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -292,7 +292,7 @@
                             android:paddingTop="8dp"
                             android:paddingRight="16dp"
                             android:paddingBottom="16dp"
-                            android:text="$12"
+                            android:text=""
                             android:textAlignment="viewEnd"
                             android:textSize="16sp"
                             android:fontFamily="@font/carmen_bold" />

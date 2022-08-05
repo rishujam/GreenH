@@ -44,7 +44,7 @@
         android:elevation="4dp"
         android:text=""
         android:paddingTop="8dp"
-        android:textColor="@color/grey"
+        android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/backButton"
         app:layout_constraintTop_toTopOf="@+id/backButton" />
@@ -59,14 +59,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/gradientRight"
-        android:layout_width="80dp"
-        android:layout_height="0dp"
-        android:src="@drawable/gradient_sun"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <ImageView-->
+<!--        android:id="@+id/gradientRight"-->
+<!--        android:layout_width="80dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:src="@drawable/gradient_sun"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 
     <ImageView
@@ -85,11 +85,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/carmen_bold"
-        android:text=""
         android:paddingTop="4dp"
-        android:textColor="@color/grey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/gradientRight"
+        android:text=""
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <ImageView
@@ -108,14 +108,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/carmen_bold"
-        android:paddingRight="4dp"
         android:paddingTop="4dp"
+        android:paddingRight="4dp"
         android:text=""
         android:textAlignment="center"
-        android:textColor="@color/grey"
+        android:textColor="@color/white"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/gradientRight"
+        app:layout_constraintEnd_toEndOf="@+id/imageView6"
+        app:layout_constraintStart_toStartOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
 
@@ -184,7 +184,7 @@
         android:paddingBottom="16dp"
         android:background="#f9f9f8"
         android:visibility="gone"
-        android:text="a living thing that grows in earth, in water, or on other plants, usually has a stem, leaves, roots, and flowers, and produces seeds"
+        android:text=""
         app:layout_constraintBottom_toTopOf="@+id/cdAdd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

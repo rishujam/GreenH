@@ -3,12 +3,18 @@ package com.ev.greenh.ui.plants
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentPlantDetailsBinding
 import com.ev.greenh.models.Plant
@@ -26,6 +32,7 @@ class PlantDetailFragment: Fragment() {
     private lateinit var plantId:String
     private lateinit var viewModel: PlantViewModel
     private lateinit var plant: Plant
+    private lateinit var dialog:Dialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,6 +70,21 @@ class PlantDetailFragment: Fragment() {
         })
         viewModel.getSinglePlant(getString(R.string.plant_sample_ref),plantId)
 
+        viewModel.success.observe(viewLifecycleOwner, Observer {
+            when(it.getContentIfNotHandled()){
+                is Resource.Error ->{
+                    Toast.makeText(context, "Error Adding Item", Toast.LENGTH_SHORT).show()
+                    dialog.setCancelable(true)
+                }
+                is Resource.Success ->{
+                    Snackbar.make(binding.root, "Item Added to cart", Snackbar.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                }
+                is Resource.Loading->{}
+                else ->{}
+            }
+        })
+
         binding.backBtn.setOnClickListener {
             (activity as MainActivity).supportFragmentManager.popBackStack()
         }
@@ -75,23 +97,38 @@ class PlantDetailFragment: Fragment() {
     }
 
     private fun setupData(plant: Plant){
+        binding.pbPlantDetail.visibility = View.VISIBLE
         binding.pbPlantDetail.visible(true)
         binding.plantName.text = plant.name
         binding.tPrive.text = "₹${plant.price}"
         binding.tvSunlight.text = plant.sunlight
         binding.tvWater.text = plant.water
-        binding.tvDescription.text = plant.description
-        Glide.with(binding.root).load(plant.imageLocation).into(binding.plantImage)
-        binding.pbPlantDetail.visible(false)
+        Glide.with(binding.root)
+            .setDefaultRequestOptions(RequestOptions().placeholder(R.drawable.load).error(R.drawable.load))
+            .load(plant.imageLocation).listener(object : RequestListener<Drawable> {
+            override fun onResourceReady(resource: Drawable?, model: Any?, target: com.bumptech.glide.request.target.Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                binding.pbPlantDetail.visibility = View.INVISIBLE
+                return false
+            }
+
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any?,
+                target: com.bumptech.glide.request.target.Target<Drawable>?,
+                isFirstResource: Boolean
+            ): Boolean {
+                return false
+            }
+        }).into(binding.plantImage)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding =null
     }
 
     private fun showDialog() {
-        val dialog = Dialog(requireContext())
+        dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.sheet_quantity)
         val tvQuantity: TextView = dialog.findViewById(R.id.quantity)
@@ -113,20 +150,20 @@ class PlantDetailFragment: Fragment() {
 
         Glide.with(dialog.context).load(plant.imageLocation).into(image)
 
+
         pb.visible(false)
         add.setOnClickListener {
             pb.visible(true)
             dialog.setCancelable(false)
             viewModel.readUid()
             viewModel.uid.observe(viewLifecycleOwner, Observer {
-                when(it.getContentIfNotHandled()){
+                when(it){
                     is Resource.Error -> {
                         pb.visible(false)
-                        Toast.makeText(context, "Error Adding Item", Toast.LENGTH_SHORT).show()
                         dialog.setCancelable(true)
                     }
                     is Resource.Success -> {
-                        val email = it.peekContent().data
+                        val email = it.data
                         if(email!=null){
                             viewModel.addPlantToBag(
                                 plantId,
@@ -134,9 +171,6 @@ class PlantDetailFragment: Fragment() {
                                 getString(R.string.cart),
                                 tvQuantity.text.toString()
                             )
-                            Snackbar.make(binding.root, "Item Added to cart", Snackbar.LENGTH_SHORT).show()
-                            pb.visible(false)
-                            dialog.dismiss()
                         }else{
                             Toast.makeText(context, "Error Adding Item", Toast.LENGTH_SHORT).show()
                             pb.visible(false)

@@ -27,7 +27,6 @@ class AuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding  = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val signupFragment = SignupFragment()
         setCurrentFragment(signupFragment)
 

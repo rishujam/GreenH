@@ -63,9 +63,9 @@ class SettingFragment:Fragment() {
             }
         })
         viewModel.uid.observe(viewLifecycleOwner, Observer {
-            when(it.getContentIfNotHandled()){
+            when(it){
                 is Resource.Success -> {
-                    val user = it.peekContent().data
+                    val user = it.data
                     if(user!=null){
                         email = user
                         viewModel.getUserDetails(getString(R.string.user_ref),user)
@@ -73,7 +73,7 @@ class SettingFragment:Fragment() {
                 }
                 is Resource.Error ->{
                     Toast.makeText(context,"Error Loading Profile",Toast.LENGTH_SHORT).show()
-                    Log.e("Setting Frag",it.peekContent().message.toString())
+                    Log.e("Setting Frag",it.message.toString())
                 }
                 is Resource.Loading->{}
                 else ->{}

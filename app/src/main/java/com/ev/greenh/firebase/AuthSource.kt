@@ -31,11 +31,12 @@ class AuthSource(
     suspend fun saveProfile(collection: String, profile: Profile): Response {
         return try {
             val doc = fireRef.collection(collection).document(profile.uid).get().await()
-            Log.e("FirebaseSaveProfile","${doc["name"]}, ${doc["name"]}")
-            if(doc["name"]==null || doc["name"]==""){
+            if(doc.exists()){
+                Response(true)
+            }else{
                 fireRef.collection(collection).document(profile.uid).set(profile).await()
+                Response(true)
             }
-            Response(true)
         }catch (e:Exception){
             Response(errorMsg = e.message)
         }

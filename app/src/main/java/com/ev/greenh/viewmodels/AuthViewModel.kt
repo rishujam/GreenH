@@ -38,6 +38,7 @@ class AuthViewModel(
 //    }
 
     fun saveUserProfile(collection: String,profile: Profile) = viewModelScope.launch {
+        _authResponse.postValue(Resource.Loading())
         _authResponse.value = repository.saveUserProfile(collection, profile)
     }
 

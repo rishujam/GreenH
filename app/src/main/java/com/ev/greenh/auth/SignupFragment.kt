@@ -17,6 +17,7 @@ import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentSignupBinding
 import com.ev.greenh.models.Profile
 import com.ev.greenh.services.FirebaseNotify
+import com.ev.greenh.util.Resource
 import com.ev.greenh.util.visible
 import com.ev.greenh.viewmodels.AuthViewModel
 import com.google.android.gms.tasks.OnCompleteListener
@@ -44,6 +45,7 @@ class SignupFragment:Fragment() {
     lateinit var countdown_timer: CountDownTimer
     var isRunning: Boolean = false
     var time_in_milli_seconds = 0L
+    private lateinit var uid:String
 
 
 
@@ -73,6 +75,24 @@ class SignupFragment:Fragment() {
 
         var verificationI = ""
         binding.progressBar.visible(false)
+
+        viewModel.saveProfileRes.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            when(it){
+                is Resource.Success -> {
+                    viewModel.saveUIDLocally(uid)
+                    viewModel.saveNotifyToken(uid, token,getString(R.string.token))
+                    startActivity(Intent(context, MainActivity::class.java))
+                    (activity as AuthActivity).finish()
+                }
+                is Resource.Error ->{
+                    Toast.makeText(context, "Error in sign in", Toast.LENGTH_SHORT).show()
+                    Log.e("SignupFragment", it.message.toString())
+                }
+                is Resource.Loading->{
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+            }
+        })
 
 
         callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -184,57 +204,17 @@ class SignupFragment:Fragment() {
                 }
             }
         }
-
-
-//        binding.etEmail.setOnClickListener {
-//            openSomeActivityForResult()
-//        }
-
-//        binding.btnSignup.setOnClickListener {
-//            email = binding.etEmail.text.trim().toString()
-//            val pass = binding.etPass.text.toString().trim()
-//            val confPass = binding.etPassConfirm.text.toString().trim()
-//            if(email.isNotEmpty() && pass.isNotEmpty() && confPass.isNotEmpty()){
-//                if(confPass == pass){
-//                    viewModel.registerUser(email,pass)
-//                }else{
-//                    Toast.makeText(requireContext(), "Password should match.", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//            else{
-//                Toast.makeText(context,"Enter details properly",Toast.LENGTH_SHORT).show()
-//            }
-//        }
     }
 
-//    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//        if (result.resultCode == Activity.RESULT_OK) {
-//            val data: Intent? = result.data
-//            val result = data?.getStringExtra(AccountManager.KEY_ACCOUNT_NAME).toString()
-//            binding.etEmail.setText(result)
-//        }
-//    }
-
-//    private fun openSomeActivityForResult() {
-//        val intent = AccountPicker.newChooseAccountIntent(
-//            AccountPicker.AccountChooserOptions.Builder()
-//                .setAllowableAccountsTypes(Arrays.asList("com.google"))
-//                .build()
-//        )
-//        resultLauncher.launch(intent)
-//    }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     val uid = auth.currentUser?.uid.toString()
+                    this.uid = uid
                     val profile = Profile(phone = phoneNo, uid = uid)
                     viewModel.saveUserProfile(getString(R.string.user_ref),profile)
-                    viewModel.saveUIDLocally(uid)
-                    viewModel.saveNotifyToken(uid, token,getString(R.string.token))
-                    startActivity(Intent(context, MainActivity::class.java))
-                    (activity as AuthActivity).finish()
                 } else {
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
                         Toast.makeText(context,"Invalid OTP", Toast.LENGTH_SHORT).show()
@@ -279,8 +259,9 @@ class SignupFragment:Fragment() {
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
-    override fun onDestroy() {
-        super.onDestroy()
+
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }
