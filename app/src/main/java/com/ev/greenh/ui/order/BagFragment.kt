@@ -95,7 +95,6 @@ class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
                     if(isClickedUpdate){
                         isCompleted.value = true
                         Toast.makeText(context, "Quantity Updated", Toast.LENGTH_SHORT).show()
-
                     }
                 }
                 is Resource.Error -> {
@@ -130,10 +129,14 @@ class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
             }
         })
 
-        Log.e("listenRazor: BagFrag",(activity as MainActivity).successListener)
         binding.btnCheckout.setOnClickListener {
-            val bagBuyFragment = BagBuyFragment()
-            (activity as MainActivity).setCurrentFragmentBack(bagBuyFragment)
+            if(bagAdapter.map.isNotEmpty()){
+                val bagBuyFragment = BagBuyFragment()
+                (activity as MainActivity).setCurrentFragmentBack(bagBuyFragment)
+            }else{
+                Toast.makeText(context, "You don't have any plant in bag", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
 

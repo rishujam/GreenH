@@ -99,7 +99,7 @@ class SettingFragment:Fragment() {
                 val packageManager = (activity as MainActivity).packageManager
                 val i = Intent(Intent.ACTION_VIEW)
                 val url =
-                    "https://api.whatsapp.com/send?phone=8076861086&text=" + URLEncoder.encode(
+                    "https://api.whatsapp.com/send?phone=+918076861086&text=" + URLEncoder.encode(
                         "",
                         "UTF-8"
                     )

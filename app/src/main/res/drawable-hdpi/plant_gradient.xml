@@ -4,7 +4,7 @@
     xmlns:android = "http://schemas.android.com/apk/res/android" >
 
     <gradient
-        android:startColor="@color/white"
+        android:startColor="?attr/plantGradient"
         android:angle = "90"
         android:type = "linear" />
 </shape>

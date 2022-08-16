@@ -47,8 +47,6 @@ class SignupFragment:Fragment() {
     var time_in_milli_seconds = 0L
     private lateinit var uid:String
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

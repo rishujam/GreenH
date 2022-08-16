@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.GreenH" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/theme_color</item>
+        <item name="colorPrimary">@color/dark_green</item>
         <item name="colorPrimaryVariant">@color/dark_green</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -11,7 +11,10 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+
+        <item name="textColor">@color/default_text_color</item>
+        <item name="bgColorEt">#ECE7E7</item>
+        <item name="plantGradient">@color/dark_green</item>
     </style>
 
     <style name="TextAppearance.MdcTypographyStyles.Caption" parent="TextAppearance.MaterialComponents.Caption">

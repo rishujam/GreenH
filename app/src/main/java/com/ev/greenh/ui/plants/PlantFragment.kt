@@ -3,6 +3,7 @@ package com.ev.greenh.ui.plants
 import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -63,25 +64,43 @@ class PlantFragment:Fragment() {
                 setupRv()
                 viewModel.getAllPlants(getString(R.string.plant_sample_ref))
                 setAllFilterColorDefault()
-                binding.filterAll.setTextColor(ContextCompat.getColor(requireContext(),
-                    R.color.theme_color
-                ))
+                when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+                    Configuration.UI_MODE_NIGHT_YES -> {
+                        binding.filterAll.setTextColor(ContextCompat.getColor(requireContext(),
+                            R.color.theme_color_dark))}
+                    Configuration.UI_MODE_NIGHT_NO -> {
+                        binding.filterAll.setTextColor(ContextCompat.getColor(requireContext(),
+                            R.color.dark_green))
+                    }
+                }
             }
             "Indoor" ->{
                 setupIndoorRv()
                 viewModel.getIndoorPlants(getString(R.string.plant_sample_ref))
                 setAllFilterColorDefault()
-                binding.filterIndoor.setTextColor(ContextCompat.getColor(requireContext(),
-                    R.color.theme_color
-                ))
+                when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+                    Configuration.UI_MODE_NIGHT_YES -> {
+                        binding.filterIndoor.setTextColor(ContextCompat.getColor(requireContext(),
+                            R.color.theme_color_dark))}
+                    Configuration.UI_MODE_NIGHT_NO -> {
+                        binding.filterIndoor.setTextColor(ContextCompat.getColor(requireContext(),
+                            R.color.dark_green))
+                    }
+                }
             }
             "Table" ->{
                 setupTableRv()
                 viewModel.getTablePlants(getString(R.string.plant_sample_ref))
                 setAllFilterColorDefault()
-                binding.filterTable.setTextColor(ContextCompat.getColor(requireContext(),
-                    R.color.theme_color
-                ))
+                when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+                    Configuration.UI_MODE_NIGHT_YES -> {
+                        binding.filterTable.setTextColor(ContextCompat.getColor(requireContext(),
+                            R.color.theme_color_dark))}
+                    Configuration.UI_MODE_NIGHT_NO -> {
+                        binding.filterTable.setTextColor(ContextCompat.getColor(requireContext(),
+                            R.color.dark_green))
+                    }
+                }
             }
         }
 
@@ -190,9 +209,15 @@ class PlantFragment:Fragment() {
                 setupRv()
                 viewModel.getAllPlants(getString(R.string.plant_sample_ref))
                 setAllFilterColorDefault()
-                binding.filterAll.setTextColor(ContextCompat.getColor(requireContext(),
-                    R.color.theme_color
-                ))
+                when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+                    Configuration.UI_MODE_NIGHT_YES -> {
+                        binding.filterAll.setTextColor(ContextCompat.getColor(requireContext(),
+                            R.color.theme_color_dark))}
+                    Configuration.UI_MODE_NIGHT_NO -> {
+                        binding.filterAll.setTextColor(ContextCompat.getColor(requireContext(),
+                            R.color.dark_green))
+                    }
+                }
                 viewModel.currentFilter = "All"
             }
         }
@@ -201,9 +226,15 @@ class PlantFragment:Fragment() {
                 setupTableRv()
                 viewModel.getTablePlants(getString(R.string.plant_sample_ref))
                 setAllFilterColorDefault()
-                binding.filterTable.setTextColor(ContextCompat.getColor(requireContext(),
-                    R.color.theme_color
-                ))
+                when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+                    Configuration.UI_MODE_NIGHT_YES -> {
+                        binding.filterTable.setTextColor(ContextCompat.getColor(requireContext(),
+                            R.color.theme_color_dark))}
+                    Configuration.UI_MODE_NIGHT_NO -> {
+                        binding.filterTable.setTextColor(ContextCompat.getColor(requireContext(),
+                            R.color.dark_green))
+                    }
+                }
                 viewModel.currentFilter  = "Table"
             }
         }
@@ -212,9 +243,14 @@ class PlantFragment:Fragment() {
                 setupIndoorRv()
                 viewModel.getIndoorPlants(getString(R.string.plant_sample_ref))
                 setAllFilterColorDefault()
-                binding.filterIndoor.setTextColor(ContextCompat.getColor(requireContext(),
-                    R.color.theme_color
-                ))
+                when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+                    Configuration.UI_MODE_NIGHT_YES -> {binding.filterIndoor.setTextColor(ContextCompat.getColor(requireContext(),
+                        R.color.theme_color_dark))}
+                    Configuration.UI_MODE_NIGHT_NO -> {
+                        binding.filterIndoor.setTextColor(ContextCompat.getColor(requireContext(),
+                            R.color.dark_green))
+                    }
+                }
                 viewModel.currentFilter = "Indoor"
             }
         }

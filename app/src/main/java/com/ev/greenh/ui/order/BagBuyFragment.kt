@@ -55,8 +55,6 @@ class BagBuyFragment:Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.readUid()
-
         viewModel.getApiKey(getString(R.string.utils))
 
         viewModel.uid.observe(viewLifecycleOwner, Observer {
@@ -266,6 +264,7 @@ class BagBuyFragment:Fragment() {
         ibCloseDialog.setOnClickListener {
             errorDialog.dismiss()
             (activity as MainActivity).supportFragmentManager.popBackStack()
+
         }
     }
 
@@ -275,13 +274,13 @@ class BagBuyFragment:Fragment() {
         co.setKeyID(apiKey)
         try {
             val options = JSONObject()
-            options.put("name","Razorpay Corp")
-            options.put("description","Demoing Charges")
-            options.put("image","https://s3.amazonaws.com/rzp-mobile/images/rzp.png")
-            options.put("theme.color", "#2F9A5A")
+            options.put("name","Gardners Hub")
+            options.put("description","Pay for plants")
+            options.put("image",R.drawable.app_icon)
+            options.put("theme.color", Color.GREEN)
             options.put("currency","INR")
             options.put("order_id", orderId)
-            options.put("amount",1*100)
+            options.put("amount",amount.toInt()*100)
 
             val retryObj =  JSONObject()
             retryObj.put("enabled", true)
@@ -337,8 +336,9 @@ class BagBuyFragment:Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
+        Log.e("BagBuy", "onDestroyView")
     }
 }
