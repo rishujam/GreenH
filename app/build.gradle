@@ -5,20 +5,25 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.ev.greenh"
         minSdk 26
-        targetSdk 31
-        versionCode 10
-        versionName "1.9"
+        targetSdk 32
+        versionCode 11
+        versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildFeatures{
         viewBinding true
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.3.0"
     }
 
     buildTypes {
@@ -46,7 +51,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx:24.0.1'
     implementation 'com.google.firebase:firebase-storage-ktx:20.0.0'
     implementation 'com.google.firebase:firebase-messaging-ktx:23.0.5'
-    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
@@ -79,4 +83,34 @@ dependencies {
 
     //fragment lifecycle
     implementation 'androidx.fragment:fragment-ktx:1.5.1'
+
+    //compose
+    implementation "androidx.compose.ui:ui:1.2.1"
+    implementation "androidx.compose.material:material:1.2.1"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.2.1"
+
+    //media 3
+    implementation 'androidx.media3:media3-exoplayer:1.0.0-beta02'
+    implementation "androidx.media3:media3-ui:1.0.0-beta02"
+
+    // Local unit tests
+    testImplementation "androidx.test:core:1.4.0"
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1"
+    testImplementation "com.google.truth:truth:1.1.3"
+    testImplementation "com.squareup.okhttp3:mockwebserver:4.9.1"
+    testImplementation "io.mockk:mockk:1.10.5"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:1.1.0-alpha04"
+
+    // Instrumentation tests
+    androidTestImplementation "junit:junit:4.13.2"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1"
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+    androidTestImplementation "com.google.truth:truth:1.1.3"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test:core-ktx:1.4.0'
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:4.9.1"
+    androidTestImplementation "io.mockk:mockk-android:1.10.5"
+    androidTestImplementation 'androidx.test:runner:1.4.0'
 }

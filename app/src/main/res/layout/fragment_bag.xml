@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_order"
         android:drawablePadding="8dp"
-        android:drawableTint="@color/theme_color"
+        android:drawableTint="?attr/colorPrimary"
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
         android:text="Green Bag"

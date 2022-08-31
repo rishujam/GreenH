@@ -97,6 +97,10 @@ class PlantViewModel(
     val cancelOrderReq: LiveData<ViewModelEventWrapper<Resource<Response>>>
         get() = _cancelOrderReq
 
+    private val _videoUrl:MutableLiveData<ViewModelEventWrapper<Resource<String>>> = MutableLiveData()
+    val videoUrl:LiveData<ViewModelEventWrapper<Resource<String>>>
+        get() = _videoUrl
+
     val apiKey:MutableLiveData<ViewModelEventWrapper<Resource<String>>> = MutableLiveData()
 
     val minVersion:MutableLiveData<Resource<Int>> = MutableLiveData()
@@ -240,5 +244,9 @@ class PlantViewModel(
 
     fun getMinVersionToRun(collection: String) = viewModelScope.launch {
         minVersion.value = repository.getMinVersionToRun(collection)
+    }
+
+    fun getPlantVideoUrl(collection:String, plantId: String) = viewModelScope.launch {
+        _videoUrl.value = ViewModelEventWrapper(repository.getPlantVideoUrl(collection, plantId))
     }
 }

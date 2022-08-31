@@ -6,6 +6,7 @@
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-anydpi/ic_back_arrow.xml" value="0.2495" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-anydpi/ic_home.xml" value="0.2495" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-anydpi/ic_logout.xml" value="0.2495" />
+        <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-anydpi/ic_order.xml" value="0.1965" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-anydpi/ic_play.xml" value="0.2545" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-anydpi/ic_verify_phone.xml" value="0.2495" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-anydpi/ic_whatsapp.xml" value="0.2495" />
@@ -13,7 +14,9 @@
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-mdpi/gradient_top_detail.xml" value="0.2015" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable-v24/custom_edittext.xml" value="0.1" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable/back_button_bg.xml" value="0.2545" />
+        <entry key="..\:/rishu/GreenH/app/src/main/res/drawable/bubble.xml" value="0.1965" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable/gradient_sun.xml" value="0.2015" />
+        <entry key="..\:/rishu/GreenH/app/src/main/res/drawable/ic_order_vector.xml" value="0.1965" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable/ic_play_video.xml" value="0.2015" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable/logo_bg.xml" value="0.2005" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/drawable/logo_layer.xml" value="0.2005" />
@@ -37,6 +40,7 @@
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/fragment_plant.xml" value="0.264" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/fragment_plant_detail.xml" value="0.264" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/fragment_plant_details.xml" value="0.264" />
+        <entry key="..\:/rishu/GreenH/app/src/main/res/layout/fragment_plant_video.xml" value="0.264" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/fragment_settings.xml" value="0.25416666666666665" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/fragment_signup.xml" value="0.25416666666666665" />
         <entry key="..\:/rishu/GreenH/app/src/main/res/layout/fragment_table_plants.xml" value="0.25416666666666665" />

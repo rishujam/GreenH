@@ -215,6 +215,7 @@ class SignupFragment:Fragment() {
                     viewModel.saveUserProfile(getString(R.string.user_ref),profile)
                 } else {
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
+                        binding.progressBar.visibility = View.INVISIBLE
                         Toast.makeText(context,"Invalid OTP", Toast.LENGTH_SHORT).show()
                     }
                 }

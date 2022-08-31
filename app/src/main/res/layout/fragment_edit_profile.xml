@@ -111,7 +111,7 @@
                 android:background="@drawable/custom_edittext"
                 android:ems="10"
                 android:gravity="start|top"
-                android:hint="Address"
+                android:hint="Shipping Address"
                 android:textColor="?attr/textColor"
                 android:textColorHint="?attr/textColor"
                 android:inputType="textMultiLine"
@@ -138,15 +138,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etPincode" />
 
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingTop="16dp"
+                android:text="Gender"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etEmailEP" />
+
             <RadioGroup
                 android:id="@+id/rgGender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etEmailEP">
+                app:layout_constraintTop_toBottomOf="@+id/textView18">
 
                 <RadioButton
                     android:id="@+id/rbMale"
@@ -180,7 +190,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView11">

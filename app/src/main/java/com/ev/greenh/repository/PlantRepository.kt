@@ -90,4 +90,8 @@ class PlantRepository(
     suspend fun getMinVersionToRun(collection: String) = safeApiCall {
         source.getMinVersionToRun(collection)
     }
+
+    suspend fun getPlantVideoUrl(collection: String, plantId:String)= safeApiCall {
+        source.getPlantVideoUrl(collection, plantId)
+    }
 }

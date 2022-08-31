@@ -10,6 +10,13 @@ import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.media3.common.C
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.datasource.DefaultDataSource
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.ProgressiveMediaSource
+import androidx.media3.ui.AspectRatioFrameLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -18,6 +25,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentPlantDetailsBinding
 import com.ev.greenh.models.Plant
+import com.ev.greenh.models.uimodels.PlantVideo
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.util.Resource
 import com.ev.greenh.util.visible
@@ -92,7 +100,11 @@ class PlantDetailFragment: Fragment() {
             showDialog()
         }
         binding.playVideo.setOnClickListener {
-            Toast.makeText(context, "No Video Available", Toast.LENGTH_SHORT).show()
+            val bundle = Bundle()
+            bundle.putString("plantId",plantId)
+            val videoFrag = PlantVideoFragment()
+            videoFrag.arguments = bundle
+            (activity as MainActivity).setCurrentFragmentBack(videoFrag)
         }
     }
 
@@ -198,3 +210,4 @@ class PlantDetailFragment: Fragment() {
         }
     }
 }
+

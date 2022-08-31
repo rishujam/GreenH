@@ -24,6 +24,7 @@ import com.ev.greenh.*
 import com.ev.greenh.adapters.PlantAdapter
 import com.ev.greenh.databinding.FragmentPlantBinding
 import com.ev.greenh.firebase.FirestoreSource
+import com.ev.greenh.models.Plant
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.util.Constants
 import com.ev.greenh.util.Constants.VERSION
@@ -172,9 +173,10 @@ class PlantFragment:Fragment() {
 //            val source = FirestoreSource()
 //            CoroutineScope(Dispatchers.IO).launch {
 //                try {
-//                    var no = 50
-//                    while(no<94){
-//                        source.addUrl("s_$no")
+//                    var no = 145
+//                    while(no<146){
+//                        val url = source.getImageUrl("s_$no")
+//                        source.setEmptyPlant(Plant(id = "s_$no", imageLocation = url, store ="Muddy", status = "Available", featureNo = no, category = "Indoor"))
 //                        no++
 //                    }
 //                    withContext(Dispatchers.Main){
@@ -184,7 +186,7 @@ class PlantFragment:Fragment() {
 //                }catch (e:Exception){
 //                    withContext(Dispatchers.Main){
 //                        binding.pbAllPlants.visibility = View.INVISIBLE
-//                        Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(context, "Error: ${e.message} ", Toast.LENGTH_SHORT).show()
 //                    }
 //                }
 //            }

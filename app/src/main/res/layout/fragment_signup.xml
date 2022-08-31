@@ -43,21 +43,6 @@
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-    <TextView
-        android:id="@+id/directToLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="48dp"
-        android:paddingTop="8dp"
-        android:text="Existing Account? Login"
-        android:textColor="@color/white"
-        android:visibility="gone"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignup" />
-
-
     <Button
         android:id="@+id/btnSignup"
         android:layout_width="match_parent"
@@ -94,6 +79,7 @@
             style="@style/TextAppearance.MdcTypographyStyles.Caption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/custom_edittext"
             android:imeOptions="actionNext"
             android:inputType="number"
             android:maxLength="10"
@@ -111,11 +97,10 @@
         android:text="Verify"
         android:visibility="gone"
         android:textColor="#008036"
-        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnResendCode" />
+        app:layout_constraintTop_toBottomOf="@+id/resendTimer" />
 
 
     <ProgressBar
@@ -136,9 +121,9 @@
         android:background="@drawable/custom_edittext"
         android:layout_marginLeft="32dp"
         android:maxLength="1"
-        android:visibility="gone"
         android:inputType="number"
         android:hint=" "
+        android:visibility="gone"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPhone_til" />
@@ -152,8 +137,8 @@
         android:layout_marginLeft="16dp"
         android:maxLength="1"
         android:hint=" "
-        android:visibility="gone"
         android:inputType="number"
+        android:visibility="gone"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@id/etCode1"
         app:layout_constraintTop_toBottomOf="@+id/etPhone_til" />
@@ -197,8 +182,8 @@
         android:layout_marginLeft="16dp"
         android:maxLength="1"
         android:hint=" "
-        android:inputType="number"
         android:visibility="gone"
+        android:inputType="number"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@id/etCode4"
         app:layout_constraintTop_toBottomOf="@+id/etPhone_til" />
@@ -224,8 +209,9 @@
         android:layout_height="wrap_content"
         android:text="Resend Code in"
         android:textStyle="bold"
+        android:paddingTop="16dp"
         android:visibility="gone"
-        android:paddingTop="8dp"
+        android:paddingBottom="16dp"
         app:layout_constraintStart_toStartOf="@+id/etCode1"
         app:layout_constraintTop_toBottomOf="@+id/etCode1" />
 
@@ -236,14 +222,14 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.50" />
 
-    <Button
+    <TextView
         android:id="@+id/btnResendCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#EAF5EF"
-        android:text="Resend"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:text="Resend OTP"
+        android:fontFamily="@font/carmen_bold"
+        android:padding="16dp"
         android:visibility="gone"
         android:textColor="#008036"
         app:layout_constraintStart_toEndOf="@+id/resendTimer"

@@ -4,14 +4,12 @@ import com.ev.greenh.models.*
 import com.ev.greenh.models.uimodels.MyOrder
 import com.ev.greenh.models.uimodels.MyOrderDetail
 import com.ev.greenh.models.uimodels.PlantMyOrder
-import com.ev.greenh.util.Constants.QUERY_PAGE_SIZE
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.google.firestore.v1.DocumentTransform
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
@@ -54,21 +52,7 @@ class FirestoreSource {
 
     suspend fun getSinglePlant(collection: String,id:String): Plant {
         val ref = fireRef.collection(collection).document(id).get().await()
-        val plant = ref.toObject<Plant>()
-        val imageUrl = getHQImageOfPlant(plant!!.id)
-        if(imageUrl!=""){
-            plant.imageLocation = imageUrl
-        }
-        return plant
-    }
-
-    private suspend fun getHQImageOfPlant(plantId:String):String {
-        val ref = fireRef.collection("imageDetailScreen").document(plantId).get().await()
-        return if(ref.exists()){
-            ref["url"].toString()
-        }else{
-            ""
-        }
+        return ref.toObject<Plant>() ?: Plant()
     }
 
     suspend fun addPlantToBag(plantId:String,user:String,collection:String,quantity:String): Response {
@@ -137,19 +121,6 @@ class FirestoreSource {
         val snap = fireRef.collection(collection).document(email).get().await()
         return snap.toObject<Profile>()!!
     }
-
-//    suspend fun updateAddress(collection: String,email:String, address:String,name:String):Response {
-//        //Complete Profile Function and update the completeProfile Boolean.
-//        val response = Response()
-//        return try {
-//            fireRef.collection(collection).document(email).update(mapOf("address" to address, "name" to name, "profileComplete" to true)).await()
-//            response.success =true
-//            response
-//        }catch (e:Exception){
-//            response.errorMsg = e.message
-//            response
-//        }
-//    }
 
     suspend fun placeOrder(order:Order,collection: String):Response{
         val response = Response()
@@ -260,6 +231,11 @@ class FirestoreSource {
             response.errorMsg = it.message
         }.await()
         return response
+    }
+
+    suspend fun getPlantVideoUrl(collection: String, plantId:String):String{
+        val urlSnap = fireRef.collection(collection).document(plantId).get().await()
+        return urlSnap["url"].toString()
     }
 
     suspend fun getNotifyToken(uid:String, collection: String):String{
