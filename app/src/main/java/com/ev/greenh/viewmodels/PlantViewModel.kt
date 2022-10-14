@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.ev.greenh.models.*
 import com.ev.greenh.models.uimodels.MyOrder
 import com.ev.greenh.models.uimodels.MyOrderDetail
@@ -101,9 +103,17 @@ class PlantViewModel(
     val videoUrl:LiveData<ViewModelEventWrapper<Resource<String>>>
         get() = _videoUrl
 
+    private val _allPlantsPaginated:MutableLiveData<PagingData<Plant>> = MutableLiveData()
+    val allPlantsPaginated:LiveData<PagingData<Plant>>
+        get() = _allPlantsPaginated
+
     val apiKey:MutableLiveData<ViewModelEventWrapper<Resource<String>>> = MutableLiveData()
 
     val minVersion:MutableLiveData<Resource<Int>> = MutableLiveData()
+
+    fun getAllPlantsPaginated(){
+        _allPlantsPaginated.value = repository.getAllPlantsPaging().cachedIn(viewModelScope).value
+    }
 
     fun getAllPlants(collection: String) = viewModelScope.launch {
         plants.postValue(Resource.Loading())

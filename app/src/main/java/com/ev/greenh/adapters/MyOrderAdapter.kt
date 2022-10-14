@@ -20,7 +20,7 @@ class MyOrderAdapter(
             binding.myOrder.setOnClickListener(this)
         }
         override fun onClick(p0: View?) {
-            val pos  = adapterPosition
+            val pos  = bindingAdapterPosition
             val orderId = list[pos].orderId
             if(pos!=RecyclerView.NO_POSITION){
                 listener.onOrderClick(orderId)
