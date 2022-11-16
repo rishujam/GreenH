@@ -46,7 +46,7 @@
             android:fontFamily="@font/carmen_bold"
             android:paddingLeft="16dp"
             android:paddingBottom="8dp"
-            android:text="Cactus H"
+            android:text=""
             android:paddingRight="8dp"
             android:textColor="@color/white"
             android:textSize="14sp"
@@ -55,26 +55,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/thumbnail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="id"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="id"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
