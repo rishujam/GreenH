@@ -15,6 +15,7 @@ import com.ev.greenh.repository.AuthRepository
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.viewmodels.AuthViewModel
 import com.ev.greenh.viewmodels.ViewModelFactory
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 
 class AuthActivity : AppCompatActivity() {
