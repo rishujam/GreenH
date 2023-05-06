@@ -12,6 +12,10 @@
         android:title="Bag"
         android:icon="@drawable/ic_order" />
     <item
+        android:id="@+id/imScanner"
+        android:title="Scan"
+        android:icon="@drawable/ic_scanner"/>
+    <item
         android:id="@+id/imOrder"
         android:title="Orders"
         android:icon="@drawable/ic_order_vector" />
