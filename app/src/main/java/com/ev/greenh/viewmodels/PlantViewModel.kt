@@ -122,20 +122,24 @@ class PlantViewModel(
     }
 
     private fun handlePlantsResponse(response: Resource<Plants>) : Resource<Plants> {
-        response.data?.let {
-            plantsPage++
-            if(plantsResponse==null){
-                plantsResponse = it
-                lastFeatureNoAll = it.plants[it.plants.lastIndex].featureNo
-            }else{
-                val oldPlants = plantsResponse?.plants
-                val newPlants = it.plants
-                oldPlants?.addAll(newPlants)
-                lastFeatureNoAll = oldPlants!![oldPlants.lastIndex].featureNo
+        response.data?.let {//TODO added temporarily needed to be handled
+            try {
+                plantsPage++
+                if(plantsResponse==null){
+                    plantsResponse = it
+                    lastFeatureNoAll = it.plants[it.plants.lastIndex].featureNo
+                }else{
+                    val oldPlants = plantsResponse?.plants
+                    val newPlants = it.plants
+                    oldPlants?.addAll(newPlants)
+                    lastFeatureNoAll = oldPlants!![oldPlants.lastIndex].featureNo
+                }
+                return Resource.Success(plantsResponse ?:it)
+            } catch (e: Exception) {
+                return Resource.Error("")
             }
-            return Resource.Success(plantsResponse ?:it)
         }
-        return Resource.Error(response.message)
+        return Resource.Error("")
     }
 
     fun getIndoorPlants(collection: String) = viewModelScope.launch {

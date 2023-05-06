@@ -163,7 +163,7 @@ class PlantFragment:Fragment() {
                 }
                 is Resource.Error ->{
                     hideProgressBar()
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
                 }
             }
         })
