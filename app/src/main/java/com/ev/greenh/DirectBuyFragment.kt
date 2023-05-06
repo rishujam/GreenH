@@ -63,9 +63,9 @@ class DirectBuyFragment : Fragment() {
         viewModel.readUid()
 
         viewModel.uid.observe(viewLifecycleOwner, Observer {
-            when (it.getContentIfNotHandled()) {
+            when (it) {
                 is Resource.Success -> {
-                    val user = it.peekContent().data
+                    val user = it.data
                     if(user!=null){
                         viewModel.getUserDetails(getString(R.string.user_ref), user)
                     }
@@ -73,7 +73,7 @@ class DirectBuyFragment : Fragment() {
                 is Resource.Loading -> {}
                 is Resource.Error -> {
                     Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
-                    Log.e("DirectBuy:email", it.peekContent().message.toString())
+                    Log.e("DirectBuy:email", it.message.toString())
                 }
                 else ->{}
             }

@@ -159,17 +159,19 @@ class PlantViewModel(
 
     private fun handlePlantsTableResponse(response: Resource<Plants>) : Resource<Plants> {
         response.data?.let {
-            plantsTablePage++
-            if(plantsTableResponse==null){
-                plantsTableResponse = it
-                lastFeatureNoTable = it.plants[it.plants.lastIndex].featureNo
-            }else{
-                val oldPlantsByCategory = plantsTableResponse?.plants
-                val newPlantsByCategory = it.plants
-                oldPlantsByCategory?.addAll(newPlantsByCategory)
-                lastFeatureNoTable = oldPlantsByCategory!![oldPlantsByCategory.lastIndex].featureNo
-            }
-            return Resource.Success(plantsTableResponse ?:it)
+            try { //TODO added it just to hide crash at table plants need to work on this
+                plantsTablePage++
+                if(plantsTableResponse==null){
+                    plantsTableResponse = it
+                    lastFeatureNoTable = it.plants[it.plants.lastIndex].featureNo
+                }else{
+                    val oldPlantsByCategory = plantsTableResponse?.plants
+                    val newPlantsByCategory = it.plants
+                    oldPlantsByCategory?.addAll(newPlantsByCategory)
+                    lastFeatureNoTable = oldPlantsByCategory!![oldPlantsByCategory.lastIndex].featureNo
+                }
+                return Resource.Success(plantsTableResponse ?:it)
+            } catch (_:Exception) { }
         }
         return Resource.Error(response.message)
     }
