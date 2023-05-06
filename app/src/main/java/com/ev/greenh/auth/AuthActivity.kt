@@ -15,7 +15,6 @@ import com.ev.greenh.repository.AuthRepository
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.viewmodels.AuthViewModel
 import com.ev.greenh.viewmodels.ViewModelFactory
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 
 class AuthActivity : AppCompatActivity() {
@@ -26,7 +25,7 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding  = ActivityAuthBinding.inflate(layoutInflater)
+        binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val signupFragment = SignupFragment()
         setCurrentFragment(signupFragment)
@@ -34,22 +33,22 @@ class AuthActivity : AppCompatActivity() {
         //Setting viewModel
         auth = FirebaseAuth.getInstance()
         val authSource = AuthSource(auth)
-        val repo = AuthRepository(authSource,(application as GreenApp).userPreferences)
+        val repo = AuthRepository(authSource, (application as GreenApp).userPreferences)
         val factory = ViewModelFactory(repo)
-        viewModel = ViewModelProvider(this,factory)[AuthViewModel::class.java]
+        viewModel = ViewModelProvider(this, factory)[AuthViewModel::class.java]
         //end setting up viewModel
     }
 
-    fun setCurrentFragment(fragment: Fragment)=
+    fun setCurrentFragment(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.flAuth,fragment)
+            replace(R.id.flAuth, fragment)
             commit()
         }
 
 
-    fun setCurrentFragmentBack(fragment:Fragment)=
+    fun setCurrentFragmentBack(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.flAuth,fragment)
+            replace(R.id.flAuth, fragment)
             addToBackStack("b")
             commit()
         }
@@ -60,18 +59,24 @@ class AuthActivity : AppCompatActivity() {
         checkLoginState()
     }
 
-    private fun setDisplayMode(){
+    private fun setDisplayMode() {
         val nightModeFlags: Int = resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK
         when (nightModeFlags) {
-            Configuration.UI_MODE_NIGHT_YES -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            Configuration.UI_MODE_NIGHT_NO -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            Configuration.UI_MODE_NIGHT_UNDEFINED -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            Configuration.UI_MODE_NIGHT_YES -> AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_YES
+            )
+            Configuration.UI_MODE_NIGHT_NO -> AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_NO
+            )
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            )
         }
     }
 
-    private fun checkLoginState(){
-        if(auth.currentUser!=null){
+    private fun checkLoginState() {
+        if (auth.currentUser != null) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
