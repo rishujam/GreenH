@@ -1,13 +1,17 @@
 package com.ev.greenh.repository
 
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.liveData
 import com.ev.greenh.firebase.FirestoreSource
 import com.ev.greenh.localdatastore.UserPreferences
 import com.ev.greenh.models.Order
 import com.ev.greenh.models.Profile
+import com.ev.greenh.pagging.PlantsPagingSource
 import com.ev.greenh.razorpayapi.RazorpayInstance
+import com.ev.greenh.util.Constants.QUERY_PAGE_SIZE
 import com.ev.greenh.util.Resource
-
 
 class PlantRepository(
     private val source: FirestoreSource,
@@ -22,6 +26,11 @@ class PlantRepository(
     suspend fun getAllPlants(collection:String, page:Int, lastFeatureNo: Int) = safeApiCall{
         source.getAllPlants(collection,page, lastFeatureNo)
     }
+
+    fun getAllPlantsPaging() = Pager(
+        config = PagingConfig(pageSize = QUERY_PAGE_SIZE, maxSize = 100),
+        pagingSourceFactory = { PlantsPagingSource(source) }
+    ).liveData
 
     suspend fun getPlantsByCategory(collection: String, category:String, lastFeatureNo:Int) = safeApiCall {
         source.getPlantsByCategory(collection, category, lastFeatureNo)
