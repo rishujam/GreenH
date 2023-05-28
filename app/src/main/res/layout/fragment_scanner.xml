@@ -2,41 +2,127 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	xmlns:app="http://schemas.android.com/apk/res-auto">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+	
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Plant Scanner"
+		android:textSize="18sp"
+		android:drawableStart="@drawable/ic_back_arrow"
+		android:drawableTint="@color/dark_green"
+		android:drawablePadding="16dp"
+		android:paddingStart="16dp"
+		android:paddingTop="16dp"
+		android:textColor="@color/dark_green"
+		android:textStyle="bold"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"/>
 
-	<ImageView
-		android:id="@+id/ivSelectedImage"
-		android:layout_width="200dp"
-		android:layout_height="200dp"
+	<androidx.cardview.widget.CardView
+		android:id="@+id/cdSelectedImage"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:cardCornerRadius="8dp"
 		android:layout_marginBottom="16dp"
-		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintBottom_toTopOf="@+id/btnScan"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent">
+
+		<ImageView
+			android:id="@+id/ivSelectedImage"
+			android:layout_width="200dp"
+			android:layout_height="200dp"
+			android:background="@color/grey"/>
+
+		<TextView
+			android:id="@+id/btnSelectImage"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:text="Select Image"
+			android:textSize="18sp"
+			android:textStyle="bold"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
+	</androidx.cardview.widget.CardView>
+
+
+	<Button
+		android:id="@+id/btnScan"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="16dp"
+		android:paddingHorizontal="32dp"
+		android:text="Scan"
+		android:textAllCaps="false"
+		app:layout_constraintEnd_toEndOf="@+id/cdSelectedImage"
+		app:layout_constraintStart_toStartOf="@+id/cdSelectedImage"
 		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintBottom_toBottomOf="parent"/>
+
+	<androidx.constraintlayout.widget.Group
+		android:id="@+id/groupResult"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:constraint_referenced_ids="circularProgressBar, tvConfidence, tvDisease" />
+
+	<com.mikhaellopez.circularprogressbar.CircularProgressBar
+		android:id="@+id/circularProgressBar"
+		android:layout_width="64dp"
+		android:layout_height="64dp"
+		app:cpb_background_progressbar_color="@color/grey"
+		app:cpb_background_progressbar_width="5dp"
+		app:cpb_progress_direction="to_right"
+		app:cpb_progressbar_color="@color/dark_green"
+		app:cpb_progressbar_width="10dp"
+		android:layout_marginTop="32dp"
+		app:cpb_round_border="false"
+		app:layout_constraintTop_toBottomOf="@id/btnScan"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"/>
 
 	<TextView
+		android:id="@+id/tvConfidence"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Select Image"
-		android:textSize="18sp"
-		android:textStyle="bold"
+		tools:text="98% Confidence"
+		android:textColor="@color/black"
+		android:textSize="16sp"
+		android:layout_marginTop="8dp"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintBottom_toBottomOf="parent"/>
+		app:layout_constraintTop_toBottomOf="@id/circularProgressBar"/>
 
-	<Button
-		android:id="@+id/btnScan"
+	<TextView
+		android:id="@+id/tvDisease"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Scan"
-		android:paddingHorizontal="32dp"
-		android:textAllCaps="false"
+		tools:text="Disease Detected: Tomato mosiac"
+		android:textColor="@color/black"
+		android:textSize="16sp"
+		android:textStyle="bold"
+		app:layout_constraintTop_toBottomOf="@id/tvConfidence"
+		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintTop_toBottomOf="@id/ivSelectedImage"
-		android:layout_marginTop="16dp"
-		android:layout_marginEnd="16dp"/>
+		android:layout_marginTop="8dp"/>
 
+	<ProgressBar
+		android:id="@+id/pbScanner"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="64dp"
+		android:elevation="2dp"
+		android:visibility="gone"
+		android:indeterminateTint="@color/dark_green"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintTop_toTopOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
