@@ -115,19 +115,19 @@ class ScannerFragment : Fragment() {
     private fun getResult(context: Context) {
         pickedImage?.let {
             val bitmap = Bitmap.createScaledBitmap(it, 256, 256, false)
-            val input = ByteBuffer.allocateDirect(256 * 256 * 3 * 4).order(ByteOrder.nativeOrder())
+            val input = ByteBuffer.allocateDirect(1 * 256 * 256 * 3 * 4).order(ByteOrder.nativeOrder())
             for (y in 0 until 256) {
                 for (x in 0 until 256) {
                     val px = bitmap.getPixel(x, y)
                     val r = Color.red(px)
                     val g = Color.green(px)
                     val b = Color.blue(px)
-                    input.putInt(r)
-                    input.putInt(g)
-                    input.putInt(b)
+                    input.putFloat(r.toFloat())
+                    input.putFloat(g.toFloat())
+                    input.putFloat(b.toFloat())
                 }
             }
-            val bufferSize = 38 * 32 / java.lang.Byte.SIZE
+            val bufferSize = 1 * 38 * 32 / java.lang.Byte.SIZE
             val modelOutput = ByteBuffer.allocateDirect(bufferSize).order(ByteOrder.nativeOrder())
 
             val assetManager = context.assets
@@ -142,36 +142,36 @@ class ScannerFragment : Fragment() {
             val tfLite = Interpreter(tfliteModel)
             tfLite.run(input, modelOutput)
             modelOutput.rewind()
-            Log.d("RishuTest", "${modelOutput.get(0)}, ${modelOutput.get(30)}")
-//            val outputProb = hashMapOf<Float, Int>()
-//            val probabilities = modelOutput.asFloatBuffer()
-//            var x = 0
-//            while (x < 38) {
-//                val value = probabilities.get(x)
-//                Log.d("RishuTest", "$x: $value")
-//                outputProb[value] = x
-//                x++
-//            }
-//            val result = outputProb.toSortedMap()
-//            val confidence1 = result.keys.toList()[37]
-//            val confidence2 = result.keys.toList()[36]
-//            val confidence3 = result.keys.toList()[35]
-//
-//            val conf1Index = result[confidence1]
-//            val conf2Index = result[confidence2]
-//            val conf3Index = result[confidence3]
-//
-//            val disease1 = hashDisease[conf1Index]
-//            val disease2 = hashDisease[conf2Index]
-//            val disease3 = hashDisease[conf3Index]
-//
-//            Log.d("RishuTest", "${disease1}: $confidence1")
-//            Log.d("RishuTest", "${disease2}: $confidence2")
-//            Log.d("RishuTest", "${disease3}: $confidence3")
-//
-//            val outputString = "${disease1}: ${confidence1 * 100}" + "${disease2}: ${confidence2 * 100}" + "${disease3}: ${confidence3 * 100}"
-//            binding?.tvDisease?.visibility = View.VISIBLE
-//            binding?.tvDisease?.text = outputString
+            val outputProb = hashMapOf<Float, Int>()
+            val probabilities = modelOutput.asFloatBuffer()
+            var x = 0
+            while (x < 38) {
+                val value = probabilities.get(x)
+                Log.d("RishuTest", "$x: $value")
+                outputProb[value] = x
+                x++
+            }
+            tfLite.close()
+            val result = outputProb.toSortedMap()
+            val confidence1 = result.keys.toList()[37]
+            val confidence2 = result.keys.toList()[36]
+            val confidence3 = result.keys.toList()[35]
+
+            val conf1Index = result[confidence1]
+            val conf2Index = result[confidence2]
+            val conf3Index = result[confidence3]
+
+            val disease1 = hashDisease[conf1Index]
+            val disease2 = hashDisease[conf2Index]
+            val disease3 = hashDisease[conf3Index]
+
+            Log.d("RishuTest", "${disease1}: $confidence1")
+            Log.d("RishuTest", "${disease2}: $confidence2")
+            Log.d("RishuTest", "${disease3}: $confidence3")
+
+            val outputString = "${disease1}: ${confidence1 * 100}" + "${disease2}: ${confidence2 * 100}" + "${disease3}: ${confidence3 * 100}"
+            binding?.tvDisease?.visibility = View.VISIBLE
+            binding?.tvDisease?.text = outputString
             binding?.pbScanner?.visibility = View.GONE
         }
 
