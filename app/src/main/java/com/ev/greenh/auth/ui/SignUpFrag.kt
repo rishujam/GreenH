@@ -22,11 +22,21 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.ev.greenh.GreenApp
+//import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ev.greenh.R
 import com.ev.greenh.auth.AuthActivity
+import com.ev.greenh.auth.SignUpViewModel
 import com.ev.greenh.auth.ui.composable.PhoneView
 import com.ev.greenh.auth.ui.composable.SignUpBrandingView
+import com.ev.greenh.auth.ui.composable.SignUpScreen
 import com.ev.greenh.databinding.SignUpFragBinding
+import com.ev.greenh.firebase.AuthSource
+import com.ev.greenh.repository.AuthRepository
+import com.ev.greenh.viewmodels.AuthViewModel
+import com.ev.greenh.viewmodels.ViewModelFactory
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 
 /*
@@ -35,8 +45,9 @@ import kotlinx.coroutines.delay
 
 class SignUpFrag : Fragment() {
 
-    private var _binding: SignUpFragBinding?=null
+    private var _binding: SignUpFragBinding? = null
     private val binding get() = _binding
+    private lateinit var viewModel: SignUpViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +55,10 @@ class SignUpFrag : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = SignUpFragBinding.inflate(inflater, container, false)
+        val authSource = AuthSource(FirebaseAuth.getInstance())
+        val repo = AuthRepository(authSource,(activity?.application as GreenApp).userPreferences)
+        val factory = ViewModelFactory(repo)
+        viewModel = ViewModelProvider(this,factory)[SignUpViewModel::class.java]
         return binding?.root
     }
 
@@ -52,30 +67,7 @@ class SignUpFrag : Fragment() {
 
         binding?.signUpFragComposeView?.setContent {
             Surface(modifier = Modifier.fillMaxSize()) {
-                var isVisible by remember {
-                    mutableStateOf(false)
-                }
-                AnimatedVisibility(
-                    visible = isVisible,
-                    enter = slideInVertically() + fadeIn(),
-                    exit = slideOutVertically() + fadeOut()
-                ) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            SignUpBrandingView()
-                        }
-                    }
-                }
-                LaunchedEffect(Unit) {
-                    delay(300)
-                    isVisible = true
-                }
+                SignUpScreen(viewModel)
             }
         }
 
@@ -92,7 +84,6 @@ class SignUpFrag : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 
 
 }
