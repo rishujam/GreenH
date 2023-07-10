@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ev.greenh.GreenApp
 import com.ev.greenh.R
+import com.ev.greenh.auth.ui.SignUpFrag
 import com.ev.greenh.databinding.ActivityAuthBinding
 import com.ev.greenh.firebase.AuthSource
 import com.ev.greenh.repository.AuthRepository
@@ -28,8 +29,8 @@ class AuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding  = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val signupFragment = SignupFragment()
-        setCurrentFragment(signupFragment)
+        val signupFragment = SignUpFrag()
+        setCurrentFragment(signupFragment, R.id.flAuth)
 
         //Setting viewModel
         auth = FirebaseAuth.getInstance()
@@ -40,11 +41,18 @@ class AuthActivity : AppCompatActivity() {
         //end setting up viewModel
     }
 
-    fun setCurrentFragment(fragment: Fragment)=
+    fun setCurrentFragment(fragment: Fragment, frame: Int)=
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.flAuth,fragment)
+            replace(frame,fragment)
             commit()
         }
+
+//    fun setCurrentFragment(fragment: Fragment, frame: Int, startAnim: Int, endAnim: Int) =
+//        supportFragmentManager.beginTransaction().apply {
+//            setCustomAnimations(startAnim, endAnim)
+//            replace(frame, fragment)
+//            commit()
+//        }
 
 
     fun setCurrentFragmentBack(fragment:Fragment)=
