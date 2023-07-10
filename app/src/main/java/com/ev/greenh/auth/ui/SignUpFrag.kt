@@ -33,6 +33,7 @@ class SignUpFrag : Fragment() {
         val verifyPhoneFragment = VerifyPhoneFragment()
         val enterPhoneFragment = EnterPhoneFragment()
 
+
         (activity as AuthActivity).setCurrentFragment(
             enterPhoneFragment,
             R.id.flAuthFrag
