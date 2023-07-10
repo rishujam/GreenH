@@ -70,14 +70,6 @@ class SignUpFrag : Fragment() {
                 SignUpScreen(viewModel)
             }
         }
-
-        val verifyPhoneFragment = VerifyPhoneFragment()
-        val enterPhoneFragment = EnterPhoneFragment()
-
-        (activity as AuthActivity).setCurrentFragment(
-            enterPhoneFragment,
-            R.id.flAuthFrag
-        )
     }
 
     override fun onDestroyView() {
