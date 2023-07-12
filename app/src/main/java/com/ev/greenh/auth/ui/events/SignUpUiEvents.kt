@@ -8,5 +8,6 @@ import com.ev.greenh.auth.ui.states.SignUpProgress
 
 sealed class SignUpUiEvents {
     data class ShowToast(val message: String) : SignUpUiEvents()
-    data class ScreenChanged(val screen: SignUpProgress): SignUpUiEvents()
+    data class ScreenChanged(val screen: SignUpProgress) : SignUpUiEvents()
+    data class Loading(val isLoading: Boolean) : SignUpUiEvents()
 }

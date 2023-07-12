@@ -1,6 +1,7 @@
 package com.ev.greenh.auth.ui.composable
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -12,11 +13,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.ev.greenh.auth.ui.SignUpViewModel
@@ -41,26 +44,45 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
     var isVisibleBranding by remember {
         mutableStateOf(false)
     }
+    var isVisiblePhoneView by remember {
+        mutableStateOf(false)
+    }
+    var isVisibleVerifyView by remember {
+        mutableStateOf(false)
+    }
+    var isVisibleProgress by remember {
+        mutableStateOf(false)
+    }
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
-            when(event) {
+            when (event) {
                 is SignUpUiEvents.ShowToast -> {
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message
                     )
                 }
+
                 is SignUpUiEvents.ScreenChanged -> {
-                    when(event.screen) {
+                    when (event.screen) {
                         is SignUpProgress.VerifyPhoneStage -> {
-
+                            Log.d("RishuTest", "onVerifyPhoneStage")
+                            isVisiblePhoneView = false
+                            isVisibleVerifyView = true
                         }
+
                         is SignUpProgress.EnterPhoneStage -> {
-
+                            isVisibleVerifyView = false
+                            isVisiblePhoneView = true
                         }
-                        is SignUpProgress.VerifiedPhoneStage -> {
 
+                        is SignUpProgress.VerifiedPhoneStage -> {
+                            //Navigate to new activity
                         }
                     }
+                }
+
+                is SignUpUiEvents.Loading -> {
+                    isVisibleProgress = event.isLoading
                 }
             }
         }
@@ -68,6 +90,18 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
+        AnimatedVisibility(
+            visible = isVisibleProgress,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator()
+            }
+        }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -91,9 +125,6 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
                 isVisibleBranding = true
             }
         }
-        var isVisiblePhoneView by remember {
-            mutableStateOf(false)
-        }
         AnimatedVisibility(
             visible = isVisiblePhoneView,
             enter = slideInVertically(
@@ -108,6 +139,17 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
         LaunchedEffect(Unit) {
             delay(300)
             isVisiblePhoneView = true
+        }
+        AnimatedVisibility(
+            visible = isVisibleVerifyView,
+            enter = slideInVertically(
+                initialOffsetY = {
+                    it / 2
+                }
+            ) + fadeIn(),
+            exit = fadeOut()
+        ) {
+            VerifyPhoneView()
         }
     }
 }

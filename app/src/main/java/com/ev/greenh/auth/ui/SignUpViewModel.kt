@@ -1,5 +1,6 @@
 package com.ev.greenh.auth.ui
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
@@ -30,7 +31,7 @@ class SignUpViewModel(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    private val _state = mutableStateOf<SignUpState>(SignUpState())
+    private val _state = mutableStateOf(SignUpState())
     val state: State<SignUpState> = _state
 
     private val _eventFlow = MutableSharedFlow<SignUpUiEvents>()
@@ -49,20 +50,27 @@ class SignUpViewModel(
 
     fun onEvent(event: SignUpEvents) {
         when (event) {
-            is SignUpEvents.Next -> {
-                _state.value = state.value.copy(
-                    isLoading = true
-                )
+            is SignUpEvents.NextClick -> {
+                viewModelScope.launch {
+                    _eventFlow.emit(SignUpUiEvents.Loading(true))
+                }
             }
 
             is SignUpEvents.OtpOption -> {
-                _state.value = state.value.copy(
-                    isLoading = false
-                )
-                event.options
+                if(event.options != null) {
+                    _state.value = state.value.copy(
+                        phoneNo = event.phone.toString()
+                    )
+                    PhoneAuthProvider.verifyPhoneNumber(event.options)
+                } else {
+                    viewModelScope.launch {
+                        _eventFlow.emit(SignUpUiEvents.Loading(false))
+                        _eventFlow.emit(SignUpUiEvents.ShowToast("Error in building options"))
+                    }
+                }
             }
 
-            is SignUpEvents.Verify -> {
+            is SignUpEvents.VerifyClick -> {
 
             }
 
@@ -73,18 +81,6 @@ class SignUpViewModel(
             is SignUpEvents.WrongNo -> {
 
             }
-
-            is SignUpEvents.Loading -> {
-                _state.value = state.value.copy(
-                    isLoading = true
-                )
-            }
-
-            is SignUpEvents.NotLoading -> {
-                _state.value = state.value.copy(
-                    isLoading = false
-                )
-            }
         }
     }
 
@@ -93,10 +89,10 @@ class SignUpViewModel(
         override fun onVerificationCompleted(credential: PhoneAuthCredential) {}
 
         override fun onVerificationFailed(e: FirebaseException) {
-            _state.value = state.value.copy(
-                isLoading = false
-            )
-            _eventFlow.tryEmit(SignUpUiEvents.ShowToast("Error"))
+            viewModelScope.launch {
+                _eventFlow.emit(SignUpUiEvents.Loading(false))
+                _eventFlow.emit(SignUpUiEvents.ShowToast("Error"))
+            }
         }
 
         override fun onCodeSent(
@@ -105,9 +101,10 @@ class SignUpViewModel(
         ) {
             resendToken = token
             verifyId = verificationId
-            _eventFlow.tryEmit(SignUpUiEvents.ScreenChanged(SignUpProgress.VerifyPhoneStage))
-            //TODO - Show otp textfields and hide phone enter view, Request focus to first otp textfield, hide progress bar
-            //TODO - Start resend otp timer
+            viewModelScope.launch {
+                _eventFlow.emit(SignUpUiEvents.Loading(false))
+                _eventFlow.emit(SignUpUiEvents.ScreenChanged(SignUpProgress.VerifyPhoneStage))
+            }
         }
     }
 

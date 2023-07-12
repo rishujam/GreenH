@@ -89,12 +89,13 @@ fun PhoneView(viewModel: SignUpViewModel) {
                     modifier = Modifier
                         .fillMaxWidth(),
                     onClick = {
-                        viewModel.onEvent(SignUpEvents.Next)
-                        val options = buildOptionsForPhoneVerification(viewModel, phoneNoText, context)
-                        if(options != null) {
-                            viewModel.onEvent(SignUpEvents.OtpOption(options, null))
+                        viewModel.onEvent(SignUpEvents.NextClick)
+                        val options =
+                            buildOptionsForPhoneVerification(viewModel, phoneNoText, context)
+                        if (options != null) {
+                            viewModel.onEvent(SignUpEvents.OtpOption(options, null, phoneNoText))
                         } else {
-                            viewModel.onEvent(SignUpEvents.OtpOption(null, "Invalid number"))
+                            viewModel.onEvent(SignUpEvents.OtpOption(null, "Invalid number", null))
                         }
                     },
                     shape = RoundedCornerShape(8.dp),
@@ -119,7 +120,7 @@ private fun buildOptionsForPhoneVerification(
     phone: String,
     context: Context
 ): PhoneAuthOptions? {
-    if(phone.length == 10) {
+    if (phone.length == 10) {
         return PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
             .setPhoneNumber("+91$phone")
             .setTimeout(60L, TimeUnit.SECONDS)

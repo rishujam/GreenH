@@ -7,11 +7,10 @@ import com.google.firebase.auth.PhoneAuthOptions
  */
 
 sealed class SignUpEvents {
-    object Next : SignUpEvents()
-    data class Verify(val otp: String) : SignUpEvents()
+    object NextClick : SignUpEvents()
+    data class VerifyClick(val otp: String) : SignUpEvents()
     data class ResendOtp(val phoneNo: String) : SignUpEvents()
     object WrongNo : SignUpEvents()
-    object Loading : SignUpEvents()
-    object NotLoading : SignUpEvents()
-    data class OtpOption(val options: PhoneAuthOptions?, val message: String?) : SignUpEvents()
+    data class OtpOption(val options: PhoneAuthOptions?, val message: String?, val phone: String?) :
+        SignUpEvents()
 }
