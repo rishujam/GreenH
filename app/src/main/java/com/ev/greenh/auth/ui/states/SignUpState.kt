@@ -5,6 +5,5 @@ package com.ev.greenh.auth.ui.states
  */
 
 data class SignUpState(
-    var phoneNo: String = "",
-    var otp: String = ""
+    var phoneNo: String = ""
 )

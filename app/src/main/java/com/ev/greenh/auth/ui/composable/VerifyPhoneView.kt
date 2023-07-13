@@ -1,5 +1,6 @@
 package com.ev.greenh.auth.ui.composable
 
+import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
@@ -50,7 +52,12 @@ import com.ev.greenh.commonui.DarkGreen
 import com.ev.greenh.commonui.DefaultTextColor
 import com.ev.greenh.commonui.LightBgGreen
 import com.ev.greenh.commonui.MediumGreen
+import com.ev.greenh.util.findActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.PhoneAuthOptions
+import com.google.firebase.auth.PhoneAuthProvider
 import kotlinx.coroutines.delay
+import java.util.concurrent.TimeUnit
 
 /*
  * Created by Sudhanshu Kumar on 06/07/23.
@@ -70,7 +77,7 @@ fun VerifyPhoneView(viewModel: SignUpViewModel) {
     }
     LaunchedEffect(key1 = false) {
         while (true) {
-            if(timer != 0) {
+            if (timer != 0) {
                 delay(1000L)
                 timer--
             } else {
@@ -79,6 +86,7 @@ fun VerifyPhoneView(viewModel: SignUpViewModel) {
             }
         }
     }
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -147,7 +155,15 @@ fun VerifyPhoneView(viewModel: SignUpViewModel) {
             ) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        viewModel.onEvent(
+                            SignUpEvents.VerifyClick(
+                                otpValue,
+                                context.getString(R.string.user_ref),
+                                context.getString(R.string.token)
+                            )
+                        )
+                    },
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = LightBgGreen,
@@ -173,7 +189,7 @@ fun VerifyPhoneView(viewModel: SignUpViewModel) {
                 fontSize = 14.sp,
                 color = DefaultTextColor
             )
-            if(!isResendBtnVisible) {
+            if (!isResendBtnVisible) {
                 Text(
                     modifier = Modifier.padding(start = 8.dp, top = 16.dp),
                     text = "Resend in $timer sec",
@@ -181,11 +197,12 @@ fun VerifyPhoneView(viewModel: SignUpViewModel) {
                     fontSize = 14.sp,
                 )
             }
-            if(isResendBtnVisible) {
+            if (isResendBtnVisible) {
                 ClickableText(
                     modifier = Modifier.padding(start = 8.dp, top = 16.dp),
                     onClick = {
-                        viewModel.onEvent(SignUpEvents.ResendOtp)
+                        val options = buildResendOtpOptions(viewModel, context)
+                        viewModel.onEvent(SignUpEvents.ResendOtp(options))
                     },
                     text = AnnotatedString("Resend OTP"),
                     style = TextStyle(
@@ -198,4 +215,22 @@ fun VerifyPhoneView(viewModel: SignUpViewModel) {
         }
 
     }
+}
+
+private fun buildResendOtpOptions(
+    viewModel: SignUpViewModel,
+    context: Context
+): PhoneAuthOptions? {
+    val resendToken = viewModel.resendToken
+    val phone = viewModel.state.value.phoneNo
+    if (phone.length == 10 && resendToken != null) {
+        return PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
+            .setPhoneNumber("+91$phone")
+            .setTimeout(60L, TimeUnit.SECONDS)
+            .setActivity(context.findActivity())
+            .setCallbacks(viewModel.callbacks)
+            .setForceResendingToken(resendToken)
+            .build()
+    }
+    return null
 }

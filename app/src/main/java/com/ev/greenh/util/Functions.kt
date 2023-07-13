@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.view.View
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 
 fun<A :Activity> Activity.startNewActivity(activity:Class<A>){
     Intent(this,activity).also {

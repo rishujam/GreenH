@@ -1,6 +1,7 @@
 package com.ev.greenh.auth.ui.composable
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -30,6 +31,7 @@ import com.ev.greenh.auth.ui.SignUpViewModel
 import com.ev.greenh.auth.ui.events.SignUpUiEvents
 import com.ev.greenh.auth.ui.states.SignUpProgress
 import com.ev.greenh.commonui.MediumGreen
+import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.util.findActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthOptions
@@ -58,6 +60,7 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
     var isVisibleProgress by remember {
         mutableStateOf(false)
     }
+    val context = LocalContext.current
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
@@ -80,7 +83,9 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
                         }
 
                         is SignUpProgress.VerifiedPhoneStage -> {
-                            //Navigate to new activity
+                            val activity = context.findActivity()
+                            activity.startActivity(Intent(context, MainActivity::class.java))
+                            activity.finish()
                         }
                     }
                 }
