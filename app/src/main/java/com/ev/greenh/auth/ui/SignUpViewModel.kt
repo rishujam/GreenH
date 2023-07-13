@@ -3,8 +3,6 @@ package com.ev.greenh.auth.ui
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ev.greenh.auth.ui.events.SignUpEvents
@@ -12,13 +10,17 @@ import com.ev.greenh.auth.ui.events.SignUpUiEvents
 import com.ev.greenh.auth.ui.states.SignUpProgress
 import com.ev.greenh.auth.ui.states.SignUpState
 import com.ev.greenh.models.Profile
-import com.ev.greenh.models.Response
 import com.ev.greenh.repository.AuthRepository
+import com.ev.greenh.services.FirebaseNotify
 import com.ev.greenh.util.Resource
 import com.ev.greenh.util.ViewModelEventWrapper
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -37,16 +39,9 @@ class SignUpViewModel(
     private val _eventFlow = MutableSharedFlow<SignUpUiEvents>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    private val _authResponse: MutableLiveData<Resource<Response>> = MutableLiveData()
-    val authResponse: LiveData<Resource<Response>>
-        get() = _authResponse
-
-    private val _saveProfileRes: MutableLiveData<Resource<Response>> = MutableLiveData()
-    val saveProfileRes: LiveData<Resource<Response>>
-        get() = _saveProfileRes
-
-    private var resendToken: PhoneAuthProvider.ForceResendingToken? = null
+    var resendToken: PhoneAuthProvider.ForceResendingToken? = null
     private var verifyId: String? = null
+    private var uid: String? = null
 
     fun onEvent(event: SignUpEvents) {
         when (event) {
@@ -57,7 +52,7 @@ class SignUpViewModel(
             }
 
             is SignUpEvents.OtpOption -> {
-                if(event.options != null) {
+                if (event.options != null) {
                     _state.value = state.value.copy(
                         phoneNo = event.phone.toString()
                     )
@@ -71,15 +66,28 @@ class SignUpViewModel(
             }
 
             is SignUpEvents.VerifyClick -> {
-
+                viewModelScope.launch {
+                    _eventFlow.emit(SignUpUiEvents.Loading(true))
+                    verifyUser(event.otp, event.userRef, event.tokenRef)
+                }
             }
 
             is SignUpEvents.ResendOtp -> {
-
+                viewModelScope.launch {
+                    event.options?.let {
+                        _eventFlow.emit(SignUpUiEvents.Loading(true))
+                        PhoneAuthProvider.verifyPhoneNumber(event.options)
+                    }
+                }
             }
 
             is SignUpEvents.WrongNo -> {
-
+                viewModelScope.launch {
+                    _state.value = state.value.copy(
+                        phoneNo = ""
+                    )
+                    _eventFlow.emit(SignUpUiEvents.ScreenChanged(SignUpProgress.EnterPhoneStage))
+                }
             }
         }
     }
@@ -108,18 +116,71 @@ class SignUpViewModel(
         }
     }
 
-    fun saveUserProfile(collection: String, profile: Profile) = viewModelScope.launch {
-        _saveProfileRes.postValue(Resource.Loading())
-        val authRes = authRepository.saveUserProfile(collection, profile)
-        _saveProfileRes.postValue(authRes)
+    private fun verifyUser(otp: String, userColl: String, tokenColl: String) {
+        val auth = FirebaseAuth.getInstance()
+        verifyId?.let {
+            val credential: PhoneAuthCredential = PhoneAuthProvider.getCredential(
+                it, otp
+            )
+            auth.signInWithCredential(credential)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val uid = auth.currentUser?.uid.toString()
+                        this.uid = uid
+                        val profile = Profile(phone = state.value.phoneNo, uid = uid)
+                        saveUserProfile(userColl, profile, tokenColl)
+                    } else {
+                        if (task.exception is FirebaseAuthInvalidCredentialsException) {
+                            viewModelScope.launch {
+                                _eventFlow.emit(SignUpUiEvents.Loading(false))
+                                _eventFlow.emit(SignUpUiEvents.ShowToast("Invalid OTP"))
+                            }
+                        }
+                    }
+                }
+        }
     }
 
-    fun saveUIDLocally(uid: String) = viewModelScope.launch {
-        authRepository.saveUidLocally(uid)
+    private fun saveUserProfile(collection: String, profile: Profile, tokenColl: String) =
+        viewModelScope.launch {
+            val authRes = authRepository.saveUserProfile(collection, profile)
+            when (authRes) {
+                is Resource.Success -> {
+                    saveNotifyToken(tokenColl)
+                    saveUIDLocally()
+                    _eventFlow.emit(SignUpUiEvents.ScreenChanged(SignUpProgress.VerifiedPhoneStage))
+                }
+
+                is Resource.Error -> {
+                    _eventFlow.emit(SignUpUiEvents.Loading(false))
+                    _eventFlow.emit(SignUpUiEvents.ShowToast("Unable to Sign Up"))
+                }
+
+                else -> {}
+            }
+
+        }
+
+    private fun saveUIDLocally() = viewModelScope.launch {
+        uid?.let {
+            authRepository.saveUidLocally(it)
+        }
     }
 
-    fun saveNotifyToken(uid: String, token: String, collection: String) = viewModelScope.launch {
-        ViewModelEventWrapper(authRepository.saveNotifyToken(uid, token, collection))
-    }
+    private fun saveNotifyToken(collection: String) =
+        viewModelScope.launch {
+            uid?.let {
+                var token = ""
+                FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        return@OnCompleteListener
+                    }
+                    token = task.result.toString()
+                    FirebaseNotify.token = token
+                    Log.e("token", token)
+                })
+                ViewModelEventWrapper(authRepository.saveNotifyToken(it, token, collection))
+            }
+        }
 
 }

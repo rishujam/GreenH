@@ -4,6 +4,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,7 +16,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -27,6 +32,7 @@ import com.ev.greenh.commonui.MediumGreen
  * Created by Sudhanshu Kumar on 13/07/23.
  */
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun OtpTextField(
     otpText: String,
@@ -38,13 +44,17 @@ fun OtpTextField(
             throw IllegalArgumentException("Otp text value must not have more than otpCount: $otpCount characters")
         }
     }
-
+    val keyboardController = LocalSoftwareKeyboardController.current
     BasicTextField(
-        modifier = Modifier.padding(top = 16.dp),
+        modifier = Modifier
+            .padding(top = 16.dp),
         value = TextFieldValue(otpText, selection = TextRange(otpText.length)),
         onValueChange = {
             if (it.text.length <= otpCount) {
                 onOtpTextChange.invoke(it.text, it.text.length == otpCount)
+                if(it.text.length == otpCount) {
+                    keyboardController?.hide()
+                }
             }
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
@@ -55,7 +65,9 @@ fun OtpTextField(
                         index = index,
                         text = otpText
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+                    if(index != otpCount - 1) {
+                        Spacer(modifier = Modifier.width(8.dp))
+                    }
                 }
             }
         }
@@ -75,7 +87,8 @@ private fun CharView(
     }
     Text(
         modifier = Modifier
-            .width(40.dp)
+            .width(42.dp)
+            .aspectRatio(1f)
             .border(
                 1.dp, when {
                     isFocused -> MediumGreen
