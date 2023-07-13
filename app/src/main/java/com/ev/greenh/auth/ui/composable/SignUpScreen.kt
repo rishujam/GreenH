@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import com.ev.greenh.auth.ui.SignUpViewModel
 import com.ev.greenh.auth.ui.events.SignUpUiEvents
 import com.ev.greenh.auth.ui.states.SignUpProgress
+import com.ev.greenh.commonui.MediumGreen
 import com.ev.greenh.util.findActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthOptions
@@ -65,7 +66,6 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
                 is SignUpUiEvents.ScreenChanged -> {
                     when (event.screen) {
                         is SignUpProgress.VerifyPhoneStage -> {
-                            Log.d("RishuTest", "onVerifyPhoneStage")
                             isVisiblePhoneView = false
                             isVisibleVerifyView = true
                         }
@@ -99,7 +99,7 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(color = MediumGreen)
             }
         }
         Column(
@@ -149,7 +149,7 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
             ) + fadeIn(),
             exit = fadeOut()
         ) {
-            VerifyPhoneView()
+            VerifyPhoneView(viewModel)
         }
     }
 }
