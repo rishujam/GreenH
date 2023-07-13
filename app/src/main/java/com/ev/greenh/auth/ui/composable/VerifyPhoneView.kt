@@ -13,14 +13,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +34,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,10 +45,12 @@ import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import com.ev.greenh.R
 import com.ev.greenh.auth.ui.SignUpViewModel
+import com.ev.greenh.auth.ui.events.SignUpEvents
 import com.ev.greenh.commonui.DarkGreen
 import com.ev.greenh.commonui.DefaultTextColor
 import com.ev.greenh.commonui.LightBgGreen
 import com.ev.greenh.commonui.MediumGreen
+import kotlinx.coroutines.delay
 
 /*
  * Created by Sudhanshu Kumar on 06/07/23.
@@ -54,6 +61,23 @@ import com.ev.greenh.commonui.MediumGreen
 fun VerifyPhoneView(viewModel: SignUpViewModel) {
     var otpValue by remember {
         mutableStateOf("")
+    }
+    var timer by remember {
+        mutableStateOf(45)
+    }
+    var isResendBtnVisible by remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(key1 = false) {
+        while (true) {
+            if(timer != 0) {
+                delay(1000L)
+                timer--
+            } else {
+                isResendBtnVisible = true
+                break
+            }
+        }
     }
     Column(
         modifier = Modifier
@@ -92,10 +116,15 @@ fun VerifyPhoneView(viewModel: SignUpViewModel) {
                     contentDescription = "back_button",
                     modifier = Modifier.size(24.dp)
                 )
-                Text(
-                    text = "Verification ${viewModel.state.value.phoneNo}",
-                    color = MediumGreen,
-                    fontSize = 16.sp
+                ClickableText(
+                    text = AnnotatedString(viewModel.state.value.phoneNo),
+                    style = TextStyle(
+                        color = MediumGreen,
+                        fontSize = 16.sp
+                    ),
+                    onClick = {
+                        viewModel.onEvent(SignUpEvents.WrongNo)
+                    }
                 )
             }
             Row(
@@ -144,12 +173,28 @@ fun VerifyPhoneView(viewModel: SignUpViewModel) {
                 fontSize = 14.sp,
                 color = DefaultTextColor
             )
-            Text(
-                modifier = Modifier.padding(start = 8.dp, top = 16.dp),
-                text = "Resend in 45 sec",
-                color = DefaultTextColor,
-                fontSize = 14.sp
-            )
+            if(!isResendBtnVisible) {
+                Text(
+                    modifier = Modifier.padding(start = 8.dp, top = 16.dp),
+                    text = "Resend in $timer sec",
+                    color = DefaultTextColor,
+                    fontSize = 14.sp,
+                )
+            }
+            if(isResendBtnVisible) {
+                ClickableText(
+                    modifier = Modifier.padding(start = 8.dp, top = 16.dp),
+                    onClick = {
+                        viewModel.onEvent(SignUpEvents.ResendOtp)
+                    },
+                    text = AnnotatedString("Resend OTP"),
+                    style = TextStyle(
+                        color = MediumGreen,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                )
+            }
         }
 
     }

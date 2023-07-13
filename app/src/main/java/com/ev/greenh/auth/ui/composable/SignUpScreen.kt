@@ -13,7 +13,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Surface
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,6 +25,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import com.ev.greenh.auth.ui.SignUpViewModel
 import com.ev.greenh.auth.ui.events.SignUpUiEvents
 import com.ev.greenh.auth.ui.states.SignUpProgress
@@ -87,7 +91,7 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
             }
         }
     }
-    Column(
+    Surface(
         modifier = Modifier.fillMaxSize()
     ) {
         AnimatedVisibility(
@@ -96,60 +100,63 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
             exit = fadeOut()
         ) {
             Column(
+                modifier = Modifier.padding(bottom = 44.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 CircularProgressIndicator(color = MediumGreen)
             }
         }
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.5f),
-            verticalArrangement = Arrangement.Center
-        ) {
-            AnimatedVisibility(
-                visible = isVisibleBranding,
-                enter = slideInVertically() + fadeIn(),
-                exit = slideOutVertically() + fadeOut()
+        Column(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.5f),
+                verticalArrangement = Arrangement.Center
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
+                AnimatedVisibility(
+                    visible = isVisibleBranding,
+                    enter = slideInVertically() + fadeIn(),
+                    exit = slideOutVertically() + fadeOut()
                 ) {
-                    SignUpBrandingView()
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        SignUpBrandingView()
+                    }
                 }
+                LaunchedEffect(Unit) {
+                    delay(300)
+                    isVisibleBranding = true
+                }
+            }
+            AnimatedVisibility(
+                visible = isVisiblePhoneView,
+                enter = slideInVertically(
+                    initialOffsetY = {
+                        it / 2
+                    }
+                ) + fadeIn(),
+                exit = fadeOut()
+            ) {
+                PhoneView(viewModel)
             }
             LaunchedEffect(Unit) {
                 delay(300)
-                isVisibleBranding = true
+                isVisiblePhoneView = true
             }
-        }
-        AnimatedVisibility(
-            visible = isVisiblePhoneView,
-            enter = slideInVertically(
-                initialOffsetY = {
-                    it / 2
-                }
-            ) + fadeIn(),
-            exit = fadeOut()
-        ) {
-            PhoneView(viewModel)
-        }
-        LaunchedEffect(Unit) {
-            delay(300)
-            isVisiblePhoneView = true
-        }
-        AnimatedVisibility(
-            visible = isVisibleVerifyView,
-            enter = slideInVertically(
-                initialOffsetY = {
-                    it / 2
-                }
-            ) + fadeIn(),
-            exit = fadeOut()
-        ) {
-            VerifyPhoneView(viewModel)
+            AnimatedVisibility(
+                visible = isVisibleVerifyView,
+                enter = slideInVertically(
+                    initialOffsetY = {
+                        it / 2
+                    }
+                ) + fadeIn(),
+                exit = fadeOut()
+            ) {
+                VerifyPhoneView(viewModel)
+            }
         }
     }
 }

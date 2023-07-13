@@ -16,7 +16,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -30,6 +32,7 @@ import com.ev.greenh.commonui.MediumGreen
  * Created by Sudhanshu Kumar on 13/07/23.
  */
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun OtpTextField(
     otpText: String,
@@ -41,7 +44,7 @@ fun OtpTextField(
             throw IllegalArgumentException("Otp text value must not have more than otpCount: $otpCount characters")
         }
     }
-
+    val keyboardController = LocalSoftwareKeyboardController.current
     BasicTextField(
         modifier = Modifier
             .padding(top = 16.dp),
@@ -49,6 +52,9 @@ fun OtpTextField(
         onValueChange = {
             if (it.text.length <= otpCount) {
                 onOtpTextChange.invoke(it.text, it.text.length == otpCount)
+                if(it.text.length == otpCount) {
+                    keyboardController?.hide()
+                }
             }
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
@@ -59,7 +65,7 @@ fun OtpTextField(
                         index = index,
                         text = otpText
                     )
-                    if(index != 5) {
+                    if(index != otpCount - 1) {
                         Spacer(modifier = Modifier.width(8.dp))
                     }
                 }
