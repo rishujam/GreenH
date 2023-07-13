@@ -1,6 +1,8 @@
 package com.ev.greenh.util
 
 import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.view.View
 
@@ -18,5 +20,14 @@ fun View.visible(isVisible:Boolean){
 fun View.enable(enabled:Boolean){
     isEnabled = enabled
     alpha = if(enabled) 1f else 0.5f
+}
+
+fun Context.findActivity(): Activity {
+    var context = this
+    while (context is ContextWrapper) {
+        if (context is Activity) return context
+        context = context.baseContext
+    }
+    throw IllegalStateException("no activity")
 }
 
