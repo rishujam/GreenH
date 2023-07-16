@@ -64,6 +64,7 @@ fun PhoneView(viewModel: SignUpViewModel) {
                     value = phoneNoText,
                     onValueChange = {
                         if (it.length <= 10) {
+                            if(it.length == 10) keyboardController?.hide()
                             phoneNoText = it
                         }
                     },
@@ -98,7 +99,7 @@ fun PhoneView(viewModel: SignUpViewModel) {
                     modifier = Modifier
                         .fillMaxWidth(),
                     onClick = {
-                        viewModel.onEvent(SignUpEvents.NextClick)
+                        viewModel.onEvent(SignUpEvents.NextClick(phoneNoText))
                         val options =
                             buildOptionsForPhoneVerification(viewModel, phoneNoText, context)
                         if (options != null) {
@@ -132,7 +133,7 @@ private fun buildOptionsForPhoneVerification(
     if (phone.length == 10) {
         return PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
             .setPhoneNumber("+91$phone")
-            .setTimeout(60L, TimeUnit.SECONDS)
+            .setTimeout(0L, TimeUnit.SECONDS)
             .setActivity(context.findActivity())
             .setCallbacks(viewModel.callbacks)
             .build()
