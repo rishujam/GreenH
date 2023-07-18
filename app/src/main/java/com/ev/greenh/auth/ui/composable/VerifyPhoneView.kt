@@ -3,6 +3,8 @@ package com.ev.greenh.auth.ui.composable
 import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -117,22 +119,29 @@ fun VerifyPhoneView(viewModel: SignUpViewModel) {
             }
         }
         ConstraintLayout(constraints, modifier = Modifier.fillMaxWidth()) {
-            Row(modifier = Modifier.layoutId("title")) {
+            val interactionSource = remember { MutableInteractionSource() }
+            Row(
+                modifier = Modifier
+                    .layoutId("title")
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null
+                    ) {
+                        viewModel.onEvent(SignUpEvents.WrongNo)
+                    }
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_back_arrow),
                     colorFilter = ColorFilter.tint(MediumGreen),
                     contentDescription = "back_button",
                     modifier = Modifier.size(24.dp)
                 )
-                ClickableText(
+                Text(
                     text = AnnotatedString(viewModel.state.value.phoneNo),
                     style = TextStyle(
                         color = MediumGreen,
                         fontSize = 16.sp
-                    ),
-                    onClick = {
-                        viewModel.onEvent(SignUpEvents.WrongNo)
-                    }
+                    )
                 )
             }
             Row(
@@ -226,7 +235,7 @@ private fun buildResendOtpOptions(
     if (phone.length == 10 && resendToken != null) {
         return PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
             .setPhoneNumber("+91$phone")
-            .setTimeout(60L, TimeUnit.SECONDS)
+            .setTimeout(15L, TimeUnit.SECONDS)
             .setActivity(context.findActivity())
             .setCallbacks(viewModel.callbacks)
             .setForceResendingToken(resendToken)

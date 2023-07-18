@@ -47,6 +47,9 @@ class SignUpViewModel(
         when (event) {
             is SignUpEvents.NextClick -> {
                 viewModelScope.launch {
+                    _state.value = state.value.copy(
+                        phoneNo = event.phone
+                    )
                     _eventFlow.emit(SignUpUiEvents.Loading(true))
                 }
             }
