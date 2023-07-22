@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.ev.greenh.auth.ui.events.SignUpEvents
 import com.ev.greenh.auth.ui.events.SignUpUiEvents
 import com.ev.greenh.auth.ui.states.SignUpProgress
+import com.ev.greenh.models.Response
 import com.ev.greenh.repository.AuthRepository
+import com.ev.greenh.util.Resource
 import com.ev.greenh.viewmodels.ViewModelFactory
 import com.google.firebase.auth.PhoneAuthOptions
 import kotlinx.coroutines.flow.collectLatest
@@ -13,7 +15,9 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.MockitoAnnotations
 
 /*
  * Created by Sudhanshu Kumar on 17/07/23.
@@ -21,17 +25,25 @@ import org.mockito.Mockito
 
 class SignUpViewModelTest {
 
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
     private lateinit var viewModel: SignUpViewModel
+
+    @Mock
     private lateinit var repository: AuthRepository
+
     private var eventLoading: SignUpUiEvents.Loading? = null
     private var eventToast: SignUpUiEvents.ShowToast? = null
     private var eventScreenChanged: SignUpUiEvents.ScreenChanged? = null
 
     @Before
     fun setUp() = runBlocking {
+        MockitoAnnotations.initMocks(this)
+//        val email = "test@example.com"
+//        val password = "password"
+//        val mockLoginResponse =
+//            Mockito.when(repository.login(email, password)) {
+//                Resource.Success(Response(true, null))
+//            }
+
         repository = Mockito.mock(AuthRepository::class.java)
         viewModel = SignUpViewModel(repository)
         viewModel.eventFlow.collectLatest {
@@ -104,10 +116,5 @@ class SignUpViewModelTest {
         if(eventScreenChanged != SignUpUiEvents.ScreenChanged(SignUpProgress.EnterPhoneStage)) result = false
         eventScreenChanged = null
         assert(result)
-    }
-
-    @Test
-    fun `verify user` () {
-
     }
 }
