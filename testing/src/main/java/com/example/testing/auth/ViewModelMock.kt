@@ -5,4 +5,8 @@ package com.example.testing.auth
  */
 
 class ViewModelMock {
+
+    fun verifyUser() {
+
+    }
 }
