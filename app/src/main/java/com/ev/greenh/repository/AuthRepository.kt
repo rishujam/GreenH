@@ -3,6 +3,8 @@ package com.ev.greenh.repository
 import com.ev.greenh.firebase.AuthSource
 import com.ev.greenh.localdatastore.UserPreferences
 import com.ev.greenh.models.Profile
+import com.google.firebase.auth.PhoneAuthOptions
+import com.google.firebase.auth.PhoneAuthProvider
 
 class AuthRepository(
     private val source: AuthSource,
