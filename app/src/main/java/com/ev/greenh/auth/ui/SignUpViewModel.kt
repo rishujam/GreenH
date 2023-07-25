@@ -55,15 +55,17 @@ class SignUpViewModel(
             }
 
             is SignUpEvents.OtpOption -> {
-                if (event.options != null) {
+                if (event.phone != null) {
                     _state.value = state.value.copy(
                         phoneNo = event.phone.toString()
                     )
-                    PhoneAuthProvider.verifyPhoneNumber(event.options)
+                    event.options?.let {
+                        PhoneAuthProvider.verifyPhoneNumber(it)
+                    }
                 } else {
                     viewModelScope.launch {
                         _eventFlow.emit(SignUpUiEvents.Loading(false))
-                        _eventFlow.emit(SignUpUiEvents.ShowToast("Error in building options"))
+                        _eventFlow.emit(SignUpUiEvents.ShowToast(event.message.toString()))
                     }
                 }
             }
