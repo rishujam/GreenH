@@ -14,7 +14,7 @@ import com.ev.greenh.GreenApp
 import com.ev.greenh.auth.ui.composable.SignUpScreen
 import com.ev.greenh.databinding.SignUpFragBinding
 import com.ev.greenh.firebase.AuthSource
-import com.ev.greenh.repository.AuthRepository
+import com.ev.greenh.auth.data.AuthRepository
 import com.ev.greenh.viewmodels.ViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
 
