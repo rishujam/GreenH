@@ -42,6 +42,8 @@ class SignUpViewModel(
     var resendToken: PhoneAuthProvider.ForceResendingToken? = null
     private var verifyId: String? = null
 
+    val auth = authRepository.getAuth()
+
     fun onEvent(event: SignUpEvents) {
         when (event) {
             is SignUpEvents.NextClick -> {
@@ -72,12 +74,18 @@ class SignUpViewModel(
             is SignUpEvents.VerifyClick -> {
                 viewModelScope.launch {
                     _eventFlow.emit(SignUpUiEvents.Loading(true))
-                    authRepository.verifyUser(
+                    val verifyResult = authRepository.verifyUser(
                         event.otp, verifyId,
                         state.value.phoneNo,
                         event.userRef,
                         event.tokenRef
                     )
+                    if(verifyResult) {
+                        _eventFlow.emit(SignUpUiEvents.ScreenChanged(SignUpProgress.VerifiedPhoneStage))
+                    } else {
+                        _eventFlow.emit(SignUpUiEvents.Loading(false))
+                        _eventFlow.emit(SignUpUiEvents.ShowToast("Invalid OTP"))
+                    }
                 }
             }
 

@@ -12,10 +12,14 @@ import kotlinx.coroutines.tasks.await
 import java.util.concurrent.TimeUnit
 
 class AuthSource(
-    val auth:FirebaseAuth
+    private val auth:FirebaseAuth
 ) {
 
     private val fireRef = Firebase.firestore
+
+    fun getAuthInstance(): FirebaseAuth {
+        return auth
+    }
 
 //    suspend fun registerUser(email: String,pass:String,collection:String) : Response {
 //        auth.createUserWithEmailAndPassword(email, pass).await()
