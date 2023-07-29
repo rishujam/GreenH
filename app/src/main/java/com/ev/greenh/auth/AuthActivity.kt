@@ -12,11 +12,10 @@ import com.ev.greenh.R
 import com.ev.greenh.auth.ui.SignUpFrag
 import com.ev.greenh.databinding.ActivityAuthBinding
 import com.ev.greenh.firebase.AuthSource
-import com.ev.greenh.repository.AuthRepository
+import com.ev.greenh.auth.data.AuthRepository
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.viewmodels.AuthViewModel
 import com.ev.greenh.viewmodels.ViewModelFactory
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 
 class AuthActivity : AppCompatActivity() {

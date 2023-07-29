@@ -1,36 +1,25 @@
 package com.ev.greenh.auth.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.ViewModelProvider
 import com.ev.greenh.auth.ui.events.SignUpEvents
 import com.ev.greenh.auth.ui.events.SignUpUiEvents
 import com.ev.greenh.auth.ui.states.SignUpProgress
-import com.ev.greenh.models.Profile
-import com.ev.greenh.models.Response
-import com.ev.greenh.repository.AuthRepository
-import com.ev.greenh.util.Resource
-import com.ev.greenh.viewmodels.ViewModelFactory
-import com.google.firebase.auth.FirebaseAuth
+import com.ev.greenh.auth.data.AuthRepository
 import com.google.firebase.auth.PhoneAuthOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.kotlin.mock
 
 /*
  * Created by Sudhanshu Kumar on 17/07/23.
@@ -106,6 +95,24 @@ class SignUpViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
+    fun `when event is WrongNo, set phone empty and emit enterPhoneStage`() = runTest {
+        val events = mutableListOf<SignUpUiEvents>()
+        val job = launch {
+            viewModel.eventFlow.collect {
+                events.add(it)
+            }
+        }
+        viewModel.onEvent(SignUpEvents.WrongNo)
+        advanceUntilIdle()
+        var result = true
+        if (viewModel.state.value.phoneNo != "") result = false
+        if (events.size == 1 && events.getOrNull(0) != SignUpUiEvents.ScreenChanged(SignUpProgress.EnterPhoneStage)) result = false
+        assert(result)
+        job.cancel()
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
     fun `when event is VerifyClick, emit loading`() = runTest {
         val events = mutableListOf<SignUpUiEvents>()
         val job = launch {
@@ -121,21 +128,8 @@ class SignUpViewModelTest {
         job.cancel()
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `when event is WrongNo, set phone empty and emit enterPhoneStage`() = runTest {
-        val events = mutableListOf<SignUpUiEvents>()
-        val job = launch {
-            viewModel.eventFlow.collect {
-                events.add(it)
-            }
-        }
-        viewModel.onEvent(SignUpEvents.WrongNo)
-        advanceUntilIdle()
-        var result = true
-        if (viewModel.state.value.phoneNo != "") result = false
-        if (events.size == 1 && events.getOrNull(0) != SignUpUiEvents.ScreenChanged(SignUpProgress.EnterPhoneStage)) result = false
-        assert(result)
-        job.cancel()
+    fun `saveUserProfile with correct params, emit VerifiedPhoneStage`() {
+        viewModel
     }
 }

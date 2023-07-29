@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ev.greenh.models.Profile
 import com.ev.greenh.models.Response
-import com.ev.greenh.repository.AuthRepository
+import com.ev.greenh.auth.data.AuthRepository
 import com.ev.greenh.util.Resource
 import com.ev.greenh.util.ViewModelEventWrapper
 import kotlinx.coroutines.launch

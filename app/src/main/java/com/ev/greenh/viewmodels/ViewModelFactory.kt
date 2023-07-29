@@ -3,7 +3,7 @@ package com.ev.greenh.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ev.greenh.auth.ui.SignUpViewModel
-import com.ev.greenh.repository.AuthRepository
+import com.ev.greenh.auth.data.AuthRepository
 import com.ev.greenh.repository.BaseRepository
 import com.ev.greenh.repository.PlantRepository
 import java.lang.IllegalArgumentException
