@@ -6,38 +6,24 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.ev.greenh.GreenApp
 import com.ev.greenh.R
 import com.ev.greenh.auth.ui.SignUpFrag
 import com.ev.greenh.databinding.ActivityAuthBinding
-import com.ev.greenh.firebase.AuthSource
-import com.ev.greenh.auth.data.AuthRepository
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.viewmodels.AuthViewModel
-import com.ev.greenh.viewmodels.ViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
 
 class AuthActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAuthBinding
     private lateinit var auth: FirebaseAuth
-    lateinit var viewModel: AuthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding  = ActivityAuthBinding.inflate(layoutInflater)
+        auth = FirebaseAuth.getInstance()
         setContentView(binding.root)
         val signupFragment = SignUpFrag()
         setCurrentFragment(signupFragment, R.id.flAuth)
-
-        //Setting viewModel
-        auth = FirebaseAuth.getInstance()
-        val authSource = AuthSource(auth)
-        val repo = AuthRepository(authSource,(application as GreenApp).userPreferences)
-        val factory = ViewModelFactory(repo)
-        viewModel = ViewModelProvider(this,factory)[AuthViewModel::class.java]
-        //end setting up viewModel
     }
 
     fun setCurrentFragment(fragment: Fragment, frame: Int)=
@@ -45,13 +31,6 @@ class AuthActivity : AppCompatActivity() {
             replace(frame,fragment)
             commit()
         }
-
-//    fun setCurrentFragment(fragment: Fragment, frame: Int, startAnim: Int, endAnim: Int) =
-//        supportFragmentManager.beginTransaction().apply {
-//            setCustomAnimations(startAnim, endAnim)
-//            replace(frame, fragment)
-//            commit()
-//        }
 
 
     fun setCurrentFragmentBack(fragment:Fragment)=
