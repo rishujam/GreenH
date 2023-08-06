@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -40,7 +41,11 @@ class SignUpViewModel(
     val eventFlow = _eventFlow.asSharedFlow()
 
     var resendToken: PhoneAuthProvider.ForceResendingToken? = null
-    private var verifyId: String? = null
+    var verifyId: String? = null
+
+    fun getAuth(): FirebaseAuth {
+        return authRepository.getAuth()
+    }
 
     fun onEvent(event: SignUpEvents) {
         when (event) {
@@ -70,14 +75,20 @@ class SignUpViewModel(
             }
 
             is SignUpEvents.VerifyClick -> {
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.IO) {
                     _eventFlow.emit(SignUpUiEvents.Loading(true))
-                    authRepository.verifyUser(
+                    val verifyResult = authRepository.verifyUser(
                         event.otp, verifyId,
                         state.value.phoneNo,
                         event.userRef,
                         event.tokenRef
                     )
+                    if(verifyResult) {
+                        _eventFlow.emit(SignUpUiEvents.ScreenChanged(SignUpProgress.VerifiedPhoneStage))
+                    } else {
+                        _eventFlow.emit(SignUpUiEvents.Loading(false))
+                        _eventFlow.emit(SignUpUiEvents.ShowToast("Invalid OTP"))
+                    }
                 }
             }
 

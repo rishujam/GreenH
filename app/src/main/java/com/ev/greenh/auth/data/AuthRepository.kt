@@ -74,4 +74,8 @@ class AuthRepository(
         }
         return false
     }
+
+    fun getAuth(): FirebaseAuth {
+        return source.getAuthInstance()
+    }
 }

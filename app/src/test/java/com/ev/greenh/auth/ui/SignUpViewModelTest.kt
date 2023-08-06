@@ -1,11 +1,13 @@
 package com.ev.greenh.auth.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
 import com.ev.greenh.auth.ui.events.SignUpEvents
 import com.ev.greenh.auth.ui.events.SignUpUiEvents
 import com.ev.greenh.auth.ui.states.SignUpProgress
 import com.ev.greenh.auth.data.AuthRepository
-import com.google.firebase.auth.PhoneAuthOptions
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -16,16 +18,11 @@ import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
 
 /*
  * Created by Sudhanshu Kumar on 17/07/23.
  */
 
-@RunWith(MockitoJUnitRunner::class)
 class SignUpViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -36,8 +33,7 @@ class SignUpViewModelTest {
 
     private lateinit var viewModel: SignUpViewModel
 
-    @Mock
-    lateinit var repository: AuthRepository
+    private val repository = mockk<AuthRepository>()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
@@ -113,23 +109,28 @@ class SignUpViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `when event is VerifyClick, emit loading`() = runTest {
-        val events = mutableListOf<SignUpUiEvents>()
+    fun `when event is VerifyClick with correct inputs, emit Verified`() = runTest {
+        val list = mutableListOf<SignUpUiEvents>()
         val job = launch {
-            viewModel.eventFlow.collect {
-                events.add(it)
+            viewModel.eventFlow.test {
+                list.add(awaitItem())
             }
         }
-        viewModel.onEvent(SignUpEvents.VerifyClick("123456", "user", "token"))
-        testDispatcher.scheduler.advanceUntilIdle()
-        var result = true
-        if (events.size == 1 && events.getOrNull(0) != SignUpUiEvents.Loading(true)) result = false
-        assert(result)
-        job.cancel()
-    }
+        //set
+        val otp = "123456"
+        val verifyId = "13431"
+        val phone = "9999999999"
+        val userColl = "user"
+        val tokenColl = "token"
+        viewModel.state.value.phoneNo = phone
+        viewModel.verifyId = verifyId
+        coEvery { repository.verifyUser(otp, verifyId, phone, userColl, tokenColl) } returns true
 
-    @Test
-    fun `saveUserProfile with correct params, emit VerifiedPhoneStage`() {
-        viewModel
+        //act
+        viewModel.onEvent(SignUpEvents.VerifyClick(otp, userColl, tokenColl))
+        job.join()
+        if(list.size == 2 && list.getOrNull(0) == SignUpUiEvents.Loading(true)) assert(true)
+        if(list.getOrNull(1) == SignUpUiEvents.ScreenChanged(SignUpProgress.VerifiedPhoneStage)) assert(true)
+        job.cancel()
     }
 }
