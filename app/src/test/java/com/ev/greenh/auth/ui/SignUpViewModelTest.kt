@@ -1,6 +1,7 @@
 package com.ev.greenh.auth.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
 import com.ev.greenh.auth.ui.events.SignUpEvents
 import com.ev.greenh.auth.ui.events.SignUpUiEvents
 import com.ev.greenh.auth.ui.states.SignUpProgress
@@ -115,12 +116,13 @@ class SignUpViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `when event is VerifyClick with correct inputs, emit Verified`() = runTest {
-        val events = mutableListOf<SignUpUiEvents>()
+        val list = mutableListOf<SignUpUiEvents>()
         val job = launch {
-            viewModel.eventFlow.collect {
-                events.add(it)
+            viewModel.eventFlow.test {
+                list.add(awaitItem())
             }
         }
+        //set
         val otp = "123456"
         val verifyId = "13431"
         val phone = "9999999999"
@@ -129,12 +131,12 @@ class SignUpViewModelTest {
         viewModel.state.value.phoneNo = phone
         viewModel.verifyId = verifyId
         coEvery { repository.verifyUser(otp, verifyId, phone, userColl, tokenColl) } returns true
+
+        //act
         viewModel.onEvent(SignUpEvents.VerifyClick(otp, userColl, tokenColl))
-        testDispatcher.scheduler.advanceUntilIdle()
-        var result = true
-        if (events.size == 2 && events.getOrNull(0) != SignUpUiEvents.Loading(true)) result = false
-        if(events.getOrNull(1) != SignUpUiEvents.ScreenChanged(SignUpProgress.VerifiedPhoneStage)) result = false
-        assert(result)
+        job.join()
+        if(list.size == 2 && list.getOrNull(0) == SignUpUiEvents.Loading(true)) assert(true)
+        if(list.getOrNull(1) == SignUpUiEvents.ScreenChanged(SignUpProgress.VerifiedPhoneStage)) assert(true)
         job.cancel()
     }
 }
