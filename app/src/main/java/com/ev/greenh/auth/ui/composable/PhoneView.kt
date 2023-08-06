@@ -131,7 +131,7 @@ private fun buildOptionsForPhoneVerification(
     context: Context
 ): PhoneAuthOptions? {
     if (phone.length == 10) {
-        return PhoneAuthOptions.newBuilder(viewModel.auth)
+        return PhoneAuthOptions.newBuilder(viewModel.getAuth())
             .setPhoneNumber("+91$phone")
             .setTimeout(0L, TimeUnit.SECONDS)
             .setActivity(context.findActivity())
