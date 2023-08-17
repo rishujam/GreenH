@@ -130,6 +130,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.0.2"
     androidTestImplementation 'androidx.test.ext:junit-ktx:1.2.0-alpha01'
+    androidTestImplementation 'androidx.fragment:fragment-testing:1.5.3'
     
     implementation "androidx.paging:paging-runtime:3.1.1"
     implementation 'org.tensorflow:tensorflow-lite:2.5.0'

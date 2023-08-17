@@ -1,6 +1,14 @@
 package com.ev.greenh.auth.ui
 
+import androidx.compose.ui.semantics.SemanticsPropertyKey
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -14,7 +22,16 @@ import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import com.ev.greenh.auth.data.AuthRepository
+import com.ev.greenh.auth.ui.composable.SignUpScreen
+import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.setMain
+import org.junit.Before
 
 /*
  * Created by Sudhanshu Kumar on 17/08/23.
@@ -29,11 +46,34 @@ class SignUpFragTest {
     @get:Rule
     val composeRule = createAndroidComposeRule<AuthActivity>()
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val testDispatcher = StandardTestDispatcher()
+
+    private lateinit var viewModel: SignUpViewModel
+
+    private val repository = mockk<AuthRepository>()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Before
+    fun setup() {
+        viewModel = SignUpViewModel(repository)
+        Dispatchers.setMain(testDispatcher)
+
+    }
+
     @Test
     fun randomTest() {
         onView(withId(R.id.btntest)).perform(click())
-
         onView(withId(R.id.btntest)).check(matches(withText("ChangedText")))
+    }
+
+    @Test
+    fun firstComposeTest() {
+        composeRule.setContent {
+            SignUpScreen(viewModel = viewModel)
+        }
+        composeRule.onNodeWithTag("testBtn").assertExists()
+
     }
 
 }
