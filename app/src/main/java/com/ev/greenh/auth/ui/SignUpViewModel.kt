@@ -1,31 +1,20 @@
 package com.ev.greenh.auth.ui
 
-import android.util.Log
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ev.greenh.auth.data.AuthRepository
 import com.ev.greenh.auth.ui.events.SignUpEvents
-import com.ev.greenh.auth.ui.events.SignUpUiEvents
 import com.ev.greenh.auth.ui.states.SignUpProgress
 import com.ev.greenh.auth.ui.states.SignUpState
-import com.ev.greenh.models.Profile
-import com.ev.greenh.auth.data.AuthRepository
-import com.ev.greenh.services.FirebaseNotify
-import com.ev.greenh.util.Resource
-import com.ev.greenh.util.ViewModelEventWrapper
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 /*
@@ -36,11 +25,10 @@ class SignUpViewModel(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(SignUpState())
-    val state: State<SignUpState> = _state
+    var state by mutableStateOf(SignUpState())
 
-    private val _eventFlow = MutableSharedFlow<SignUpUiEvents>()
-    val eventFlow = _eventFlow.asSharedFlow()
+    private val _toastEvent = mutableStateOf<String?>(null)
+    val toastEvent: State<String?> = _toastEvent
 
     var resendToken: PhoneAuthProvider.ForceResendingToken? = null
     var verifyId: String? = null
@@ -52,64 +40,66 @@ class SignUpViewModel(
     fun onEvent(event: SignUpEvents) {
         when (event) {
             is SignUpEvents.NextClick -> {
-                viewModelScope.launch {
-                    _state.value = state.value.copy(
-                        phoneNo = event.phone
-                    )
-                    _eventFlow.emit(SignUpUiEvents.Loading(true))
-                }
+                state = state.copy(
+                    phoneNo = event.phone,
+                    loading = true
+                )
             }
 
             is SignUpEvents.OtpOption -> {
                 if (event.phone != null) {
-                    _state.value = state.value.copy(
+                    state = state.copy(
                         phoneNo = event.phone.toString()
                     )
                     event.options?.let {
                         PhoneAuthProvider.verifyPhoneNumber(it)
                     }
                 } else {
-                    viewModelScope.launch {
-                        _eventFlow.emit(SignUpUiEvents.Loading(false))
-                        _eventFlow.emit(SignUpUiEvents.ShowToast(event.message.toString()))
-                    }
+                    state = state.copy(
+                        loading = false
+                    )
+                    _toastEvent.value = event.message.toString()
                 }
             }
 
             is SignUpEvents.VerifyClick -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    _eventFlow.emit(SignUpUiEvents.Loading(true))
+                    state = state.copy(
+                        loading = true
+                    )
                     val verifyResult = authRepository.verifyUser(
                         event.otp, verifyId,
-                        state.value.phoneNo,
+                        state.phoneNo,
                         event.userRef,
                         event.tokenRef
                     )
                     if(verifyResult) {
-                        _eventFlow.emit(SignUpUiEvents.ScreenChanged(SignUpProgress.VerifiedPhoneStage))
+                        state = state.copy(
+                            screen = SignUpProgress.VerifiedPhoneStage
+                        )
                     } else {
-                        _eventFlow.emit(SignUpUiEvents.Loading(false))
-                        _eventFlow.emit(SignUpUiEvents.ShowToast("Invalid OTP"))
+                        state = state.copy(
+                            loading = false
+                        )
+                        _toastEvent.value = "Invalid OTP"
                     }
                 }
             }
 
             is SignUpEvents.ResendOtp -> {
-                viewModelScope.launch {
-                    event.options?.let {
-                        _eventFlow.emit(SignUpUiEvents.Loading(true))
-                        PhoneAuthProvider.verifyPhoneNumber(event.options)
-                    }
+                event.options?.let {
+                    state = state.copy(
+                        loading = true
+                    )
+                    PhoneAuthProvider.verifyPhoneNumber(event.options)
                 }
             }
 
             is SignUpEvents.WrongNo -> {
-                viewModelScope.launch {
-                    _state.value = state.value.copy(
-                        phoneNo = ""
-                    )
-                    _eventFlow.emit(SignUpUiEvents.ScreenChanged(SignUpProgress.EnterPhoneStage))
-                }
+                state = state.copy(
+                    phoneNo = "",
+                    screen = SignUpProgress.EnterPhoneStage
+                )
             }
         }
     }
@@ -119,10 +109,10 @@ class SignUpViewModel(
         override fun onVerificationCompleted(credential: PhoneAuthCredential) {}
 
         override fun onVerificationFailed(e: FirebaseException) {
-            viewModelScope.launch {
-                _eventFlow.emit(SignUpUiEvents.Loading(false))
-                _eventFlow.emit(SignUpUiEvents.ShowToast("Error"))
-            }
+            state = state.copy(
+                loading = false
+            )
+            _toastEvent.value = "Error"
         }
 
         override fun onCodeSent(
@@ -131,10 +121,10 @@ class SignUpViewModel(
         ) {
             resendToken = token
             verifyId = verificationId
-            viewModelScope.launch {
-                _eventFlow.emit(SignUpUiEvents.Loading(false))
-                _eventFlow.emit(SignUpUiEvents.ScreenChanged(SignUpProgress.VerifyPhoneStage))
-            }
+            state = state.copy(
+                loading = false,
+                screen = SignUpProgress.VerifyPhoneStage
+            )
         }
     }
 

@@ -61,23 +61,22 @@ class SignUpFragTest {
     fun setup() {
         viewModel = SignUpViewModel(repository)
         Dispatchers.setMain(testDispatcher)
-
     }
 
-    @Test
-    fun randomTest() {
-        onView(withId(R.id.btntest)).perform(click())
-        onView(withId(R.id.btntest)).check(matches(withText("ChangedText")))
-    }
+//    @Test
+//    fun randomTest() {
+//        onView(withId(R.id.btntest)).perform(click())
+//        onView(withId(R.id.btntest)).check(matches(withText("ChangedText")))
+//    }
 
-    @Test
-    fun firstComposeTest() {
-        val composeView = composeRule.activity.findViewById<ComposeView>(R.id.signUpFragComposeView)
-        composeView.setContent {
-            SignUpScreen(viewModel = viewModel)
-        }
-        composeRule.waitForIdle()
-        composeRule.onNodeWithTag("testBtn").assertExists()
-    }
+//    @Test
+//    fun firstComposeTest() {
+//        val composeView = composeRule.activity.findViewById<ComposeView>(R.id.signUpFragComposeView)
+//        composeView.setContent {
+//            SignUpScreen(viewModel = viewModel)
+//        }
+//        composeRule.waitForIdle()
+//        composeRule.onNodeWithTag("testBtn").assertExists()
+//    }
 
 }

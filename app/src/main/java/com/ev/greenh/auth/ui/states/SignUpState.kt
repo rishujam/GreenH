@@ -5,5 +5,7 @@ package com.ev.greenh.auth.ui.states
  */
 
 data class SignUpState(
-    var phoneNo: String = ""
+    var phoneNo: String = "",
+    var screen: SignUpProgress = SignUpProgress.EnterPhoneStage,
+    var loading: Boolean = false
 )
