@@ -50,9 +50,9 @@ class SignUpFrag : Fragment() {
             }
         }
 
-        binding?.btntest?.setOnClickListener {
-            binding?.btntest?.text = "ChangedText"
-        }
+//        binding?.btntest?.setOnClickListener {
+//            binding?.btntest?.text = "ChangedText"
+//        }
     }
 
     override fun onDestroyView() {

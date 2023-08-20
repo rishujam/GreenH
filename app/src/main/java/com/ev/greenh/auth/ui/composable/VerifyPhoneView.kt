@@ -137,7 +137,7 @@ fun VerifyPhoneView(viewModel: SignUpViewModel) {
                     modifier = Modifier.size(24.dp)
                 )
                 Text(
-                    text = AnnotatedString(viewModel.state.value.phoneNo),
+                    text = AnnotatedString(viewModel.state.phoneNo),
                     style = TextStyle(
                         color = MediumGreen,
                         fontSize = 16.sp
@@ -231,7 +231,7 @@ private fun buildResendOtpOptions(
     context: Context
 ): PhoneAuthOptions? {
     val resendToken = viewModel.resendToken
-    val phone = viewModel.state.value.phoneNo
+    val phone = viewModel.state.phoneNo
     if (phone.length == 10 && resendToken != null) {
         return PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
             .setPhoneNumber("+91$phone")
