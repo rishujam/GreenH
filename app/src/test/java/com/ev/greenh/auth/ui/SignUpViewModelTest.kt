@@ -1,23 +1,11 @@
 package com.ev.greenh.auth.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import app.cash.turbine.test
-import com.ev.greenh.auth.ui.events.SignUpEvents
-import com.ev.greenh.auth.ui.events.SignUpUiEvents
-import com.ev.greenh.auth.ui.states.SignUpProgress
 import com.ev.greenh.auth.data.AuthRepository
-import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
-import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
 
 /*
  * Created by Sudhanshu Kumar on 17/07/23.

@@ -1,28 +1,15 @@
 package com.ev.greenh.auth.data
 
-import android.util.Log
-import androidx.lifecycle.viewModelScope
-import com.ev.greenh.auth.ui.events.SignUpUiEvents
+
 import com.ev.greenh.firebase.AuthSource
 import com.ev.greenh.localdatastore.UserPreferences
 import com.ev.greenh.models.Profile
 import com.ev.greenh.repository.BaseRepository
-import com.ev.greenh.services.FirebaseNotify
-import com.ev.greenh.util.Resource
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.messaging.FirebaseMessaging
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 
 class AuthRepository(
     private val source: AuthSource,
