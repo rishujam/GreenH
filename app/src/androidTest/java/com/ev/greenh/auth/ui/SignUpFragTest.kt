@@ -1,5 +1,6 @@
 package com.ev.greenh.auth.ui
 
+import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.semantics.SemanticsPropertyKey
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
@@ -29,6 +30,8 @@ import com.ev.greenh.auth.ui.composable.SignUpScreen
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.setMain
 import org.junit.Before
@@ -69,11 +72,12 @@ class SignUpFragTest {
 
     @Test
     fun firstComposeTest() {
-        composeRule.setContent {
+        val composeView = composeRule.activity.findViewById<ComposeView>(R.id.signUpFragComposeView)
+        composeView.setContent {
             SignUpScreen(viewModel = viewModel)
         }
+        composeRule.waitForIdle()
         composeRule.onNodeWithTag("testBtn").assertExists()
-
     }
 
 }
