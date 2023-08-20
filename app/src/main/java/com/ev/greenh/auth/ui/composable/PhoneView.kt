@@ -27,6 +27,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -64,7 +67,7 @@ fun PhoneView(viewModel: SignUpViewModel) {
                     value = phoneNoText,
                     onValueChange = {
                         if (it.length <= 10) {
-                            if(it.length == 10) keyboardController?.hide()
+                            if (it.length == 10) keyboardController?.hide()
                             phoneNoText = it
                         }
                     },
@@ -74,12 +77,16 @@ fun PhoneView(viewModel: SignUpViewModel) {
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color.White),
+                        .background(Color.White)
+                        .testTag("phoneNoTag"),
                     label = {
                         Text(text = "Phone No")
                     },
                     keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
-                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done, keyboardType = KeyboardType.Phone),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Done,
+                        keyboardType = KeyboardType.Phone
+                    ),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         unfocusedBorderColor = DefaultTextColor,
                         textColor = DefaultTextColor,
@@ -115,7 +122,12 @@ fun PhoneView(viewModel: SignUpViewModel) {
                     )
                 ) {
                     Text(
-                        modifier = Modifier.padding(top = 6.dp, bottom = 6.dp),
+                        modifier = Modifier
+                            .padding(top = 6.dp, bottom = 6.dp)
+                            .semantics {
+                                contentDescription = "NextBtn SignUp"
+                            }
+                            .testTag("NextBtn SignUp"),
                         text = "Next",
                         fontWeight = FontWeight.Medium
                     )
