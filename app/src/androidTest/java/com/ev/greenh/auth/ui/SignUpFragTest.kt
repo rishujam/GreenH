@@ -49,7 +49,6 @@ class SignUpFragTest {
     @get:Rule
     val composeRule = createAndroidComposeRule<AuthActivity>()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private val testDispatcher = StandardTestDispatcher()
 
     private lateinit var viewModel: SignUpViewModel
@@ -69,14 +68,13 @@ class SignUpFragTest {
 //        onView(withId(R.id.btntest)).check(matches(withText("ChangedText")))
 //    }
 
-//    @Test
-//    fun firstComposeTest() {
-//        val composeView = composeRule.activity.findViewById<ComposeView>(R.id.signUpFragComposeView)
-//        composeView.setContent {
-//            SignUpScreen(viewModel = viewModel)
-//        }
-//        composeRule.waitForIdle()
-//        composeRule.onNodeWithTag("testBtn").assertExists()
-//    }
+    @Test
+    fun firstComposeTest() {
+        val composeView = composeRule.activity.findViewById<ComposeView>(R.id.signUpFragComposeView)
+        composeView.setContent {
+            SignUpScreen(viewModel = viewModel)
+        }
+        composeRule.onNodeWithTag("testBtn").assertExists()
+    }
 
 }
