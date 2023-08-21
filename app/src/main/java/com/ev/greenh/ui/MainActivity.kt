@@ -50,12 +50,12 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
         val myOrdersFragment = MyOrdersFragment()
         val settingFragment = SettingFragment()
         val bagFragment = BagFragment()
-        val scannerFragment = ScannerFragment()
+//        val scannerFragment = ScannerFragment()
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.imPlants -> setCurrentFragment(plantFragment)
                 R.id.imOrder ->setCurrentFragment(myOrdersFragment)
-                R.id.imScanner -> setCurrentFragment(scannerFragment)
+//                R.id.imScanner -> setCurrentFragment(scannerFragment)
                 R.id.imSetting -> setCurrentFragment(settingFragment)
                 R.id.imBag -> setCurrentFragment(bagFragment)
             }
