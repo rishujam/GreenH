@@ -17,12 +17,15 @@ import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.ev.greenh.auth.ui.SignUpViewModel
 import com.ev.greenh.auth.ui.states.SignUpProgress
@@ -53,7 +56,7 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
     val context = LocalContext.current
     LaunchedEffect(viewModel.state) {
         isVisibleProgress = viewModel.state.loading
-        when(viewModel.state.screen) {
+        when (viewModel.state.screen) {
             is SignUpProgress.VerifyPhoneStage -> {
                 isVisiblePhoneView = false
                 isVisibleVerifyView = true
@@ -110,9 +113,6 @@ fun SignUpScreen(viewModel: SignUpViewModel) {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        Button(onClick = { /*TODO*/ }, modifier = Modifier.testTag("testBtn")) {
-                            Text(text = "Testing")
-                        }
                         SignUpBrandingView()
                     }
                 }

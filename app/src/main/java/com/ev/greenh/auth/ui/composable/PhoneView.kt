@@ -15,6 +15,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,6 +42,7 @@ import com.ev.greenh.commonui.DefaultTextColor
 import com.ev.greenh.commonui.LightBgGreen
 import com.ev.greenh.commonui.MediumGreen
 import com.ev.greenh.util.findActivity
+import com.example.testing.Tags
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthOptions
 import java.util.concurrent.TimeUnit
@@ -78,7 +80,7 @@ fun PhoneView(viewModel: SignUpViewModel) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(Color.White)
-                        .testTag("phoneNoTag"),
+                        .testTag(Tags.PHONE_ENTER),
                     label = {
                         Text(text = "Phone No")
                     },
@@ -104,7 +106,8 @@ fun PhoneView(viewModel: SignUpViewModel) {
                 val context = LocalContext.current
                 Button(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .testTag(Tags.PHONE_VIEW_NEXT_BTN),
                     onClick = {
                         viewModel.onEvent(SignUpEvents.NextClick(phoneNoText))
                         val options =

@@ -7,6 +7,7 @@ import com.ev.greenh.models.Profile
 import com.ev.greenh.repository.BaseRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.tasks.await
@@ -16,23 +17,8 @@ class AuthRepository(
     private val preferences: UserPreferences
 ) : BaseRepository(){
 
-    suspend fun login(
-        email:String,
-        pass:String
-    ) = safeApiCall {
-        source.loginUser(email, pass)
-    }
-
     suspend fun saveUserProfile(collection: String,profile: Profile) = safeApiCall {
         source.saveProfile(collection, profile)
-    }
-
-    suspend fun saveUidLocally(email:String){
-        preferences.setUid(email)
-    }
-
-    suspend fun saveNotifyToken(uid:String,token:String,collection: String) = safeApiCall {
-        source.saveNotifyToken(uid,token,collection)
     }
 
     suspend fun verifyUser(
@@ -60,6 +46,12 @@ class AuthRepository(
             return false
         }
         return false
+    }
+
+    fun sendOtp(options: PhoneAuthOptions?) {
+        options?.let {
+            PhoneAuthProvider.verifyPhoneNumber(options)
+        }
     }
 
     fun getAuth(): FirebaseAuth {
