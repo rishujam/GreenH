@@ -1,29 +1,30 @@
 package com.ev.greenh.auth.ui
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.test.ext.junit.rules.activityScenarioRule
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performImeAction
+import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.ev.greenh.R
 import com.ev.greenh.auth.AuthActivity
+import com.ev.greenh.auth.data.AuthRepository
+import com.ev.greenh.auth.ui.composable.SignUpScreen
+import com.example.testing.Tags
+import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable
+import com.google.firebase.auth.PhoneAuthProvider
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.ev.greenh.auth.data.AuthRepository
-import com.ev.greenh.auth.ui.composable.SignUpScreen
-import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.setMain
-import org.junit.Before
 
 /*
  * Created by Sudhanshu Kumar on 17/08/23.
@@ -32,23 +33,30 @@ import org.junit.Before
 @RunWith(AndroidJUnit4::class)
 class SignUpFragTest {
 
-    @get:Rule
-    var activityScenarioRule = activityScenarioRule<AuthActivity>()
+    companion object {
+        private const val TOKEN_TEST = "token_test"
+        private const val VERIFICATION_ID_TEST = "verification_id_test"
+    }
 
     @get:Rule
     val composeRule = createAndroidComposeRule<AuthActivity>()
-
-    private val testDispatcher = StandardTestDispatcher()
 
     private lateinit var viewModel: SignUpViewModel
 
     private val repository = mockk<AuthRepository>()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
+    private lateinit var token: AbstractSafeParcelable
+
     @Before
     fun setup() {
         viewModel = SignUpViewModel(repository)
-        Dispatchers.setMain(testDispatcher)
+        composeRule.mainClock.autoAdvance = false
+        val composeView = composeRule.activity.findViewById<ComposeView>(R.id.signUpFragComposeView)
+        composeView.setContent {
+            SignUpScreen(viewModel = viewModel)
+        }
+        composeRule.mainClock.advanceTimeBy(400L)
+        composeRule.mainClock.autoAdvance = true
     }
 
 //    @Test
@@ -58,14 +66,34 @@ class SignUpFragTest {
 //    }
 
     @Test
-    fun firstComposeTest() {
-        composeRule.mainClock.autoAdvance = false
-        val composeView = composeRule.activity.findViewById<ComposeView>(R.id.signUpFragComposeView)
-        composeView.setContent {
-            SignUpScreen(viewModel = viewModel)
-        }
-        composeRule.mainClock.advanceTimeBy(500L)
-        composeRule.onNodeWithTag("testBtn").assertExists()
+    fun brandingViewVisible_onSignUpOpen() {
+        composeRule.onNodeWithTag(Tags.BRAND_DESCRIPTION).assertExists()
+        composeRule.onNodeWithContentDescription(Tags.BRAND_LOGO).assertExists()
+        composeRule.onNodeWithTag(Tags.BRAND_NAME).assertExists()
+    }
+
+    @Test
+    fun phoneViewVisible_onSignUpOpen() {
+        composeRule.onNodeWithTag(Tags.PHONE_ENTER).assertExists()
+        composeRule.onNodeWithTag(Tags.PHONE_VIEW_NEXT_BTN).assertExists()
+    }
+
+    @Test
+    fun verifyViewNotVisible_onSignUpOpen() {
+        composeRule.onNodeWithTag(Tags.VERIFY_ENTER_OTP).assertDoesNotExist()
+        composeRule.onNodeWithTag(Tags.RESEND_OTP).assertDoesNotExist()
+    }
+
+    @Test
+    fun validNumberNextClick_redirectToEnterOtp() {
+//        coEvery {
+//            repository.sendOtp(null)
+//        } returns viewModel.callbacks.onCodeSent(VERIFICATION_ID_TEST, token)
+
+        val phoneView = composeRule.onNodeWithTag(testTag = Tags.PHONE_ENTER)
+        phoneView.performTextInput("9999999999")
+        phoneView.performImeAction()
+        composeRule.onNodeWithTag(Tags.PHONE_VIEW_NEXT_BTN).performClick()
 
     }
 

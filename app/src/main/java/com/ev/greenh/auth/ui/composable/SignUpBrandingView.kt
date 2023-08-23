@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.ev.greenh.R
 import com.ev.greenh.commonui.DefaultTextColor
 import com.ev.greenh.commonui.MediumGreen
+import com.example.testing.Tags
 
 /*
  * Created by Sudhanshu Kumar on 10/07/23.
@@ -36,17 +38,19 @@ fun SignUpBrandingView() {
                     painter = painterResource(
                         id = R.drawable.logo_gh
                     ),
-                    contentDescription = "brand_logo",
+                    contentDescription = Tags.BRAND_LOGO,
                     modifier = Modifier
                         .size(92.dp)
                         .clip(CircleShape),
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.Crop
                 )
                 Box(
                     modifier = Modifier.align(Alignment.Bottom)
                 ) {
                     Text(
-                        modifier = Modifier.padding(start = 8.dp),
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .testTag(Tags.BRAND_NAME),
                         text = "GardnersHub",
                         color = MediumGreen,
                         fontFamily = FontFamily(Font(R.font.carmen_bold)),
@@ -57,7 +61,8 @@ fun SignUpBrandingView() {
             Row(modifier = Modifier.align(Alignment.End)) {
                 Text(
                     modifier = Modifier
-                        .padding(top = 8.dp),
+                        .padding(top = 8.dp)
+                        .testTag(Tags.BRAND_DESCRIPTION),
                     text = "Sustainability starts at home",
                     fontFamily = FontFamily(Font(R.font.carmen_regular)),
                     fontSize = 18.sp,

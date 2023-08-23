@@ -52,7 +52,7 @@ class SignUpViewModel(
                         phoneNo = event.phone.toString()
                     )
                     event.options?.let {
-                        PhoneAuthProvider.verifyPhoneNumber(it)
+                        authRepository.sendOtp(it)
                     }
                 } else {
                     state = state.copy(
@@ -91,7 +91,7 @@ class SignUpViewModel(
                     state = state.copy(
                         loading = true
                     )
-                    PhoneAuthProvider.verifyPhoneNumber(event.options)
+                    authRepository.sendOtp(event.options)
                 }
             }
 

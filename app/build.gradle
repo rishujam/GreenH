@@ -103,6 +103,8 @@ dependencies {
     //work manager
     implementation "androidx.work:work-runtime-ktx:2.7.1"
 
+    implementation project(":testing")
+
     // Local unit tests
     testImplementation "androidx.test:core:1.4.0"
     testImplementation "junit:junit:4.13.2"
