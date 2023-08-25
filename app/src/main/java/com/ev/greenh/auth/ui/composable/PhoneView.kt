@@ -43,6 +43,7 @@ import com.ev.greenh.commonui.LightBgGreen
 import com.ev.greenh.commonui.MediumGreen
 import com.ev.greenh.util.findActivity
 import com.example.testing.Tags
+import com.example.testing.TestConstants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthOptions
 import java.util.concurrent.TimeUnit
@@ -145,7 +146,7 @@ private fun buildOptionsForPhoneVerification(
     phone: String,
     context: Context
 ): PhoneAuthOptions? {
-    if (phone.length == 10) {
+    if (phone.length == 10 && phone != TestConstants.UI_TEST_NUMBER) {
         return PhoneAuthOptions.newBuilder(viewModel.getAuth())
             .setPhoneNumber("+91$phone")
             .setTimeout(0L, TimeUnit.SECONDS)

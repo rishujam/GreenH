@@ -151,7 +151,9 @@ fun VerifyPhoneView(viewModel: SignUpViewModel) {
                     .fillMaxWidth()
             ) {
                 Button(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag(Tags.VERIFY_BTN),
                     onClick = {
                         viewModel.onEvent(
                             SignUpEvents.VerifyClick(

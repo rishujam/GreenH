@@ -13,5 +13,7 @@ object Tags {
     const val PHONE_VIEW_NEXT_BTN = "phone_view_next_btn"
     const val VERIFY_ENTER_OTP = "verify_enter_otp"
     const val RESEND_OTP = "resend_otp"
+    const val OTP_ENTER_VIEW = "otp_enter_view"
+    const val VERIFY_BTN = "verify_btn"
 
 }
