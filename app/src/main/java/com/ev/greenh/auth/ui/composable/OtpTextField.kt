@@ -21,6 +21,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ev.greenh.commonui.DefaultTextColor
 import com.ev.greenh.commonui.MediumGreen
+import com.example.testing.Tags
 
 /*
  * Created by Sudhanshu Kumar on 13/07/23.
@@ -51,7 +53,8 @@ fun OtpTextField(
     val focusManager = LocalFocusManager.current
     BasicTextField(
         modifier = Modifier
-            .padding(top = 16.dp),
+            .padding(top = 16.dp)
+            .testTag(Tags.OTP_ENTER_VIEW),
         value = TextFieldValue(otpText, selection = TextRange(otpText.length)),
         onValueChange = {
             if (it.text.length <= otpCount) {

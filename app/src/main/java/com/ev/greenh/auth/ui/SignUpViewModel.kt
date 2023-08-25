@@ -51,9 +51,7 @@ class SignUpViewModel(
                     state = state.copy(
                         phoneNo = event.phone.toString()
                     )
-                    event.options?.let {
-                        authRepository.sendOtp(it)
-                    }
+                    authRepository.sendOtp(event.options)
                 } else {
                     state = state.copy(
                         loading = false
