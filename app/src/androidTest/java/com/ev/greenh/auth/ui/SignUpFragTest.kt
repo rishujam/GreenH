@@ -54,7 +54,6 @@ class SignUpFragTest {
     @Before
     fun setup() {
         viewModel = SignUpViewModel(repository)
-        composeRule.mainClock.autoAdvance = false
         val composeView = composeRule.activity.findViewById<ComposeView>(R.id.signUpFragComposeView)
         composeView.setContent {
             SignUpScreen(viewModel = viewModel)
@@ -71,8 +70,6 @@ class SignUpFragTest {
                 composeRule.activity.applicationContext.getString(R.string.token),
             )
         } returns true
-        composeRule.mainClock.advanceTimeBy(400L)
-        composeRule.mainClock.autoAdvance = true
     }
 
 //    @Test
