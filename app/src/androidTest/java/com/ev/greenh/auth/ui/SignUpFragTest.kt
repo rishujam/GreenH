@@ -20,6 +20,7 @@ import com.ev.greenh.R
 import com.ev.greenh.auth.AuthActivity
 import com.ev.greenh.auth.data.AuthRepository
 import com.ev.greenh.auth.ui.composable.SignUpScreen
+import com.ev.greenh.auth.ui.states.SignUpProgress
 import com.ev.greenh.ui.MainActivity
 import com.example.testing.Tags
 import com.example.testing.TestConstants
@@ -80,15 +81,15 @@ class SignUpFragTest {
 
     @Test
     fun brandingViewVisible_onSignUpOpen() {
-        composeRule.onNodeWithTag(Tags.BRAND_DESCRIPTION).assertExists()
-        composeRule.onNodeWithContentDescription(Tags.BRAND_LOGO).assertExists()
-        composeRule.onNodeWithTag(Tags.BRAND_NAME).assertExists()
+        composeRule.onNodeWithTag(Tags.BRAND_DESCRIPTION).assertIsDisplayed()
+        composeRule.onNodeWithContentDescription(Tags.BRAND_LOGO).assertIsDisplayed()
+        composeRule.onNodeWithTag(Tags.BRAND_NAME).assertIsDisplayed()
     }
 
     @Test
     fun phoneViewVisible_onSignUpOpen() {
-        composeRule.onNodeWithTag(Tags.PHONE_ENTER).assertExists()
-        composeRule.onNodeWithTag(Tags.PHONE_VIEW_NEXT_BTN).assertExists()
+        composeRule.onNodeWithTag(Tags.PHONE_ENTER).assertIsDisplayed()
+        composeRule.onNodeWithTag(Tags.PHONE_VIEW_NEXT_BTN).assertIsDisplayed()
     }
 
     @Test
@@ -114,9 +115,16 @@ class SignUpFragTest {
         composeRule.onNodeWithTag(Tags.PHONE_VIEW_NEXT_BTN).performClick()
         composeRule.onNodeWithTag(Tags.OTP_ENTER_VIEW).performTextInput(TestConstants.UI_TEST_OTP)
         composeRule.onNodeWithTag(Tags.VERIFY_BTN).performClick()
-        val mainActivityScenario = ActivityScenario.launch(MainActivity::class.java)
-        onView(withId(R.id.bottomNavigationView)).check(matches(isDisplayed()))
-        mainActivityScenario.close()
+        composeRule.mainClock.autoAdvance = false
+        composeRule.mainClock.advanceTimeBy(200L)
+        composeRule.mainClock.autoAdvance = true
+        if(viewModel.state.screen == SignUpProgress.VerifiedPhoneStage) {
+            val mainActivityScenario = ActivityScenario.launch(MainActivity::class.java)
+            onView(withId(R.id.bottomNavigationView)).check(matches(isDisplayed()))
+            mainActivityScenario.close()
+        } else {
+            assert(false)
+        }
     }
 
 }
