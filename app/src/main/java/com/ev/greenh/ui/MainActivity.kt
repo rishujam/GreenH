@@ -1,22 +1,19 @@
 package com.ev.greenh.ui
 
 import android.content.Intent
-import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ev.greenh.*
 import com.ev.greenh.databinding.ActivityMainBinding
 import com.ev.greenh.firebase.FirestoreSource
+import com.ev.greenh.grow.ui.GrowFragment
 import com.ev.greenh.plantidentification.ui.PlantIndentifierActivity
 import com.ev.greenh.repository.PlantRepository
-import com.ev.greenh.ui.order.BagBuyFragment
-import com.ev.greenh.ui.order.BagFragment
 import com.ev.greenh.ui.order.MyOrdersFragment
 import com.ev.greenh.ui.plants.PlantFragment
 import com.ev.greenh.ui.profile.SettingFragment
@@ -25,7 +22,6 @@ import com.ev.greenh.viewmodels.ViewModelFactory
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
-import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
 
@@ -48,18 +44,22 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
         viewModel = ViewModelProvider(this,factory)[PlantViewModel::class.java]
         //end setting up viewModel
 
-
-        val myOrdersFragment = MyOrdersFragment()
-        val settingFragment = SettingFragment()
-        val bagFragment = BagFragment()
-//        val scannerFragment = ScannerFragment()
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.imPlants -> setCurrentFragment(plantFragment)
-                R.id.imOrder ->setCurrentFragment(myOrdersFragment)
+                R.id.imOrder -> {
+                    val myOrdersFragment = MyOrdersFragment()
+                    setCurrentFragment(myOrdersFragment)
+                }
                 R.id.imScanner -> openIdentificationScreen()
-                R.id.imSetting -> setCurrentFragment(settingFragment)
-                R.id.imBag -> setCurrentFragment(bagFragment)
+                R.id.imSetting -> {
+                    val settingFragment = SettingFragment()
+                    setCurrentFragment(settingFragment)
+                }
+                R.id.imBag -> {
+                    val growFragment = GrowFragment()
+                    setCurrentFragment(growFragment)
+                }
             }
             true
         }

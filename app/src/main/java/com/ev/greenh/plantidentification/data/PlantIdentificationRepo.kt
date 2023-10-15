@@ -6,8 +6,6 @@ import com.ev.greenh.plantidentification.data.model.res.AnnotateImageResponse
 import com.google.android.gms.tasks.Task
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.functions.FirebaseFunctionsException
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.ktx.app
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
