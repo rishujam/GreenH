@@ -1,5 +1,6 @@
 package com.ev.greenh.ui
 
+import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.ev.greenh.*
 import com.ev.greenh.databinding.ActivityMainBinding
 import com.ev.greenh.firebase.FirestoreSource
+import com.ev.greenh.plantidentification.ui.PlantIndentifierActivity
 import com.ev.greenh.repository.PlantRepository
 import com.ev.greenh.ui.order.BagBuyFragment
 import com.ev.greenh.ui.order.BagFragment
@@ -55,12 +57,16 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
             when(it.itemId){
                 R.id.imPlants -> setCurrentFragment(plantFragment)
                 R.id.imOrder ->setCurrentFragment(myOrdersFragment)
-//                R.id.imScanner -> setCurrentFragment(scannerFragment)
+                R.id.imScanner -> openIdentificationScreen()
                 R.id.imSetting -> setCurrentFragment(settingFragment)
                 R.id.imBag -> setCurrentFragment(bagFragment)
             }
             true
         }
+    }
+
+    private fun openIdentificationScreen() {
+        startActivity(Intent(this, PlantIndentifierActivity::class.java))
     }
 
     fun setCurrentFragment(fragment: Fragment)=

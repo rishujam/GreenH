@@ -1,33 +1,33 @@
 <resources>
-    <string name="app_name">Gardners Hub</string>
-    <string name="plant_sample_ref">samplePlants</string>
-    <string name="user_ref">users</string>
-    <string name="cart">cart</string>
-    <string name="orders">orders</string>
-    <string name="token">notifyTokens</string>
-    <string name="utils">utils</string>
-    <string name="image_coll">hqPlantImage</string>
-    <string name="plant_video_url">plantVideoUrl</string>
-    <string-array name="delivery_status">
-        <item>Order Placed</item>
-        <item>Order Placed To Nursery</item>
-        <item>Order Rejected from nursery</item>
-        <item>Order on way</item>
-        <item>Order Delivered</item>
-        <item>Cancel Requested</item>
-        <item>Cancelled</item>
-    </string-array>
-    <string-array name="payment_status">
-        <item>Done</item>
-        <item>Not Done</item>
-        <item>Refunding</item>
-        <item>Refunded</item>
-    </string-array>
-    <string-array name="category">
-        <item>All</item>
-        <item>Indoor</item>
-        <item>Table</item>
-    </string-array>
-    <string name="refund_text">If you have done payment online your amount will be refunded within 12 hrs</string>
-    <string name="cancel_req_text">Cancellation will be approved if order has not been dispatched</string>
+	<string name="app_name">Gardners Hub</string>
+	<string name="plant_sample_ref">samplePlants</string>
+	<string name="user_ref">users</string>
+	<string name="cart">cart</string>
+	<string name="orders">orders</string>
+	<string name="token">notifyTokens</string>
+	<string name="utils">utils</string>
+	<string name="image_coll">hqPlantImage</string>
+	<string name="plant_video_url">plantVideoUrl</string>
+	<string-array name="delivery_status">
+		<item>Order Placed</item>
+		<item>Order Placed To Nursery</item>
+		<item>Order Rejected from nursery</item>
+		<item>Order on way</item>
+		<item>Order Delivered</item>
+		<item>Cancel Requested</item>
+		<item>Cancelled</item>
+	</string-array>
+	<string-array name="payment_status">
+		<item>Done</item>
+		<item>Not Done</item>
+		<item>Refunding</item>
+		<item>Refunded</item>
+	</string-array>
+	<string-array name="category">
+		<item>All</item>
+		<item>Indoor</item>
+		<item>Table</item>
+	</string-array>
+	<string name="refund_text">If you have done payment online your amount will be refunded within 12 hrs</string>
+	<string name="cancel_req_text">Cancellation will be approved if order has not been dispatched</string>
 </resources>
