@@ -15,5 +15,12 @@ object Tags {
     const val RESEND_OTP = "resend_otp"
     const val OTP_ENTER_VIEW = "otp_enter_view"
     const val VERIFY_BTN = "verify_btn"
+    const val TOOLBAR_BACK_BTN = "toolbar_back_btn"
+
+    //grow listing screen
+    const val GROW_RV_ITEM_IMAGE = "grow_rv_item_image"
+
+    //grow detail screen
+    const val GROW_DETAIL_TOP_IMAGE = "grow_detail_top_image"
 
 }
