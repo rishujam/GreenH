@@ -1,21 +1,21 @@
-package com.ev.greenh.grow.ui
+package com.ev.greenh.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.ev.greenh.databinding.FragmentHomeBinding
 import com.ev.greenh.databinding.FragmentLocalPlantsStep1Binding
 import com.ev.greenh.grow.ui.composable.LocalPlantStep1Screen
-import com.ev.greenh.ui.MainActivity
 
 /*
  * Created by Sudhanshu Kumar on 20/10/23.
  */
 
-class LocalPlantStep1Fragment : Fragment() {
+class HomeFragment : Fragment() {
 
-    private var _binding: FragmentLocalPlantsStep1Binding? = null
+    private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding
 
     override fun onCreateView(
@@ -23,15 +23,14 @@ class LocalPlantStep1Fragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentLocalPlantsStep1Binding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as? MainActivity)?.hideNav()
-        binding?.cvLocalPlantStep1?.setContent {
-            LocalPlantStep1Screen()
+        binding?.cvHomeFrag?.setContent {
+            HomeScreen()
         }
     }
 
@@ -39,4 +38,5 @@ class LocalPlantStep1Fragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

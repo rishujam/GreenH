@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ev.greenh.R
 import com.ev.greenh.commonui.DarkGreen
+import com.ev.greenh.commonui.Mat3OnBg
+import com.ev.greenh.commonui.Mat3OnSurfaceVariant
 import com.example.testing.Tags
 
 /*
@@ -37,7 +39,7 @@ fun Toolbar(title: String) {
                     id = R.drawable.ic_back_arrow
                 ),
                 contentDescription = Tags.TOOLBAR_BACK_BTN,
-                colorFilter = ColorFilter.tint(DarkGreen)
+                colorFilter = ColorFilter.tint(Mat3OnBg)
             )
             Text(
                 text = title,
@@ -45,7 +47,7 @@ fun Toolbar(title: String) {
                 style = TextStyle(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = DarkGreen
+                    color = Mat3OnBg
                 )
             )
         }

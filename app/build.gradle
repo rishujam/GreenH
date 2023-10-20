@@ -107,6 +107,8 @@ dependencies {
 
     implementation project(":testing")
 
+    implementation "com.github.skydoves:orchestra-spinner:1.2.0"
+
     // Local unit tests
     testImplementation "androidx.test:core:1.4.0"
     testImplementation "junit:junit:4.13.2"
