@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/mat3_bg">
 
 
     <TextView
@@ -14,7 +15,7 @@
         android:paddingTop="16dp"
         android:text="Gardners Hub"
         android:fontFamily="@font/carmen_heavy"
-        android:textColor="?android:colorPrimary"
+        android:textColor="@color/mat3_on_bg"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/carmen_regular"
+        android:textColor="@color/mat3_on_bg"
         android:paddingLeft="16dp"
         android:paddingTop="6dp"
         android:text="choose your new green friend."
@@ -56,7 +58,7 @@
                 android:paddingTop="8dp"
                 android:paddingRight="16dp"
                 android:paddingLeft="16dp"
-                android:textColor="?android:colorPrimary"
+                android:textColor="@color/mat3_on_bg"
                 android:paddingBottom="8dp"
                 android:text="All"
                 android:textSize="16sp" />

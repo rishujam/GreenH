@@ -14,4 +14,41 @@
     <color name="dark_green">#0f3923</color>
     <color name="orange_pending">#F29339</color>
     <color name="red">#FF0000</color>
+
+<!--    material3 light scheme-->
+    <color name="mat3_primary">#006d41</color>
+    <color name="mat3_on_primary">#ffffff</color>
+    <color name="mat3_secondary">#4e6354</color>
+    <color name="mat3_on_secondary">#ffffff</color>
+    <color name="mat3_tertiary">#3b6470</color>
+    <color name="mat3_on_tertiary">#ffffff</color>
+    <color name="mat3_error">#ba1a1a</color>
+    <color name="mat3_bg">#fbfdf8</color>
+    <color name="mat3_on_bg">#191c1a</color>
+    <color name="mat3_surface">#fbfdf8</color>
+    <color name="mat3_on_surface">#191c1a</color>
+    <color name="mat3_surface_variant">#dce5dc</color>
+    <color name="mat3_on_surface_variant">#414942</color>
+    <color name="mat3_outline">#717972</color>
+    <color name="mat3_primary_container">#94f7ba</color>
+    <color name="mat3_on_primary_container">#002110</color>
+
+    <!--    material3 dark scheme-->
+    <color name="mat3_primary_dark">#78daa0</color>
+    <color name="mat3_on_primary_dark">#00391f</color>
+    <color name="mat3_secondary_dark">#b5ccba</color>
+    <color name="mat3_on_secondary_dark">#213528</color>
+    <color name="mat3_tertiary_dark">#a3cddb</color>
+    <color name="mat3_on_tertiary_dark">#033541</color>
+    <color name="mat3_error_dark">#ffb4ab</color>
+    <color name="mat3_bg_dark">#191c1a</color>
+    <color name="mat3_on_bg_dark">#e1e3de</color>
+    <color name="mat3_surface_dark">#191c1a</color>
+    <color name="mat3_on_surface_dark">#e1e3de</color>
+    <color name="mat3_surface_variant_dark">#414942</color>
+    <color name="mat3_on_surface_variant_dark">#c0c9c0</color>
+    <color name="mat3_outline_dark">#8a938b</color>
+    <color name="mat3_primary_container_dark">#005230</color>
+    <color name="mat3_on_primary_container_dark">#94f7ba</color>
+
 </resources>
