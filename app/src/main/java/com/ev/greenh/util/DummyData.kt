@@ -63,12 +63,12 @@ object DummyData {
             ),
             LocalPlantListQuestionItem(
                 "2",
-                "Question Heading",
-                "Question",
+                "Tell us more",
+                "How much sunlight reaches your space?",
                 listOf(
-                    Option("Option 1"),
-                    Option("Option 2"),
-                    Option("Option 3")
+                    Option("Direct"),
+                    Option("Indirect"),
+                    Option("No Sunlight")
                 ),
                 viewType = Constants.ViewType.LOCAL_PLANT_LIST_QUESTION
             ),

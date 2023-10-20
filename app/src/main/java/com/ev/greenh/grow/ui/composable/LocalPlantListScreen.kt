@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ev.greenh.commonui.Mat3Bg
 import com.ev.greenh.commonui.composable.Toolbar
+import com.ev.greenh.grow.ui.LocalPlantListViewModel
 import com.ev.greenh.grow.ui.composable.components.LocalPlantItem
 import com.ev.greenh.grow.ui.composable.components.LocalPlantQuestionItem
 import com.ev.greenh.grow.ui.model.LocalPlantListItem
@@ -28,7 +29,9 @@ import com.ev.greenh.util.DummyData
  */
 
 @Composable
-fun LocalPlantListScreen() {
+fun LocalPlantListScreen(
+    viewModel: LocalPlantListViewModel
+) {
     val list = DummyData.getLocalPlantList()
     Column(
         modifier = Modifier
@@ -39,7 +42,7 @@ fun LocalPlantListScreen() {
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(16.dp)
+                .height(8.dp)
         )
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Fixed(2),
@@ -55,7 +58,7 @@ fun LocalPlantListScreen() {
                             span = StaggeredGridItemSpan.FullLine
                         ) {
                             (item as? LocalPlantListQuestionItem)?.let {
-                                LocalPlantQuestionItem(it)
+                                LocalPlantQuestionItem(it, viewModel)
                             }
                         }
                     }

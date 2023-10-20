@@ -26,7 +26,7 @@ fun LocalPlantItem(item: LocalPlantListItem) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(120.dp)
+            .height(240.dp)
             .clip(RoundedCornerShape(8.dp))
     ) {
         Image(
