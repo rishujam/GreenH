@@ -14,7 +14,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ev.greenh.commonui.Mat3OnPrimary
+import com.ev.greenh.commonui.Mat3OnSecondary
+import com.ev.greenh.commonui.Mat3OnSurfaceVariant
 import com.ev.greenh.commonui.Mat3Primary
+import com.ev.greenh.commonui.Mat3Secondary
+import com.ev.greenh.commonui.Mat3SurfaceVariant
 
 /*
  * Created by Sudhanshu Kumar on 20/10/23.
@@ -23,17 +27,33 @@ import com.ev.greenh.commonui.Mat3Primary
 @Composable
 fun GButton(
     modifier: Modifier,
-    text: String
+    text: String,
+    isEnabled: Boolean,
+    onClick: () -> Unit
 ) {
     Text(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
-            .background(Mat3Primary)
+            .background(
+                if (isEnabled) {
+                    Mat3Primary
+                } else {
+                    Mat3SurfaceVariant
+                }
+            )
             .padding(vertical = 12.dp)
-            .clickable {},
+            .clickable {
+                if(isEnabled) {
+                    onClick()
+                }
+            },
         text = text,
-        color = Mat3OnPrimary,
+        color = if (isEnabled) {
+            Mat3OnPrimary
+        } else {
+            Mat3OnSurfaceVariant
+        },
         textAlign = TextAlign.Center,
         fontWeight = FontWeight.SemiBold,
         fontSize = 18.sp

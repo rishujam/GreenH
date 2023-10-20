@@ -36,7 +36,7 @@ fun Toolbar(title: String) {
         Row {
             Image(
                 painter = painterResource(
-                    id = R.drawable.ic_back_arrow
+                    id = R.drawable.back_btn
                 ),
                 contentDescription = Tags.TOOLBAR_BACK_BTN,
                 colorFilter = ColorFilter.tint(Mat3OnBg)
