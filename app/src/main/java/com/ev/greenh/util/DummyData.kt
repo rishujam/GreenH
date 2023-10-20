@@ -1,5 +1,9 @@
 package com.ev.greenh.util
 
+import com.ev.greenh.grow.ui.model.LocalPlantListItem
+import com.ev.greenh.grow.ui.model.LocalPlantListItemBase
+import com.ev.greenh.grow.ui.model.LocalPlantListQuestionItem
+import com.ev.greenh.grow.ui.model.Option
 import com.ev.greenh.grow.ui.model.SelectAreaListItem
 
 /*
@@ -40,6 +44,82 @@ object DummyData {
             "Uttar Pradesh",
             "Uttarakhand",
             "West Bengal"
+        )
+    }
+
+    fun getLocalPlantList(): List<LocalPlantListItemBase> {
+        return mutableListOf(
+            LocalPlantListItem(
+                "0",
+                "Rose",
+                "",
+                Constants.ViewType.LOCAL_PLANT_LIST
+            ),
+            LocalPlantListItem(
+                "1",
+                "Rose",
+                "",
+                Constants.ViewType.LOCAL_PLANT_LIST
+            ),
+            LocalPlantListQuestionItem(
+                "2",
+                "Question Heading",
+                "Question",
+                listOf(
+                    Option("Option 1"),
+                    Option("Option 2"),
+                    Option("Option 3")
+                ),
+                viewType = Constants.ViewType.LOCAL_PLANT_LIST_QUESTION
+            ),
+            LocalPlantListItem(
+                "3",
+                "Rose",
+                "",
+                Constants.ViewType.LOCAL_PLANT_LIST
+            ),
+            LocalPlantListItem(
+                "4",
+                "Rose",
+                "",
+                Constants.ViewType.LOCAL_PLANT_LIST
+            ),
+            LocalPlantListItem(
+                "5",
+                "Rose",
+                "",
+                Constants.ViewType.LOCAL_PLANT_LIST
+            ),
+            LocalPlantListItem(
+                "6",
+                "Rose",
+                "",
+                Constants.ViewType.LOCAL_PLANT_LIST
+            ),
+            LocalPlantListItem(
+                "7",
+                "Rose",
+                "",
+                Constants.ViewType.LOCAL_PLANT_LIST
+            ),
+            LocalPlantListItem(
+                "8",
+                "Rose",
+                "",
+                Constants.ViewType.LOCAL_PLANT_LIST
+            ),
+            LocalPlantListItem(
+                "9",
+                "Rose",
+                "",
+                Constants.ViewType.LOCAL_PLANT_LIST
+            ),
+            LocalPlantListItem(
+                "10",
+                "Rose",
+                "",
+                Constants.ViewType.LOCAL_PLANT_LIST
+            )
         )
     }
 }
