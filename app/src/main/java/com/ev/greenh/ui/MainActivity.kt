@@ -12,6 +12,7 @@ import com.ev.greenh.*
 import com.ev.greenh.databinding.ActivityMainBinding
 import com.ev.greenh.firebase.FirestoreSource
 import com.ev.greenh.grow.ui.GrowFragment
+import com.ev.greenh.home.HomeFragment
 import com.ev.greenh.plantidentification.ui.PlantIndentifierActivity
 import com.ev.greenh.repository.PlantRepository
 import com.ev.greenh.ui.order.MyOrdersFragment
@@ -34,8 +35,8 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val plantFragment = PlantFragment()
-        setCurrentFragment(plantFragment)
+        val homeFragment = HomeFragment()
+        setCurrentFragment(homeFragment)
 
         //Setting viewModel
         val plantSource = FirestoreSource()
@@ -46,10 +47,12 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.imPlants -> setCurrentFragment(plantFragment)
-                R.id.imOrder -> {
-                    val myOrdersFragment = MyOrdersFragment()
-                    setCurrentFragment(myOrdersFragment)
+                R.id.imPlants -> {
+                    val plantFrag = PlantFragment()
+                    setCurrentFragment(plantFrag)
+                }
+                R.id.imHome -> {
+                    setCurrentFragment(homeFragment)
                 }
                 R.id.imScanner -> openIdentificationScreen()
                 R.id.imSetting -> {
@@ -96,10 +99,6 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
         paymentData = p1
         successListener ="Y"
         Log.e("MainActivity: $p0", p1.toString())
-    }
-
-    fun setCurrentIcon(){
-        binding.bottomNavigationView.selectedItemId = R.id.imOrder
     }
 
     fun hideNav(){

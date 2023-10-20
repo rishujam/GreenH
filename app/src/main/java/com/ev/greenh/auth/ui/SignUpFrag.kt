@@ -49,10 +49,6 @@ class SignUpFrag : Fragment() {
                 SignUpScreen(viewModel)
             }
         }
-
-//        binding?.btntest?.setOnClickListener {
-//            binding?.btntest?.text = "ChangedText"
-//        }
     }
 
     override fun onDestroyView() {

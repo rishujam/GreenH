@@ -199,7 +199,7 @@ class BagBuyFragment:Fragment() {
                     val ordersFragment = MyOrdersFragment()
                     (activity as MainActivity).supportFragmentManager.popBackStack()
                     (activity as MainActivity).setCurrentFragment(ordersFragment)
-                    (activity as MainActivity).setCurrentIcon()
+//                    (activity as MainActivity).setCurrentIcon()
                 }
                 is Resource.Error -> {
                     binding.cdPb.visibility = View.GONE

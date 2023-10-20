@@ -71,7 +71,7 @@ class PlantFragment:Fragment() {
                             R.color.theme_color_dark))}
                     Configuration.UI_MODE_NIGHT_NO -> {
                         binding.filterAll.setTextColor(ContextCompat.getColor(requireContext(),
-                            R.color.dark_green))
+                            R.color.mat3_on_bg))
                     }
                 }
             }
@@ -85,7 +85,7 @@ class PlantFragment:Fragment() {
                             R.color.theme_color_dark))}
                     Configuration.UI_MODE_NIGHT_NO -> {
                         binding.filterIndoor.setTextColor(ContextCompat.getColor(requireContext(),
-                            R.color.dark_green))
+                            R.color.mat3_on_bg))
                     }
                 }
             }
@@ -99,7 +99,7 @@ class PlantFragment:Fragment() {
                             R.color.theme_color_dark))}
                     Configuration.UI_MODE_NIGHT_NO -> {
                         binding.filterTable.setTextColor(ContextCompat.getColor(requireContext(),
-                            R.color.dark_green))
+                            R.color.mat3_on_bg))
                     }
                 }
             }
@@ -217,7 +217,7 @@ class PlantFragment:Fragment() {
                             R.color.theme_color_dark))}
                     Configuration.UI_MODE_NIGHT_NO -> {
                         binding.filterAll.setTextColor(ContextCompat.getColor(requireContext(),
-                            R.color.dark_green))
+                            R.color.mat3_on_bg))
                     }
                 }
                 viewModel.currentFilter = "All"
@@ -234,7 +234,7 @@ class PlantFragment:Fragment() {
                             R.color.theme_color_dark))}
                     Configuration.UI_MODE_NIGHT_NO -> {
                         binding.filterTable.setTextColor(ContextCompat.getColor(requireContext(),
-                            R.color.dark_green))
+                            R.color.mat3_on_bg))
                     }
                 }
                 viewModel.currentFilter  = "Table"
@@ -250,7 +250,7 @@ class PlantFragment:Fragment() {
                         R.color.theme_color_dark))}
                     Configuration.UI_MODE_NIGHT_NO -> {
                         binding.filterIndoor.setTextColor(ContextCompat.getColor(requireContext(),
-                            R.color.dark_green))
+                            R.color.mat3_on_bg))
                     }
                 }
                 viewModel.currentFilter = "Indoor"
