@@ -7,7 +7,7 @@ package com.ev.greenh.grow.data.model.res
 data class GrowDetailRes(
     val headImageUrl: String,
     val plantName: String,
-    val requirements: Map<Int, String>,
+    val requirements: Map<String, String>,
     val steps: List<String>,
     val isAvailableInShop: Boolean
 )

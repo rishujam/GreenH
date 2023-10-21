@@ -2,26 +2,22 @@ package com.ev.greenh.grow.ui.composable.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.ev.greenh.commonui.Mat3OnBg
-import com.ev.greenh.commonui.Mat3Surface
-import com.ev.greenh.commonui.Mat3Tertiary
+import androidx.compose.ui.unit.sp
+import com.ev.greenh.commonui.Mat3OnSurfaceVariant
+import com.ev.greenh.commonui.Mat3SurfaceVariant
+import com.ev.greenh.commonui.NunitoFontFamily
 import com.example.testing.Tags
 
 /*
@@ -29,31 +25,34 @@ import com.example.testing.Tags
  */
 
 @Composable
-fun BadgeIcon(res: Int, des: String) {
-    Column {
-        Box(
+fun BadgeIcon(res: Int, title: String, des: String) {
+    Column(
+        modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
+            .background(Mat3SurfaceVariant)
+    ) {
+        Image(
+            painter = painterResource(id = res),
+            contentDescription = Tags.GROW_DETAIL_REQ_BADGE_IMG,
             modifier = Modifier
-                .size(54.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(Mat3Surface),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painterResource(id = res),
-                contentDescription = Tags.GROW_DETAIL_REQ_BADGE_IMG,
-                modifier = Modifier.size(42.dp),
-                contentScale = ContentScale.Crop
-            )
-        }
-        Spacer(modifier = Modifier.height(6.dp))
-        Box(
-            modifier = Modifier.width(54.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = des,
-                color = Mat3OnBg
-            )
-        }
+                .size(42.dp)
+                .padding(start = 12.dp, top = 12.dp),
+            contentScale = ContentScale.Crop
+        )
+        Text(
+            text = title,
+            modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 4.dp),
+            fontSize = 14.sp,
+            fontFamily = NunitoFontFamily,
+            color = Mat3OnSurfaceVariant
+        )
+        Text(
+            text = des,
+            modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 12.dp, top = 2.dp),
+            fontSize = 14.sp,
+            fontFamily = NunitoFontFamily,
+            color = Mat3OnSurfaceVariant,
+            fontWeight = FontWeight.SemiBold
+        )
     }
 }

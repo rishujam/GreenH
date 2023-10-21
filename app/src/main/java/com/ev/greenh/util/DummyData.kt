@@ -128,10 +128,10 @@ object DummyData {
             "https://firebasestorage.googleapis.com/v0/b/gardenershub-ece08.appspot.com/o/sample_image.png?alt=media&token=7736e4e8-e0c6-40cd-9c54-8eac8dd4ec92",
             "Aglonema",
             mapOf(
-                0 to "Direct",
-                1 to "High",
-                2 to "Daily",
-                3 to "Rainy"
+                "Sunlight" to "Direct",
+                "Maintenance" to "High",
+                "Water" to "Daily",
+                "Season" to "Rainy"
             ),
             listOf("Buy plant", "Maintain plant"),
             true

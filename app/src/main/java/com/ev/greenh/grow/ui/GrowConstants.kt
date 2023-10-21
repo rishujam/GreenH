@@ -10,10 +10,10 @@ object GrowConstants {
     }
 
     object ResKey {
-        const val SUNLIGHT = 0
-        const val MAINTENANCE = 1
-        const val WATER = 2
-        const val SEASON = 3
+        const val SUNLIGHT = "Sunlight"
+        const val MAINTENANCE = "Maintenance"
+        const val WATER = "Water"
+        const val SEASON = "Season"
     }
 
     object ResValue {

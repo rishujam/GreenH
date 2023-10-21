@@ -6,5 +6,6 @@ package com.ev.greenh.grow.ui.model
 
 data class BadgeIconData(
     val des: String,
-    val imgRes: Int
+    val imgRes: Int,
+    val title: String
 )

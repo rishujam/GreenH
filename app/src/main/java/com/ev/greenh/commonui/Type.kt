@@ -17,6 +17,12 @@ val CarmenFontFamily = FontFamily(
     Font(R.font.carmen_regular, FontWeight.Normal)
 )
 
+val NunitoFontFamily = FontFamily(
+    Font(R.font.nunito_bold, FontWeight.Bold),
+    Font(R.font.nunito_semi_bold, FontWeight.SemiBold),
+    Font(R.font.nunito_regular, FontWeight.Normal)
+)
+
 val Typography = Typography(
     body1 = TextStyle(
         fontFamily = CarmenFontFamily,

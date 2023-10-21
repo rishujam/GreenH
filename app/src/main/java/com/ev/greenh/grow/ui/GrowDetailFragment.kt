@@ -47,7 +47,8 @@ class GrowDetailFragment : Fragment() {
                     GrowConstants.ResKey.MAINTENANCE -> {
                         BadgeIconData(
                             i.value,
-                            R.drawable.ic_maintenance
+                            R.drawable.ic_maintenance,
+                            i.key
                         )
                     }
                     GrowConstants.ResKey.SEASON -> {
@@ -55,19 +56,22 @@ class GrowDetailFragment : Fragment() {
                             GrowConstants.ResValue.SEASON_RAINY -> {
                                 BadgeIconData(
                                     i.value,
-                                    R.drawable.ic_rainy
+                                    R.drawable.ic_rainy,
+                                    i.key
                                 )
                             }
                             GrowConstants.ResValue.SEASON_SUMMER -> {
                                 BadgeIconData(
                                     i.value,
-                                    R.drawable.ic_summer
+                                    R.drawable.ic_summer,
+                                    i.key
                                 )
                             }
                             GrowConstants.ResValue.SEASON_WINTER -> {
                                 BadgeIconData(
                                     i.value,
-                                    R.drawable.ic_winter
+                                    R.drawable.ic_winter,
+                                    i.key
                                 )
                             }
                             else -> null
@@ -76,13 +80,15 @@ class GrowDetailFragment : Fragment() {
                     GrowConstants.ResKey.WATER -> {
                         BadgeIconData(
                             i.value,
-                            R.drawable.ic_water_drop
+                            R.drawable.ic_water_drop,
+                            i.key
                         )
                     }
                     GrowConstants.ResKey.SUNLIGHT -> {
                         BadgeIconData(
                             i.value,
-                            R.drawable.ic_summer
+                            R.drawable.ic_summer,
+                            i.key
                         )
                     }
                     else -> null

@@ -26,7 +26,7 @@ fun GroupBadgeIcon(
         is Orientation.Horizontal -> {
             Row(modifier = modifier.fillMaxWidth()) {
                 for(i in data) {
-                    BadgeIcon(res = i.imgRes, des = i.des)
+                    BadgeIcon(res = i.imgRes, des = i.des, title = i.title)
                     Spacer(modifier = Modifier.width(16.dp))
                 }
             }
@@ -34,7 +34,7 @@ fun GroupBadgeIcon(
         is Orientation.Vertical -> {
             Column(modifier = modifier) {
                 for(i in data) {
-                    BadgeIcon(res = i.imgRes, des = i.des)
+                    BadgeIcon(res = i.imgRes, des = i.des, title = i.title)
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
