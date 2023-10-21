@@ -7,5 +7,6 @@ package com.ev.greenh.grow.ui.model
 data class LocalPlantListItem(
     val id: String,
     val name: String,
-    val imageUrl: String
-)
+    val imageUrl: String,
+    override val viewType: Int
+) : LocalPlantListItemBase

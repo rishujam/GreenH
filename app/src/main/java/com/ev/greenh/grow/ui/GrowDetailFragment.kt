@@ -28,6 +28,7 @@ class GrowDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding?.cvGrowDetailFrag?.setContent {
             GrowDetailScreen()
         }

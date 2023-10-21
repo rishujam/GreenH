@@ -23,4 +23,7 @@ object Tags {
     //grow detail screen
     const val GROW_DETAIL_TOP_IMAGE = "grow_detail_top_image"
 
+    //local plants listing screen
+    const val LOCAL_PLANT_LIST_ITEM_IMAGE = "local_plant_list_item_image"
+
 }
