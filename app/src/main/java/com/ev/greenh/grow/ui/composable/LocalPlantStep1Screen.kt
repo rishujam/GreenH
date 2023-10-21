@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ev.greenh.R
 import com.ev.greenh.commonui.Mat3Bg
 import com.ev.greenh.commonui.Mat3OnBg
 import com.ev.greenh.commonui.Mat3OnSurfaceVariant
@@ -47,7 +48,7 @@ fun LocalPlantStep1Screen() {
             .background(Mat3Bg)
     ) {
         val context = LocalContext.current
-        Toolbar(title = "Local Plants")
+        Toolbar(title = "Local Plants", R.drawable.back_btn)
         Box(
             modifier = Modifier
                 .fillMaxWidth()

@@ -8,11 +8,15 @@ import com.ev.greenh.repository.BaseRepository
 
 class GrowRepository : BaseRepository() {
 
-    fun getPlantsByState() {
+    fun getGrowDetails(plantId: String) {
 
     }
 
-    fun getPlantsByQuestion() {
+    fun getPlantsByState(state: String) {
+
+    }
+
+    fun getPlantsBySunlight(answer: String) {
 
     }
 }

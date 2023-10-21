@@ -1,6 +1,7 @@
 package com.ev.greenh.grow.ui.composable.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,12 +23,18 @@ import com.example.testing.Tags
  */
 
 @Composable
-fun LocalPlantItem(item: LocalPlantListItem) {
+fun LocalPlantItem(
+    item: LocalPlantListItem,
+    onItemClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(240.dp)
             .clip(RoundedCornerShape(8.dp))
+            .clickable {
+                onItemClick()
+            }
     ) {
         Image(
             painter = painterResource(

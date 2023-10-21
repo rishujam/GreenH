@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,7 +28,10 @@ import com.example.testing.Tags
  */
 
 @Composable
-fun Toolbar(title: String) {
+fun Toolbar(
+    title: String,
+    icon: Int
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -36,10 +40,11 @@ fun Toolbar(title: String) {
         Row {
             Image(
                 painter = painterResource(
-                    id = R.drawable.back_btn
+                    id = icon
                 ),
                 contentDescription = Tags.TOOLBAR_BACK_BTN,
-                colorFilter = ColorFilter.tint(Mat3OnBg)
+                colorFilter = ColorFilter.tint(Mat3OnBg),
+                modifier = Modifier.size(24.dp)
             )
             Text(
                 text = title,
