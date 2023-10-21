@@ -19,6 +19,7 @@ import com.ev.greenh.commonui.Mat3OnSurfaceVariant
 import com.ev.greenh.commonui.Mat3Primary
 import com.ev.greenh.commonui.Mat3Secondary
 import com.ev.greenh.commonui.Mat3SurfaceVariant
+import com.ev.greenh.commonui.NunitoFontFamily
 
 /*
  * Created by Sudhanshu Kumar on 20/10/23.
@@ -55,7 +56,8 @@ fun GButton(
             Mat3OnSurfaceVariant
         },
         textAlign = TextAlign.Center,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 18.sp
+        fontSize = 16.sp,
+        fontFamily = NunitoFontFamily,
+        fontWeight = FontWeight.Bold
     )
 }

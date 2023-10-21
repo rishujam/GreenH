@@ -41,14 +41,14 @@ fun BadgeIcon(res: Int, title: String, des: String) {
         )
         Text(
             text = title,
-            modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 4.dp),
+            modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 6.dp),
             fontSize = 14.sp,
             fontFamily = NunitoFontFamily,
             color = Mat3OnSurfaceVariant
         )
         Text(
             text = des,
-            modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 12.dp, top = 2.dp),
+            modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 12.dp, top = 0.dp),
             fontSize = 14.sp,
             fontFamily = NunitoFontFamily,
             color = Mat3OnSurfaceVariant,

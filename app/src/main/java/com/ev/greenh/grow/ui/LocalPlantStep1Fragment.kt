@@ -29,7 +29,6 @@ class LocalPlantStep1Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as? MainActivity)?.hideNav()
         binding?.cvLocalPlantStep1?.setContent {
             LocalPlantStep1Screen()
         }

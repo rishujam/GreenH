@@ -130,8 +130,7 @@ object DummyData {
             mapOf(
                 "Sunlight" to "Direct",
                 "Maintenance" to "High",
-                "Water" to "Daily",
-                "Season" to "Rainy"
+                "Water" to "Daily"
             ),
             listOf("Buy plant", "Maintain plant"),
             true

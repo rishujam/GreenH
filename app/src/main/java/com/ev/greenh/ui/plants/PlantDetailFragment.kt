@@ -50,7 +50,6 @@ class PlantDetailFragment: Fragment() {
         _binding = FragmentPlantDetailsBinding.inflate(inflater,container,false)
         plantId = arguments?.getString("ID").toString()
         viewModel = (activity as MainActivity).viewModel
-        (activity as MainActivity).hideNav()
         return binding.root
     }
 

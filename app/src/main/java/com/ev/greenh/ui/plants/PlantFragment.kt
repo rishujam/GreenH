@@ -51,7 +51,6 @@ class PlantFragment:Fragment() {
     ): View? {
         _binding = FragmentPlantBinding.inflate(inflater,container,false)
         viewModel = (activity as MainActivity).viewModel
-        (activity as MainActivity).viewNav()
         return binding.root
     }
 

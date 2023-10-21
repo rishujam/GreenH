@@ -35,7 +35,6 @@ class LocalPlantListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as? MainActivity)?.hideNav()
         val repo = GrowRepository()
         val factory = ViewModelFactory(repo)
         viewModel = ViewModelProvider(this, factory)[LocalPlantListViewModel::class.java]
