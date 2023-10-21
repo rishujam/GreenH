@@ -1,5 +1,6 @@
 package com.ev.greenh.grow.ui.composable
 
+import android.os.Bundle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.ev.greenh.R
 import com.ev.greenh.commonui.Mat3Bg
 import com.ev.greenh.commonui.composable.Toolbar
+import com.ev.greenh.grow.ui.GrowConstants
 import com.ev.greenh.grow.ui.GrowDetailFragment
 import com.ev.greenh.grow.ui.LocalPlantListViewModel
 import com.ev.greenh.grow.ui.composable.components.LocalPlantItem
@@ -73,7 +75,10 @@ fun LocalPlantListScreen(
                             (item as? LocalPlantListItem)?.let {
                                 LocalPlantItem(it) {
                                     val activity = context.findActivity()
+                                    val bundle = Bundle()
+                                    bundle.putString(GrowConstants.FragmentArgKeys.PLANT_ID, it.id)
                                     val fragment = GrowDetailFragment()
+                                    fragment.arguments = bundle
                                     (activity as? MainActivity)?.setCurrentFragmentBack(fragment)
                                 }
                             }
