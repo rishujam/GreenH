@@ -50,7 +50,10 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
                 R.id.imHome -> {
                     setCurrentFragment(homeFragment)
                 }
-                R.id.imScanner -> openIdentificationScreen()
+                R.id.imShop -> {
+                    val fragment = PlantFragment()
+                    setCurrentFragmentBack(fragment)
+                }
                 R.id.imSetting -> {
                     val settingFragment = SettingFragment()
                     setCurrentFragmentBack(settingFragment)
@@ -60,7 +63,7 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
         }
     }
 
-    private fun openIdentificationScreen() {
+    fun openIdentificationScreen() {
         startActivity(Intent(this, PlantIndentifierActivity::class.java))
     }
 

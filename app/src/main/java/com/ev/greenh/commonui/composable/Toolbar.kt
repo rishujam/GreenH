@@ -51,7 +51,7 @@ fun Toolbar(
                 text = title,
                 modifier = Modifier.padding(start = 8.dp),
                 style = TextStyle(
-                    fontSize = 18.sp,
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Mat3OnBg,
                     fontFamily = NunitoFontFamily

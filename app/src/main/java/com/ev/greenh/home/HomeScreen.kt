@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,12 +35,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImagePainter
@@ -51,6 +54,7 @@ import com.ev.greenh.commonui.Mat3OnPrimary
 import com.ev.greenh.commonui.Mat3OnSurface
 import com.ev.greenh.commonui.Mat3OnSurfaceVariant
 import com.ev.greenh.commonui.Mat3Primary
+import com.ev.greenh.commonui.Mat3Secondary
 import com.ev.greenh.commonui.Mat3Surface
 import com.ev.greenh.commonui.Mat3SurfaceVariant
 import com.ev.greenh.commonui.NunitoFontFamily
@@ -135,7 +139,7 @@ fun HomeScreen() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(140.dp)
+                .fillMaxHeight(0.5f)
                 .padding(top = 16.dp, start = 16.dp, end = 16.dp)
         ) {
             Box(
@@ -144,18 +148,14 @@ fun HomeScreen() {
                     .clip(RoundedCornerShape(8.dp))
                     .clickable {
                         val activity = context.findActivity()
-                        val fragment = LocalPlantStep1Fragment()
-                        (activity as? MainActivity)?.setCurrentFragmentBack(fragment)
+                        (activity as? MainActivity)?.openIdentificationScreen()
                     },
                 contentAlignment = Alignment.Center
             ) {
                 val painter = rememberAsyncImagePainter(
-                    "https://firebasestorage.googleapis.com/v0/b/gardenershub-ece08.appspot.com/o/what_to_grow.jpeg?alt=media&token=0584f716-c390-4cc7-ba97-f2893e1b8468",
+                    "https://firebasestorage.googleapis.com/v0/b/gardenershub-ece08.appspot.com/o/plant_scan.jpeg?alt=media&token=db2395a2-2ec7-4030-9513-4f09c45285a6",
                 )
                 val state = painter.state
-                if (state is AsyncImagePainter.State.Loading) {
-                    LoadingAnimation()
-                }
                 val transition by animateFloatAsState(
                     targetValue = if (state is AsyncImagePainter.State.Success) 1f else 0f,
                     label = Tags.TRANSIT_SHOP_BANNER
@@ -175,73 +175,31 @@ fun HomeScreen() {
                     enter = slideInVertically() + fadeIn(),
                     exit = slideOutVertically() + fadeOut()
                 ) {
-                    Text(
-                        text = "Find what to grow",
-                        color = Mat3OnPrimary,
-                        fontFamily = NunitoFontFamily,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                        modifier = Modifier.width(150.dp)
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                Brush.horizontalGradient(
+                                    listOf(Mat3Primary, Mat3Secondary),
+                                ),
+                                alpha = 0.7f
+                            )
+                            .padding(vertical = 12.dp),
+                    ) {
+                        Text(
+                            text = "Free Plant Identifier",
+                            color = Mat3OnPrimary,
+                            fontFamily = NunitoFontFamily,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
-            }
-        }
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(16.dp)
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(140.dp)
-                .padding(horizontal = 16.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(8.dp))
-                    .clickable {
-                        val activity = context.findActivity()
-                        val fragment = GrowFragment()
-                        (activity as? MainActivity)?.setCurrentFragmentBack(fragment)
-                    },
-                contentAlignment = Alignment.Center
-            ) {
-                val painter = rememberAsyncImagePainter(
-                    "https://firebasestorage.googleapis.com/v0/b/gardenershub-ece08.appspot.com/o/how_to_grow_banner1.jpeg?alt=media&token=65c33908-44da-4ffa-bd66-e994d9f5b705",
-                )
-                val state = painter.state
                 if (state is AsyncImagePainter.State.Loading) {
                     LoadingAnimation()
                 }
-                val transition by animateFloatAsState(
-                    targetValue = if (state is AsyncImagePainter.State.Success) 1f else 0f,
-                    label = Tags.TRANSIT_SHOP_BANNER
-                )
-                Image(
-                    painter = painter,
-                    contentDescription = Tags.SHOP_CARD_BANNER,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .scale(.8f + (.2f * transition))
-                        .graphicsLayer { rotationX = (1f - transition) * 5f }
-                        .alpha(Math.min(1f, transition / .2f)),
-                    contentScale = ContentScale.Crop,
-                )
-                this@Column.AnimatedVisibility(
-                    visible = state is AsyncImagePainter.State.Success,
-                    enter = slideInVertically() + fadeIn(),
-                    exit = slideOutVertically() + fadeOut()
-                ) {
-                    Text(
-                        text = "How to grow",
-                        color = Mat3OnPrimary,
-                        fontFamily = NunitoFontFamily,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
-                    )
-                }
             }
         }
         Spacer(
@@ -251,9 +209,8 @@ fun HomeScreen() {
         )
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(140.dp)
-                .padding(horizontal = 16.dp)
+                .fillMaxSize()
+                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
         ) {
             Box(
                 modifier = Modifier
@@ -268,7 +225,7 @@ fun HomeScreen() {
                 contentAlignment = Alignment.Center
             ) {
                 val painter = rememberAsyncImagePainter(
-                    "https://firebasestorage.googleapis.com/v0/b/gardenershub-ece08.appspot.com/o/shop_plant_banner.jpeg?alt=media&token=df920887-c6c3-4763-bd8a-71388bdf95b9",
+                    "https://firebasestorage.googleapis.com/v0/b/gardenershub-ece08.appspot.com/o/learn_plants.jpeg?alt=media&token=c0db965f-1f94-43a4-9afc-912c12f1c8f6",
                 )
                 val state = painter.state
                 if (state is AsyncImagePainter.State.Loading) {
@@ -293,15 +250,31 @@ fun HomeScreen() {
                     enter = slideInVertically() + fadeIn(),
                     exit = slideOutVertically() + fadeOut()
                 ) {
-                    Text(
-                        text = "Buy Plants",
-                        color = Mat3OnPrimary,
-                        fontFamily = NunitoFontFamily,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                Brush.horizontalGradient(
+                                    listOf(Mat3Secondary, Mat3Primary),
+                                ),
+                                alpha = 0.7f
+                            )
+                            .padding(vertical = 12.dp),
+                    ) {
+                        Text(
+                            text = "Learn To Grow",
+                            color = Mat3OnPrimary,
+                            fontFamily = NunitoFontFamily,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
-
+                if (state is AsyncImagePainter.State.Loading) {
+                    LoadingAnimation()
+                }
             }
         }
     }
