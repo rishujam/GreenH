@@ -23,6 +23,10 @@ val NunitoFontFamily = FontFamily(
     Font(R.font.nunito_regular, FontWeight.Normal)
 )
 
+val LogoFontFamily = FontFamily(
+    Font(R.font.logo_pacifico_font, FontWeight.Normal)
+)
+
 val Typography = Typography(
     body1 = TextStyle(
         fontFamily = CarmenFontFamily,

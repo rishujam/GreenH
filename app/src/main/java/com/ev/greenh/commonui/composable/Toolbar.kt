@@ -1,26 +1,24 @@
 package com.ev.greenh.commonui.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ev.greenh.R
-import com.ev.greenh.commonui.DarkGreen
 import com.ev.greenh.commonui.Mat3OnBg
-import com.ev.greenh.commonui.Mat3OnSurfaceVariant
+import com.ev.greenh.commonui.NunitoFontFamily
 import com.example.testing.Tags
 
 /*
@@ -30,7 +28,8 @@ import com.example.testing.Tags
 @Composable
 fun Toolbar(
     title: String,
-    icon: Int
+    icon: Int? = null,
+    iconEnd: Int? = null,
 ) {
     Column(
         modifier = Modifier
@@ -38,23 +37,39 @@ fun Toolbar(
             .padding(16.dp, 16.dp, 16.dp)
     ) {
         Row {
-            Image(
-                painter = painterResource(
-                    id = icon
-                ),
-                contentDescription = Tags.TOOLBAR_BACK_BTN,
-                colorFilter = ColorFilter.tint(Mat3OnBg),
-                modifier = Modifier.size(24.dp)
-            )
+            icon?.let {
+                Image(
+                    painter = painterResource(
+                        id = icon
+                    ),
+                    contentDescription = Tags.TOOLBAR_BACK_BTN,
+                    colorFilter = ColorFilter.tint(Mat3OnBg),
+                    modifier = Modifier.size(24.dp)
+                )
+            }
             Text(
                 text = title,
                 modifier = Modifier.padding(start = 8.dp),
                 style = TextStyle(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Mat3OnBg
+                    color = Mat3OnBg,
+                    fontFamily = NunitoFontFamily
                 )
             )
+            iconEnd?.let {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.CenterEnd
+                ) {
+                    Image(
+                        painter = painterResource(id = it),
+                        contentDescription = Tags.TOOLBAR_END_BTN,
+                        colorFilter = ColorFilter.tint(Mat3OnBg),
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
         }
     }
 }

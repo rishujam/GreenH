@@ -47,21 +47,13 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.imPlants -> {
-                    val plantFrag = PlantFragment()
-                    setCurrentFragment(plantFrag)
-                }
                 R.id.imHome -> {
                     setCurrentFragment(homeFragment)
                 }
                 R.id.imScanner -> openIdentificationScreen()
                 R.id.imSetting -> {
                     val settingFragment = SettingFragment()
-                    setCurrentFragment(settingFragment)
-                }
-                R.id.imBag -> {
-                    val growFragment = GrowFragment()
-                    setCurrentFragment(growFragment)
+                    setCurrentFragmentBack(settingFragment)
                 }
             }
             true
