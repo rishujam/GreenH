@@ -47,7 +47,10 @@ class GrowFragment : Fragment() {
     }
 
     private fun itemClick(id: String) {
+        val bundle = Bundle()
+        bundle.putString(GrowConstants.FragmentArgKeys.PLANT_ID, id)
         val fragment = GrowDetailFragment()
+        fragment.arguments = bundle
         (activity as MainActivity).setCurrentFragmentBack(fragment)
     }
 

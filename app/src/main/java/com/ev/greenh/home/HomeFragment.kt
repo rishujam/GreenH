@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ev.greenh.databinding.FragmentHomeBinding
-import com.ev.greenh.databinding.FragmentLocalPlantsStep1Binding
-import com.ev.greenh.grow.ui.composable.LocalPlantStep1Screen
+import com.ev.greenh.ui.MainActivity
 
 /*
  * Created by Sudhanshu Kumar on 20/10/23.
@@ -32,6 +31,11 @@ class HomeFragment : Fragment() {
         binding?.cvHomeFrag?.setContent {
             HomeScreen()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as? MainActivity)?.viewNav()
     }
 
     override fun onDestroyView() {
