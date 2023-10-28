@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ev.greenh.databinding.FragmentHomeBinding
-import com.ev.greenh.databinding.FragmentLocalPlantsStep1Binding
-import com.ev.greenh.grow.ui.composable.LocalPlantStep1Screen
 import com.ev.greenh.ui.MainActivity
 
 /*
@@ -38,11 +36,6 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (activity as? MainActivity)?.viewNav()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        (activity as? MainActivity)?.hideNav()
     }
 
     override fun onDestroyView() {

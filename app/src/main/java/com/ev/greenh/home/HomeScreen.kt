@@ -61,6 +61,7 @@ import com.ev.greenh.commonui.NunitoFontFamily
 import com.ev.greenh.commonui.composable.LoadingAnimation
 import com.ev.greenh.grow.ui.GrowFragment
 import com.ev.greenh.grow.ui.LocalPlantStep1Fragment
+import com.ev.greenh.plantidentification.ui.PlantScannerFragment
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.ui.plants.PlantFragment
 import com.ev.greenh.util.findActivity
@@ -148,7 +149,8 @@ fun HomeScreen() {
                     .clip(RoundedCornerShape(8.dp))
                     .clickable {
                         val activity = context.findActivity()
-                        (activity as? MainActivity)?.openIdentificationScreen()
+                        val frag = PlantScannerFragment()
+                        (activity as? MainActivity)?.setCurrentFragmentBack(frag)
                     },
                 contentAlignment = Alignment.Center
             ) {

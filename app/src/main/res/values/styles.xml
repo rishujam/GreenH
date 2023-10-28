@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+	<style name="BottomNavigationStyle" parent="Widget.Design.BottomNavigationView">
+		<!-- Customize the background color -->
+		<item name="android:background">@color/mat3_surface</item>
+		<!-- Customize the item text color -->
+		<item name="android:textColor">@color/mat3_on_surface</item>
+		<!-- Customize the item icon color -->
+	</style>
+</resources>

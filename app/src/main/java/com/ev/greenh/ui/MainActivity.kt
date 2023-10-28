@@ -1,21 +1,18 @@
 package com.ev.greenh.ui
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.ev.greenh.*
+import com.ev.greenh.GreenApp
+import com.ev.greenh.R
 import com.ev.greenh.databinding.ActivityMainBinding
 import com.ev.greenh.firebase.FirestoreSource
-import com.ev.greenh.grow.ui.GrowFragment
 import com.ev.greenh.home.HomeFragment
-import com.ev.greenh.plantidentification.ui.PlantIndentifierActivity
 import com.ev.greenh.repository.PlantRepository
-import com.ev.greenh.ui.order.MyOrdersFragment
 import com.ev.greenh.ui.plants.PlantFragment
 import com.ev.greenh.ui.profile.SettingFragment
 import com.ev.greenh.viewmodels.PlantViewModel
@@ -61,10 +58,6 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
             }
             true
         }
-    }
-
-    fun openIdentificationScreen() {
-        startActivity(Intent(this, PlantIndentifierActivity::class.java))
     }
 
     fun setCurrentFragment(fragment: Fragment)=
