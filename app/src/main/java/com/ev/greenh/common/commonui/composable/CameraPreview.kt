@@ -1,4 +1,4 @@
-package com.ev.greenh.commonui.composable
+package com.ev.greenh.common.commonui.composable
 
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView

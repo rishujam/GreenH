@@ -11,28 +11,32 @@ import com.ev.greenh.util.ViewModelEventWrapper
 import kotlinx.coroutines.launch
 
 class OrderViewModel(
-    val repository:PlantRepository
-) :ViewModel() {
+    val repository: PlantRepository
+) : ViewModel() {
 
     val apiKey: MutableLiveData<ViewModelEventWrapper<Resource<String>>> = MutableLiveData()
 
-    private val _razorpayOrderId:MutableLiveData<ViewModelEventWrapper<Resource<RazorpayOrderId>>> = MutableLiveData()
-    val razorpayOrderId: LiveData<ViewModelEventWrapper<Resource<RazorpayOrderId>>>
+    private val _razorpayOrderId: MutableLiveData<ViewModelEventWrapper<Resource<RazorpayOrderId?>>> =
+        MutableLiveData()
+    val razorpayOrderId: LiveData<ViewModelEventWrapper<Resource<RazorpayOrderId?>>>
         get() = _razorpayOrderId
 
-    private val _placeOrder:MutableLiveData<ViewModelEventWrapper<Resource<Response>>> = MutableLiveData()
+    private val _placeOrder: MutableLiveData<ViewModelEventWrapper<Resource<Response>>> =
+        MutableLiveData()
     val placeOrder: LiveData<ViewModelEventWrapper<Resource<Response>>>
         get() = _placeOrder
 
-    private val _singleTimeProfile:MutableLiveData<ViewModelEventWrapper<Resource<Profile>>> = MutableLiveData()
-    val singleTimeProfile:LiveData<ViewModelEventWrapper<Resource<Profile>>>
+    private val _singleTimeProfile: MutableLiveData<ViewModelEventWrapper<Resource<Profile>>> =
+        MutableLiveData()
+    val singleTimeProfile: LiveData<ViewModelEventWrapper<Resource<Profile>>>
         get() = _singleTimeProfile
 
-    private val _bagItems:MutableLiveData<ViewModelEventWrapper<Resource<Map<Plant, String>>>> = MutableLiveData()
-    val bagItems : LiveData<ViewModelEventWrapper<Resource<Map<Plant, String>>>>
+    private val _bagItems: MutableLiveData<ViewModelEventWrapper<Resource<Map<Plant, String>>>> =
+        MutableLiveData()
+    val bagItems: LiveData<ViewModelEventWrapper<Resource<Map<Plant, String>>>>
         get() = _bagItems
 
-    private val _uid:MutableLiveData<ViewModelEventWrapper<Resource<String?>>> = MutableLiveData()
+    private val _uid: MutableLiveData<ViewModelEventWrapper<Resource<String?>>> = MutableLiveData()
     val uid: LiveData<ViewModelEventWrapper<Resource<String?>>>
         get() = _uid
 
@@ -40,15 +44,15 @@ class OrderViewModel(
         apiKey.value = ViewModelEventWrapper(repository.getApiKey(collection))
     }
 
-    fun getProfileSingleTime(collection: String,uid:String) = viewModelScope.launch {
-        _singleTimeProfile.value = ViewModelEventWrapper(repository.getUserDetails(collection,uid))
+    fun getProfileSingleTime(collection: String, uid: String) = viewModelScope.launch {
+        _singleTimeProfile.value = ViewModelEventWrapper(repository.getUserDetails(collection, uid))
     }
 
     fun generateOrderId(amount:HashMap<String,Int>) =viewModelScope.launch {
         _razorpayOrderId.value = ViewModelEventWrapper(repository.generateOrderId(amount))
     }
 
-    fun emptyUserCart(user:String,collection: String) = viewModelScope.launch {
+    fun emptyUserCart(user: String, collection: String) = viewModelScope.launch {
         ViewModelEventWrapper(repository.emptyUserCart(user, collection))
     }
 
@@ -56,7 +60,7 @@ class OrderViewModel(
         _placeOrder.value = ViewModelEventWrapper(repository.placeOrder(order, collection))
     }
 
-    fun getBagItems(collBag: String,collPlant:String,user:String) = viewModelScope.launch {
+    fun getBagItems(collBag: String, collPlant: String, user: String) = viewModelScope.launch {
         _bagItems.value = ViewModelEventWrapper(repository.getBagItems(collBag, collPlant, user))
     }
 

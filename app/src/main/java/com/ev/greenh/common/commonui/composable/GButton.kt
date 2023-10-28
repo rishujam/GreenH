@@ -1,4 +1,4 @@
-package com.ev.greenh.commonui.composable
+package com.ev.greenh.common.commonui.composable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,13 +13,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ev.greenh.commonui.Mat3OnPrimary
-import com.ev.greenh.commonui.Mat3OnSecondary
-import com.ev.greenh.commonui.Mat3OnSurfaceVariant
-import com.ev.greenh.commonui.Mat3Primary
-import com.ev.greenh.commonui.Mat3Secondary
-import com.ev.greenh.commonui.Mat3SurfaceVariant
-import com.ev.greenh.commonui.NunitoFontFamily
+import com.ev.greenh.common.commonui.Mat3OnPrimary
+import com.ev.greenh.common.commonui.Mat3OnSecondary
+import com.ev.greenh.common.commonui.Mat3OnSurfaceVariant
+import com.ev.greenh.common.commonui.Mat3Primary
+import com.ev.greenh.common.commonui.Mat3Secondary
+import com.ev.greenh.common.commonui.Mat3SurfaceVariant
+import com.ev.greenh.common.commonui.NunitoFontFamily
 
 /*
  * Created by Sudhanshu Kumar on 20/10/23.

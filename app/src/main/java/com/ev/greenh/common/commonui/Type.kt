@@ -1,4 +1,4 @@
-package com.ev.greenh.commonui
+package com.ev.greenh.common.commonui
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

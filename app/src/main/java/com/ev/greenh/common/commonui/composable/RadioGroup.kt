@@ -1,4 +1,4 @@
-package com.ev.greenh.commonui.composable
+package com.ev.greenh.common.commonui.composable
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,8 +11,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.ev.greenh.commonui.Mat3OnBg
-import com.ev.greenh.commonui.Mat3OnSecondary
+import com.ev.greenh.common.commonui.Mat3OnBg
+import com.ev.greenh.common.commonui.Mat3OnSecondary
 import com.ev.greenh.grow.ui.model.Option
 
 /*

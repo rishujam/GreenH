@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.ev.greenh.commonui.composable.CameraPreview
+import com.ev.greenh.common.commonui.composable.CameraPreview
 
 /*
  * Created by Sudhanshu Kumar on 22/10/23.

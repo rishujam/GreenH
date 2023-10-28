@@ -1,4 +1,4 @@
-package com.ev.greenh.razorpayapi
+package com.ev.greenh.common.commondata.api
 
 import com.ev.greenh.models.RazorpayOrderId
 import retrofit2.http.*

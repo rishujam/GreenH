@@ -1,4 +1,4 @@
-package com.ev.greenh.commonui.composable
+package com.ev.greenh.common.commonui.composable
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,8 +13,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ev.greenh.commonui.DefaultTextColor
-import com.ev.greenh.commonui.MediumGreen
+import com.ev.greenh.common.commonui.DefaultTextColor
+import com.ev.greenh.common.commonui.MediumGreen
 
 /*
  * Created by Sudhanshu Kumar on 16/10/23.

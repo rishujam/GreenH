@@ -32,9 +32,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.ev.greenh.auth.ui.SignUpViewModel
 import com.ev.greenh.auth.ui.events.SignUpEvents
-import com.ev.greenh.commonui.DefaultTextColor
-import com.ev.greenh.commonui.LightBgGreen
-import com.ev.greenh.commonui.MediumGreen
+import com.ev.greenh.common.commonui.DefaultTextColor
+import com.ev.greenh.common.commonui.LightBgGreen
+import com.ev.greenh.common.commonui.MediumGreen
 import com.ev.greenh.util.findActivity
 import com.example.testing.Tags
 import com.example.testing.TestConstants

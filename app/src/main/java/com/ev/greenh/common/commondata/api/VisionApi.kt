@@ -1,4 +1,4 @@
-package com.ev.greenh.plantidentification.data
+package com.ev.greenh.common.commondata.api
 
 import com.ev.greenh.plantidentification.data.model.req.ImageAnnotationRequest
 import com.ev.greenh.plantidentification.data.model.res.AnnotateImageResponse
@@ -16,14 +16,5 @@ interface VisionApi {
 
     @POST("v1/images:annotate")
     fun annotateImages(@Body request: ImageAnnotationRequest): Call<AnnotateImageResponse>
-
-    companion object {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://vision.googleapis.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val visionApiService = retrofit.create(VisionApi::class.java)
-    }
 
 }

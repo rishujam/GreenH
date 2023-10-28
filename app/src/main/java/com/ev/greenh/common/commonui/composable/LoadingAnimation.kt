@@ -1,4 +1,4 @@
-package com.ev.greenh.commonui.composable
+package com.ev.greenh.common.commonui.composable
 
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
-import com.ev.greenh.commonui.Mat3Primary
+import com.ev.greenh.common.commonui.Mat3Primary
 import com.example.testing.Tags
 
 /*

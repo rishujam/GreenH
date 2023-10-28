@@ -1,4 +1,4 @@
-package com.ev.greenh.commonui.composable
+package com.ev.greenh.common.commonui.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -17,8 +17,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ev.greenh.commonui.Mat3OnBg
-import com.ev.greenh.commonui.NunitoFontFamily
+import com.ev.greenh.common.commonui.Mat3OnBg
+import com.ev.greenh.common.commonui.NunitoFontFamily
 import com.example.testing.Tags
 
 /*

@@ -29,7 +29,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.ev.greenh.auth.ui.SignUpViewModel
 import com.ev.greenh.auth.ui.states.SignUpProgress
-import com.ev.greenh.commonui.MediumGreen
+import com.ev.greenh.common.commonui.MediumGreen
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.util.findActivity
 import kotlinx.coroutines.delay

@@ -79,8 +79,8 @@ class PlantViewModel(
     val getSingleOrderDetails:LiveData<Resource<MyOrderDetail>>
         get() = _getSingleOrderDetails
 
-    private val _razorpayOrderId:MutableLiveData<ViewModelEventWrapper<Resource<RazorpayOrderId>>> = MutableLiveData()
-    val razorpayOrderId:LiveData<ViewModelEventWrapper<Resource<RazorpayOrderId>>>
+    private val _razorpayOrderId:MutableLiveData<ViewModelEventWrapper<Resource<RazorpayOrderId?>>> = MutableLiveData()
+    val razorpayOrderId:LiveData<ViewModelEventWrapper<Resource<RazorpayOrderId?>>>
         get() = _razorpayOrderId
 
     private val _placeOrder:MutableLiveData<ViewModelEventWrapper<Resource<Response>>> = MutableLiveData()
