@@ -7,13 +7,17 @@ import kotlinx.coroutines.withContext
 abstract class BaseRepository {
 
     suspend fun <T> safeApiCall(
-        apiCall:suspend () ->T
+        apiCall:(suspend () ->T)?
     ): Resource<T> {
         return withContext(Dispatchers.IO){
-            try {
-                Resource.Success(apiCall.invoke())
-            }catch (e:Exception){
-                Resource.Error(e.message)
+            apiCall?.let {
+                try {
+                    Resource.Success(apiCall.invoke())
+                }catch (e:Exception){
+                    Resource.Error(e.message)
+                }
+            } ?: run {
+                Resource.Error("Retrofit was null")
             }
         }
     }

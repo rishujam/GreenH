@@ -20,8 +20,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ev.greenh.R
-import com.ev.greenh.commonui.DefaultTextColor
-import com.ev.greenh.commonui.MediumGreen
+import com.ev.greenh.common.commonui.DefaultTextColor
+import com.ev.greenh.common.commonui.MediumGreen
 import com.example.testing.Tags
 
 /*
