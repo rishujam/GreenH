@@ -15,9 +15,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitPool {
 
-    private val retroMap = hashMapOf<ApiIdentifier, PurpleApiBase<*>>()
+    private val retroMap = hashMapOf<ApiIdentifier, ApiBase<*>>()
 
-    fun getApi(identifier: ApiIdentifier): PurpleApiBase<*> {
+    fun getApi(identifier: ApiIdentifier): ApiBase<*> {
         return try {
             retroMap[identifier]!!
         } catch (_: Exception) {
@@ -25,28 +25,28 @@ object RetrofitPool {
         }
     }
 
-    private fun createApi(identifier: ApiIdentifier): PurpleApiBase<*> {
+    private fun createApi(identifier: ApiIdentifier): ApiBase<*> {
         val client = getClient(identifier)
         val retrofit = Retrofit.Builder()
             .baseUrl(getBaseUrl(identifier))
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
-        val api: PurpleApiBase<*> = when (identifier) {
+        val api: ApiBase<*> = when (identifier) {
             is ApiIdentifier.MockyTestApi -> {
-                PurpleApiBase(retrofit.create(MockyTestApi::class.java))
+                ApiBase(retrofit.create(MockyTestApi::class.java))
             }
 
             is ApiIdentifier.VisionApi -> {
-                PurpleApiBase(retrofit.create(VisionApi::class.java))
+                ApiBase(retrofit.create(VisionApi::class.java))
             }
 
             is ApiIdentifier.PlantNetApi -> {
-                PurpleApiBase(retrofit.create(PlantNetApi::class.java))
+                ApiBase(retrofit.create(PlantNetApi::class.java))
             }
 
             is ApiIdentifier.Razorpay -> {
-                PurpleApiBase(retrofit.create(RazorpayApi::class.java))
+                ApiBase(retrofit.create(RazorpayApi::class.java))
             }
         }
         retroMap[identifier] = api

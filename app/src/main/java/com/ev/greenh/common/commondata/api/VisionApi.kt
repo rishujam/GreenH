@@ -1,10 +1,8 @@
 package com.ev.greenh.common.commondata.api
 
-import com.ev.greenh.plantidentification.data.model.req.ImageAnnotationRequest
-import com.ev.greenh.plantidentification.data.model.res.AnnotateImageResponse
+import com.ev.greenh.plantidentify.data.model.req.ImageAnnotationRequest
+import com.ev.greenh.plantidentify.data.model.res.AnnotateImageResponse
 import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
 
