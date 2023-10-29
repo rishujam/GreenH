@@ -5,6 +5,6 @@ data class Result(
     val images: List<Image>,
     val iucn: Iucn,
     val powo: Powo,
-    val score: Int,
+    val score: Float,
     val species: Species
 )

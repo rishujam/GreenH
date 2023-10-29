@@ -7,7 +7,7 @@ import com.ev.greenh.auth.data.AuthRepository
 import com.ev.greenh.grow.data.GrowRepository
 import com.ev.greenh.grow.ui.GrowViewModel
 import com.ev.greenh.grow.ui.LocalPlantListViewModel
-import com.ev.greenh.plantidentify.data.PlantIdentifyRepo
+import com.ev.greenh.plantidentify.data.repo.PlantIdentifyRepo
 import com.ev.greenh.plantidentify.ui.PlantIdentifyViewModel
 import com.ev.greenh.repository.BaseRepository
 import com.ev.greenh.repository.PlantRepository

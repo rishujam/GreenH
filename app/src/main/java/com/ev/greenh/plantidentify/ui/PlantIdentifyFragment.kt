@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +15,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.ev.greenh.GreenApp
-import com.ev.greenh.auth.ui.SignUpViewModel
 import com.ev.greenh.databinding.FragmentPlantScannerBinding
-import com.ev.greenh.plantidentify.data.PlantIdentifyRepo
+import com.ev.greenh.plantidentify.data.repo.PlantIdentifyRepo
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.viewmodels.ViewModelFactory
 
@@ -66,7 +65,9 @@ class PlantIdentifyFragment : Fragment() {
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
             val imageUri = data?.data
-
+            imageUri?.let {
+                viewModel.identifyPlant(imageUri)
+            }
         }
     }
 

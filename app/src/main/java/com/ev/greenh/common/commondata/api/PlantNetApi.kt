@@ -13,9 +13,8 @@ import retrofit2.http.Query
 
 interface PlantNetApi {
 
-    @GET("/v2/identify/")
-    fun identifyPlant(
-        @Path("project") project: String = "all",
+    @GET("/v2/identify/all")
+    suspend fun identifyPlant(
         @Query("images") images: List<String>,
         @Query("organs") organs: List<String>,
         @Query("include-related-images") includeRelatedImages: Boolean = false,

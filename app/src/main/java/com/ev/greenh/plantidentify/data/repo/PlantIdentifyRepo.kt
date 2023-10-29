@@ -1,7 +1,12 @@
-package com.ev.greenh.plantidentify.data
+package com.ev.greenh.plantidentify.data.repo
 
 import android.net.Uri
 import android.util.Log
+import com.ev.greenh.common.commondata.ApiIdentifier
+import com.ev.greenh.common.commondata.RetrofitPool
+import com.ev.greenh.common.commondata.api.PlantNetApi
+import com.ev.greenh.plantidentify.data.model.req.PlantIdentifyReq
+import com.ev.greenh.plantidentify.data.model.res.PlantIdentifyUIRes
 import com.ev.greenh.repository.BaseRepository
 import com.google.android.gms.tasks.Task
 import com.google.firebase.functions.FirebaseFunctionsException
@@ -28,12 +33,40 @@ class PlantIdentifyRepo : BaseRepository() {
 
     private val firebaseStorage = Firebase.storage.reference
 
-    suspend fun uploadPlantToIdentify(image: Uri) = safeApiCall {
-        firebaseStorage.putFile(image).await()
+    private val api = RetrofitPool.getApi(ApiIdentifier.PlantNetApi).service as? PlantNetApi
+
+    suspend fun uploadPlantToIdentify(
+        fileName: String,
+        image: Uri
+    ) = safeApiCall {
+        firebaseStorage.child(fileName).putFile(image).await()
     }
 
-    fun identifyPlant() {
+    suspend fun getPublicUrlOfFileFirebase(
+        location: String
+    ) = safeApiCall {
+        firebaseStorage.child(location).downloadUrl.await().toString()
+    }
 
+    suspend fun identifyPlant(req: PlantIdentifyReq) = safeApiCall {
+        val res = api?.identifyPlant(
+            images = req.imageUrls,
+            organs = req.organs
+        )
+        res?.let {
+            if(res.isSuccessful) {
+                res.body()?.bestMatch?.let {
+                    Log.d("RishuTest", "success")
+                    return@safeApiCall PlantIdentifyUIRes(it)
+                }
+                Log.d("RishuTest", "fail1")
+                return@safeApiCall null
+            }
+            Log.d("RishuTest", "fail2")
+            return@safeApiCall null
+        }
+        Log.d("RishuTest", "fail3")
+        return@safeApiCall null
     }
 
     fun callVision(base64encoded: String) {
