@@ -1,10 +1,19 @@
 package com.ev.greenh.ui
 
+import android.graphics.Bitmap
+import android.graphics.Matrix
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.ImageProxy
+import androidx.camera.view.LifecycleCameraController
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ev.greenh.GreenApp
@@ -20,6 +29,8 @@ import com.ev.greenh.viewmodels.ViewModelFactory
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
+import java.io.ByteArrayOutputStream
+
 
 class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
 
@@ -87,6 +98,38 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
         paymentData = p1
         successListener ="Y"
         Log.e("MainActivity: $p0", p1.toString())
+    }
+
+    fun takePhoto(
+        controller: LifecycleCameraController,
+        onPhotoTaken : (Bitmap) -> Unit
+    ) {
+        controller.takePicture(
+            ContextCompat.getMainExecutor(applicationContext),
+            object : ImageCapture.OnImageCapturedCallback() {
+                override fun onCaptureSuccess(image: ImageProxy) {
+                    super.onCaptureSuccess(image)
+                    val matrix = Matrix().apply {
+                        postRotate(image.imageInfo.rotationDegrees.toFloat())
+                    }
+                    val rotatedBitmap = Bitmap.createBitmap(
+                        image.toBitmap(),
+                        0,
+                        0,
+                        image.width,
+                        image.height,
+                        matrix,
+                        true
+                    )
+                    onPhotoTaken(rotatedBitmap)
+                }
+
+                override fun onError(exception: ImageCaptureException) {
+                    super.onError(exception)
+                    Log.d("Camera", "Error photo: ${exception.message}")
+                }
+            }
+        )
     }
 
     fun hideNav(){

@@ -23,7 +23,9 @@ import com.example.testing.Tags
  */
 
 @Composable
-fun LoadingAnimation() {
+fun LoadingAnimation(
+    modifier: Modifier = Modifier
+) {
     val animation = rememberInfiniteTransition(label = Tags.LOADING_ANIM)
     val progress by animation.animateFloat(
         initialValue = 0f,
@@ -36,7 +38,7 @@ fun LoadingAnimation() {
     )
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(60.dp)
             .scale(progress)
             .alpha(1f - progress)

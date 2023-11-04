@@ -12,11 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ev.greenh.databinding.FragmentPlantScannerBinding
 import com.ev.greenh.plantidentify.data.repo.PlantIdentifyRepo
+import com.ev.greenh.plantidentify.ui.composable.PlantScannerScreen
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.viewmodels.ViewModelFactory
 
@@ -45,28 +47,14 @@ class PlantIdentifyFragment : Fragment() {
         val repo = PlantIdentifyRepo()
         val factory = ViewModelFactory(repo)
         viewModel = ViewModelProvider(this,factory)[PlantIdentifyViewModel::class.java]
-//        if (!hasCameraPermission()) {
-//            ActivityCompat.requestPermissions(
-//                requireActivity(), arrayOf(Manifest.permission.CAMERA), 0
-//            )
-//        }
-//        binding?.cvPlantScanner?.setContent {
-//            context?.let {
-//                PlantScannerScreen(it.applicationContext)
-//            }
-//        }
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        imagePicker.launch(intent)
-    }
-
-    private val imagePicker: ActivityResultLauncher<Intent> = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val data: Intent? = result.data
-            val imageUri = data?.data
-            imageUri?.let {
-                viewModel.identifyPlant(imageUri)
+        if (!hasCameraPermission()) {
+            ActivityCompat.requestPermissions(
+                requireActivity(), arrayOf(Manifest.permission.CAMERA), 0
+            )
+        }
+        binding?.cvPlantScanner?.setContent {
+            context?.let {
+                PlantScannerScreen(viewModel, it.applicationContext)
             }
         }
     }

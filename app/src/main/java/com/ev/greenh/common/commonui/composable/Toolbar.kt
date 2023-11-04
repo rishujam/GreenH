@@ -1,6 +1,7 @@
 package com.ev.greenh.common.commonui.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,12 +28,15 @@ import com.example.testing.Tags
 
 @Composable
 fun Toolbar(
+    modifier: Modifier = Modifier,
     title: String,
-    icon: Int? = null,
     iconEnd: Int? = null,
+    iconEndClick: (() -> Unit)? = null,
+    icon: Int? = null,
+    iconClick: (() -> Unit)? = null,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp, 16.dp, 16.dp)
     ) {
@@ -44,7 +48,11 @@ fun Toolbar(
                     ),
                     contentDescription = Tags.TOOLBAR_BACK_BTN,
                     colorFilter = ColorFilter.tint(Mat3OnBg),
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable {
+                            iconClick?.let { iconClick() }
+                        },
                 )
             }
             Text(
@@ -59,7 +67,11 @@ fun Toolbar(
             )
             iconEnd?.let {
                 Box(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            iconEndClick?.let { iconEndClick() }
+                        },
                     contentAlignment = Alignment.CenterEnd
                 ) {
                     Image(

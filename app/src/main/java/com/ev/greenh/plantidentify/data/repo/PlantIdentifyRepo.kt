@@ -42,6 +42,13 @@ class PlantIdentifyRepo : BaseRepository() {
         firebaseStorage.child(fileName).putFile(image).await()
     }
 
+    suspend fun uploadPlantToIdentifyBytes(
+        fileName: String,
+        image: ByteArray
+    ) = safeApiCall {
+        firebaseStorage.child(fileName).putBytes(image).await()
+    }
+
     suspend fun getPublicUrlOfFileFirebase(
         location: String
     ) = safeApiCall {
@@ -56,16 +63,12 @@ class PlantIdentifyRepo : BaseRepository() {
         res?.let {
             if(res.isSuccessful) {
                 res.body()?.bestMatch?.let {
-                    Log.d("RishuTest", "success")
                     return@safeApiCall PlantIdentifyUIRes(it)
                 }
-                Log.d("RishuTest", "fail1")
                 return@safeApiCall null
             }
-            Log.d("RishuTest", "fail2")
             return@safeApiCall null
         }
-        Log.d("RishuTest", "fail3")
         return@safeApiCall null
     }
 

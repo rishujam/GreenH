@@ -1,6 +1,5 @@
 package com.ev.greenh.plantidentify.ui
 
-import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,7 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ev.greenh.plantidentify.data.model.req.PlantIdentifyReq
 import com.ev.greenh.plantidentify.data.repo.PlantIdentifyRepo
+import com.ev.greenh.plantidentify.ui.model.IdentifyImage
+import com.ev.greenh.plantidentify.ui.state.PlantIdentifyScreenState
+import com.ev.greenh.plantidentify.ui.state.PlantIdentifyState
 import com.ev.greenh.util.Resource
+import com.ev.greenh.util.toByteArray
 import kotlinx.coroutines.launch
 
 /*
@@ -23,44 +26,77 @@ class PlantIdentifyViewModel(
     var state by mutableStateOf(PlantIdentifyState())
 
     fun onEvent(event: PlantIdentifyEvent) {
-        when(event) {
+        when (event) {
             is PlantIdentifyEvent.IdentifyClick -> {
-                event.uri?.let {
+                event.image.let {
                     state = state.copy(
-                        imageUri = event.uri
+                        image = event.image
                     )
-                    identifyPlant(event.uri)
-                } ?: {
-                    state = state.copy(toast = "Please select a valid images")
+                    identifyPlant(event.image)
                 }
+            }
+
+            is PlantIdentifyEvent.ImageSelected -> {
+                state = state.copy(
+                    currentScreen = PlantIdentifyScreenState.IdentifyScreen
+                )
+            }
+
+            is PlantIdentifyEvent.BackClickFromResult -> {
+                state = state.copy(
+                    currentScreen = PlantIdentifyScreenState.CameraScreen,
+                    result = null,
+                    image = null
+                )
             }
         }
     }
 
-    fun identifyPlant(uri: Uri) = viewModelScope.launch {
+    private fun identifyPlant(image: IdentifyImage) = viewModelScope.launch {
+        state = state.copy(
+            isLoading = true
+        )
         val fileName = "/fileName"
-        repo.uploadPlantToIdentify(fileName, uri)
-        val res = repo.getPublicUrlOfFileFirebase(fileName)
-        when(res) {
+        when (image) {
+            is IdentifyImage.BitmapImage -> {
+                repo.uploadPlantToIdentifyBytes(fileName, image.bitmap.toByteArray())
+            }
+
+            is IdentifyImage.UriImage -> {
+                repo.uploadPlantToIdentify(fileName, image.uri)
+            }
+        }
+        when (val res = repo.getPublicUrlOfFileFirebase(fileName)) {
             is Resource.Success -> {
                 val url = res.data
+                Log.d("RishuTest", "url: $url")
                 url?.let {
-                    Log.d("RishuTest", "url: $it")
-                    val result = repo.identifyPlant(PlantIdentifyReq(listOf(url), listOf("leaf")))
-                    when(result) {
+                    when (
+                        val result =
+                            repo.identifyPlant(PlantIdentifyReq(listOf(url), listOf("leaf")))
+                    ) {
                         is Resource.Success -> {
-                            Log.d("RishuTest", result.data?.name.toString())
+                            Log.d("RishuTest", "msg: ${result.data?.name}")
+                            state = state.copy(
+                                isLoading = false,
+                                result = result.data?.name
+                            )
                         }
+
                         is Resource.Error -> {
-                            Log.d("RishuTest", result.message.toString())
+                            state = state.copy(
+                                isLoading = false,
+                                toast = result.message
+                            )
                         }
+
                         is Resource.Loading -> {}
                     }
-
                 }
             }
-            is Resource.Error -> {  }
-            is Resource.Loading -> {    }
+
+            is Resource.Error -> {}
+            is Resource.Loading -> {}
         }
     }
 

@@ -48,7 +48,7 @@ fun LocalPlantStep1Screen() {
             .background(Mat3Bg)
     ) {
         val context = LocalContext.current
-        Toolbar(title = "Local Plants", R.drawable.back_btn)
+        Toolbar(title = "Local Plants", icon = R.drawable.back_btn)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
