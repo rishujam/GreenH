@@ -3,7 +3,6 @@ package com.ev.greenh.common.commondata
 import com.ev.greenh.common.commondata.api.MockyTestApi
 import com.ev.greenh.common.commondata.api.PlantNetApi
 import com.ev.greenh.common.commondata.api.RazorpayApi
-import com.ev.greenh.common.commondata.api.VisionApi
 import com.ev.greenh.util.Constants
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -37,10 +36,6 @@ object RetrofitPool {
                 ApiBase(retrofit.create(MockyTestApi::class.java))
             }
 
-            is ApiIdentifier.VisionApi -> {
-                ApiBase(retrofit.create(VisionApi::class.java))
-            }
-
             is ApiIdentifier.PlantNetApi -> {
                 ApiBase(retrofit.create(PlantNetApi::class.java))
             }
@@ -59,10 +54,6 @@ object RetrofitPool {
                 Constants.MOCKY_BASE_URL
             }
 
-            is ApiIdentifier.VisionApi -> {
-                Constants.GOOGLE_VISION_BASE_URL
-            }
-
             is ApiIdentifier.PlantNetApi -> {
                 Constants.PLANT_NET_BASE_URL
             }
@@ -76,10 +67,6 @@ object RetrofitPool {
     private fun getClient(identifier: ApiIdentifier): OkHttpClient {
         return when (identifier) {
             is ApiIdentifier.MockyTestApi -> {
-                OkHttpClient.Builder().build()
-            }
-
-            is ApiIdentifier.VisionApi -> {
                 OkHttpClient.Builder().build()
             }
 

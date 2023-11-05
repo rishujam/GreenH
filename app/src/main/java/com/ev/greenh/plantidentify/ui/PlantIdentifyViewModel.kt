@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ev.greenh.plantidentify.data.model.req.PlantIdentifyReq
-import com.ev.greenh.plantidentify.data.repo.PlantIdentifyRepo
+import com.ev.greenh.plantidentify.doamin.usecase.PlantIdentifyUseCase
 import com.ev.greenh.plantidentify.ui.model.IdentifyImage
 import com.ev.greenh.plantidentify.ui.state.PlantIdentifyScreenState
 import com.ev.greenh.plantidentify.ui.state.PlantIdentifyState
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
  */
 
 class PlantIdentifyViewModel(
-    private val repo: PlantIdentifyRepo
+    private val useCase: PlantIdentifyUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf(PlantIdentifyState())
@@ -53,50 +53,19 @@ class PlantIdentifyViewModel(
     }
 
     private fun identifyPlant(image: IdentifyImage) = viewModelScope.launch {
-        state = state.copy(
-            isLoading = true
-        )
+        state = state.copy(isLoading = true)
         val fileName = "/fileName"
-        when (image) {
-            is IdentifyImage.BitmapImage -> {
-                repo.uploadPlantToIdentifyBytes(fileName, image.bitmap.toByteArray())
-            }
-
-            is IdentifyImage.UriImage -> {
-                repo.uploadPlantToIdentify(fileName, image.uri)
-            }
-        }
-        when (val res = repo.getPublicUrlOfFileFirebase(fileName)) {
-            is Resource.Success -> {
-                val url = res.data
-                Log.d("RishuTest", "url: $url")
-                url?.let {
-                    when (
-                        val result =
-                            repo.identifyPlant(PlantIdentifyReq(listOf(url), listOf("leaf")))
-                    ) {
-                        is Resource.Success -> {
-                            Log.d("RishuTest", "msg: ${result.data?.name}")
-                            state = state.copy(
-                                isLoading = false,
-                                result = result.data?.name
-                            )
-                        }
-
-                        is Resource.Error -> {
-                            state = state.copy(
-                                isLoading = false,
-                                toast = result.message
-                            )
-                        }
-
-                        is Resource.Loading -> {}
-                    }
-                }
-            }
-
-            is Resource.Error -> {}
-            is Resource.Loading -> {}
+        val response = useCase.invoke(fileName, image)
+        response.error?.let {
+            state = state.copy(
+                isLoading = false,
+                toast = it
+            )
+        } ?: run {
+            state = state.copy(
+                isLoading = false,
+                result = response.names
+            )
         }
     }
 

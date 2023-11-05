@@ -1,4 +1,4 @@
-package com.ev.greenh.common.commondata.plantidentifyres
+package com.ev.greenh.plantidentify.data.model.res
 
 import com.ev.greenh.plantidentify.data.model.res.Family
 import com.ev.greenh.plantidentify.data.model.res.Genus

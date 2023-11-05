@@ -1,11 +1,10 @@
 package com.ev.greenh.plantidentify.data.model.res
 
-/*
- * Created by Sudhanshu Kumar on 15/10/23.
- */
-
 data class Result(
-    val product: Product,
-    val score: Double,
-    val image: String
+    val gbif: Gbif,
+    val images: List<Image>,
+    val iucn: Iucn,
+    val powo: Powo,
+    val score: Float,
+    val species: Species
 )

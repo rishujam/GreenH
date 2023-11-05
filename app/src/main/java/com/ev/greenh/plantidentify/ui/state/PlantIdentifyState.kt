@@ -11,6 +11,6 @@ data class PlantIdentifyState(
     val image: IdentifyImage? = null,
     val toast: String? = null,
     val currentScreen: PlantIdentifyScreenState = PlantIdentifyScreenState.CameraScreen,
-    val result: String? = null,
+    val result: List<String>? = null,
     val isLoading: Boolean = false
 )

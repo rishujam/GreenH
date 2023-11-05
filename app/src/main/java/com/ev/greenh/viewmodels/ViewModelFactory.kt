@@ -8,6 +8,7 @@ import com.ev.greenh.grow.data.GrowRepository
 import com.ev.greenh.grow.ui.GrowViewModel
 import com.ev.greenh.grow.ui.LocalPlantListViewModel
 import com.ev.greenh.plantidentify.data.repo.PlantIdentifyRepo
+import com.ev.greenh.plantidentify.doamin.usecase.PlantIdentifyUseCase
 import com.ev.greenh.plantidentify.ui.PlantIdentifyViewModel
 import com.ev.greenh.repository.BaseRepository
 import com.ev.greenh.repository.PlantRepository
@@ -41,7 +42,10 @@ class ViewModelFactory(
 
             modelClass.isAssignableFrom(
                 PlantIdentifyViewModel::class.java
-            ) -> PlantIdentifyViewModel(repository as PlantIdentifyRepo) as T
+            ) ->  {
+                val useCase = PlantIdentifyUseCase(repository as PlantIdentifyRepo)
+                PlantIdentifyViewModel(useCase) as T
+            }
 
             else -> throw IllegalArgumentException("ViewModelClass Not Found")
         }

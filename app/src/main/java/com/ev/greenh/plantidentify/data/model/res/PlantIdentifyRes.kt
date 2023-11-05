@@ -1,7 +1,5 @@
-package com.ev.greenh.common.commondata.plantidentifyres
+package com.ev.greenh.plantidentify.data.model.res
 
-import com.ev.greenh.plantidentify.data.model.res.Query
-import com.ev.greenh.plantidentify.data.model.res.Result
 import com.google.gson.annotations.SerializedName
 
 data class PlantIdentifyRes(

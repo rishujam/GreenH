@@ -1,6 +1,8 @@
 package com.ev.greenh.plantidentify.ui.composable
 
 import android.content.Context
+import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -199,13 +201,13 @@ fun PlantScannerScreen(
                                 .padding(bottom = 16.dp)
                                 .clip(RoundedCornerShape(8.dp))
                         ) {
-                            val text = viewModel.state.result ?: "No result found"
+                            val text = viewModel.state.result ?: listOf("No result found")
                             Text(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .background(Mat3Bg)
                                     .padding(vertical = 16.dp),
-                                text = text,
+                                text = text[0],
                                 fontWeight = FontWeight.SemiBold,
                                 fontSize = 18.sp,
                                 fontFamily = NunitoFontFamily,
@@ -222,10 +224,13 @@ fun PlantScannerScreen(
             icon = R.drawable.back_btn,
             modifier = Modifier.align(Alignment.TopStart)
         ) {
-            if (viewModel.state.currentScreen == PlantIdentifyScreenState.IdentifyScreen) {
-                viewModel.onEvent(PlantIdentifyEvent.BackClickFromResult)
-            } else if (viewModel.state.currentScreen == PlantIdentifyScreenState.CameraScreen) {
-                //TODO remove current fragment
+            when(viewModel.state.currentScreen) {
+                is PlantIdentifyScreenState.IdentifyScreen -> {
+                    viewModel.onEvent(PlantIdentifyEvent.BackClickFromResult)
+                }
+                is PlantIdentifyScreenState.CameraScreen -> {
+
+                }
             }
         }
         AnimatedVisibility(

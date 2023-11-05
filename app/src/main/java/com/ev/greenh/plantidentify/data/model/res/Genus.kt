@@ -1,14 +1,8 @@
-package com.ev.greenh.common.commondata.plantidentifyres
+package com.ev.greenh.plantidentify.data.model.res
 
-import com.ev.greenh.plantidentify.data.model.res.Family
-import com.ev.greenh.plantidentify.data.model.res.Genus
 import com.google.gson.annotations.SerializedName
 
-data class Species(
-    @SerializedName("commonNames")
-    val commonNames: List<String>,
-    val family: Family,
-    val genus: Genus,
+data class Genus(
     @SerializedName("scientificName")
     val scientificName: String,
     @SerializedName("scientificNameAuthorship")

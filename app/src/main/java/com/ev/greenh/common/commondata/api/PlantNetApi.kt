@@ -1,10 +1,9 @@
 package com.ev.greenh.common.commondata.api
 
 import com.ev.greenh.PConstants
-import com.ev.greenh.common.commondata.plantidentifyres.PlantIdentifyRes
+import com.ev.greenh.plantidentify.data.model.res.PlantIdentifyRes
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 /*
