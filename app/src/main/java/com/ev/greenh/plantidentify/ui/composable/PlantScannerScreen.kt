@@ -1,8 +1,6 @@
 package com.ev.greenh.plantidentify.ui.composable
 
 import android.content.Context
-import android.util.Log
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -49,7 +47,7 @@ import com.ev.greenh.common.commonui.composable.CameraPreview
 import com.ev.greenh.common.commonui.composable.GButton
 import com.ev.greenh.common.commonui.composable.LoadingAnimation
 import com.ev.greenh.common.commonui.composable.Toolbar
-import com.ev.greenh.plantidentify.ui.PlantIdentifyEvent
+import com.ev.greenh.plantidentify.ui.event.PlantIdentifyEvent
 import com.ev.greenh.plantidentify.ui.PlantIdentifyViewModel
 import com.ev.greenh.plantidentify.ui.model.IdentifyImage
 import com.ev.greenh.plantidentify.ui.state.PlantIdentifyScreenState

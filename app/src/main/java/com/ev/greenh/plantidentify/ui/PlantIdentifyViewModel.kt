@@ -1,18 +1,15 @@
 package com.ev.greenh.plantidentify.ui
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ev.greenh.plantidentify.data.model.req.PlantIdentifyReq
 import com.ev.greenh.plantidentify.doamin.usecase.PlantIdentifyUseCase
+import com.ev.greenh.plantidentify.ui.event.PlantIdentifyEvent
 import com.ev.greenh.plantidentify.ui.model.IdentifyImage
 import com.ev.greenh.plantidentify.ui.state.PlantIdentifyScreenState
 import com.ev.greenh.plantidentify.ui.state.PlantIdentifyState
-import com.ev.greenh.util.Resource
-import com.ev.greenh.util.toByteArray
 import kotlinx.coroutines.launch
 
 /*

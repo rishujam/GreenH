@@ -1,4 +1,4 @@
-package com.ev.greenh.plantidentify.ui
+package com.ev.greenh.plantidentify.ui.event
 
 import com.ev.greenh.plantidentify.ui.model.IdentifyImage
 
