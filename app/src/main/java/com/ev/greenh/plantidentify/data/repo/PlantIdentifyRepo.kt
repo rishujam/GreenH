@@ -3,7 +3,7 @@ package com.ev.greenh.plantidentify.data.repo
 import android.net.Uri
 import com.ev.greenh.common.commondata.ApiIdentifier
 import com.ev.greenh.common.commondata.RetrofitPool
-import com.ev.greenh.common.commondata.api.PlantNetApi
+import com.ev.greenh.plantidentify.data.PlantNetApi
 import com.ev.greenh.plantidentify.data.model.req.PlantIdentifyReq
 import com.ev.greenh.repository.BaseRepository
 import com.google.firebase.ktx.Firebase
@@ -20,7 +20,10 @@ class PlantIdentifyRepo : BaseRepository() {
 
     private val firebaseStorage = Firebase.storage.reference
 
-    private val api = RetrofitPool.getApi(ApiIdentifier.PlantNetApi).service as? PlantNetApi
+    private val api = RetrofitPool.getApi(
+        ApiIdentifier.PlantNetApi,
+        PlantNetApi::class.java
+    ).service as? PlantNetApi
 
     suspend fun uploadPlantToIdentify(
         fileName: String,

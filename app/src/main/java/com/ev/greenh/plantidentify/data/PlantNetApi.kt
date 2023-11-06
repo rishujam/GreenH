@@ -1,4 +1,4 @@
-package com.ev.greenh.common.commondata.api
+package com.ev.greenh.plantidentify.data
 
 import com.ev.greenh.PConstants
 import com.ev.greenh.plantidentify.data.model.res.PlantIdentifyRes
