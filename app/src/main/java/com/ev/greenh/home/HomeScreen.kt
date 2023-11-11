@@ -40,6 +40,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
+import coil.request.CachePolicy
+import coil.request.ImageRequest
+import coil.transform.CircleCropTransformation
 import com.ev.greenh.R
 import com.ev.greenh.common.commonui.LogoFontFamily
 import com.ev.greenh.common.commonui.Mat3OnBg
@@ -51,6 +54,7 @@ import com.ev.greenh.common.commonui.Mat3Surface
 import com.ev.greenh.common.commonui.Mat3SurfaceVariant
 import com.ev.greenh.common.commonui.NunitoFontFamily
 import com.ev.greenh.common.commonui.composable.LoadingAnimation
+import com.ev.greenh.grow.ui.LocalPlantListFragment
 import com.ev.greenh.plantidentify.ui.PlantIdentifyFragment
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.ui.plants.PlantFragment
@@ -144,8 +148,19 @@ fun HomeScreen() {
                     },
                 contentAlignment = Alignment.Center
             ) {
+                val placeholder = R.drawable.gradient_sun
+                val imageRequest = ImageRequest.Builder(context)
+                    .data("https://firebasestorage.googleapis.com/v0/b/gardenershub-ece08.appspot.com/o/plant_scan.jpeg?alt=media&token=db2395a2-2ec7-4030-9513-4f09c45285a6")
+                    .memoryCacheKey("https://firebasestorage.googleapis.com/v0/b/gardenershub-ece08.appspot.com/o/plant_scan.jpeg?alt=media&token=db2395a2-2ec7-4030-9513-4f09c45285a6")
+                    .diskCacheKey("https://firebasestorage.googleapis.com/v0/b/gardenershub-ece08.appspot.com/o/plant_scan.jpeg?alt=media&token=db2395a2-2ec7-4030-9513-4f09c45285a6")
+                    .placeholder(placeholder)
+                    .error(placeholder)
+                    .fallback(placeholder)
+                    .diskCachePolicy(CachePolicy.ENABLED)
+                    .memoryCachePolicy(CachePolicy.ENABLED)
+                    .build()
                 val painter = rememberAsyncImagePainter(
-                    "https://firebasestorage.googleapis.com/v0/b/gardenershub-ece08.appspot.com/o/plant_scan.jpeg?alt=media&token=db2395a2-2ec7-4030-9513-4f09c45285a6",
+                    imageRequest,
                 )
                 val state = painter.state
                 val transition by animateFloatAsState(
@@ -211,13 +226,24 @@ fun HomeScreen() {
                     .background(Mat3Surface)
                     .clickable {
                         val activity = context.findActivity()
-                        val fragment = PlantFragment()
+                        val fragment = LocalPlantListFragment()
                         (activity as? MainActivity)?.setCurrentFragmentBack(fragment)
                     },
                 contentAlignment = Alignment.Center
             ) {
+                val placeholder = R.drawable.gradient_sun
+                val imageRequest = ImageRequest.Builder(context)
+                    .data("https://firebasestorage.googleapis.com/v0/b/gardenershub-ece08.appspot.com/o/learn_plants.jpeg?alt=media&token=c0db965f-1f94-43a4-9afc-912c12f1c8f6")
+                    .memoryCacheKey("https://firebasestorage.googleapis.com/v0/b/gardenershub-ece08.appspot.com/o/learn_plants.jpeg?alt=media&token=c0db965f-1f94-43a4-9afc-912c12f1c8f6")
+                    .diskCacheKey("https://firebasestorage.googleapis.com/v0/b/gardenershub-ece08.appspot.com/o/learn_plants.jpeg?alt=media&token=c0db965f-1f94-43a4-9afc-912c12f1c8f6")
+                    .placeholder(placeholder)
+                    .error(placeholder)
+                    .fallback(placeholder)
+                    .diskCachePolicy(CachePolicy.ENABLED)
+                    .memoryCachePolicy(CachePolicy.ENABLED)
+                    .build()
                 val painter = rememberAsyncImagePainter(
-                    "https://firebasestorage.googleapis.com/v0/b/gardenershub-ece08.appspot.com/o/learn_plants.jpeg?alt=media&token=c0db965f-1f94-43a4-9afc-912c12f1c8f6",
+                    imageRequest,
                 )
                 val state = painter.state
                 if (state is AsyncImagePainter.State.Loading) {
