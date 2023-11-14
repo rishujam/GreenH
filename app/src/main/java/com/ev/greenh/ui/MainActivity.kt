@@ -2,9 +2,7 @@ package com.ev.greenh.ui
 
 import android.graphics.Bitmap
 import android.graphics.Matrix
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -13,31 +11,43 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
 import androidx.camera.view.LifecycleCameraController
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Surface
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ev.greenh.GreenApp
 import com.ev.greenh.R
+import com.ev.greenh.common.commondata.AppStartupRepository
+import com.ev.greenh.common.commonui.ActivityViewModel
+import com.ev.greenh.common.commonui.composable.AlertPrompt
+import com.ev.greenh.common.commonui.event.ActivityEvent
+import com.ev.greenh.common.commonui.model.DialogModel
 import com.ev.greenh.databinding.ActivityMainBinding
 import com.ev.greenh.firebase.FirestoreSource
 import com.ev.greenh.home.HomeFragment
 import com.ev.greenh.repository.PlantRepository
 import com.ev.greenh.ui.plants.PlantFragment
 import com.ev.greenh.ui.profile.SettingFragment
+import com.ev.greenh.util.Constants
+import com.ev.greenh.util.hide
+import com.ev.greenh.util.show
 import com.ev.greenh.viewmodels.PlantViewModel
 import com.ev.greenh.viewmodels.ViewModelFactory
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
-import java.io.ByteArrayOutputStream
 
 
 class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
 
     private lateinit var binding: ActivityMainBinding
     lateinit var viewModel: PlantViewModel
-    var successListener=""
-    var paymentData:PaymentData? = null
+    lateinit var activityViewModel: ActivityViewModel
+    var successListener = ""
+    var paymentData: PaymentData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,22 +56,36 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
         val homeFragment = HomeFragment()
         setCurrentFragment(homeFragment)
 
-        //Setting viewModel
         val plantSource = FirestoreSource()
-        val repo = PlantRepository(plantSource,(application as GreenApp).userPreferences)
+        val repo = PlantRepository(plantSource, (application as GreenApp).userPreferences)
         val factory = ViewModelFactory(repo)
-        viewModel = ViewModelProvider(this,factory)[PlantViewModel::class.java]
-        //end setting up viewModel
+        val startupRepo = AppStartupRepository()
+        val activityFactory = ViewModelFactory(startupRepo)
+        activityViewModel = ViewModelProvider(this, activityFactory)[ActivityViewModel::class.java]
+        viewModel = ViewModelProvider(this, factory)[PlantViewModel::class.java]
+
+        activityViewModel.getFeatureList()
 
         binding.bottomNavigationView.setOnItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.imHome -> {
                     setCurrentFragment(homeFragment)
                 }
+
                 R.id.imShop -> {
-                    val fragment = PlantFragment()
-                    setCurrentFragmentBack(fragment)
+                    if (activityViewModel.isFeatureEnabled(Constants.Feature.SHOP)) {
+                        val fragment = PlantFragment()
+                        setCurrentFragmentBack(fragment)
+                    } else {
+                        activityViewModel.onEvent(ActivityEvent.ShowDialog(
+                            DialogModel(
+                                "test",
+                                "Feature will be soon available"
+                            )
+                        ))
+                    }
                 }
+
                 R.id.imSetting -> {
                     val settingFragment = SettingFragment()
                     setCurrentFragmentBack(settingFragment)
@@ -71,38 +95,54 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
         }
     }
 
-    fun setCurrentFragment(fragment: Fragment)=
+    fun setCurrentFragment(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.flHome,fragment)
+            replace(R.id.flHome, fragment)
             commit()
         }
 
-    fun setCurrentFragmentBack(fragment: Fragment)=
+    fun setCurrentFragmentBack(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.flHome,fragment)
+            replace(R.id.flHome, fragment)
             addToBackStack("b")
             commit()
         }
 
     override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
-        when(p0){
-            Checkout.NETWORK_ERROR -> Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show()
-            Checkout.INVALID_OPTIONS -> Toast.makeText(this, "INVALID Parameters", Toast.LENGTH_SHORT).show()
-            Checkout.PAYMENT_CANCELED -> Toast.makeText(this, "Payment Cancelled", Toast.LENGTH_SHORT).show()
-            Checkout.TLS_ERROR -> Toast.makeText(this, "Your device is not supported", Toast.LENGTH_SHORT).show()
+        when (p0) {
+            Checkout.NETWORK_ERROR -> Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT)
+                .show()
+
+            Checkout.INVALID_OPTIONS -> Toast.makeText(
+                this,
+                "INVALID Parameters",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            Checkout.PAYMENT_CANCELED -> Toast.makeText(
+                this,
+                "Payment Cancelled",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            Checkout.TLS_ERROR -> Toast.makeText(
+                this,
+                "Your device is not supported",
+                Toast.LENGTH_SHORT
+            ).show()
         }
-        successListener ="N"
+        successListener = "N"
     }
 
     override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
         paymentData = p1
-        successListener ="Y"
+        successListener = "Y"
         Log.e("MainActivity: $p0", p1.toString())
     }
 
     fun takePhoto(
         controller: LifecycleCameraController,
-        onPhotoTaken : (Bitmap) -> Unit
+        onPhotoTaken: (Bitmap) -> Unit
     ) {
         controller.takePicture(
             ContextCompat.getMainExecutor(applicationContext),
@@ -132,10 +172,11 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
         )
     }
 
-    fun hideNav(){
+    fun hideNav() {
         binding.bottomNavigationView.visibility = View.GONE
     }
-    fun viewNav(){
+
+    fun viewNav() {
         binding.bottomNavigationView.visibility = View.VISIBLE
     }
 

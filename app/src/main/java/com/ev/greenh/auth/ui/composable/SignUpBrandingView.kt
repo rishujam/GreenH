@@ -36,7 +36,7 @@ fun SignUpBrandingView() {
             Row {
                 Image(
                     painter = painterResource(
-                        id = R.drawable.logo_gh
+                        id = R.drawable.logo_ghh
                     ),
                     contentDescription = Tags.BRAND_LOGO,
                     modifier = Modifier

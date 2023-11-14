@@ -28,8 +28,9 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val activityViewModel = (activity as? MainActivity)?.activityViewModel
         binding?.cvHomeFrag?.setContent {
-            HomeScreen()
+            HomeScreen(activityViewModel)
         }
     }
 

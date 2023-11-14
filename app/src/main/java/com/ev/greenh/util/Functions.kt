@@ -16,6 +16,14 @@ fun<A :Activity> Activity.startNewActivity(activity:Class<A>){
     }
 }
 
+fun View.hide() {
+    visibility = View.GONE
+}
+
+fun View.show() {
+    visibility = View.VISIBLE
+}
+
 fun View.visible(isVisible:Boolean){
     visibility = if(isVisible) View.VISIBLE else View.GONE
 }

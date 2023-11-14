@@ -42,8 +42,8 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
 import coil.request.ImageRequest
-import coil.transform.CircleCropTransformation
 import com.ev.greenh.R
+import com.ev.greenh.common.commonui.ActivityViewModel
 import com.ev.greenh.common.commonui.LogoFontFamily
 import com.ev.greenh.common.commonui.Mat3OnBg
 import com.ev.greenh.common.commonui.Mat3OnPrimary
@@ -53,11 +53,14 @@ import com.ev.greenh.common.commonui.Mat3Secondary
 import com.ev.greenh.common.commonui.Mat3Surface
 import com.ev.greenh.common.commonui.Mat3SurfaceVariant
 import com.ev.greenh.common.commonui.NunitoFontFamily
+import com.ev.greenh.common.commonui.composable.AlertPrompt
 import com.ev.greenh.common.commonui.composable.LoadingAnimation
+import com.ev.greenh.common.commonui.event.ActivityEvent
+import com.ev.greenh.common.commonui.model.DialogModel
 import com.ev.greenh.grow.ui.LocalPlantListFragment
 import com.ev.greenh.plantidentify.ui.PlantIdentifyFragment
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.ui.plants.PlantFragment
+import com.ev.greenh.util.Constants
 import com.ev.greenh.util.findActivity
 import com.example.testing.Tags
 
@@ -66,9 +69,26 @@ import com.example.testing.Tags
  */
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    activityViewModel: ActivityViewModel?
+) {
     val context = LocalContext.current
     Column(modifier = Modifier.fillMaxSize()) {
+        AnimatedVisibility(
+            visible = activityViewModel?.state?.showDialog != null,
+            enter = fadeIn() + slideInVertically(),
+            exit = fadeOut() + slideOutVertically()
+        ) {
+            activityViewModel?.state?.showDialog?.let {
+                AlertPrompt(
+                    model = it,
+                    cancelText = "Go Back",
+                    onCancel = {
+                        activityViewModel.dismissDialog()
+                    }
+                )
+            }
+        }
         Row {
             Text(
                 text = "GH",
@@ -142,9 +162,20 @@ fun HomeScreen() {
                     .fillMaxSize()
                     .clip(RoundedCornerShape(8.dp))
                     .clickable {
-                        val activity = context.findActivity()
-                        val frag = PlantIdentifyFragment()
-                        (activity as? MainActivity)?.setCurrentFragmentBack(frag)
+                        if (activityViewModel?.isFeatureEnabled(Constants.Feature.IDENTIFY) == true) {
+                            val activity = context.findActivity()
+                            val frag = PlantIdentifyFragment()
+                            (activity as? MainActivity)?.setCurrentFragmentBack(frag)
+                        } else {
+                            activityViewModel?.onEvent(
+                                ActivityEvent.ShowDialog(
+                                    DialogModel(
+                                        "Test Dialog",
+                                        "This feature will be soon available"
+                                    )
+                                )
+                            )
+                        }
                     },
                 contentAlignment = Alignment.Center
             ) {
@@ -225,9 +256,20 @@ fun HomeScreen() {
                     .clip(RoundedCornerShape(8.dp))
                     .background(Mat3Surface)
                     .clickable {
-                        val activity = context.findActivity()
-                        val fragment = LocalPlantListFragment()
-                        (activity as? MainActivity)?.setCurrentFragmentBack(fragment)
+                        if (activityViewModel?.isFeatureEnabled(Constants.Feature.GROW) == true) {
+                            val activity = context.findActivity()
+                            val fragment = LocalPlantListFragment()
+                            (activity as? MainActivity)?.setCurrentFragmentBack(fragment)
+                        } else {
+                            activityViewModel?.onEvent(
+                                ActivityEvent.ShowDialog(
+                                    DialogModel(
+                                        "Test Dialog",
+                                        "This feature will be soon available"
+                                    )
+                                )
+                            )
+                        }
                     },
                 contentAlignment = Alignment.Center
             ) {

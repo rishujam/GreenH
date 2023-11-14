@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ev.greenh.auth.ui.SignUpViewModel
 import com.ev.greenh.auth.data.AuthRepository
+import com.ev.greenh.common.commondata.AppStartupRepository
+import com.ev.greenh.common.commonui.ActivityViewModel
 import com.ev.greenh.grow.data.GrowRepository
 import com.ev.greenh.grow.ui.GrowViewModel
 import com.ev.greenh.grow.ui.LocalPlantListViewModel
@@ -46,6 +48,11 @@ class ViewModelFactory(
                 val useCase = PlantIdentifyUseCase(repository as PlantIdentifyRepo)
                 PlantIdentifyViewModel(useCase) as T
             }
+
+            modelClass.isAssignableFrom(
+                ActivityViewModel::class.java
+            ) -> ActivityViewModel(repository as AppStartupRepository) as T
+
 
             else -> throw IllegalArgumentException("ViewModelClass Not Found")
         }
