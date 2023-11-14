@@ -15,6 +15,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -42,6 +44,9 @@ import coil.compose.AsyncImage
 import com.ev.greenh.R
 import com.ev.greenh.common.commonui.Mat3Bg
 import com.ev.greenh.common.commonui.Mat3OnBg
+import com.ev.greenh.common.commonui.Mat3Primary
+import com.ev.greenh.common.commonui.Mat3Secondary
+import com.ev.greenh.common.commonui.Mat3SurfaceVariant
 import com.ev.greenh.common.commonui.NunitoFontFamily
 import com.ev.greenh.common.commonui.composable.CameraPreview
 import com.ev.greenh.common.commonui.composable.GButton
@@ -220,7 +225,8 @@ fun PlantScannerScreen(
         Toolbar(
             title = "Plant Identify",
             icon = R.drawable.back_btn,
-            modifier = Modifier.align(Alignment.TopStart)
+            modifier = Modifier
+                .align(Alignment.TopStart)
         ) {
             when(viewModel.state.currentScreen) {
                 is PlantIdentifyScreenState.IdentifyScreen -> {

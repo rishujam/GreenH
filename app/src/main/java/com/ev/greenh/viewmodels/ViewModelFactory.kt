@@ -9,6 +9,8 @@ import com.ev.greenh.common.commonui.ActivityViewModel
 import com.ev.greenh.grow.data.GrowRepository
 import com.ev.greenh.grow.ui.GrowViewModel
 import com.ev.greenh.grow.ui.LocalPlantListViewModel
+import com.ev.greenh.home.data.HomeRepository
+import com.ev.greenh.home.ui.HomeViewModel
 import com.ev.greenh.plantidentify.data.repo.PlantIdentifyRepo
 import com.ev.greenh.plantidentify.doamin.usecase.PlantIdentifyUseCase
 import com.ev.greenh.plantidentify.ui.PlantIdentifyViewModel
@@ -53,6 +55,9 @@ class ViewModelFactory(
                 ActivityViewModel::class.java
             ) -> ActivityViewModel(repository as AppStartupRepository) as T
 
+            modelClass.isAssignableFrom(
+                HomeViewModel::class.java
+            ) -> HomeViewModel(repository as HomeRepository) as T
 
             else -> throw IllegalArgumentException("ViewModelClass Not Found")
         }

@@ -1,4 +1,4 @@
-package com.ev.greenh.home
+package com.ev.greenh.home.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
@@ -70,7 +70,8 @@ import com.example.testing.Tags
 
 @Composable
 fun HomeScreen(
-    activityViewModel: ActivityViewModel?
+    activityViewModel: ActivityViewModel?,
+    viewModel: HomeViewModel
 ) {
     val context = LocalContext.current
     Column(modifier = Modifier.fillMaxSize()) {
@@ -140,7 +141,7 @@ fun HomeScreen(
                         )
                     }
                     Text(
-                        text = "Grow your plants do not grow your plants. It is to grow your plants helps",
+                        text = viewModel.state.tip,
                         fontSize = 16.sp,
                         fontFamily = NunitoFontFamily,
                         color = Mat3OnSurfaceVariant,
