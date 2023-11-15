@@ -13,10 +13,13 @@ object Constants {
     object FirebaseCollection {
         const val FEATURE = "features"
         const val TIPS = "tips"
+        const val APP_CONFIG = "appconfig"
     }
 
     object FirebaseDoc {
         const val TODAY_TIP = "today"
+        const val UPDATE = "update"
+        const val MAINTENANCE = "maintenance"
     }
 
     object ViewType {

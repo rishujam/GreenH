@@ -50,7 +50,10 @@ fun Toolbar(
                     colorFilter = ColorFilter.tint(Mat3OnBg),
                     modifier = Modifier
                         .size(24.dp)
-                        .clickable {
+                        .clickable(
+                            interactionSource = ,
+                            indication = null
+                        ) {
                             iconClick?.let { iconClick() }
                         },
                 )

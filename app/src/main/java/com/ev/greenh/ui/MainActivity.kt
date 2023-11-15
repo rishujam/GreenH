@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
         activityViewModel = ViewModelProvider(this, activityFactory)[ActivityViewModel::class.java]
         viewModel = ViewModelProvider(this, factory)[PlantViewModel::class.java]
 
-        activityViewModel.getFeatureList()
+        activityViewModel.getConfigData()
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
@@ -70,12 +70,13 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
                         val fragment = PlantFragment()
                         setCurrentFragmentBack(fragment)
                     } else {
-                        activityViewModel.onEvent(ActivityEvent.ShowDialog(
-                            DialogModel(
-                                "test",
-                                "Feature will be soon available"
-                            )
-                        ))
+                        //TODO - Show alert dialog from XML
+//                        activityViewModel.onEvent(ActivityEvent.ShowDialog(
+//                            DialogModel(
+//                                "test",
+//                                "Feature will be soon available"
+//                            )
+//                        ))
                     }
                 }
 

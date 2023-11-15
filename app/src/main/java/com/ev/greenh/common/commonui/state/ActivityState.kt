@@ -8,5 +8,7 @@ import com.ev.greenh.common.commonui.model.DialogModel
 
 data class ActivityState(
     val features: Map<String, Boolean>,
-    val showDialog: DialogModel? = null
+    val showDialog: DialogModel? = null,
+    val maintenance: Boolean = false,
+    val isUpdateRequired: Boolean = false
 )
