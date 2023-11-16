@@ -1,5 +1,8 @@
 package com.ev.greenh.home.ui
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
@@ -38,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
@@ -53,16 +57,14 @@ import com.ev.greenh.common.commonui.Mat3Secondary
 import com.ev.greenh.common.commonui.Mat3Surface
 import com.ev.greenh.common.commonui.Mat3SurfaceVariant
 import com.ev.greenh.common.commonui.NunitoFontFamily
-import com.ev.greenh.common.commonui.composable.AlertPrompt
 import com.ev.greenh.common.commonui.composable.LoadingAnimation
-import com.ev.greenh.common.commonui.event.ActivityEvent
-import com.ev.greenh.common.commonui.model.DialogModel
 import com.ev.greenh.grow.ui.LocalPlantListFragment
 import com.ev.greenh.plantidentify.ui.PlantIdentifyFragment
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.util.Constants
 import com.ev.greenh.util.findActivity
 import com.example.testing.Tags
+
 
 /*
  * Created by Sudhanshu Kumar on 20/10/23.
@@ -74,22 +76,39 @@ fun HomeScreen(
     viewModel: HomeViewModel
 ) {
     val context = LocalContext.current
+    if (activityViewModel?.state?.isUpdateRequired == true) {
+        val activity = context.findActivity()
+        (activity as? MainActivity)?.buildAlert(
+            {
+                val appPackageName: String = activity.packageName
+                try {
+                    startActivity(
+                        context,
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("market://details?id=$appPackageName")
+                        ),
+                        null
+                    )
+                } catch (e: ActivityNotFoundException) {
+                    startActivity(
+                        context,
+                        Intent(
+                            Intent.ACTION_VIEW, Uri.parse(
+                                "https://play.google.com/store/apps/details?id=$appPackageName"
+                            )
+                        ),
+                        null
+                    )
+                }
+            },
+            "Update",
+            "Update required",
+            "Update app to latest version to continue using",
+            false
+        )
+    }
     Column(modifier = Modifier.fillMaxSize()) {
-        AnimatedVisibility(
-            visible = activityViewModel?.state?.showDialog != null,
-            enter = fadeIn() + slideInVertically(),
-            exit = fadeOut() + slideOutVertically()
-        ) {
-            activityViewModel?.state?.showDialog?.let {
-                AlertPrompt(
-                    model = it,
-                    cancelText = "Go Back",
-                    onCancel = {
-                        activityViewModel.dismissDialog()
-                    }
-                )
-            }
-        }
         Row {
             Text(
                 text = "GH",
@@ -163,18 +182,17 @@ fun HomeScreen(
                     .fillMaxSize()
                     .clip(RoundedCornerShape(8.dp))
                     .clickable {
+                        val activity = context.findActivity()
                         if (activityViewModel?.isFeatureEnabled(Constants.Feature.IDENTIFY) == true) {
-                            val activity = context.findActivity()
                             val frag = PlantIdentifyFragment()
                             (activity as? MainActivity)?.setCurrentFragmentBack(frag)
                         } else {
-                            activityViewModel?.onEvent(
-                                ActivityEvent.ShowDialog(
-                                    DialogModel(
-                                        "Test Dialog",
-                                        "This feature will be soon available"
-                                    )
-                                )
+                            (activity as? MainActivity)?.buildAlert(
+                                { },
+                                "Go Back",
+                                "Feature Unavailable",
+                                "The feature will soon be available",
+                                true
                             )
                         }
                     },
@@ -257,18 +275,17 @@ fun HomeScreen(
                     .clip(RoundedCornerShape(8.dp))
                     .background(Mat3Surface)
                     .clickable {
+                        val activity = context.findActivity()
                         if (activityViewModel?.isFeatureEnabled(Constants.Feature.GROW) == true) {
-                            val activity = context.findActivity()
                             val fragment = LocalPlantListFragment()
                             (activity as? MainActivity)?.setCurrentFragmentBack(fragment)
                         } else {
-                            activityViewModel?.onEvent(
-                                ActivityEvent.ShowDialog(
-                                    DialogModel(
-                                        "Test Dialog",
-                                        "This feature will be soon available"
-                                    )
-                                )
+                            (activity as? MainActivity)?.buildAlert(
+                                { },
+                                "Go Back",
+                                "Feature Unavailable",
+                                "The feature will soon be available",
+                                true
                             )
                         }
                     },

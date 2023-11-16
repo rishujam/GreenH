@@ -28,9 +28,7 @@ class ActivityViewModel(
     fun onEvent(event: ActivityEvent) {
         when (event) {
             is ActivityEvent.ShowDialog -> {
-                state = state.copy(
-                    showDialog = event.dialog
-                )
+
             }
         }
     }

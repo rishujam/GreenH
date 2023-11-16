@@ -1,10 +1,18 @@
 package com.ev.greenh.ui
 
+import android.app.Dialog
+import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.Matrix
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ImageCapture
@@ -70,13 +78,13 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
                         val fragment = PlantFragment()
                         setCurrentFragmentBack(fragment)
                     } else {
-                        //TODO - Show alert dialog from XML
-//                        activityViewModel.onEvent(ActivityEvent.ShowDialog(
-//                            DialogModel(
-//                                "test",
-//                                "Feature will be soon available"
-//                            )
-//                        ))
+                        buildAlert(
+                            { },
+                            "Go Back",
+                            "Feature Unavailable",
+                            "The feature will soon be available",
+                            true
+                        )
                     }
                 }
 
@@ -172,6 +180,37 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
 
     fun viewNav() {
         binding.bottomNavigationView.visibility = View.VISIBLE
+    }
+
+    fun buildAlert(
+        onBtnClick: () -> Unit,
+        btnText: String,
+        title: String,
+        message: String,
+        dismissOnBtnClick: Boolean
+    ) {
+        val dialog = Dialog(this)
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setContentView(R.layout.dialog_generic)
+            val btn: Button = findViewById(R.id.btnDialog)
+            val titleView: TextView = findViewById(R.id.tvDialogTitle)
+            val messageView: TextView = findViewById(R.id.tvDialogMessage)
+            show()
+            titleView.text = title
+            messageView.text = message
+            btn.text = btnText
+            setCancelable(false)
+            window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            btn.setOnClickListener {
+                onBtnClick()
+                if(dismissOnBtnClick) dismiss()
+            }
+        }
     }
 
     override fun onStop() {
