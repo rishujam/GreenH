@@ -15,6 +15,7 @@ class PlantIdentifyUseCase(
     private val repo: PlantIdentifyRepo
 ) {
 
+    //TODO Convert this to flow and emit status of every step
     suspend operator fun invoke(fileName: String, image: IdentifyImage): PlantIdentifyResultUI {
         if (uploadFile(fileName, image)) {
             val url = getPublicUrl(fileName)

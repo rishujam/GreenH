@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ev.greenh.home.data.HomeRepository
 import com.ev.greenh.util.Resource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /*
@@ -19,7 +20,7 @@ class HomeViewModel(
 
     var state by mutableStateOf(HomeState())
 
-    fun getTodayTip() = viewModelScope.launch {
+    fun getTodayTip() = viewModelScope.launch(Dispatchers.IO) {
         val tip = repo.getTodayTip()
         when(tip) {
             is Resource.Success -> {

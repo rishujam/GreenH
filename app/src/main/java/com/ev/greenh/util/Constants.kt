@@ -33,6 +33,10 @@ object Constants {
         const val IDENTIFY = "identify"
     }
 
+    object FragTags {
+        const val IDENTIFY_FRAG = "identify_frag"
+    }
+
     fun getFallbackFeatureMap(): Map<String, Boolean> {
         return mapOf(Feature.IDENTIFY to true, Feature.GROW to false, Feature.SHOP to false)
     }

@@ -1,17 +1,11 @@
 package com.ev.greenh.plantidentify.ui
 
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -67,26 +61,6 @@ class PlantIdentifyFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun scaleBitmapDown(bitmap: Bitmap, maxDimension: Int): Bitmap {
-        val originalWidth = bitmap.width
-        val originalHeight = bitmap.height
-        var resizedWidth = maxDimension
-        var resizedHeight = maxDimension
-        if (originalHeight > originalWidth) {
-            resizedHeight = maxDimension
-            resizedWidth =
-                (resizedHeight * originalWidth.toFloat() / originalHeight.toFloat()).toInt()
-        } else if (originalWidth > originalHeight) {
-            resizedWidth = maxDimension
-            resizedHeight =
-                (resizedWidth * originalHeight.toFloat() / originalWidth.toFloat()).toInt()
-        } else if (originalHeight == originalWidth) {
-            resizedHeight = maxDimension
-            resizedWidth = maxDimension
-        }
-        return Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, false)
     }
 
 }

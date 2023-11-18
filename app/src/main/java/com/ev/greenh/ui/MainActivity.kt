@@ -103,9 +103,9 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
             commit()
         }
 
-    fun setCurrentFragmentBack(fragment: Fragment) =
+    fun setCurrentFragmentBack(fragment: Fragment, tag: String? = null) =
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.flHome, fragment)
+            replace(R.id.flHome, fragment, tag)
             addToBackStack("b")
             commit()
         }

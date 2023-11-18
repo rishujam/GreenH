@@ -1,6 +1,7 @@
 package com.ev.greenh.plantidentify.ui.composable
 
 import android.content.Context
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -51,12 +52,14 @@ import com.ev.greenh.common.commonui.NunitoFontFamily
 import com.ev.greenh.common.commonui.composable.CameraPreview
 import com.ev.greenh.common.commonui.composable.GButton
 import com.ev.greenh.common.commonui.composable.LoadingAnimation
+import com.ev.greenh.common.commonui.composable.LoadingDialog
 import com.ev.greenh.common.commonui.composable.Toolbar
 import com.ev.greenh.plantidentify.ui.event.PlantIdentifyEvent
 import com.ev.greenh.plantidentify.ui.PlantIdentifyViewModel
 import com.ev.greenh.plantidentify.ui.model.IdentifyImage
 import com.ev.greenh.plantidentify.ui.state.PlantIdentifyScreenState
 import com.ev.greenh.ui.MainActivity
+import com.ev.greenh.util.Constants
 import com.ev.greenh.util.findActivity
 
 /*
@@ -186,9 +189,7 @@ fun PlantScannerScreen(
                         ) {
                             selectedImage?.let {
                                 viewModel.onEvent(
-                                    PlantIdentifyEvent.IdentifyClick(
-                                        it
-                                    )
+                                    PlantIdentifyEvent.IdentifyClick(it)
                                 )
                             }
                         }
@@ -204,7 +205,11 @@ fun PlantScannerScreen(
                                 .padding(bottom = 16.dp)
                                 .clip(RoundedCornerShape(8.dp))
                         ) {
-                            val text = viewModel.state.result ?: listOf("No result found")
+                            val text = if(!viewModel.state.result.isNullOrEmpty()) {
+                                viewModel.state.result ?: listOf("No result found")
+                            } else {
+                                listOf("No result found")
+                            }
                             Text(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -233,7 +238,8 @@ fun PlantScannerScreen(
                     viewModel.onEvent(PlantIdentifyEvent.BackClickFromResult)
                 }
                 is PlantIdentifyScreenState.CameraScreen -> {
-
+                    val activity = context.findActivity()
+                    (activity as? MainActivity)?.onBackPressedDispatcher?.onBackPressed()
                 }
             }
         }
@@ -243,7 +249,7 @@ fun PlantScannerScreen(
             exit = fadeOut()
         ) {
             Box(modifier = Modifier.align(Alignment.Center)) {
-                LoadingAnimation()
+                LoadingDialog(text = viewModel.state.loadingText)
             }
         }
     }

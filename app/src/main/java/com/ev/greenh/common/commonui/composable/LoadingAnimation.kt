@@ -48,14 +48,7 @@ fun LoadingAnimation() {
     Box(
         modifier = Modifier
             .padding(16.dp)
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .background(
-                Brush.horizontalGradient(
-                    listOf(Mat3Bg, Mat3Bg),
-                ),
-                alpha = 0.4f
-            ),
+            .clip(RoundedCornerShape(8.dp)),
         contentAlignment = Alignment.Center
     ) {
         Box(

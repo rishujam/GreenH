@@ -185,7 +185,10 @@ fun HomeScreen(
                         val activity = context.findActivity()
                         if (activityViewModel?.isFeatureEnabled(Constants.Feature.IDENTIFY) == true) {
                             val frag = PlantIdentifyFragment()
-                            (activity as? MainActivity)?.setCurrentFragmentBack(frag)
+                            (activity as? MainActivity)?.setCurrentFragmentBack(
+                                frag,
+                                Constants.FragTags.IDENTIFY_FRAG
+                            )
                         } else {
                             (activity as? MainActivity)?.buildAlert(
                                 { },
@@ -333,7 +336,7 @@ fun HomeScreen(
                             .fillMaxWidth()
                             .background(
                                 Brush.horizontalGradient(
-                                    listOf(Mat3Secondary, Mat3Primary),
+                                    listOf(Mat3Secondary, Mat3Primary)
                                 ),
                                 alpha = 0.7f
                             )

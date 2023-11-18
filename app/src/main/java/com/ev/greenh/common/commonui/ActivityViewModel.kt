@@ -12,6 +12,7 @@ import com.ev.greenh.common.commonui.model.AppConfigUI
 import com.ev.greenh.common.commonui.state.ActivityState
 import com.ev.greenh.util.Constants
 import com.ev.greenh.util.Resource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -33,7 +34,7 @@ class ActivityViewModel(
         }
     }
 
-    fun getConfigData() = viewModelScope.launch {
+    fun getConfigData() = viewModelScope.launch(Dispatchers.IO) {
         val featuresDef = async {
             getFeatureList()
         }

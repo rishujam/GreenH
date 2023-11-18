@@ -12,6 +12,7 @@ import com.ev.greenh.models.uimodels.MyOrderDetail
 import com.ev.greenh.repository.PlantRepository
 import com.ev.greenh.util.Resource
 import com.ev.greenh.util.ViewModelEventWrapper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PlantViewModel(
@@ -115,7 +116,7 @@ class PlantViewModel(
         _allPlantsPaginated.value = repository.getAllPlantsPaging().cachedIn(viewModelScope).value
     }
 
-    fun getAllPlants(collection: String) = viewModelScope.launch {
+    fun getAllPlants(collection: String) = viewModelScope.launch(Dispatchers.IO) {
         plants.postValue(Resource.Loading())
         val response = repository.getAllPlants(collection,plantsPage, lastFeatureNoAll)
         plants.postValue(handlePlantsResponse(response))
@@ -142,7 +143,7 @@ class PlantViewModel(
         return Resource.Error("")
     }
 
-    fun getIndoorPlants(collection: String) = viewModelScope.launch {
+    fun getIndoorPlants(collection: String) = viewModelScope.launch(Dispatchers.IO) {
         plantsIndoor.postValue(Resource.Loading())
         val response = repository.getPlantsByCategory(collection,"Indoor", lastFeatureNoIndoor)
         plantsIndoor.postValue(handlePlantsIndoorResponse(response))
@@ -165,7 +166,7 @@ class PlantViewModel(
         return Resource.Error(response.message)
     }
 
-    fun getTablePlants(collection: String) = viewModelScope.launch {
+    fun getTablePlants(collection: String) = viewModelScope.launch(Dispatchers.IO) {
         plantsTable.postValue(Resource.Loading())
         val response = repository.getPlantsByCategory(collection,"Table", lastFeatureNoTable)
         plantsTable.postValue(handlePlantsTableResponse(response))
@@ -218,51 +219,51 @@ class PlantViewModel(
         _profile.value = repository.getUserDetails(collection, email)
     }
 
-    fun placeOrder(order: Order, collection: String) = viewModelScope.launch {
+    fun placeOrder(order: Order, collection: String) = viewModelScope.launch(Dispatchers.IO) {
         _placeOrder.value = ViewModelEventWrapper(repository.placeOrder(order, collection))
     }
 
-    fun getUserOrders(user:String,collectionOrder: String, collectionPlant:String) = viewModelScope.launch {
+    fun getUserOrders(user:String,collectionOrder: String, collectionPlant:String) = viewModelScope.launch(Dispatchers.IO) {
         _getUserOrders.value = repository.getUserOrders(user, collectionOrder, collectionPlant)
     }
 
-    fun getSingleOrderDetail(orderId:String,collectionOrder: String, collectionPlant: String) = viewModelScope.launch {
+    fun getSingleOrderDetail(orderId:String,collectionOrder: String, collectionPlant: String) = viewModelScope.launch(Dispatchers.IO) {
         _getSingleOrderDetails.value = repository.getSingleOrderDetail(orderId, collectionOrder, collectionPlant)
     }
 
-    fun generateOrderId(amount:HashMap<String,Int>) =viewModelScope.launch {
+    fun generateOrderId(amount:HashMap<String,Int>) =viewModelScope.launch(Dispatchers.IO) {
         _razorpayOrderId.value = ViewModelEventWrapper(repository.generateOrderId(amount))
     }
 
-    fun emptyUserCart(user:String,collection: String) = viewModelScope.launch {
+    fun emptyUserCart(user:String,collection: String) = viewModelScope.launch(Dispatchers.IO) {
         ViewModelEventWrapper(repository.emptyUserCart(user, collection))
     }
 
-    fun getBagItemIds(email:String,collection: String) = viewModelScope.launch {
+    fun getBagItemIds(email:String,collection: String) = viewModelScope.launch(Dispatchers.IO) {
         _bagItemIds.value = repository.getBagItemIds(email, collection)
     }
 
-    fun updateUserDetails(collection: String,profile:Profile) = viewModelScope.launch {
+    fun updateUserDetails(collection: String,profile:Profile) = viewModelScope.launch(Dispatchers.IO) {
         _updateProfile.value = ViewModelEventWrapper(repository.updateUserDetails(collection, profile))
     }
 
-    fun getProfileSingleTime(collection: String,uid:String) = viewModelScope.launch {
+    fun getProfileSingleTime(collection: String,uid:String) = viewModelScope.launch(Dispatchers.IO) {
         _singleTimeProfile.value = ViewModelEventWrapper(repository.getUserDetails(collection,uid))
     }
 
-    fun sendCancelRequest(orderId:String,collection: String) = viewModelScope.launch {
+    fun sendCancelRequest(orderId:String,collection: String) = viewModelScope.launch(Dispatchers.IO) {
         _cancelOrderReq.value = ViewModelEventWrapper(repository.sendCancelRequest(orderId,collection))
     }
 
-    fun getApiKey(collection: String) = viewModelScope.launch {
+    fun getApiKey(collection: String) = viewModelScope.launch(Dispatchers.IO) {
         apiKey.value = ViewModelEventWrapper(repository.getApiKey(collection))
     }
 
-    fun getMinVersionToRun(collection: String) = viewModelScope.launch {
+    fun getMinVersionToRun(collection: String) = viewModelScope.launch(Dispatchers.IO) {
         minVersion.value = repository.getMinVersionToRun(collection)
     }
 
-    fun getPlantVideoUrl(collection:String, plantId: String) = viewModelScope.launch {
+    fun getPlantVideoUrl(collection:String, plantId: String) = viewModelScope.launch(Dispatchers.IO) {
         _videoUrl.value = ViewModelEventWrapper(repository.getPlantVideoUrl(collection, plantId))
     }
 }
