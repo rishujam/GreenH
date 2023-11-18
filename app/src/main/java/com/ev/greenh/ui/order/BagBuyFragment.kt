@@ -276,7 +276,7 @@ class BagBuyFragment:Fragment() {
             val options = JSONObject()
             options.put("name","Gardners Hub")
             options.put("description","Pay for plants")
-            options.put("image",R.drawable.app_icon)
+            options.put("image",R.drawable.app_icon1)
             options.put("theme.color", Color.GREEN)
             options.put("currency","INR")
             options.put("order_id", orderId)

@@ -38,7 +38,7 @@ fun LocalPlantItem(
     ) {
         Image(
             painter = painterResource(
-                id = R.drawable.logo_gh
+                id = R.drawable.logo_ghh
             ),
             contentDescription = Tags.LOCAL_PLANT_LIST_ITEM_IMAGE,
             modifier = Modifier

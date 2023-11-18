@@ -1,9 +1,5 @@
 package com.ev.greenh.common.commondata
 
-import com.ev.greenh.common.commondata.api.MockyTestApi
-import com.ev.greenh.common.commondata.api.PlantNetApi
-import com.ev.greenh.common.commondata.api.RazorpayApi
-import com.ev.greenh.common.commondata.api.VisionApi
 import com.ev.greenh.util.Constants
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -17,38 +13,22 @@ object RetrofitPool {
 
     private val retroMap = hashMapOf<ApiIdentifier, ApiBase<*>>()
 
-    fun getApi(identifier: ApiIdentifier): ApiBase<*> {
+    fun <T>getApi(identifier: ApiIdentifier, apiClass: Class<T>): ApiBase<*> {
         return try {
             retroMap[identifier]!!
         } catch (_: Exception) {
-            createApi(identifier)
+            createApi(identifier, apiClass)
         }
     }
 
-    private fun createApi(identifier: ApiIdentifier): ApiBase<*> {
+    private fun <T>createApi(identifier: ApiIdentifier, apiClass: Class<T>): ApiBase<*> {
         val client = getClient(identifier)
         val retrofit = Retrofit.Builder()
             .baseUrl(getBaseUrl(identifier))
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
-        val api: ApiBase<*> = when (identifier) {
-            is ApiIdentifier.MockyTestApi -> {
-                ApiBase(retrofit.create(MockyTestApi::class.java))
-            }
-
-            is ApiIdentifier.VisionApi -> {
-                ApiBase(retrofit.create(VisionApi::class.java))
-            }
-
-            is ApiIdentifier.PlantNetApi -> {
-                ApiBase(retrofit.create(PlantNetApi::class.java))
-            }
-
-            is ApiIdentifier.Razorpay -> {
-                ApiBase(retrofit.create(RazorpayApi::class.java))
-            }
-        }
+        val api = ApiBase(retrofit.create(apiClass))
         retroMap[identifier] = api
         return api
     }
@@ -57,10 +37,6 @@ object RetrofitPool {
         return when (identifier) {
             is ApiIdentifier.MockyTestApi -> {
                 Constants.MOCKY_BASE_URL
-            }
-
-            is ApiIdentifier.VisionApi -> {
-                Constants.GOOGLE_VISION_BASE_URL
             }
 
             is ApiIdentifier.PlantNetApi -> {
@@ -76,10 +52,6 @@ object RetrofitPool {
     private fun getClient(identifier: ApiIdentifier): OkHttpClient {
         return when (identifier) {
             is ApiIdentifier.MockyTestApi -> {
-                OkHttpClient.Builder().build()
-            }
-
-            is ApiIdentifier.VisionApi -> {
                 OkHttpClient.Builder().build()
             }
 

@@ -8,6 +8,7 @@ import com.ev.greenh.models.*
 import com.ev.greenh.repository.PlantRepository
 import com.ev.greenh.util.Resource
 import com.ev.greenh.util.ViewModelEventWrapper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class OrderViewModel(
@@ -40,11 +41,11 @@ class OrderViewModel(
     val uid: LiveData<ViewModelEventWrapper<Resource<String?>>>
         get() = _uid
 
-    fun getApiKey(collection: String) = viewModelScope.launch {
+    fun getApiKey(collection: String) = viewModelScope.launch(Dispatchers.IO) {
         apiKey.value = ViewModelEventWrapper(repository.getApiKey(collection))
     }
 
-    fun getProfileSingleTime(collection: String, uid: String) = viewModelScope.launch {
+    fun getProfileSingleTime(collection: String, uid: String) = viewModelScope.launch(Dispatchers.IO) {
         _singleTimeProfile.value = ViewModelEventWrapper(repository.getUserDetails(collection, uid))
     }
 

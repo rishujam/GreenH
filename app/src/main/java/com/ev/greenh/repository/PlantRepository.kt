@@ -5,7 +5,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.ev.greenh.common.commondata.ApiIdentifier
 import com.ev.greenh.common.commondata.RetrofitPool
-import com.ev.greenh.common.commondata.api.RazorpayApi
 import com.ev.greenh.firebase.FirestoreSource
 import com.ev.greenh.localdatastore.UserPreferences
 import com.ev.greenh.models.Order
@@ -61,7 +60,10 @@ class PlantRepository(
     }
 
     suspend fun generateOrderId(amount:HashMap<String,Int>)= safeApiCall {
-        val api = RetrofitPool.getApi(ApiIdentifier.Razorpay).service as? RazorpayApi
+        val api = RetrofitPool.getApi(
+            ApiIdentifier.Razorpay,
+            RazorpayApi::class.java
+        ).service as? RazorpayApi
         api?.generateOrderId(amount)
     }
 

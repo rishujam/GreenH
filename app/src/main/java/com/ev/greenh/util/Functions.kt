@@ -4,15 +4,24 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.graphics.Bitmap
 import android.view.View
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
+import java.io.ByteArrayOutputStream
+
 
 fun<A :Activity> Activity.startNewActivity(activity:Class<A>){
     Intent(this,activity).also {
         it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(it)
     }
+}
+
+fun View.hide() {
+    visibility = View.GONE
+}
+
+fun View.show() {
+    visibility = View.VISIBLE
 }
 
 fun View.visible(isVisible:Boolean){
@@ -31,5 +40,12 @@ fun Context.findActivity(): Activity {
         context = context.baseContext
     }
     throw IllegalStateException("no activity")
+}
+
+fun Bitmap.toByteArray(): ByteArray {
+    val stream = ByteArrayOutputStream()
+    this.compress(Bitmap.CompressFormat.PNG, 100, stream)
+    return stream.toByteArray()
+//    this.recycle()
 }
 

@@ -46,7 +46,7 @@ fun LocalPlantListScreen(
             .fillMaxSize()
             .background(Mat3Bg)
     ) {
-        Toolbar(title = "Local Plants", R.drawable.back_btn, R.drawable.ic_home)
+        Toolbar(title = "Local Plants", icon = R.drawable.back_btn, iconEnd = R.drawable.ic_home)
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()

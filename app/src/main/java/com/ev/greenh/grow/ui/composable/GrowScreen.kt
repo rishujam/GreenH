@@ -35,7 +35,7 @@ fun GrowScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            Toolbar(title = "How To Grow", R.drawable.back_btn)
+            Toolbar(title = "How To Grow", icon = R.drawable.back_btn)
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()

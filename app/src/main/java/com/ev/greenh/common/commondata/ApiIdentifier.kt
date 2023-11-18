@@ -5,7 +5,6 @@ package com.ev.greenh.common.commondata
  */
 
 sealed class ApiIdentifier {
-    object VisionApi : ApiIdentifier()
     object PlantNetApi : ApiIdentifier()
     object MockyTestApi: ApiIdentifier()
     object Razorpay: ApiIdentifier()

@@ -1,12 +1,16 @@
 package com.ev.greenh.plantidentify.ui
 
-import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ev.greenh.plantidentify.data.PlantIdentifyRepo
+import com.ev.greenh.plantidentify.doamin.usecase.PlantIdentifyUseCase
+import com.ev.greenh.plantidentify.ui.event.PlantIdentifyEvent
+import com.ev.greenh.plantidentify.ui.model.IdentifyImage
+import com.ev.greenh.plantidentify.ui.state.PlantIdentifyScreenState
+import com.ev.greenh.plantidentify.ui.state.PlantIdentifyState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /*
@@ -14,28 +18,59 @@ import kotlinx.coroutines.launch
  */
 
 class PlantIdentifyViewModel(
-    private val repo: PlantIdentifyRepo
+    private val useCase: PlantIdentifyUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf(PlantIdentifyState())
 
     fun onEvent(event: PlantIdentifyEvent) {
-        when(event) {
+        when (event) {
             is PlantIdentifyEvent.IdentifyClick -> {
-                event.uri?.let {
+                event.image.let {
                     state = state.copy(
-                        imageUri = event.uri
+                        image = event.image,
+                        isLoading = true,
+                        loadingText = "Uploading Image..."
                     )
-                    identifyPlant(event.uri)
-                } ?: {
-                    state = state.copy(toast = "Please select a valid images")
+                    identifyPlant(event.fileName, event.image)
                 }
+            }
+
+            is PlantIdentifyEvent.ImageSelected -> {
+                state = state.copy(
+                    currentScreen = PlantIdentifyScreenState.IdentifyScreen
+                )
+            }
+
+            is PlantIdentifyEvent.BackClickFromResult -> {
+                state = state.copy(
+                    currentScreen = PlantIdentifyScreenState.CameraScreen,
+                    result = null,
+                    image = null
+                )
             }
         }
     }
 
-    private fun identifyPlant(uri: Uri) = viewModelScope.launch {
-        repo.uploadPlantToIdentify(uri)
+    private fun identifyPlant(
+        fileName: String,
+        image: IdentifyImage
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        state = state.copy(
+            loadingText = "Analyzing Image..."
+        )
+        val response = useCase.invoke(fileName, image)
+        response.error?.let {
+            state = state.copy(
+                isLoading = false,
+                toast = it
+            )
+        } ?: run {
+            state = state.copy(
+                isLoading = false,
+                result = response.names
+            )
+        }
     }
 
 }
