@@ -1,6 +1,5 @@
 package com.ev.greenh.plantidentify.ui
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -33,7 +32,7 @@ class PlantIdentifyViewModel(
                         isLoading = true,
                         loadingText = "Uploading Image..."
                     )
-                    identifyPlant(event.image)
+                    identifyPlant(event.fileName, event.image)
                 }
             }
 
@@ -53,11 +52,13 @@ class PlantIdentifyViewModel(
         }
     }
 
-    private fun identifyPlant(image: IdentifyImage) = viewModelScope.launch(Dispatchers.IO) {
+    private fun identifyPlant(
+        fileName: String,
+        image: IdentifyImage
+    ) = viewModelScope.launch(Dispatchers.IO) {
         state = state.copy(
             loadingText = "Analyzing Image..."
         )
-        val fileName = "/fileName"
         val response = useCase.invoke(fileName, image)
         response.error?.let {
             state = state.copy(

@@ -188,8 +188,11 @@ fun PlantScannerScreen(
                             isEnabled = true
                         ) {
                             selectedImage?.let {
+                                val activity = context.findActivity()
+                                val fileName = ((activity as? MainActivity)?.uid ?: "") +
+                                        System.currentTimeMillis().toString()
                                 viewModel.onEvent(
-                                    PlantIdentifyEvent.IdentifyClick(it)
+                                    PlantIdentifyEvent.IdentifyClick(it, fileName)
                                 )
                             }
                         }

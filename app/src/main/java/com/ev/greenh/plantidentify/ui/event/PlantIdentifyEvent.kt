@@ -8,7 +8,10 @@ import com.ev.greenh.plantidentify.ui.model.IdentifyImage
 
 sealed class PlantIdentifyEvent {
 
-    data class IdentifyClick(val image: IdentifyImage) : PlantIdentifyEvent()
+    data class IdentifyClick(
+        val image: IdentifyImage,
+        val fileName: String
+    ) : PlantIdentifyEvent()
 
     object ImageSelected : PlantIdentifyEvent()
 

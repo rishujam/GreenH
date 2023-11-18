@@ -22,6 +22,7 @@ import androidx.camera.view.LifecycleCameraController
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.ev.greenh.GreenApp
 import com.ev.greenh.R
 import com.ev.greenh.common.commondata.AppStartupRepository
@@ -40,6 +41,8 @@ import com.ev.greenh.viewmodels.ViewModelFactory
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
@@ -49,6 +52,7 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
     lateinit var activityViewModel: ActivityViewModel
     var successListener = ""
     var paymentData: PaymentData? = null
+    var uid: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +70,8 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
         viewModel = ViewModelProvider(this, factory)[PlantViewModel::class.java]
 
         activityViewModel.getConfigData()
+
+        loadUid()
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
@@ -210,6 +216,12 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
                 onBtnClick()
                 if(dismissOnBtnClick) dismiss()
             }
+        }
+    }
+
+    private fun loadUid() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            uid = (application as GreenApp).userPreferences.readUid()
         }
     }
 
