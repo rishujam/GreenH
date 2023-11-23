@@ -2,6 +2,7 @@ package com.ev.greenh.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.ev.greenh.analytics.AnalyticsRepo
 import com.ev.greenh.auth.ui.SignUpViewModel
 import com.ev.greenh.auth.data.AuthRepository
 import com.ev.greenh.common.commondata.AppStartupRepository
@@ -48,7 +49,8 @@ class ViewModelFactory(
                 PlantIdentifyViewModel::class.java
             ) ->  {
                 val useCase = PlantIdentifyUseCase(repository as PlantIdentifyRepo)
-                PlantIdentifyViewModel(useCase) as T
+                val analyticRepo = AnalyticsRepo()
+                PlantIdentifyViewModel(useCase, analyticRepo) as T
             }
 
             modelClass.isAssignableFrom(

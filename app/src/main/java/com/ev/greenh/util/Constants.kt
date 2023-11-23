@@ -14,6 +14,7 @@ object Constants {
         const val FEATURE = "features"
         const val TIPS = "tips"
         const val APP_CONFIG = "appconfig"
+        const val ANALYTICS = "analytics"
     }
 
     object FirebaseDoc {

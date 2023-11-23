@@ -1,6 +1,7 @@
 package com.ev.greenh.auth.data
 
 
+import android.util.Log
 import com.ev.greenh.firebase.AuthSource
 import com.ev.greenh.localdatastore.UserPreferences
 import com.ev.greenh.models.Profile
@@ -50,6 +51,7 @@ class AuthRepository(
 
     fun sendOtp(options: PhoneAuthOptions?) {
         options?.let {
+            Log.d("RishuTest", "Send Otp")
             PhoneAuthProvider.verifyPhoneNumber(options)
         }
     }

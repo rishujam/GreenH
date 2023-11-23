@@ -157,7 +157,7 @@ fun PlantScannerScreen(
                             model = (selectedImage as IdentifyImage.UriImage).uri,
                             contentDescription = null,
                             modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop
+                            contentScale = ContentScale.Fit
                         )
                     }
                     is IdentifyImage.BitmapImage -> {
@@ -165,7 +165,7 @@ fun PlantScannerScreen(
                             model = (selectedImage as IdentifyImage.BitmapImage).bitmap,
                             contentDescription = null,
                             modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop
+                            contentScale = ContentScale.Fit
                         )
                     }
                     else -> {}

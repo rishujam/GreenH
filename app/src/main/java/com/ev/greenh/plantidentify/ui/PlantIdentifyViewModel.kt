@@ -5,11 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ev.greenh.analytics.AnalyticsRepo
+import com.ev.greenh.home.data.Analytic
 import com.ev.greenh.plantidentify.doamin.usecase.PlantIdentifyUseCase
 import com.ev.greenh.plantidentify.ui.event.PlantIdentifyEvent
 import com.ev.greenh.plantidentify.ui.model.IdentifyImage
 import com.ev.greenh.plantidentify.ui.state.PlantIdentifyScreenState
 import com.ev.greenh.plantidentify.ui.state.PlantIdentifyState
+import com.ev.greenh.util.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -18,7 +21,8 @@ import kotlinx.coroutines.launch
  */
 
 class PlantIdentifyViewModel(
-    private val useCase: PlantIdentifyUseCase
+    private val useCase: PlantIdentifyUseCase,
+    private val analyticRepo: AnalyticsRepo
 ) : ViewModel() {
 
     var state by mutableStateOf(PlantIdentifyState())
@@ -30,7 +34,7 @@ class PlantIdentifyViewModel(
                     state = state.copy(
                         image = event.image,
                         isLoading = true,
-                        loadingText = "Uploading Image..."
+                        loadingText = "Analyzing Image..."
                     )
                     identifyPlant(event.fileName, event.image)
                 }
@@ -56,21 +60,29 @@ class PlantIdentifyViewModel(
         fileName: String,
         image: IdentifyImage
     ) = viewModelScope.launch(Dispatchers.IO) {
-        state = state.copy(
-            loadingText = "Analyzing Image..."
-        )
         val response = useCase.invoke(fileName, image)
         response.error?.let {
             state = state.copy(
                 isLoading = false,
                 toast = it
             )
+            sendAnalytic()
         } ?: run {
             state = state.copy(
                 isLoading = false,
                 result = response.names
             )
         }
+    }
+
+    private fun sendAnalytic() = viewModelScope.launch(Dispatchers.IO) {
+        val id = System.currentTimeMillis().toString()
+        val analytic = Analytic(
+            id,
+            Constants.Feature.IDENTIFY,
+            "error identify"
+        )
+        analyticRepo.postAnalytics(analytic)
     }
 
 }
