@@ -8,6 +8,9 @@ import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import coil.util.DebugLogger
 import com.ev.greenh.localdatastore.UserPreferences
+import com.google.firebase.FirebaseApp
+import com.google.firebase.appcheck.FirebaseAppCheck
+import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
 
 class GreenApp : Application(), ImageLoaderFactory {
     private lateinit var userPref: UserPreferences
@@ -15,6 +18,9 @@ class GreenApp : Application(), ImageLoaderFactory {
     override fun onCreate() {
         super.onCreate()
         userPref = UserPreferences(this)
+        FirebaseApp.initializeApp(this)
+        FirebaseAppCheck.getInstance().installAppCheckProviderFactory(
+            DebugAppCheckProviderFactory.getInstance())
     }
 
     val userPreferences: UserPreferences

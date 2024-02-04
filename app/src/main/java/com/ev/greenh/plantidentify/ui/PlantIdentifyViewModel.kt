@@ -1,8 +1,11 @@
 package com.ev.greenh.plantidentify.ui
 
+import android.content.Context
+import android.widget.ImageView
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ev.greenh.analytics.AnalyticsRepo
@@ -13,6 +16,7 @@ import com.ev.greenh.plantidentify.ui.model.IdentifyImage
 import com.ev.greenh.plantidentify.ui.state.PlantIdentifyScreenState
 import com.ev.greenh.plantidentify.ui.state.PlantIdentifyState
 import com.ev.greenh.util.Constants
+import com.ev.greenh.util.ImageCompressor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -26,6 +30,8 @@ class PlantIdentifyViewModel(
 ) : ViewModel() {
 
     var state by mutableStateOf(PlantIdentifyState())
+
+    val list = mutableListOf<String>()
 
     fun onEvent(event: PlantIdentifyEvent) {
         when (event) {
@@ -54,6 +60,14 @@ class PlantIdentifyViewModel(
                 )
             }
         }
+    }
+
+    private fun compressImage(
+        uri: String,
+        context: Context,
+        imageView: ImageView
+    ) {
+
     }
 
     private fun identifyPlant(

@@ -9,14 +9,25 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.ev.greenh.GreenApp
 //import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ev.greenh.auth.ui.composable.SignUpScreen
 import com.ev.greenh.databinding.SignUpFragBinding
 import com.ev.greenh.firebase.AuthSource
 import com.ev.greenh.auth.data.AuthRepository
+import com.ev.greenh.common.commondata.ApiIdentifier
+import com.ev.greenh.common.commondata.RetrofitPool
+import com.ev.greenh.common.commondata.api.DocquityTest
+import com.ev.greenh.common.commondata.api.MockyTestApi
 import com.ev.greenh.viewmodels.ViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /*
  * Created by Sudhanshu Kumar on 06/07/23.
@@ -35,9 +46,9 @@ class SignUpFrag : Fragment() {
     ): View? {
         _binding = SignUpFragBinding.inflate(inflater, container, false)
         val authSource = AuthSource(FirebaseAuth.getInstance())
-        val repo = AuthRepository(authSource,(activity?.application as GreenApp).userPreferences)
+        val repo = AuthRepository(authSource, (activity?.application as GreenApp).userPreferences)
         val factory = ViewModelFactory(repo)
-        viewModel = ViewModelProvider(this,factory)[SignUpViewModel::class.java]
+        viewModel = ViewModelProvider(this, factory)[SignUpViewModel::class.java]
         return binding?.root
     }
 

@@ -2,6 +2,7 @@ package com.ev.greenh.common.commondata
 
 import com.ev.greenh.util.Constants
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -25,8 +26,8 @@ object RetrofitPool {
         val client = getClient(identifier)
         val retrofit = Retrofit.Builder()
             .baseUrl(getBaseUrl(identifier))
-            .addConverterFactory(GsonConverterFactory.create())
             .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
         val api = ApiBase(retrofit.create(apiClass))
         retroMap[identifier] = api
@@ -52,7 +53,9 @@ object RetrofitPool {
     private fun getClient(identifier: ApiIdentifier): OkHttpClient {
         return when (identifier) {
             is ApiIdentifier.MockyTestApi -> {
-                OkHttpClient.Builder().build()
+                val interceptor = HttpLoggingInterceptor()
+                interceptor.level = HttpLoggingInterceptor.Level.BODY
+                OkHttpClient.Builder().addInterceptor(interceptor).build()
             }
 
             is ApiIdentifier.PlantNetApi -> {

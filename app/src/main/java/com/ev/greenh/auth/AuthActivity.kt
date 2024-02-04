@@ -10,6 +10,7 @@ import com.ev.greenh.R
 import com.ev.greenh.auth.ui.SignUpFrag
 import com.ev.greenh.databinding.ActivityAuthBinding
 import com.ev.greenh.ui.MainActivity
+import com.example.auth.ui.TestFragment
 import com.google.firebase.auth.FirebaseAuth
 
 class AuthActivity : AppCompatActivity() {
@@ -22,7 +23,7 @@ class AuthActivity : AppCompatActivity() {
         binding  = ActivityAuthBinding.inflate(layoutInflater)
         auth = FirebaseAuth.getInstance()
         setContentView(binding.root)
-        val signupFragment = SignUpFrag()
+        val signupFragment = TestFragment()
         setCurrentFragment(signupFragment, R.id.flAuth)
     }
 

@@ -1,7 +1,6 @@
 package com.ev.greenh.plantidentify.ui.composable
 
 import android.content.Context
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,7 +15,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -32,7 +30,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -41,25 +38,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import coil.compose.AsyncImage
 import com.ev.greenh.R
 import com.ev.greenh.common.commonui.Mat3Bg
 import com.ev.greenh.common.commonui.Mat3OnBg
-import com.ev.greenh.common.commonui.Mat3Primary
-import com.ev.greenh.common.commonui.Mat3Secondary
-import com.ev.greenh.common.commonui.Mat3SurfaceVariant
 import com.ev.greenh.common.commonui.NunitoFontFamily
 import com.ev.greenh.common.commonui.composable.CameraPreview
 import com.ev.greenh.common.commonui.composable.GButton
-import com.ev.greenh.common.commonui.composable.LoadingAnimation
 import com.ev.greenh.common.commonui.composable.LoadingDialog
 import com.ev.greenh.common.commonui.composable.Toolbar
-import com.ev.greenh.plantidentify.ui.event.PlantIdentifyEvent
 import com.ev.greenh.plantidentify.ui.PlantIdentifyViewModel
+import com.ev.greenh.plantidentify.ui.event.PlantIdentifyEvent
 import com.ev.greenh.plantidentify.ui.model.IdentifyImage
 import com.ev.greenh.plantidentify.ui.state.PlantIdentifyScreenState
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.util.Constants
+import com.ev.greenh.util.ImageCompressor
 import com.ev.greenh.util.findActivity
 
 /*
@@ -84,6 +78,13 @@ fun PlantScannerScreen(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri ->
             uri?.let {
+                val compressedImageFile = ImageCompressor.compressImage(
+                    context,
+                    it.toString(),
+                    "name",
+                    30
+                )
+//                imageView.setImageURI(compressedImageFile.toUri())
                 selectedImage = IdentifyImage.UriImage(uri)
                 viewModel.onEvent(PlantIdentifyEvent.ImageSelected)
             }
