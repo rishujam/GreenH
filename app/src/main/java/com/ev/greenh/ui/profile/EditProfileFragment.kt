@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.core.util.Resource
 import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentEditProfileBinding
 import com.ev.greenh.models.Profile
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.util.Constants.VERSION
-import com.ev.greenh.util.Resource
 import com.ev.greenh.viewmodels.PlantViewModel
 import com.google.android.material.snackbar.Snackbar
 

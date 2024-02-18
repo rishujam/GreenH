@@ -1,9 +1,8 @@
 package com.ev.greenh.plantidentify.data.repo
 
 import android.net.Uri
-import com.ev.greenh.common.commondata.ApiIdentifier
-import com.ev.greenh.common.commondata.RetrofitPool
-import com.ev.greenh.localdatastore.UserPreferences
+import com.core.data.remote.ApiIdentifier
+import com.core.data.remote.RetrofitPool
 import com.ev.greenh.plantidentify.data.PlantNetApi
 import com.ev.greenh.plantidentify.data.model.req.PlantIdentifyReq
 import com.ev.greenh.repository.BaseRepository

@@ -6,12 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.core.util.Resource
 import com.ev.greenh.models.*
 import com.ev.greenh.models.uimodels.MyOrder
 import com.ev.greenh.models.uimodels.MyOrderDetail
 import com.ev.greenh.repository.PlantRepository
-import com.ev.greenh.util.Resource
 import com.ev.greenh.util.ViewModelEventWrapper
+import com.example.auth.data.repository.UserDataRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -195,9 +196,13 @@ class PlantViewModel(
         _plantResponse.value = repository.getSinglePlant(collection,id)
     }
 
-    fun readUid() = viewModelScope.launch {
-        _uid.value = repository.readUid()
-    }
+//    fun readUid() = viewModelScope.launch {
+//        _uid.value = userDataRepository.readUid()?.let {
+//            Resource.Success(it)
+//        } ?: run {
+//            Resource.Error("Null")
+//        }
+//    }
 
     fun addPlantToBag(plantId:String,user:String,collection:String,quantity:String) = viewModelScope.launch {
         _success.value = ViewModelEventWrapper(repository.addPlantToBag(plantId, user, collection, quantity))

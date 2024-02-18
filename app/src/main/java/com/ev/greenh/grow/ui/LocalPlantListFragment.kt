@@ -6,12 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.ev.greenh.auth.ui.SignUpViewModel
 import com.ev.greenh.databinding.FragmentLocalPlantListBinding
 import com.ev.greenh.grow.data.GrowRepository
 import com.ev.greenh.grow.ui.composable.LocalPlantListScreen
-import com.ev.greenh.grow.ui.composable.LocalPlantStep1Screen
-import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.viewmodels.ViewModelFactory
 
 /*
@@ -36,7 +33,7 @@ class LocalPlantListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val repo = GrowRepository()
-        val factory = ViewModelFactory(repo)
+        val factory = ViewModelFactory(repo, context = requireContext())
         viewModel = ViewModelProvider(this, factory)[LocalPlantListViewModel::class.java]
         binding?.cvLocalPlantList?.setContent {
             LocalPlantListScreen(viewModel)

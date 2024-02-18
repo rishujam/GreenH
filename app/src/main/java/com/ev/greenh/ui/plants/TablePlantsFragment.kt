@@ -12,12 +12,12 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.core.util.Resource
 import com.ev.greenh.R
 import com.ev.greenh.adapters.PlantAdapter
 import com.ev.greenh.databinding.FragmentTablePlantsBinding
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.util.Constants.QUERY_PAGE_SIZE
-import com.ev.greenh.util.Resource
 import com.ev.greenh.viewmodels.PlantViewModel
 
 class TablePlantsFragment: Fragment() {
@@ -56,8 +56,7 @@ class TablePlantsFragment: Fragment() {
             when(it){
                 is Resource.Success ->{
                     hideProgressBar()
-                    if(it.data!=null){
-                        val plants = it.data.plants
+                    it.data?.plants?.let { plants ->
                         plantAdapter.differ.submitList(plants.toList())
                         val totalPages = plants.size/ QUERY_PAGE_SIZE + 2
                         isLastPage = viewModel.plantsTablePage == totalPages

@@ -22,3 +22,7 @@ rootProject.name = "GreenH"
 include ':app'
 include ':testing'
 include ':auth'
+include ':core'
+include ':core:data'
+include ':core:ui'
+include ':core:util'

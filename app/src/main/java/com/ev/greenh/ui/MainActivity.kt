@@ -1,11 +1,13 @@
 package com.ev.greenh.ui
 
 import android.app.Dialog
-import android.content.Context
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -23,12 +25,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.ev.greenh.GreenApp
+import com.core.ui.hide
+import com.core.ui.show
+import com.core.util.Resource
+import com.ev.greenh.BuildConfig
 import com.ev.greenh.R
-import com.ev.greenh.common.commondata.AppStartupRepository
-import com.ev.greenh.common.commonui.ActivityViewModel
-import com.ev.greenh.common.commonui.event.ActivityEvent
-import com.ev.greenh.common.commonui.model.DialogModel
 import com.ev.greenh.databinding.ActivityMainBinding
 import com.ev.greenh.firebase.FirestoreSource
 import com.ev.greenh.home.ui.HomeFragment
@@ -43,44 +44,60 @@ import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
 
     private lateinit var binding: ActivityMainBinding
     lateinit var viewModel: PlantViewModel
-    lateinit var activityViewModel: ActivityViewModel
     var successListener = ""
     var paymentData: PaymentData? = null
-    var uid: String? = null
+    lateinit var activityViewModel: MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val homeFragment = HomeFragment()
-        setCurrentFragment(homeFragment)
 
         val plantSource = FirestoreSource()
-        val repo = PlantRepository(plantSource, (application as GreenApp).userPreferences)
-        val factory = ViewModelFactory(repo)
-        val startupRepo = AppStartupRepository()
-        val activityFactory = ViewModelFactory(startupRepo)
-        activityViewModel = ViewModelProvider(this, activityFactory)[ActivityViewModel::class.java]
+        val repo = PlantRepository(plantSource)
+        val factory = ViewModelFactory(repo, this)
         viewModel = ViewModelProvider(this, factory)[PlantViewModel::class.java]
+        activityViewModel = ViewModelProvider(this, factory)[MainActivityViewModel::class.java]
 
-        activityViewModel.getConfigData()
+        activityViewModel.load()
+        lifecycleScope.launch(Dispatchers.IO) {
+            activityViewModel.config.collect { response ->
+                when(response) {
+                    is Resource.Success -> {
+                        withContext(Dispatchers.Main) {
+                            handelSuccessConfigResponse(response.data)
+                        }
+                    }
 
-        loadUid()
+                    is Resource.Loading -> {
+                        withContext(Dispatchers.Main) {
+                            binding.pbMainActivity.show()
+                        }
+                    }
+
+                    is Resource.Error -> {}
+                }
+            }
+        }
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.imHome -> {
+                    val homeFragment = HomeFragment()
                     setCurrentFragment(homeFragment)
                 }
 
                 R.id.imShop -> {
-                    if (activityViewModel.isFeatureEnabled(Constants.Feature.SHOP)) {
+                    val shopFeature = activityViewModel.config.replayCache[0]
+                        .data?.featureConfig?.get(Constants.Feature.SHOP)?.isEnabled ?: true
+                    if (shopFeature) {
                         val fragment = PlantFragment()
                         setCurrentFragmentBack(fragment)
                     } else {
@@ -101,6 +118,56 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
             }
             true
         }
+    }
+
+    private fun handelSuccessConfigResponse(response: MainActivityState?) {
+        if(response?.isToShowUpdate == true || response?.isToShowMaintenance == true) {
+            if(response.isToShowMaintenance) {
+                onMaintenance()
+            } else {
+                onUpdateRequired()
+            }
+        } else {
+            binding.pbMainActivity.hide()
+            val homeFragment = HomeFragment()
+            setCurrentFragment(homeFragment)
+        }
+    }
+
+    private fun onMaintenance() {
+
+    }
+
+    private fun onUpdateRequired() {
+        buildAlert(
+            {
+                val appPackageName: String = packageName
+                try {
+                    ContextCompat.startActivity(
+                        this@MainActivity,
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("market://details?id=$appPackageName")
+                        ),
+                        null
+                    )
+                } catch (e: ActivityNotFoundException) {
+                    ContextCompat.startActivity(
+                        this@MainActivity,
+                        Intent(
+                            Intent.ACTION_VIEW, Uri.parse(
+                                "https://play.google.com/store/apps/details?id=$appPackageName"
+                            )
+                        ),
+                        null
+                    )
+                }
+            },
+            "Update",
+            "Update required",
+            "Update app to latest version to continue using",
+            false
+        )
     }
 
     fun setCurrentFragment(fragment: Fragment) =
@@ -216,12 +283,6 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
                 onBtnClick()
                 if(dismissOnBtnClick) dismiss()
             }
-        }
-    }
-
-    private fun loadUid() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            uid = (application as GreenApp).userPreferences.readUid()
         }
     }
 

@@ -1,7 +1,7 @@
 package com.example.auth.data.remotesource
 
-import com.example.auth.data.model.ResSendOtp
-import com.example.auth.data.util.Constants
+import com.core.data.Constants
+import com.example.auth.data.model.ResOtp
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -20,20 +20,27 @@ interface PhoneAuthApi {
     suspend fun sendOtp(
         @Path("api_key") apiKey: String,
         @Path("phone_number") phoneNumber: String
-    ): Response<ResSendOtp>
+    ): Response<ResOtp>
 
-    companion object {
-        private val client = OkHttpClient.Builder().build()
-        private val retrofit: Retrofit by lazy {
-            Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build()
-        }
-        val api: PhoneAuthApi by lazy {
-            retrofit.create(PhoneAuthApi::class.java)
-        }
-    }
+    @GET("API/V1/{api_key}/SMS/VERIFY3/{phone_number}/{otp_entered_by_user}")
+    suspend fun verifyOtp(
+        @Path("api_key") apiKey: String,
+        @Path("phone_number") phoneNumber: String,
+        @Path("otp_entered_by_user") otp: String
+    ): Response<ResOtp>
+
+//    companion object {
+//        private val client = OkHttpClient.Builder().build()
+//        private val retrofit: Retrofit by lazy {
+//            Retrofit.Builder()
+//                .baseUrl(Constants.BASE_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .client(client)
+//                .build()
+//        }
+//        val api: PhoneAuthApi by lazy {
+//            retrofit.create(PhoneAuthApi::class.java)
+//        }
+//    }
 
 }

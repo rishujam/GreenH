@@ -38,23 +38,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.net.toUri
 import coil.compose.AsyncImage
+import com.core.ui.Mat3Bg
+import com.core.ui.Mat3OnBg
+import com.core.ui.NunitoFontFamily
+import com.core.ui.composable.CameraPreview
+import com.core.ui.composable.GButton
+import com.core.ui.composable.LoadingDialog
+import com.core.ui.composable.Toolbar
+import com.core.ui.findActivity
 import com.ev.greenh.R
-import com.ev.greenh.common.commonui.Mat3Bg
-import com.ev.greenh.common.commonui.Mat3OnBg
-import com.ev.greenh.common.commonui.NunitoFontFamily
-import com.ev.greenh.common.commonui.composable.CameraPreview
-import com.ev.greenh.common.commonui.composable.GButton
-import com.ev.greenh.common.commonui.composable.LoadingDialog
-import com.ev.greenh.common.commonui.composable.Toolbar
 import com.ev.greenh.plantidentify.ui.PlantIdentifyViewModel
 import com.ev.greenh.plantidentify.ui.event.PlantIdentifyEvent
 import com.ev.greenh.plantidentify.ui.model.IdentifyImage
 import com.ev.greenh.plantidentify.ui.state.PlantIdentifyScreenState
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.util.ImageCompressor
-import com.ev.greenh.util.findActivity
 
 /*
  * Created by Sudhanshu Kumar on 22/10/23.
@@ -189,8 +188,8 @@ fun PlantScannerScreen(
                             isEnabled = true
                         ) {
                             selectedImage?.let {
-                                val activity = context.findActivity()
-                                val fileName = ((activity as? MainActivity)?.uid ?: "") +
+                                //TODO Create a unique fileName
+                                val fileName = (1..1000).random().toString() +
                                         System.currentTimeMillis().toString()
                                 viewModel.onEvent(
                                     PlantIdentifyEvent.IdentifyClick(it, fileName)

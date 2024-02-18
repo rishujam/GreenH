@@ -5,20 +5,29 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
-import android.view.*
-import android.widget.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.core.ui.visible
+import com.core.util.Resource
 import com.ev.greenh.R
 import com.ev.greenh.adapters.BagAdapter
 import com.ev.greenh.databinding.FragmentBagBinding
 import com.ev.greenh.models.Plant
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.util.Resource
-import com.ev.greenh.util.visible
 import com.ev.greenh.viewmodels.PlantViewModel
 
 class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
@@ -47,7 +56,7 @@ class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.readUid()
+//        viewModel.readUid()
 
         totalLive.observe(viewLifecycleOwner, Observer {
             binding.tvTotal.text = "₹${it}"

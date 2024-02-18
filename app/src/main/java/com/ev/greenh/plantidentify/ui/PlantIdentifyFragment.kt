@@ -39,7 +39,7 @@ class PlantIdentifyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as? MainActivity)?.hideNav()
         val repo = PlantIdentifyRepo()
-        val factory = ViewModelFactory(repo)
+        val factory = ViewModelFactory(repo, context = requireContext())
         viewModel = ViewModelProvider(this,factory)[PlantIdentifyViewModel::class.java]
         if (!hasCameraPermission()) {
             ActivityCompat.requestPermissions(

@@ -1,12 +1,15 @@
 package com.ev.greenh.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.core.data.AppConfigRepositoryImpl
+import com.core.data.localstorage.ConfigDatabase
+import com.core.data.pref.ConfigPref
+import com.core.data.remote.ConfigDataSource
+import com.ev.greenh.GetAppStartUpRecipeUseCase
+import com.ev.greenh.LauncherActivityViewModel
 import com.ev.greenh.analytics.AnalyticsRepo
-import com.ev.greenh.auth.ui.SignUpViewModel
-import com.ev.greenh.auth.data.AuthRepository
-import com.ev.greenh.common.commondata.AppStartupRepository
-import com.ev.greenh.common.commonui.ActivityViewModel
 import com.ev.greenh.grow.data.GrowRepository
 import com.ev.greenh.grow.ui.GrowViewModel
 import com.ev.greenh.grow.ui.LocalPlantListViewModel
@@ -17,10 +20,12 @@ import com.ev.greenh.plantidentify.doamin.usecase.PlantIdentifyUseCase
 import com.ev.greenh.plantidentify.ui.PlantIdentifyViewModel
 import com.ev.greenh.repository.BaseRepository
 import com.ev.greenh.repository.PlantRepository
-import java.lang.IllegalArgumentException
+import com.ev.greenh.ui.MainActivityState
+import com.ev.greenh.ui.MainActivityViewModel
 
 class ViewModelFactory(
-    private val repository: BaseRepository
+    private val repository: BaseRepository? = null,
+    private val context: Context
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -34,10 +39,6 @@ class ViewModelFactory(
             ) -> OrderViewModel(repository as PlantRepository) as T
 
             modelClass.isAssignableFrom(
-                SignUpViewModel::class.java
-            ) -> SignUpViewModel(repository as AuthRepository) as T
-
-            modelClass.isAssignableFrom(
                 LocalPlantListViewModel::class.java
             ) -> LocalPlantListViewModel(repository as GrowRepository) as T
 
@@ -47,19 +48,38 @@ class ViewModelFactory(
 
             modelClass.isAssignableFrom(
                 PlantIdentifyViewModel::class.java
-            ) ->  {
+            ) -> {
                 val useCase = PlantIdentifyUseCase(repository as PlantIdentifyRepo)
                 val analyticRepo = AnalyticsRepo()
                 PlantIdentifyViewModel(useCase, analyticRepo) as T
             }
 
             modelClass.isAssignableFrom(
-                ActivityViewModel::class.java
-            ) -> ActivityViewModel(repository as AppStartupRepository) as T
+                LauncherActivityViewModel::class.java
+            ) -> {
+                val configDataSource = ConfigDataSource()
+                val configPref = ConfigPref(context)
+                val configDb = ConfigDatabase.invoke(context)
+                val appConfigRepo = AppConfigRepositoryImpl(
+                    configDataSource,
+                    configPref,
+                    configDb
+                )
+                val startUpRecipeUseCase = GetAppStartUpRecipeUseCase(appConfigRepo)
+                LauncherActivityViewModel(startUpRecipeUseCase) as T
+            }
 
             modelClass.isAssignableFrom(
                 HomeViewModel::class.java
             ) -> HomeViewModel(repository as HomeRepository) as T
+
+            modelClass.isAssignableFrom(
+                MainActivityViewModel::class.java
+            ) -> {
+                val configPref = ConfigPref(context)
+                val configDb = ConfigDatabase.invoke(context)
+                MainActivityViewModel(configPref, configDb) as T
+            }
 
             else -> throw IllegalArgumentException("ViewModelClass Not Found")
         }

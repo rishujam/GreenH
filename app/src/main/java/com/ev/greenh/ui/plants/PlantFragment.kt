@@ -13,27 +13,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.*
+import android.widget.AbsListView
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ev.greenh.*
+import com.core.util.Resource
+import com.ev.greenh.R
 import com.ev.greenh.adapters.PlantAdapter
 import com.ev.greenh.databinding.FragmentPlantBinding
-import com.ev.greenh.firebase.FirestoreSource
-import com.ev.greenh.models.Plant
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.util.Constants
 import com.ev.greenh.util.Constants.VERSION
-import com.ev.greenh.util.Resource
 import com.ev.greenh.viewmodels.PlantViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class PlantFragment:Fragment() {
 
@@ -111,8 +109,7 @@ class PlantFragment:Fragment() {
                 }
                 is Resource.Success -> {
                     hideProgressBar()
-                    if(it.data!=null) {
-                        val plants = it.data.plants
+                    it.data?.plants?.let { plants ->
                         plantAdapter.differ.submitList(plants.toList())
                         val totalPages = plants.size/ Constants.QUERY_PAGE_SIZE + 2
                         isLastPage = viewModel.plantsPage == totalPages
@@ -132,8 +129,7 @@ class PlantFragment:Fragment() {
                 }
                 is Resource.Success -> {
                     hideProgressBar()
-                    if(it.data!=null) {
-                        val plants = it.data.plants
+                    it.data?.plants?.let { plants ->
                         indoorPlantAdapter.differ.submitList(plants.toList())
                         val totalPages = plants.size/ Constants.QUERY_PAGE_SIZE + 2
                         isLastPage = viewModel.plantsIndoorPage == totalPages
@@ -153,8 +149,7 @@ class PlantFragment:Fragment() {
                 }
                 is Resource.Success -> {
                     hideProgressBar()
-                    if(it.data!=null) {
-                        val plants = it.data.plants
+                    it.data?.plants?.let { plants ->
                         tablePlantAdapter.differ.submitList(plants.toList())
                         val totalPages = plants.size/ Constants.QUERY_PAGE_SIZE + 2
                         isLastPage = viewModel.plantsTablePage == totalPages
@@ -194,8 +189,8 @@ class PlantFragment:Fragment() {
         viewModel.minVersion.observe(viewLifecycleOwner, Observer {
             when(it){
                 is Resource.Success ->{
-                    if(it.data!=null){
-                        if(it.data>VERSION){
+                    it.data?.let { data ->
+                        if(data > VERSION){
                             updateDialog()
                         }
                     }

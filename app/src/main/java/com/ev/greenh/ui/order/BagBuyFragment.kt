@@ -15,19 +15,20 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.core.util.Resource
 import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentBagBuyyBinding
 import com.ev.greenh.models.Order
 import com.ev.greenh.models.Profile
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.ui.profile.EditProfileFragment
-import com.ev.greenh.util.Resource
 import com.ev.greenh.viewmodels.PlantViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.razorpay.Checkout
 import org.json.JSONObject
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class BagBuyFragment:Fragment() {
 

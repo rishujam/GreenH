@@ -36,7 +36,7 @@ class GrowDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val repo = GrowRepository()
-        val factory = ViewModelFactory(repo)
+        val factory = ViewModelFactory(repo, context = requireContext())
         viewModel = ViewModelProvider(this, factory)[GrowViewModel::class.java]
         val plantsId = arguments?.getString(GrowConstants.FragmentArgKeys.PLANT_ID)
         val data = plantsId?.let {

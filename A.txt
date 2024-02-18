@@ -1,0 +1,5 @@
+TODO
+1. Make Singleton class for all pref 
+2. Write Unit test for auth module
+3. Phone auth not coming from sms
+4. Write test

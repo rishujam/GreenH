@@ -1,8 +1,5 @@
 package com.ev.greenh.home.ui
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
@@ -41,28 +38,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
 import coil.request.ImageRequest
+import com.core.ui.LogoFontFamily
+import com.core.ui.Mat3OnBg
+import com.core.ui.Mat3OnPrimary
+import com.core.ui.Mat3OnSurfaceVariant
+import com.core.ui.Mat3Primary
+import com.core.ui.Mat3Secondary
+import com.core.ui.Mat3Surface
+import com.core.ui.Mat3SurfaceVariant
+import com.core.ui.NunitoFontFamily
+import com.core.ui.composable.LoadingAnimation
+import com.core.ui.findActivity
 import com.ev.greenh.R
-import com.ev.greenh.common.commonui.ActivityViewModel
-import com.ev.greenh.common.commonui.LogoFontFamily
-import com.ev.greenh.common.commonui.Mat3OnBg
-import com.ev.greenh.common.commonui.Mat3OnPrimary
-import com.ev.greenh.common.commonui.Mat3OnSurfaceVariant
-import com.ev.greenh.common.commonui.Mat3Primary
-import com.ev.greenh.common.commonui.Mat3Secondary
-import com.ev.greenh.common.commonui.Mat3Surface
-import com.ev.greenh.common.commonui.Mat3SurfaceVariant
-import com.ev.greenh.common.commonui.NunitoFontFamily
-import com.ev.greenh.common.commonui.composable.LoadingAnimation
 import com.ev.greenh.grow.ui.LocalPlantListFragment
 import com.ev.greenh.plantidentify.ui.PlantIdentifyFragment
 import com.ev.greenh.ui.MainActivity
+import com.ev.greenh.ui.MainActivityViewModel
 import com.ev.greenh.util.Constants
-import com.ev.greenh.util.findActivity
 import com.example.testing.Tags
 
 
@@ -72,42 +68,10 @@ import com.example.testing.Tags
 
 @Composable
 fun HomeScreen(
-    activityViewModel: ActivityViewModel?,
+    activityViewModel: MainActivityViewModel?,
     viewModel: HomeViewModel
 ) {
     val context = LocalContext.current
-    if (activityViewModel?.state?.isUpdateRequired == true) {
-        val activity = context.findActivity()
-        (activity as? MainActivity)?.buildAlert(
-            {
-                val appPackageName: String = activity.packageName
-                try {
-                    startActivity(
-                        context,
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse("market://details?id=$appPackageName")
-                        ),
-                        null
-                    )
-                } catch (e: ActivityNotFoundException) {
-                    startActivity(
-                        context,
-                        Intent(
-                            Intent.ACTION_VIEW, Uri.parse(
-                                "https://play.google.com/store/apps/details?id=$appPackageName"
-                            )
-                        ),
-                        null
-                    )
-                }
-            },
-            "Update",
-            "Update required",
-            "Update app to latest version to continue using",
-            false
-        )
-    }
     Column(modifier = Modifier.fillMaxSize()) {
         Row {
             Text(
@@ -183,7 +147,9 @@ fun HomeScreen(
                     .clip(RoundedCornerShape(8.dp))
                     .clickable {
                         val activity = context.findActivity()
-                        if (activityViewModel?.isFeatureEnabled(Constants.Feature.IDENTIFY) == true) {
+                        val identifyFeature = activityViewModel?.config?.replayCache?.get(0)
+                            ?.data?.featureConfig?.get(Constants.Feature.IDENTIFY)?.isEnabled ?: true
+                        if (identifyFeature) {
                             val frag = PlantIdentifyFragment()
                             (activity as? MainActivity)?.setCurrentFragmentBack(
                                 frag,
@@ -279,7 +245,9 @@ fun HomeScreen(
                     .background(Mat3Surface)
                     .clickable {
                         val activity = context.findActivity()
-                        if (activityViewModel?.isFeatureEnabled(Constants.Feature.GROW) == true) {
+                        val growFeature = activityViewModel?.config?.replayCache?.get(0)
+                        ?.data?.featureConfig?.get(Constants.Feature.GROW)?.isEnabled ?: true
+                        if (growFeature) {
                             val fragment = LocalPlantListFragment()
                             (activity as? MainActivity)?.setCurrentFragmentBack(fragment)
                         } else {

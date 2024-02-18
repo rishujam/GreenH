@@ -1,6 +1,6 @@
 package com.ev.greenh.repository
 
-import com.ev.greenh.util.Resource
+import com.core.util.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

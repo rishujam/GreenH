@@ -17,14 +17,13 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.ev.greenh.R
-import com.ev.greenh.auth.AuthActivity
-import com.ev.greenh.auth.data.AuthRepository
-import com.ev.greenh.auth.ui.composable.SignUpScreen
-import com.ev.greenh.auth.ui.states.SignUpProgress
+import com.ev.greenh.LauncherActivity
+import com.example.auth.ui.composable.SignUpScreen
+import com.example.auth.ui.states.SignUpProgress
 import com.ev.greenh.ui.MainActivity
+import com.example.auth.ui.SignUpViewModel
 import com.example.testing.Tags
 import com.example.testing.TestConstants
-import com.google.firebase.auth.PhoneAuthProvider
 import io.mockk.coEvery
 import io.mockk.mockk
 import org.junit.Assert.*
@@ -41,37 +40,37 @@ import org.junit.runner.RunWith
 class SignUpFragTest {
 
     @get:Rule
-    val activityScenarioRule = activityScenarioRule<AuthActivity>()
+    val activityScenarioRule = activityScenarioRule<LauncherActivity>()
 
     @get:Rule
-    val composeRule = createAndroidComposeRule<AuthActivity>()
+    val composeRule = createAndroidComposeRule<LauncherActivity>()
 
     private lateinit var viewModel: SignUpViewModel
 
-    private val repository = mockk<AuthRepository>()
+//    private val repository = mockk<AuthRepository>()
+//
+//    private val resendToken = mockk<PhoneAuthProvider.ForceResendingToken>()
 
-    private val resendToken = mockk<PhoneAuthProvider.ForceResendingToken>()
-
-    @Before
-    fun setup() {
-        viewModel = SignUpViewModel(repository)
-        val composeView = composeRule.activity.findViewById<ComposeView>(R.id.signUpFragComposeView)
-        composeView.setContent {
-            SignUpScreen(viewModel = viewModel)
-        }
-        coEvery {
-            repository.sendOtp(null)
-        } returns viewModel.callbacks.onCodeSent(TestConstants.VERIFICATION_ID_TEST, resendToken)
-        coEvery {
-            repository.verifyUser(
-                TestConstants.UI_TEST_OTP,
-                TestConstants.VERIFICATION_ID_TEST,
-                TestConstants.UI_TEST_NUMBER,
-                composeRule.activity.applicationContext.getString(R.string.user_ref),
-                composeRule.activity.applicationContext.getString(R.string.token),
-            )
-        } returns true
-    }
+//    @Before
+//    fun setup() {
+//        viewModel = SignUpViewModel(repository)
+//        val composeView = composeRule.activity.findViewById<ComposeView>(R.id.signUpFragComposeView)
+//        composeView.setContent {
+//            SignUpScreen(viewModel = viewModel)
+//        }
+//        coEvery {
+//            repository.sendOtp(null)
+//        } returns viewModel.callbacks.onCodeSent(TestConstants.VERIFICATION_ID_TEST, resendToken)
+//        coEvery {
+//            repository.verifyUser(
+//                TestConstants.UI_TEST_OTP,
+//                TestConstants.VERIFICATION_ID_TEST,
+//                TestConstants.UI_TEST_NUMBER,
+//                composeRule.activity.applicationContext.getString(R.string.user_ref),
+//                composeRule.activity.applicationContext.getString(R.string.token),
+//            )
+//        } returns true
+//    }
 
 //    @Test
 //    fun randomTest() {

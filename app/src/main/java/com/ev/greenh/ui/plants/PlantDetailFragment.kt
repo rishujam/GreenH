@@ -5,30 +5,30 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
-import android.view.*
-import android.widget.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.media3.common.C
-import androidx.media3.common.MediaItem
-import androidx.media3.common.Player
-import androidx.media3.datasource.DefaultDataSource
-import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.source.ProgressiveMediaSource
-import androidx.media3.ui.AspectRatioFrameLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.core.ui.visible
+import com.core.util.Resource
 import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentPlantDetailsBinding
 import com.ev.greenh.models.Plant
-import com.ev.greenh.models.uimodels.PlantVideo
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.util.Resource
-import com.ev.greenh.util.visible
 import com.ev.greenh.viewmodels.PlantViewModel
 import com.google.android.material.snackbar.Snackbar
 
@@ -62,10 +62,9 @@ class PlantDetailFragment: Fragment() {
                     binding.pbPlantDetail.visible(true)
                 }
                 is Resource.Success -> {
-                    val data = it.data
-                    if(data!=null){
-                        plant = it.data
-                        setupData(data)
+                    it.data?.let { plants ->
+                        plant = plants
+                        setupData(plant)
                     }
                     binding.pbPlantDetail.visible(false)
                 }
@@ -166,7 +165,7 @@ class PlantDetailFragment: Fragment() {
         add.setOnClickListener {
             pb.visible(true)
             dialog.setCancelable(false)
-            viewModel.readUid()
+//            viewModel.readUid()
             viewModel.uid.observe(viewLifecycleOwner, Observer {
                 when(it){
                     is Resource.Error -> {

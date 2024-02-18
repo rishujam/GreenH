@@ -1,7 +1,7 @@
 package com.ev.greenh.auth.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.ev.greenh.auth.data.AuthRepository
+import com.example.auth.ui.SignUpViewModel
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -21,7 +21,7 @@ class SignUpViewModelTest {
 
     private lateinit var viewModel: SignUpViewModel
 
-    private val repository = mockk<AuthRepository>()
+//    private val repository = mockk<AuthRepository>()
 
 //    @OptIn(ExperimentalCoroutinesApi::class)
 //    @Before

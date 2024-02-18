@@ -1,7 +1,6 @@
 package com.example.auth.data.repository
 
-import com.example.auth.data.model.ResSendOtp
-import com.google.firebase.auth.PhoneAuthProvider
+import com.example.auth.data.model.ResOtp
 import kotlinx.coroutines.flow.Flow
 
 /*
@@ -10,16 +9,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface PhoneAuthRepository {
 
-    suspend fun sendCredentials(phone: String): Flow<ResSendOtp?>
-
-    suspend fun resendCredentials(
-        phone: String,
-        resendToken: PhoneAuthProvider.ForceResendingToken
-    ): Flow<ResSendOtp?>
+    suspend fun sendCredentials(phone: String): Flow<ResOtp?>
 
     suspend fun verifyCredentials(
-        verifyId: String,
+        phone: String,
         otp: String
-    ): String?
+    ): Flow<ResOtp?>
 
 }
