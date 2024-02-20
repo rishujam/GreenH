@@ -10,12 +10,13 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
 /*
  * Created by Sudhanshu Kumar on 11/02/24.
  */
 
-class ConfigDataSource {
+class ConfigDataSource @Inject constructor() {
 
     private val fireRef = Firebase.firestore
 

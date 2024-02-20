@@ -6,49 +6,50 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.core.data.Constants
+import com.core.data.di.ConfigPreferences
 import kotlinx.coroutines.flow.first
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /*
  * Created by Sudhanshu Kumar on 09/02/24.
  */
 
-class ConfigPref(
-    private val context: Context
+@Singleton
+class ConfigPrefManager @Inject constructor(
+    @ConfigPreferences private val dataStore: DataStore<Preferences>
 ) {
 
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = Constants.Pref.CONFIG)
-
     suspend fun setMaintenance(value: Boolean) {
-        context.dataStore.edit { data ->
+        dataStore.edit { data ->
             data[KEY_MAINTENANCE] = value
         }
     }
 
     suspend fun setForceUpdate(value: Boolean) {
-        context.dataStore.edit { data ->
+        dataStore.edit { data ->
             data[KEY_FORCE_UPDATE] = value
         }
     }
 
     suspend fun setLatestVersion(value: Int) {
-        context.dataStore.edit { data ->
+        dataStore.edit { data ->
             data[KEY_LATEST_VERSION] = value
         }
     }
 
     suspend fun readMaintenance(): Boolean? {
-        return context.dataStore.data.first()[KEY_MAINTENANCE]
+        return dataStore.data.first()[KEY_MAINTENANCE]
     }
 
     suspend fun readForceUpdate(): Boolean {
-        return context.dataStore.data.first()[KEY_FORCE_UPDATE] ?: false
+        return dataStore.data.first()[KEY_FORCE_UPDATE] ?: false
     }
 
     suspend fun readLatestVersion(): Int {
-        return context.dataStore.data.first()[KEY_LATEST_VERSION] ?: 1
+        return dataStore.data.first()[KEY_LATEST_VERSION] ?: 1
     }
 
     companion object {

@@ -7,12 +7,13 @@ import com.example.auth.data.repository.PhoneAuthRepository
 import com.example.auth.data.repository.UserDataRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
 /*
  * Created by Sudhanshu Kumar on 06/02/24.
  */
 
-class OtpSignUpUseCase(
+class OtpSignUpUseCase @Inject constructor(
     private val phoneAuthRepository: PhoneAuthRepository,
     private val userDataRepository: UserDataRepository
 ) {

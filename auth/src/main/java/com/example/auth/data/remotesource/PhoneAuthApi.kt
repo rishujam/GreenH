@@ -15,7 +15,6 @@ import retrofit2.http.Path
 
 interface PhoneAuthApi {
 
-
     @GET("API/V1/{api_key}/SMS/{phone_number}/AUTOGEN3/OTP1")
     suspend fun sendOtp(
         @Path("api_key") apiKey: String,
@@ -28,19 +27,5 @@ interface PhoneAuthApi {
         @Path("phone_number") phoneNumber: String,
         @Path("otp_entered_by_user") otp: String
     ): Response<ResOtp>
-
-//    companion object {
-//        private val client = OkHttpClient.Builder().build()
-//        private val retrofit: Retrofit by lazy {
-//            Retrofit.Builder()
-//                .baseUrl(Constants.BASE_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .client(client)
-//                .build()
-//        }
-//        val api: PhoneAuthApi by lazy {
-//            retrofit.create(PhoneAuthApi::class.java)
-//        }
-//    }
 
 }

@@ -15,8 +15,9 @@ import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class FirestoreSource {
+class FirestoreSource @Inject constructor() {
 
     private val fireRef = Firebase.firestore
 

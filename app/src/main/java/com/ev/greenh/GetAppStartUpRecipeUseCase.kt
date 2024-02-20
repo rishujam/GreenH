@@ -7,12 +7,13 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
 /*
  * Created by Sudhanshu Kumar on 11/02/24.
  */
 
-class GetAppStartUpRecipeUseCase(
+class GetAppStartUpRecipeUseCase @Inject constructor (
     private val appConfigRepository: AppConfigRepository
 ) {
 

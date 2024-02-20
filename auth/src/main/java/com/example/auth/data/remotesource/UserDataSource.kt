@@ -13,12 +13,13 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
 /*
  * Created by Sudhanshu Kumar on 18/01/24.
  */
 
-class UserDataSource {
+class UserDataSource @Inject constructor() {
 
     private val fireRef = Firebase.firestore
 

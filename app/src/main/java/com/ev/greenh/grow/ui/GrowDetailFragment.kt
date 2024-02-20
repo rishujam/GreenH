@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentGrowDetailBinding
@@ -12,17 +13,18 @@ import com.ev.greenh.grow.data.GrowRepository
 import com.ev.greenh.grow.ui.composable.GrowDetailScreen
 import com.ev.greenh.grow.ui.model.BadgeIconData
 import com.ev.greenh.grow.ui.model.GrowDetailData
-import com.ev.greenh.viewmodels.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
 /*
  * Created by Sudhanshu Kumar on 15/10/23.
  */
 
+@AndroidEntryPoint
 class GrowDetailFragment : Fragment() {
 
     private var _binding: FragmentGrowDetailBinding? = null
     private val binding get() = _binding
-    private lateinit var viewModel: GrowViewModel
+    private val viewModel: GrowViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,9 +37,6 @@ class GrowDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val repo = GrowRepository()
-        val factory = ViewModelFactory(repo, context = requireContext())
-        viewModel = ViewModelProvider(this, factory)[GrowViewModel::class.java]
         val plantsId = arguments?.getString(GrowConstants.FragmentArgKeys.PLANT_ID)
         val data = plantsId?.let {
             val res = viewModel.getGrowDetail(plantsId)

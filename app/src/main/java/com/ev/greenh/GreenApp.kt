@@ -11,7 +11,9 @@ import coil.util.DebugLogger
 import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class GreenApp : Application(), ImageLoaderFactory {
 
     override fun onCreate() {

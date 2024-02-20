@@ -16,6 +16,7 @@ import android.view.Window
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -38,33 +39,28 @@ import com.ev.greenh.ui.plants.PlantFragment
 import com.ev.greenh.ui.profile.SettingFragment
 import com.ev.greenh.util.Constants
 import com.ev.greenh.viewmodels.PlantViewModel
-import com.ev.greenh.viewmodels.ViewModelFactory
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
 
     private lateinit var binding: ActivityMainBinding
-    lateinit var viewModel: PlantViewModel
+    val viewModel: PlantViewModel by viewModels()
     var successListener = ""
     var paymentData: PaymentData? = null
-    lateinit var activityViewModel: MainActivityViewModel
+    val activityViewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val plantSource = FirestoreSource()
-        val repo = PlantRepository(plantSource)
-        val factory = ViewModelFactory(repo, this)
-        viewModel = ViewModelProvider(this, factory)[PlantViewModel::class.java]
-        activityViewModel = ViewModelProvider(this, factory)[MainActivityViewModel::class.java]
 
         activityViewModel.load()
         lifecycleScope.launch(Dispatchers.IO) {

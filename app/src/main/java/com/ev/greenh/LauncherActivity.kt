@@ -3,29 +3,27 @@ package com.ev.greenh
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.core.data.AppConfigRepositoryImpl
 import com.core.data.Constants
-import com.core.data.localstorage.ConfigDatabase
-import com.core.data.pref.ConfigPref
-import com.core.data.remote.ConfigDataSource
 import com.ev.greenh.databinding.ActivityAuthBinding
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.viewmodels.ViewModelFactory
 import com.example.auth.ui.ParentCallback
 import com.example.auth.ui.SignUpFrag
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
+@AndroidEntryPoint
 class LauncherActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAuthBinding
-    private lateinit var viewModel: LauncherActivityViewModel
-    val buildVersion by lazy {
+    private val viewModel: LauncherActivityViewModel by viewModels()
+    private val buildVersion by lazy {
         BuildConfig.VERSION_CODE
     }
 
@@ -33,11 +31,6 @@ class LauncherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val viewModelFactory = ViewModelFactory(context = this)
-        viewModel = ViewModelProvider(
-            this,
-            viewModelFactory
-        )[LauncherActivityViewModel::class.java]
         lifecycleScope.launch {
             viewModel.appInitialisation.collect {
                 val bundle = Bundle()
@@ -52,8 +45,10 @@ class LauncherActivity : AppCompatActivity() {
                         )
                     }
                 })
-                signupFragment.arguments = bundle
-                setCurrentFragment(signupFragment)
+                withContext(Dispatchers.Main) {
+                    signupFragment.arguments = bundle
+                    setCurrentFragment(signupFragment)
+                }
             }
         }
         viewModel.getRecipeForStartUp()

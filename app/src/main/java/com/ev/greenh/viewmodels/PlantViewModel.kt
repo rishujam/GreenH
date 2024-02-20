@@ -13,10 +13,13 @@ import com.ev.greenh.models.uimodels.MyOrderDetail
 import com.ev.greenh.repository.PlantRepository
 import com.ev.greenh.util.ViewModelEventWrapper
 import com.example.auth.data.repository.UserDataRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PlantViewModel(
+@HiltViewModel
+class PlantViewModel @Inject constructor(
     private val repository: PlantRepository
 ) :ViewModel(){
 

@@ -6,12 +6,13 @@ import com.ev.greenh.repository.BaseRepository
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
 /*
  * Created by Sudhanshu Kumar on 23/11/23.
  */
 
-class AnalyticsRepo : BaseRepository() {
+class AnalyticsRepo @Inject constructor() : BaseRepository() {
 
     private val fireRef = Firebase.firestore
 

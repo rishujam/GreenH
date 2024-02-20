@@ -11,14 +11,17 @@ import com.example.auth.domain.usecase.SendOtpUseCase
 import com.example.auth.ui.events.SignUpEvents
 import com.example.auth.ui.states.SignUpProgress
 import com.example.auth.ui.states.SignUpState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /*
  * Created by Sudhanshu Kumar on 10/07/23.
  */
 
-class SignUpViewModel(
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
     private val sendOtpUseCase: SendOtpUseCase,
     private val otpSignUpUseCase: OtpSignUpUseCase
 ) : ViewModel() {

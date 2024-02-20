@@ -9,22 +9,22 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.ev.greenh.databinding.FragmentPlantScannerBinding
-import com.ev.greenh.plantidentify.data.repo.PlantIdentifyRepo
 import com.ev.greenh.plantidentify.ui.composable.PlantScannerScreen
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.viewmodels.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
 /*
  * Created by Sudhanshu Kumar on 22/10/23.
  */
 
+@AndroidEntryPoint
 class PlantIdentifyFragment : Fragment() {
 
     private var _binding: FragmentPlantScannerBinding? = null
     private val binding get() = _binding
-    private lateinit var viewModel: PlantIdentifyViewModel
+    private val viewModel: PlantIdentifyViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,9 +38,6 @@ class PlantIdentifyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as? MainActivity)?.hideNav()
-        val repo = PlantIdentifyRepo()
-        val factory = ViewModelFactory(repo, context = requireContext())
-        viewModel = ViewModelProvider(this,factory)[PlantIdentifyViewModel::class.java]
         if (!hasCameraPermission()) {
             ActivityCompat.requestPermissions(
                 requireActivity(), arrayOf(Manifest.permission.CAMERA), 0

@@ -17,14 +17,17 @@ import com.ev.greenh.plantidentify.ui.state.PlantIdentifyScreenState
 import com.ev.greenh.plantidentify.ui.state.PlantIdentifyState
 import com.ev.greenh.util.Constants
 import com.ev.greenh.util.ImageCompressor
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /*
  * Created by Sudhanshu Kumar on 29/10/23.
  */
 
-class PlantIdentifyViewModel(
+@HiltViewModel
+class PlantIdentifyViewModel @Inject constructor(
     private val useCase: PlantIdentifyUseCase,
     private val analyticRepo: AnalyticsRepo
 ) : ViewModel() {

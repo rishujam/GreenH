@@ -18,21 +18,4 @@ abstract class ConfigDatabase : RoomDatabase() {
 
     abstract val dao: ConfigDao
 
-    companion object {
-        @Volatile
-        private var instance: ConfigDatabase? = null
-        private val LOCK = Any()
-
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
-            instance ?: createDatabase(context).also { instance = it }
-        }
-
-        private fun createDatabase(context: Context) =
-            Room.databaseBuilder(
-                context.applicationContext,
-                ConfigDatabase::class.java,
-                "config_db.db"
-            ).build()
-    }
-
 }

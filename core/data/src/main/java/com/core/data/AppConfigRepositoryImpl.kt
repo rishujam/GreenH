@@ -1,25 +1,26 @@
 package com.core.data
 
 import com.core.data.localstorage.ConfigDatabase
-import com.core.data.pref.ConfigPref
+import com.core.data.pref.ConfigPrefManager
 import com.core.data.remote.ConfigDataSource
+import javax.inject.Inject
 
 /*
  * Created by Sudhanshu Kumar on 12/11/23.
  */
 
-class AppConfigRepositoryImpl(
+class AppConfigRepositoryImpl @Inject constructor (
     private val configDataSource: ConfigDataSource,
-    private val configPref: ConfigPref,
+    private val configPrefManager: ConfigPrefManager,
     private val configDb: ConfigDatabase
 ): AppConfigRepository {
 
     override suspend fun checkMaintenance() {
         val maintenance = configDataSource.checkMaintenance()
         return if(maintenance.success) {
-            configPref.setMaintenance(maintenance.maintenance)
+            configPrefManager.setMaintenance(maintenance.maintenance)
         } else {
-            configPref.setMaintenance(false)
+            configPrefManager.setMaintenance(false)
         }
     }
 
@@ -27,8 +28,8 @@ class AppConfigRepositoryImpl(
         val update = configDataSource.checkUpdate()
         if(update.success) {
             update.data?.let {
-                configPref.setForceUpdate(it.forceUpdate)
-                configPref.setLatestVersion(it.liveVersion)
+                configPrefManager.setForceUpdate(it.forceUpdate)
+                configPrefManager.setLatestVersion(it.liveVersion)
             }
         }
     }

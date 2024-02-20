@@ -1,7 +1,7 @@
 package com.example.auth.data.repositoryimpl
 
 import com.core.data.model.ResUidGen
-import com.example.auth.data.localsource.UserDataPref
+import com.example.auth.data.localsource.UserDataPrefManager
 import com.example.auth.data.model.ResFirebaseMsgToken
 import com.example.auth.data.model.ResGetProfile
 import com.example.auth.data.model.ResSaveProfile
@@ -9,14 +9,15 @@ import com.example.auth.data.model.ResUserExist
 import com.example.auth.data.model.UserProfile
 import com.example.auth.data.remotesource.UserDataSource
 import com.example.auth.data.repository.UserDataRepository
+import javax.inject.Inject
 
 /*
  * Created by Sudhanshu Kumar on 18/01/24.
  */
 
-class UserDataRepoImpl(
+class UserDataRepoImpl @Inject constructor(
     private val userDataSource: UserDataSource,
-    private val userDataPref: UserDataPref
+    private val userDataPrefManager: UserDataPrefManager
 ) : UserDataRepository {
 
     override suspend fun checkUserExist(phone: String): ResUserExist {
@@ -35,11 +36,11 @@ class UserDataRepoImpl(
     }
 
     override suspend fun saveUidLocally(uid: String) {
-        userDataPref.setUid(uid)
+        userDataPrefManager.setUid(uid)
     }
 
     override suspend fun getUid(): String? {
-        return userDataPref.readUid()
+        return userDataPrefManager.readUid()
     }
 
     override suspend fun getRecentlyGeneratedUid(): ResUidGen {
@@ -57,6 +58,6 @@ class UserDataRepoImpl(
     }
 
     override suspend fun saveFirebaseMsgTokenLocally(token: String) {
-        userDataPref.setFirebaseMsgToken(token)
+        userDataPrefManager.setFirebaseMsgToken(token)
     }
 }

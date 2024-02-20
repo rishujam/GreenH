@@ -6,12 +6,13 @@ import com.example.auth.data.remotesource.PhoneAuthApi
 import com.example.auth.data.repository.PhoneAuthRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
 /*
  * Created by Sudhanshu Kumar on 21/01/24.
  */
 
-class PhoneAuthRepoImpl(
+class PhoneAuthRepoImpl @Inject constructor(
     private val api: PhoneAuthApi
 ) : PhoneAuthRepository {
 

@@ -1,54 +1,53 @@
 package com.example.auth.data.localsource
 
-import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
-import com.core.data.Constants
+import com.example.auth.di.UserPreferences
 import kotlinx.coroutines.flow.first
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /*
  * Created by Sudhanshu Kumar on 18/01/24.
  */
 
-class UserDataPref(
-    private val context: Context
+@Singleton
+class UserDataPrefManager @Inject constructor(
+    @UserPreferences private val dataStore: DataStore<Preferences>
 ) {
 
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = Constants.Pref.AUTH)
-
     suspend fun readUid(): String? {
-        val preferences =context.dataStore.data.first()
+        val preferences = dataStore.data.first()
         return preferences[KEY_UID]
     }
 
     suspend fun setUid(value:String) {
-        context.dataStore.edit { authdata ->
+        dataStore.edit { authdata ->
             authdata[KEY_UID] = value
         }
     }
 
     suspend fun setIsLoggedIn(value: Boolean) {
-        context.dataStore.edit { authData ->
+        dataStore.edit { authData ->
             authData[KEY_LOGGED_IN] = value
         }
     }
 
     suspend fun isLoggedIn(): Boolean? {
-        return context.dataStore.data.first()[KEY_LOGGED_IN]
+        return dataStore.data.first()[KEY_LOGGED_IN]
     }
 
     suspend fun setFirebaseMsgToken(value: String) {
-        context.dataStore.edit { authData ->
+        dataStore.edit { authData ->
             authData[KEY_MSG_TOKEN] = value
         }
     }
 
     suspend fun getFirebaseMsgToken(): String? {
-        return context.dataStore.data.first()[KEY_MSG_TOKEN]
+        return dataStore.data.first()[KEY_MSG_TOKEN]
     }
 
     companion object{

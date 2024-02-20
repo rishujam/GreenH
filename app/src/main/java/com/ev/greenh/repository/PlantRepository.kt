@@ -10,8 +10,9 @@ import com.ev.greenh.models.Order
 import com.ev.greenh.models.Profile
 import com.ev.greenh.pagging.PlantsPagingSource
 import com.ev.greenh.util.Constants.QUERY_PAGE_SIZE
+import javax.inject.Inject
 
-class PlantRepository(
+class PlantRepository @Inject constructor (
     private val source: FirestoreSource
 ) : BaseRepository(){
 
