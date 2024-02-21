@@ -21,19 +21,6 @@ class CommonPrefManager @Inject constructor(
     @CommonPreferences private val dataStore: DataStore<Preferences>
 ) {
 
-    suspend fun setUid(value:String) {
-        dataStore.edit { data ->
-            data[KEY_UID] = value
-        }
-    }
 
-    suspend fun readUid(): String? {
-        val preferences = dataStore.data.first()
-        return preferences[KEY_UID]
-    }
-
-    companion object {
-        private val KEY_UID = stringPreferencesKey("key_uid")
-    }
 
 }

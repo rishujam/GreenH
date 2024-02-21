@@ -2,14 +2,19 @@ package com.ev.greenh
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowInsets
+import android.view.WindowInsetsController
+import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.core.data.Constants
-import com.ev.greenh.databinding.ActivityAuthBinding
+import com.core.ui.hide
+import com.ev.greenh.databinding.ActivityLauncherBinding
 import com.ev.greenh.ui.MainActivity
 import com.example.auth.ui.ParentCallback
 import com.example.auth.ui.SignUpFrag
@@ -21,7 +26,7 @@ import kotlinx.coroutines.withContext
 @AndroidEntryPoint
 class LauncherActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAuthBinding
+    private lateinit var binding: ActivityLauncherBinding
     private val viewModel: LauncherActivityViewModel by viewModels()
     private val buildVersion by lazy {
         BuildConfig.VERSION_CODE
@@ -29,25 +34,26 @@ class LauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAuthBinding.inflate(layoutInflater)
+        binding = ActivityLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        fullScreen()
         lifecycleScope.launch {
             viewModel.appInitialisation.collect {
-                val bundle = Bundle()
-                bundle.putInt(Constants.Args.BUILD_VERSION, buildVersion)
-                val signupFragment = SignUpFrag(object : ParentCallback {
-                    override fun onSignUpSuccess() {
-                        startActivity(
-                            Intent(
-                                this@LauncherActivity,
-                                MainActivity::class.java
-                            )
-                        )
+                binding.ivAppLauncher.hide()
+                if(it.isLoggedIn) {
+                    onLoggedIn()
+                } else {
+                    val bundle = Bundle()
+                    bundle.putInt(Constants.Args.BUILD_VERSION, buildVersion)
+                    val signupFragment = SignUpFrag(object : ParentCallback {
+                        override fun onSignUpSuccess() {
+                            onLoggedIn()
+                        }
+                    })
+                    withContext(Dispatchers.Main) {
+                        signupFragment.arguments = bundle
+                        setCurrentFragment(signupFragment)
                     }
-                })
-                withContext(Dispatchers.Main) {
-                    signupFragment.arguments = bundle
-                    setCurrentFragment(signupFragment)
                 }
             }
         }
@@ -68,12 +74,6 @@ class LauncherActivity : AppCompatActivity() {
             commit()
         }
 
-
-    override fun onStart() {
-        super.onStart()
-        checkLoginState()
-    }
-
     private fun setDisplayMode() {
         val nightModeFlags: Int = resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK
@@ -92,11 +92,27 @@ class LauncherActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkLoginState() {
-        //TODO Check if logged in
-        if (false) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+    private fun onLoggedIn() {
+        startActivity(
+            Intent(
+                this@LauncherActivity,
+                MainActivity::class.java
+            )
+        )
+        finish()
+    }
+
+    private fun fullScreen() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(
+                WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars()
+            )
+        } else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+            )
         }
     }
+
 }

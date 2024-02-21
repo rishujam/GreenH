@@ -31,4 +31,6 @@ interface UserDataRepository {
 
     suspend fun saveFirebaseMsgTokenLocally(token: String)
 
+    suspend fun setLoggedIn(loggedIn: Boolean)
+
 }

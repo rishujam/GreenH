@@ -31,6 +31,7 @@ class OtpSignUpUseCase @Inject constructor(
                     if(userExist == true) {
                         val uid = userRes.userProfile?.uid!!
                         handleMsgTokenAndUid(uid)
+                        userDataRepository.setLoggedIn(true)
                         emit(Resource.Success(true))
                     } else {
                         val recentlyGenUid = userDataRepository.getRecentlyGeneratedUid()
@@ -43,6 +44,7 @@ class OtpSignUpUseCase @Inject constructor(
                         )
                         userDataRepository.saveUserData(profile)
                         handleMsgTokenAndUid(newUid.toString())
+                        userDataRepository.setLoggedIn(true)
                         emit(Resource.Success(true))
                     }
                 } else {

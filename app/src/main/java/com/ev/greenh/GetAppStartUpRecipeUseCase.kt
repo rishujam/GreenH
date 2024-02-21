@@ -2,6 +2,8 @@ package com.ev.greenh
 
 import com.core.data.AppConfigRepository
 import com.core.util.Resource
+import com.ev.greenh.models.AppStartupRecipe
+import com.example.auth.data.localsource.UserDataPrefManager
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -14,10 +16,11 @@ import javax.inject.Inject
  */
 
 class GetAppStartUpRecipeUseCase @Inject constructor (
-    private val appConfigRepository: AppConfigRepository
+    private val appConfigRepository: AppConfigRepository,
+    private val userDataPrefManager: UserDataPrefManager
 ) {
 
-    suspend operator fun invoke(): Flow<Boolean> = flow {
+    suspend operator fun invoke(): Flow<AppStartupRecipe> = flow {
         coroutineScope {
             val featureDef = async {
                 appConfigRepository.getFeatureConfig()
@@ -30,7 +33,8 @@ class GetAppStartUpRecipeUseCase @Inject constructor (
             }
             val deferredList = listOf(featureDef, updateInfoDef, maintenanceDef)
             deferredList.awaitAll()
-            emit(true)
+            val isLoggedIn =  userDataPrefManager.isLoggedIn() ?: false
+            emit(AppStartupRecipe(isLoggedIn = isLoggedIn))
         }
     }
 

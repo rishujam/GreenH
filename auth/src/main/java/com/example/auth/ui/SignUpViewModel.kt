@@ -52,7 +52,7 @@ class SignUpViewModel @Inject constructor(
                             }
 
                             is Resource.Success -> {
-                                response.data
+
                                 state = state.copy(
                                     loading = false,
                                     screen = SignUpProgress.VerifyPhoneStage

@@ -3,6 +3,8 @@ package com.ev.greenh
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.util.Resource
+import com.ev.greenh.models.AppStartupRecipe
+import com.example.auth.data.localsource.UserDataPrefManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -19,12 +21,12 @@ class LauncherActivityViewModel @Inject constructor(
     private val appStartUpRecipeUseCase: GetAppStartUpRecipeUseCase
 ) : ViewModel() {
 
-    private val _appInitialisation = MutableSharedFlow<Boolean>()
+    private val _appInitialisation = MutableSharedFlow<AppStartupRecipe>()
     val appInitialisation = _appInitialisation.asSharedFlow()
 
     fun getRecipeForStartUp() = viewModelScope.launch(Dispatchers.IO) {
         appStartUpRecipeUseCase.invoke().collect {
-            _appInitialisation.emit(true)
+            _appInitialisation.emit(it)
         }
     }
 

@@ -60,4 +60,8 @@ class UserDataRepoImpl @Inject constructor(
     override suspend fun saveFirebaseMsgTokenLocally(token: String) {
         userDataPrefManager.setFirebaseMsgToken(token)
     }
+
+    override suspend fun setLoggedIn(loggedIn: Boolean) {
+        userDataPrefManager.setIsLoggedIn(loggedIn)
+    }
 }
