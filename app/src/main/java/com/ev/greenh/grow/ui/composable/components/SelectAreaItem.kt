@@ -10,10 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ev.greenh.common.commonui.Mat3OnSecondary
-import com.ev.greenh.common.commonui.Mat3OnSurfaceVariant
-import com.ev.greenh.common.commonui.Mat3Secondary
-import com.ev.greenh.common.commonui.Mat3SurfaceVariant
+import com.core.ui.Mat3OnSecondary
+import com.core.ui.Mat3OnSurfaceVariant
+import com.core.ui.Mat3Secondary
+import com.core.ui.Mat3SurfaceVariant
 
 /*
  * Created by Sudhanshu Kumar on 20/10/23.

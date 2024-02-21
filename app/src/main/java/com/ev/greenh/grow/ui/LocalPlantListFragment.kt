@@ -5,24 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.ev.greenh.auth.ui.SignUpViewModel
+import androidx.fragment.app.viewModels
 import com.ev.greenh.databinding.FragmentLocalPlantListBinding
-import com.ev.greenh.grow.data.GrowRepository
 import com.ev.greenh.grow.ui.composable.LocalPlantListScreen
-import com.ev.greenh.grow.ui.composable.LocalPlantStep1Screen
-import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.viewmodels.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
 /*
  * Created by Sudhanshu Kumar on 20/10/23.
  */
 
+@AndroidEntryPoint
 class LocalPlantListFragment : Fragment() {
 
     private var _binding: FragmentLocalPlantListBinding? = null
     private val binding get() = _binding
-    private lateinit var viewModel: LocalPlantListViewModel
+    private val viewModel: LocalPlantListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,9 +32,6 @@ class LocalPlantListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val repo = GrowRepository()
-        val factory = ViewModelFactory(repo)
-        viewModel = ViewModelProvider(this, factory)[LocalPlantListViewModel::class.java]
         binding?.cvLocalPlantList?.setContent {
             LocalPlantListScreen(viewModel)
         }

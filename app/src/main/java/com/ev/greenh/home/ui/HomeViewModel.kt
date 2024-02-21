@@ -5,16 +5,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.core.util.Resource
 import com.ev.greenh.home.data.HomeRepository
-import com.ev.greenh.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /*
  * Created by Sudhanshu Kumar on 15/11/23.
  */
 
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel @Inject constructor (
     private val repo: HomeRepository
 ) : ViewModel() {
 

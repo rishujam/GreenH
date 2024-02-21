@@ -11,15 +11,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.core.ui.visible
+import com.core.util.Resource
+import com.ev.greenh.LauncherActivity
 import com.ev.greenh.R
-import com.ev.greenh.auth.AuthActivity
 import com.ev.greenh.databinding.FragmentSettingsBinding
 import com.ev.greenh.models.Profile
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.util.Resource
-import com.ev.greenh.util.visible
 import com.ev.greenh.viewmodels.PlantViewModel
-import com.google.firebase.auth.FirebaseAuth
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
@@ -30,7 +29,6 @@ class SettingFragment:Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel:PlantViewModel
     private lateinit var email:String
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,20 +37,19 @@ class SettingFragment:Fragment() {
     ): View? {
         _binding = FragmentSettingsBinding.inflate(inflater,container,false)
         viewModel = (activity as MainActivity).viewModel
-        auth = FirebaseAuth.getInstance()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.readUid()
+//        viewModel.readUid()
 
         viewModel.profile.observe(viewLifecycleOwner, Observer {
             when(it){
                 is Resource.Success ->{
                     if(it.data!=null){
-                        setupProfileData(it.data)
+//                        setupProfileData(it.data)
                         binding.pbSettings.visible(false)
                     }
                 }
@@ -90,7 +87,7 @@ class SettingFragment:Fragment() {
 
         binding.logout.setOnClickListener {
             binding.pbSettings.visibility = View.VISIBLE
-            auth.signOut()
+            //TODO Call logout API
             checkCurrentState()
         }
 
@@ -137,9 +134,9 @@ class SettingFragment:Fragment() {
     }
 
     private fun checkCurrentState(){
-        if(auth.currentUser==null){
-            startActivity(Intent(context,AuthActivity::class.java))
-            activity?.finish()
-        }
+//        if(auth.currentUser==null){
+//            startActivity(Intent(context, LauncherActivity::class.java))
+//            activity?.finish()
+//        }
     }
 }

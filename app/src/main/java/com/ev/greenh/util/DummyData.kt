@@ -1,10 +1,10 @@
 package com.ev.greenh.util
 
+import com.core.ui.model.RadioBtnOption
 import com.ev.greenh.grow.data.model.res.GrowDetailRes
 import com.ev.greenh.grow.ui.model.LocalPlantListItem
 import com.ev.greenh.grow.ui.model.LocalPlantListItemBase
 import com.ev.greenh.grow.ui.model.LocalPlantListQuestionItem
-import com.ev.greenh.grow.ui.model.Option
 
 /*
  * Created by Sudhanshu Kumar on 20/10/23.
@@ -66,9 +66,9 @@ object DummyData {
                 "Tell us more",
                 "How much sunlight reaches your space?",
                 listOf(
-                    Option("Direct"),
-                    Option("Indirect"),
-                    Option("No Sunlight")
+                    RadioBtnOption("Direct"),
+                    RadioBtnOption("Indirect"),
+                    RadioBtnOption("No Sunlight")
                 ),
                 viewType = Constants.ViewType.LOCAL_PLANT_LIST_QUESTION
             ),

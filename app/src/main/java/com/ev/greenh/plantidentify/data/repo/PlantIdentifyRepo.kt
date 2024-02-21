@@ -1,21 +1,21 @@
 package com.ev.greenh.plantidentify.data.repo
 
 import android.net.Uri
-import com.ev.greenh.common.commondata.ApiIdentifier
-import com.ev.greenh.common.commondata.RetrofitPool
-import com.ev.greenh.localdatastore.UserPreferences
+import com.core.data.remote.ApiIdentifier
+import com.core.data.remote.RetrofitPool
 import com.ev.greenh.plantidentify.data.PlantNetApi
 import com.ev.greenh.plantidentify.data.model.req.PlantIdentifyReq
 import com.ev.greenh.repository.BaseRepository
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
 /*
  * Created by Sudhanshu Kumar on 10/10/23.
  */
 
-class PlantIdentifyRepo : BaseRepository() {
+class PlantIdentifyRepo @Inject constructor() : BaseRepository() {
 
     private val TAG = "PlantIdentificationRepo"
 

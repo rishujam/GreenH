@@ -4,9 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ev.greenh.models.*
+import com.core.util.Resource
+import com.ev.greenh.models.Order
+import com.ev.greenh.models.Plant
+import com.ev.greenh.models.Profile
+import com.ev.greenh.models.RazorpayOrderId
+import com.ev.greenh.models.Response
 import com.ev.greenh.repository.PlantRepository
-import com.ev.greenh.util.Resource
 import com.ev.greenh.util.ViewModelEventWrapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -63,9 +67,5 @@ class OrderViewModel(
 
     fun getBagItems(collBag: String, collPlant: String, user: String) = viewModelScope.launch {
         _bagItems.value = ViewModelEventWrapper(repository.getBagItems(collBag, collPlant, user))
-    }
-
-    fun readUid() = viewModelScope.launch {
-        _uid.value = ViewModelEventWrapper(repository.readUid())
     }
 }

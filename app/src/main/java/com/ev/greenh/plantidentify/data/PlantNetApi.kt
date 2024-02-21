@@ -1,6 +1,6 @@
 package com.ev.greenh.plantidentify.data
 
-import com.ev.greenh.PConstants
+import com.core.data.remote.ApiKeys
 import com.ev.greenh.plantidentify.data.model.res.PlantIdentifyRes
 import retrofit2.Response
 import retrofit2.http.GET
@@ -20,7 +20,7 @@ interface PlantNetApi {
         @Query("no-reject") noReject: Boolean = false,
         @Query("lang") lang: String = "en",
         @Query("type") type: String = "kt",
-        @Query("api-key") apiKey: String = PConstants.PLANT_IDENTIFY_API_KEY,
+        @Query("api-key") apiKey: String = ApiKeys.PLANT_IDENTIFY_API_KEY,
         @Query("authenix-access-token") accessToken: String? = null
     ): Response<PlantIdentifyRes>
 

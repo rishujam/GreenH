@@ -17,6 +17,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.core.ui.visible
+import com.core.util.Resource
 import com.ev.greenh.databinding.FragmentBuyDirectBinding
 import com.ev.greenh.models.Order
 import com.ev.greenh.models.Plant
@@ -24,8 +26,6 @@ import com.ev.greenh.models.Profile
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.ui.order.MyOrdersFragment
 import com.ev.greenh.ui.profile.EditProfileFragment
-import com.ev.greenh.util.Resource
-import com.ev.greenh.util.visible
 import com.ev.greenh.viewmodels.PlantViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.razorpay.Checkout
@@ -60,7 +60,7 @@ class DirectBuyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.readUid()
+//        viewModel.readUid()
 
         viewModel.uid.observe(viewLifecycleOwner, Observer {
             when (it) {

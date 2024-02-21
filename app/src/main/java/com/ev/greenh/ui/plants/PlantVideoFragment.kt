@@ -1,6 +1,5 @@
 package com.ev.greenh.ui.plants
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +15,11 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.AspectRatioFrameLayout
+import com.core.util.Resource
 import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentPlantVideoBinding
 import com.ev.greenh.models.uimodels.PlantVideo
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.util.Resource
 import com.ev.greenh.viewmodels.PlantViewModel
 
 class PlantVideoFragment:Fragment() {

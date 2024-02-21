@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -38,7 +37,7 @@ fun LocalPlantItem(
     ) {
         Image(
             painter = painterResource(
-                id = R.drawable.logo_ghh
+                id = R.drawable.img
             ),
             contentDescription = Tags.LOCAL_PLANT_LIST_ITEM_IMAGE,
             modifier = Modifier

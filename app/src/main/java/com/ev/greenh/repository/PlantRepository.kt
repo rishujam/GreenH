@@ -3,24 +3,18 @@ package com.ev.greenh.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.liveData
-import com.ev.greenh.common.commondata.ApiIdentifier
-import com.ev.greenh.common.commondata.RetrofitPool
+import com.core.data.remote.ApiIdentifier
+import com.core.data.remote.RetrofitPool
 import com.ev.greenh.firebase.FirestoreSource
-import com.ev.greenh.localdatastore.UserPreferences
 import com.ev.greenh.models.Order
 import com.ev.greenh.models.Profile
 import com.ev.greenh.pagging.PlantsPagingSource
 import com.ev.greenh.util.Constants.QUERY_PAGE_SIZE
+import javax.inject.Inject
 
-class PlantRepository(
-    private val source: FirestoreSource,
-    private val preferences: UserPreferences
+class PlantRepository @Inject constructor (
+    private val source: FirestoreSource
 ) : BaseRepository(){
-
-
-    suspend fun readUid() = safeApiCall {
-        preferences.readUid()
-    }
 
     suspend fun getAllPlants(collection:String, page:Int, lastFeatureNo: Int) = safeApiCall{
         source.getAllPlants(collection,page, lastFeatureNo)

@@ -1,17 +1,18 @@
 package com.ev.greenh.plantidentify.doamin.usecase
 
+import com.core.ui.toByteArray
+import com.core.util.Resource
 import com.ev.greenh.plantidentify.data.model.req.PlantIdentifyReq
 import com.ev.greenh.plantidentify.data.repo.PlantIdentifyRepo
 import com.ev.greenh.plantidentify.doamin.model.PlantIdentifyResultUI
 import com.ev.greenh.plantidentify.ui.model.IdentifyImage
-import com.ev.greenh.util.Resource
-import com.ev.greenh.util.toByteArray
+import javax.inject.Inject
 
 /*
  * Created by Sudhanshu Kumar on 05/11/23.
  */
 
-class PlantIdentifyUseCase(
+class PlantIdentifyUseCase @Inject constructor(
     private val repo: PlantIdentifyRepo
 ) {
 

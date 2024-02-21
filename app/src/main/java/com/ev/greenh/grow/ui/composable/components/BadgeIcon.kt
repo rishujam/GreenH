@@ -15,9 +15,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ev.greenh.common.commonui.Mat3OnSurfaceVariant
-import com.ev.greenh.common.commonui.Mat3SurfaceVariant
-import com.ev.greenh.common.commonui.NunitoFontFamily
+import com.core.ui.Mat3OnSurfaceVariant
+import com.core.ui.Mat3SurfaceVariant
+import com.core.ui.NunitoFontFamily
 import com.example.testing.Tags
 
 /*

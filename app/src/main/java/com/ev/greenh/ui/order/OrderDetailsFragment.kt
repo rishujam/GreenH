@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.core.util.Resource
 import com.ev.greenh.R
 import com.ev.greenh.adapters.MyOrderDetailAdapter
 import com.ev.greenh.databinding.OrderDetailsFragmentBinding
@@ -17,7 +18,6 @@ import com.ev.greenh.models.uimodels.MyOrderDetail
 import com.ev.greenh.models.uimodels.PlantMyOrder
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.ui.plants.PlantDetailFragment
-import com.ev.greenh.util.Resource
 import com.ev.greenh.viewmodels.PlantViewModel
 import com.google.android.material.snackbar.Snackbar
 
@@ -44,12 +44,12 @@ class OrderDetailsFragment:Fragment(), MyOrderDetailAdapter.OnItemClickListener 
 
         viewModel.getSingleOrderDetail(orderId.toString(),getString(R.string.orders), getString(R.string.plant_sample_ref))
 
-        viewModel.getSingleOrderDetails.observe(viewLifecycleOwner, Observer {
-            when(it){
+        viewModel.getSingleOrderDetails.observe(viewLifecycleOwner, Observer { response ->
+            when(response){
                 is Resource.Success ->{
-                    if (it.data!=null){
-                        setData(it.data)
-                    }else{
+                    response.data?.let {
+                        setData(it)
+                    } ?: run {
                         Snackbar.make(binding.root,"Somethings went wrong",Snackbar.LENGTH_SHORT).show()
                     }
                     binding.progressBar4.visibility = View.INVISIBLE

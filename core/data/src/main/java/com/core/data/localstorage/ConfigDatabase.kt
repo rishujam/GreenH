@@ -1,0 +1,21 @@
+package com.core.data.localstorage
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.core.data.model.Feature
+
+/*
+ * Created by Sudhanshu Kumar on 11/02/24.
+ */
+
+@Database(
+    entities = [Feature::class],
+    version = 1
+)
+abstract class ConfigDatabase : RoomDatabase() {
+
+    abstract val dao: ConfigDao
+
+}
