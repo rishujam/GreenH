@@ -13,20 +13,26 @@ import kotlinx.coroutines.flow.flow
 class PhoneAuthRepoFakeImpl : PhoneAuthRepository {
 
     override suspend fun sendCredentials(phone: String): Flow<ResOtp?> = flow {
-        if (phone == Constants.SEND_OTP_SUCCESS_PHONE_NO) {
-            emit(
-                ResOtp(
-                    Constants.RANDOM_STRING,
-                    com.core.data.Constants.Other.SUCCESS_STRING
+        when (phone) {
+            Constants.SEND_OTP_SUCCESS_PHONE_NO -> {
+                emit(
+                    ResOtp(
+                        Constants.RANDOM_STRING,
+                        com.core.data.Constants.Other.SUCCESS_STRING
+                    )
                 )
-            )
-        } else if (phone == Constants.SEND_OTP_FAIL_PHONE_NO) {
-            emit(
-                ResOtp(
-                    com.core.data.Constants.Other.EMPTY_STRING,
-                    com.core.data.Constants.Other.ERROR_STRING
+            }
+
+            Constants.SEND_OTP_FAIL_PHONE_NO -> {
+                emit(
+                    ResOtp(
+                        com.core.data.Constants.Other.EMPTY_STRING,
+                        com.core.data.Constants.Other.ERROR_STRING
+                    )
                 )
-            )
+            }
+
+            Constants.SEND_OTP_NULL_PHONE_NO -> emit(null)
         }
     }
 

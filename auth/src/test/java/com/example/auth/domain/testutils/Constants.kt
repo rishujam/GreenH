@@ -8,6 +8,8 @@ object Constants {
 
     const val SEND_OTP_FAIL_PHONE_NO = "9999999999"
     const val SEND_OTP_SUCCESS_PHONE_NO = "1111111111"
+    const val SEND_OTP_NULL_PHONE_NO = "2222222222"
+    const val SEND_OTP_WRONG_PHONE_NO = "12425"
     const val RANDOM_STRING = "random_string"
 
 }
