@@ -36,7 +36,29 @@ class PhoneAuthRepoFakeImpl : PhoneAuthRepository {
         }
     }
 
-    override suspend fun verifyCredentials(phone: String, otp: String): Flow<ResOtp?> {
-        TODO("Not yet implemented")
+    override suspend fun verifyCredentials(phone: String, otp: String): Flow<ResOtp?> = flow {
+        when(otp) {
+            Constants.VERIFY_OTP_INCORRECT -> {
+                emit(
+                    ResOtp(
+                        com.core.data.Constants.Other.EMPTY_STRING,
+                        com.core.data.Constants.Other.ERROR_STRING
+                    )
+                )
+            }
+
+            Constants.VERIFY_OTP_SUCCESS -> {
+                emit(
+                    ResOtp(
+                        Constants.RANDOM_STRING,
+                        com.core.data.Constants.Other.SUCCESS_STRING
+                    )
+                )
+            }
+
+            Constants.VERIFY_OTP_NULL_RES -> {
+                emit(null)
+            }
+        }
     }
 }
