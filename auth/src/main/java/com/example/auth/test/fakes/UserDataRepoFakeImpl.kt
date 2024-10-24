@@ -1,4 +1,4 @@
-package com.example.auth.fakes
+package com.example.auth.test.fakes
 
 import com.core.data.model.ResUidGen
 import com.example.auth.data.model.ResFirebaseMsgToken
@@ -7,7 +7,8 @@ import com.example.auth.data.model.ResSaveProfile
 import com.example.auth.data.model.ResUserExist
 import com.example.auth.data.model.UserProfile
 import com.example.auth.data.repository.UserDataRepository
-import com.example.auth.domain.testutils.Constants
+import com.example.auth.test.util.Constants
+import kotlin.coroutines.CoroutineContext
 
 /*
  * Created by Sudhanshu Kumar on 22/02/24.

@@ -2,12 +2,11 @@ package com.example.auth.domain.usecase
 
 import app.cash.turbine.test
 import com.core.util.Resource
-import com.example.auth.data.model.ResOtp
-import com.example.auth.domain.testutils.Constants
-import com.example.auth.fakes.PhoneAuthRepoFakeImpl
+import com.example.auth.test.fakes.PhoneAuthRepoFakeImpl
+import com.example.auth.test.util.Constants
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -23,7 +22,7 @@ class SendOtpUseCaseTest {
 
     @Test
     fun `On failure emit error` () = runTest {
-        sendOtpUseCase.invoke(Constants.SEND_OTP_FAIL_PHONE_NO).test {
+        sendOtpUseCase.invoke(Constants.FAIL_PHONE_NO).test {
             val firstEmission = awaitItem()
             val secondEmission = awaitItem()
             awaitComplete()
@@ -51,7 +50,7 @@ class SendOtpUseCaseTest {
 
     @Test
     fun `On success emit success` () = runTest {
-        sendOtpUseCase.invoke(Constants.SEND_OTP_SUCCESS_PHONE_NO).test {
+        sendOtpUseCase.invoke(Constants.SUCCESS_PHONE_NO).test {
             val firstEmission = awaitItem()
             val secondEmission = awaitItem()
             awaitComplete()

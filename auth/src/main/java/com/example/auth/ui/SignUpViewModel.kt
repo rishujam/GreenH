@@ -13,8 +13,11 @@ import com.example.auth.ui.states.SignUpProgress
 import com.example.auth.ui.states.SignUpState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 /*
  * Created by Sudhanshu Kumar on 10/07/23.
@@ -23,17 +26,16 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val sendOtpUseCase: SendOtpUseCase,
-    private val otpSignUpUseCase: OtpSignUpUseCase
+    private val otpSignUpUseCase: OtpSignUpUseCase,
+    private val dispatcher: CoroutineContext = Dispatchers.IO
 ) : ViewModel() {
 
     var state by mutableStateOf(SignUpState())
 
-    var toastEvent by mutableStateOf("")
-
     fun onEvent(event: SignUpEvents) {
         when (event) {
             is SignUpEvents.SendOtp -> {
-                viewModelScope.launch(Dispatchers.IO) {
+                viewModelScope.launch(dispatcher) {
                     state = state.copy(
                         phoneNo = event.phone
                     )
@@ -41,7 +43,11 @@ class SignUpViewModel @Inject constructor(
                         when (response) {
                             is Resource.Error -> {
                                 response.message?.let { errorMsg ->
-                                    toastEvent = errorMsg
+                                    state = state.copy(
+                                        error = errorMsg,
+                                        loading = false
+                                    )
+                                    state.error = errorMsg
                                 }
                             }
 
@@ -58,6 +64,8 @@ class SignUpViewModel @Inject constructor(
                                     screen = SignUpProgress.VerifyPhoneStage
                                 )
                             }
+
+                            else -> {}
                         }
                     }
                 }
@@ -71,11 +79,16 @@ class SignUpViewModel @Inject constructor(
             }
 
             is SignUpEvents.VerifyClick -> {
-                viewModelScope.launch(Dispatchers.IO) {
+                viewModelScope.launch(dispatcher) {
                     otpSignUpUseCase.invoke(state.phoneNo, event.otp, event.buildVersion).collect { response ->
                         when (response) {
                             is Resource.Error -> {
-                                response.message?.let { toastEvent = it }
+                                state = state.copy(
+                                    error = state.error,
+                                    loading = false
+                                )
+                                response.message?.let {
+                                    state.error = it }
                             }
 
                             is Resource.Success -> {
@@ -90,6 +103,8 @@ class SignUpViewModel @Inject constructor(
                                     loading = true
                                 )
                             }
+
+                            else -> {}
                         }
                     }
                 }
@@ -98,6 +113,8 @@ class SignUpViewModel @Inject constructor(
             is SignUpEvents.ResendOtp -> {
 
             }
+
+            else -> {}
         }
     }
 

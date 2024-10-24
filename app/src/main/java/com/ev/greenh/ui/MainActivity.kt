@@ -43,7 +43,10 @@ import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -92,7 +95,7 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
 
                 R.id.imShop -> {
                     val shopFeature = activityViewModel.config.replayCache[0]
-                        .data?.featureConfig?.get(Constants.Feature.SHOP)?.isEnabled ?: true
+                        .data?.featureConfig?.get(Constants.Feature.SHOP)?.is_enabled ?: true
                     if (shopFeature) {
                         val fragment = PlantFragment()
                         setCurrentFragmentBack(fragment)

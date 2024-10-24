@@ -1,13 +1,16 @@
 package com.example.auth.domain.usecase
 
+import app.cash.turbine.test
 import com.core.util.Resource
 import com.example.auth.domain.model.SignUpComplete
-import com.example.auth.domain.testutils.Constants
-import com.example.auth.fakes.PhoneAuthRepoFakeImpl
-import com.example.auth.fakes.UserDataRepoFakeImpl
+import com.example.auth.test.fakes.PhoneAuthRepoFakeImpl
+import com.example.auth.test.fakes.UserDataRepoFakeImpl
+import com.example.auth.test.util.Constants
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 
 /*
@@ -23,18 +26,18 @@ class OtpSignUpUseCaseTest {
 
     @Test
     fun `When incomplete otp entered emit error` () = runTest {
-        val events = mutableListOf<Resource<SignUpComplete>>()
         otpSignUpUseCase.invoke(
-            Constants.SEND_OTP_SUCCESS_PHONE_NO,
+            Constants.SUCCESS_PHONE_NO,
             Constants.VERIFY_OTP_INCOMPLETE,
             Constants.TEST_BUILD_VERSION
-        ).collect {
-            events.add(it)
-        }
-        if(events.size == 1 && events[0] is Resource.Error) {
-            assert(true)
-        } else {
-            assert(false)
+        ).test {
+            val firstEmission = awaitItem()
+            awaitComplete()
+            if(firstEmission is Resource.Error) {
+                assert(true)
+            } else {
+                assert(false)
+            }
         }
     }
 

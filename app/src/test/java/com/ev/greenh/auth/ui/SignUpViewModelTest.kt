@@ -1,6 +1,7 @@
 package com.ev.greenh.auth.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.ev.greenh.testutils.MainCoroutineRule
 import com.example.auth.ui.SignUpViewModel
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -13,16 +14,18 @@ import org.junit.Rule
 
 class SignUpViewModelTest {
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val testDispatcher = StandardTestDispatcher()
+    private val x = MainCoroutineRule()
 
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    private lateinit var viewModel: SignUpViewModel
-
+//    @OptIn(ExperimentalCoroutinesApi::class)
+//    private val testDispatcher = StandardTestDispatcher()
+//
+//    @get:Rule
+//    val instantTaskExecutorRule = InstantTaskExecutorRule()
+//
+//    private lateinit var viewModel: SignUpViewModel
+//
 //    private val repository = mockk<AuthRepository>()
-
+//
 //    @OptIn(ExperimentalCoroutinesApi::class)
 //    @Before
 //    fun setUp() {

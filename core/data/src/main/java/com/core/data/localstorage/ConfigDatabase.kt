@@ -1,8 +1,6 @@
 package com.core.data.localstorage
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.core.data.model.Feature
 
@@ -12,7 +10,7 @@ import com.core.data.model.Feature
 
 @Database(
     entities = [Feature::class],
-    version = 1
+    version = 2
 )
 abstract class ConfigDatabase : RoomDatabase() {
 

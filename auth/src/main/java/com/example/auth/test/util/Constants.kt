@@ -1,4 +1,4 @@
-package com.example.auth.domain.testutils
+package com.example.auth.test.util
 
 /*
  * Created by Sudhanshu Kumar on 17/02/24.
@@ -6,8 +6,8 @@ package com.example.auth.domain.testutils
 
 object Constants {
 
-    const val SEND_OTP_FAIL_PHONE_NO = "9999999999"
-    const val SEND_OTP_SUCCESS_PHONE_NO = "1111111111"
+    const val FAIL_PHONE_NO = "9999999999"
+    const val SUCCESS_PHONE_NO = "1111111111"
     const val SEND_OTP_NULL_PHONE_NO = "2222222222"
     const val SEND_OTP_WRONG_PHONE_NO = "12425"
 

@@ -41,7 +41,7 @@ import com.example.testing.Tags
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun PhoneView(viewModel: SignUpViewModel) {
+fun PhoneView(onEvent: (SignUpEvents) -> Unit) {
     var phoneNoText by remember {
         mutableStateOf("")
     }
@@ -96,7 +96,7 @@ fun PhoneView(viewModel: SignUpViewModel) {
                         .fillMaxWidth()
                         .testTag(Tags.PHONE_VIEW_NEXT_BTN),
                     onClick = {
-                        viewModel.onEvent(SignUpEvents.SendOtp(phoneNoText))
+                        onEvent(SignUpEvents.SendOtp(phoneNoText))
                     },
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(

@@ -5,23 +5,18 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowInsets
-import android.view.WindowInsetsController
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.core.data.Constants
 import com.core.ui.hide
+import com.core.ui.nav.Navigation
 import com.ev.greenh.databinding.ActivityLauncherBinding
 import com.ev.greenh.ui.MainActivity
-import com.example.auth.ui.ParentCallback
-import com.example.auth.ui.SignUpFrag
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LauncherActivity : AppCompatActivity() {
@@ -31,6 +26,9 @@ class LauncherActivity : AppCompatActivity() {
     private val buildVersion by lazy {
         BuildConfig.VERSION_CODE
     }
+
+    @Inject
+    lateinit var navigation: Navigation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,36 +41,12 @@ class LauncherActivity : AppCompatActivity() {
                 if(it.isLoggedIn) {
                     onLoggedIn()
                 } else {
-                    val bundle = Bundle()
-                    bundle.putInt(Constants.Args.BUILD_VERSION, buildVersion)
-                    val signupFragment = SignUpFrag(object : ParentCallback {
-                        override fun onSignUpSuccess() {
-                            onLoggedIn()
-                        }
-                    })
-                    withContext(Dispatchers.Main) {
-                        signupFragment.arguments = bundle
-                        setCurrentFragment(signupFragment)
-                    }
+                    navigation.authActivity(this@LauncherActivity, buildVersion)
                 }
             }
         }
         viewModel.getRecipeForStartUp()
     }
-
-    private fun setCurrentFragment(fragment: Fragment) =
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.flAuth, fragment)
-            commit()
-        }
-
-
-    fun setCurrentFragmentBack(fragment: Fragment) =
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.flAuth, fragment)
-            addToBackStack("b")
-            commit()
-        }
 
     private fun setDisplayMode() {
         val nightModeFlags: Int = resources.configuration.uiMode and

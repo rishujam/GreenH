@@ -1,10 +1,12 @@
-package com.example.auth.fakes
+package com.example.auth.test.fakes
 
 import com.example.auth.data.model.ResOtp
 import com.example.auth.data.repository.PhoneAuthRepository
-import com.example.auth.domain.testutils.Constants
+import com.example.auth.test.util.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlin.coroutines.CoroutineContext
 
 /*
  * Created by Sudhanshu Kumar on 17/02/24.
@@ -14,7 +16,7 @@ class PhoneAuthRepoFakeImpl : PhoneAuthRepository {
 
     override suspend fun sendCredentials(phone: String): Flow<ResOtp?> = flow {
         when (phone) {
-            Constants.SEND_OTP_SUCCESS_PHONE_NO -> {
+            Constants.SUCCESS_PHONE_NO -> {
                 emit(
                     ResOtp(
                         Constants.RANDOM_STRING,
@@ -23,7 +25,7 @@ class PhoneAuthRepoFakeImpl : PhoneAuthRepository {
                 )
             }
 
-            Constants.SEND_OTP_FAIL_PHONE_NO -> {
+            Constants.FAIL_PHONE_NO -> {
                 emit(
                     ResOtp(
                         com.core.data.Constants.Other.EMPTY_STRING,

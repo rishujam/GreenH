@@ -1,11 +1,13 @@
 package com.core.data.remote
 
+import android.util.Log
 import com.core.data.Constants
 import com.core.data.model.Feature
 import com.core.data.model.ResFeatureConfig
 import com.core.data.model.ResMaintenance
 import com.core.data.model.ResUpdate
 import com.core.data.model.Update
+import com.core.util.toObject
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -54,10 +56,12 @@ class ConfigDataSource @Inject constructor() {
             val featureConfigList = mutableListOf<Feature>()
             for(i in docs) {
                 try {
-                    val feature = i.toObject<Feature>()
+                    val feature = i.data.toObject(Feature::class)
+//                    val feature = i.toObject<Feature>()
                     featureConfigList.add(feature)
-                } catch (_: Exception) {
+                } catch (e: Exception) {
                     //TODO Send analytics
+                    Log.d("Analytics", "Error: ${e.message}")
                 }
             }
             ResFeatureConfig(true, featureList = featureConfigList)

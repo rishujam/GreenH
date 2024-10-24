@@ -6,7 +6,7 @@ package com.example.testing
 
 object TestConstants {
 
-    const val UI_TEST_NUMBER = "99999"
+    const val UI_TEST_NUMBER = "9999999999"
     const val UI_TEST_OTP = "111111"
     const val VERIFICATION_ID_TEST = "verification_id_test"
 
