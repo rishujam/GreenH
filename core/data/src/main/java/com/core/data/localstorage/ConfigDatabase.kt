@@ -10,7 +10,7 @@ import com.core.data.model.Feature
 
 @Database(
     entities = [Feature::class],
-    version = 2
+    version = 1
 )
 abstract class ConfigDatabase : RoomDatabase() {
 
