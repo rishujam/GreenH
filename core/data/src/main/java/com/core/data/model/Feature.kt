@@ -14,9 +14,8 @@ import org.jetbrains.annotations.NotNull
 data class Feature(
     @PrimaryKey
     val id: String,
-    @SerializedName("is_enabled")
     @get:PropertyName("is_enabled")
     @set:PropertyName("is_enabled")
-    var isEnabled: Boolean? = false,
+    var is_enabled: Boolean? = false,
     val message: String? = null
 )

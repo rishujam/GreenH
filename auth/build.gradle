@@ -14,6 +14,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
     }
 
     buildTypes {
@@ -53,6 +54,10 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:1.5.0-alpha03"
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.fragment:fragment-testing:1.5.3'
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.47")
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.47")
 
     //fragment extension
     implementation 'androidx.fragment:fragment-ktx:1.5.1'

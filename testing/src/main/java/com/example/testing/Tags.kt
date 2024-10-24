@@ -17,6 +17,7 @@ object Tags {
     const val VERIFY_BTN = "verify_btn"
     const val TOOLBAR_BACK_BTN = "toolbar_back_btn"
     const val TOOLBAR_END_BTN = "toolbar_end_btn"
+    const val SIGNUP_SCREEN_PROGRESS = "signup_screen_progress"
     const val LOADING_ANIM = "loading_anim"
     const val LOADING_ANIM_PROGRESS = "loading_anim_progress"
 

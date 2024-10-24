@@ -148,7 +148,7 @@ fun HomeScreen(
                     .clickable {
                         val activity = context.findActivity()
                         val identifyFeature = activityViewModel?.config?.replayCache?.get(0)
-                            ?.data?.featureConfig?.get(Constants.Feature.IDENTIFY)?.isEnabled ?: true
+                            ?.data?.featureConfig?.get(Constants.Feature.IDENTIFY)?.is_enabled ?: true
                         if (identifyFeature) {
                             val frag = PlantIdentifyFragment()
                             (activity as? MainActivity)?.setCurrentFragmentBack(
@@ -246,7 +246,7 @@ fun HomeScreen(
                     .clickable {
                         val activity = context.findActivity()
                         val growFeature = activityViewModel?.config?.replayCache?.get(0)
-                        ?.data?.featureConfig?.get(Constants.Feature.GROW)?.isEnabled ?: true
+                        ?.data?.featureConfig?.get(Constants.Feature.GROW)?.is_enabled ?: true
                         if (growFeature) {
                             val fragment = LocalPlantListFragment()
                             (activity as? MainActivity)?.setCurrentFragmentBack(fragment)

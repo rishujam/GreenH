@@ -5,6 +5,7 @@ import com.core.util.Resource
 import com.example.auth.data.model.UserProfile
 import com.example.auth.data.repository.PhoneAuthRepository
 import com.example.auth.data.repository.UserDataRepository
+import com.example.auth.domain.model.SignUpComplete
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -21,37 +22,54 @@ class OtpSignUpUseCase @Inject constructor(
         phone: String,
         otp: String,
         version: Int
-    ): Flow<Resource<Boolean>> = flow {
-        emit(Resource.Loading())
-        phoneAuthRepository.verifyCredentials(phone, otp).collect {
-            it?.let {
-                if(it.Status == Constants.Other.SUCCESS_STRING) {
-                    val userRes = userDataRepository.checkUserExist(phone)
-                    val userExist = userRes.exist
-                    if(userExist == true) {
-                        val uid = userRes.userProfile?.uid!!
-                        handleMsgTokenAndUid(uid)
-                        userDataRepository.setLoggedIn(true)
-                        emit(Resource.Success(true))
+    ): Flow<Resource<SignUpComplete>> = flow {
+        if(otp.length != OTP_LENGTH) {
+            emit(Resource.Error("Enter correct OTP"))
+        } else {
+            emit(Resource.Loading())
+            phoneAuthRepository.verifyCredentials(phone, otp).collect {
+                it?.let {
+                    if(it.Status == Constants.Other.SUCCESS_STRING) {
+                        val userRes = userDataRepository.checkUserExist(phone)
+                        val userExist = userRes.exist
+                        if(userExist == true) {
+                            val uid = userRes.userProfile?.uid!!
+                            handleMsgTokenAndUid(uid)
+                            userDataRepository.setLoggedIn(true)
+                            emit(
+                                Resource.Success(
+                                    SignUpComplete(
+                                        newUser = false
+                                    )
+                                )
+                            )
+                        } else {
+                            val recentlyGenUid = userDataRepository.getRecentlyGeneratedUid()
+                            val newUid = recentlyGenUid.uid.toString().toInt() + 1
+                            val profile = UserProfile(
+                                phone = phone,
+                                uid = newUid.toString(),
+                                profileComplete = false,
+                                version = version
+                            )
+                            val userDataRes = userDataRepository.saveUserData(profile)
+                            handleMsgTokenAndUid(newUid.toString())
+                            userDataRepository.setLoggedIn(true)
+                            emit(
+                                Resource.Success(
+                                    SignUpComplete(
+                                        savedUserDataOnServer = userDataRes.success,
+                                        newUser = true
+                                    )
+                                )
+                            )
+                        }
                     } else {
-                        val recentlyGenUid = userDataRepository.getRecentlyGeneratedUid()
-                        val newUid = recentlyGenUid.uid.toString().toInt() + 1
-                        val profile = UserProfile(
-                            phone = phone,
-                            uid = newUid.toString(),
-                            profileComplete = false,
-                            version = version
-                        )
-                        userDataRepository.saveUserData(profile)
-                        handleMsgTokenAndUid(newUid.toString())
-                        userDataRepository.setLoggedIn(true)
-                        emit(Resource.Success(true))
+                        emit(Resource.Error("Invalid OTP"))
                     }
-                } else {
-                    emit(Resource.Error("Invalid OTP"))
+                } ?: run {
+                    emit(Resource.Error("null"))
                 }
-            } ?: run {
-                emit(Resource.Error("null"))
             }
         }
     }
@@ -62,6 +80,10 @@ class OtpSignUpUseCase @Inject constructor(
         if(token.success) {
             userDataRepository.saveFirebaseMsgTokenLocally(token.token.toString())
         }
+    }
+
+    companion object {
+        private const val OTP_LENGTH = 4
     }
 
 }

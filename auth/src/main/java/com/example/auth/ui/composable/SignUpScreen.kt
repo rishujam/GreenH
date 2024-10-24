@@ -12,19 +12,31 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.core.ui.LightBgGreen
 import com.core.ui.MediumGreen
 import com.core.ui.findActivity
 import com.example.auth.ui.SignUpViewModel
+import com.example.auth.ui.events.SignUpEvents
 import com.example.auth.ui.states.SignUpProgress
+import com.example.auth.ui.states.SignUpState
+import com.example.testing.Tags
 import kotlinx.coroutines.delay
 
 /*
@@ -33,7 +45,8 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SignUpScreen(
-    viewModel: SignUpViewModel,
+    state: SignUpState,
+    onEvent: (SignUpEvents) -> Unit,
     buildVersion: Int?,
     onSignUpSuccess: (() -> Unit)
 ) {
@@ -41,39 +54,20 @@ fun SignUpScreen(
     var isVisibleBranding by remember {
         mutableStateOf(false)
     }
-    var isVisiblePhoneView by remember {
-        mutableStateOf(false)
-    }
-    var isVisibleVerifyView by remember {
-        mutableStateOf(false)
-    }
     var isVisibleProgress by remember {
         mutableStateOf(false)
     }
-    val context = LocalContext.current
-    LaunchedEffect(viewModel.state) {
-        isVisibleProgress = viewModel.state.loading
-        when (viewModel.state.screen) {
-            is SignUpProgress.VerifyPhoneStage -> {
-                isVisiblePhoneView = false
-                isVisibleVerifyView = true
-            }
-
-            is SignUpProgress.EnterPhoneStage -> {
-                isVisibleVerifyView = false
-                isVisiblePhoneView = true
-            }
-
-            is SignUpProgress.VerifiedPhoneStage -> {
-                onSignUpSuccess()
-            }
+    LaunchedEffect(state) {
+        isVisibleProgress = state.loading
+        state.error?.let {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = it
+            )
+            state.error = null
         }
-    }
-
-    LaunchedEffect(viewModel.toastEvent) {
-        scaffoldState.snackbarHostState.showSnackbar(
-            message = viewModel.toastEvent
-        )
+        if(state.screen is SignUpProgress.VerifiedPhoneStage) {
+            onSignUpSuccess()
+        }
     }
 
     Surface(
@@ -89,7 +83,10 @@ fun SignUpScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CircularProgressIndicator(color = MediumGreen)
+                CircularProgressIndicator(
+                    modifier = Modifier.testTag(Tags.SIGNUP_SCREEN_PROGRESS),
+                    color = MediumGreen
+                )
             }
         }
         Column(modifier = Modifier.fillMaxSize()) {
@@ -111,28 +108,13 @@ fun SignUpScreen(
                         SignUpBrandingView()
                     }
                 }
-                LaunchedEffect(Unit) {
-                    delay(300)
-                    isVisibleBranding = true
-                }
-            }
-            AnimatedVisibility(
-                visible = isVisiblePhoneView,
-                enter = slideInVertically(
-                    initialOffsetY = {
-                        it / 2
-                    }
-                ) + fadeIn(),
-                exit = fadeOut()
-            ) {
-                PhoneView(viewModel)
             }
             LaunchedEffect(Unit) {
                 delay(300)
-                isVisiblePhoneView = true
+                isVisibleBranding = true
             }
             AnimatedVisibility(
-                visible = isVisibleVerifyView,
+                visible = state.screen is SignUpProgress.EnterPhoneStage,
                 enter = slideInVertically(
                     initialOffsetY = {
                         it / 2
@@ -140,7 +122,10 @@ fun SignUpScreen(
                 ) + fadeIn(),
                 exit = fadeOut()
             ) {
-                VerifyPhoneView(viewModel, buildVersion)
+                PhoneView(onEvent)
+            }
+            if(state.screen is SignUpProgress.VerifyPhoneStage) {
+                VerifyPhoneView(onEvent, state, buildVersion)
             }
         }
     }

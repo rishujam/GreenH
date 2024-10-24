@@ -40,6 +40,7 @@ import com.core.ui.LightBgGreen
 import com.core.ui.MediumGreen
 import com.example.auth.ui.SignUpViewModel
 import com.example.auth.ui.events.SignUpEvents
+import com.example.auth.ui.states.SignUpState
 import com.example.testing.Tags
 import kotlinx.coroutines.delay
 
@@ -49,7 +50,12 @@ import kotlinx.coroutines.delay
 
 
 @Composable
-fun VerifyPhoneView(viewModel: SignUpViewModel, buildVersion: Int?) {
+fun VerifyPhoneView(
+    onEvent: (SignUpEvents) -> Unit,
+    state: SignUpState,
+    buildVersion: Int?
+) {
+
     var otpValue by remember {
         mutableStateOf("")
     }
@@ -99,7 +105,12 @@ fun VerifyPhoneView(viewModel: SignUpViewModel, buildVersion: Int?) {
                 top.linkTo(otpBox.bottom)
             }
         }
-        ConstraintLayout(constraints, modifier = Modifier.fillMaxWidth().testTag(Tags.VERIFY_ENTER_OTP)) {
+        ConstraintLayout(
+            constraints,
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(Tags.VERIFY_ENTER_OTP)
+        ) {
             val interactionSource = remember { MutableInteractionSource() }
             Row(
                 modifier = Modifier
@@ -108,7 +119,7 @@ fun VerifyPhoneView(viewModel: SignUpViewModel, buildVersion: Int?) {
                         interactionSource = interactionSource,
                         indication = null
                     ) {
-                        viewModel.onEvent(SignUpEvents.WrongNo)
+                        onEvent(SignUpEvents.WrongNo)
                     }
             ) {
                 Image(
@@ -118,7 +129,7 @@ fun VerifyPhoneView(viewModel: SignUpViewModel, buildVersion: Int?) {
                     modifier = Modifier.size(24.dp)
                 )
                 Text(
-                    text = AnnotatedString(viewModel.state.phoneNo),
+                    text = AnnotatedString(state.phoneNo),
                     style = TextStyle(
                         color = MediumGreen,
                         fontSize = 16.sp
@@ -148,7 +159,7 @@ fun VerifyPhoneView(viewModel: SignUpViewModel, buildVersion: Int?) {
                         .fillMaxWidth()
                         .testTag(Tags.VERIFY_BTN),
                     onClick = {
-                        viewModel.onEvent(
+                        onEvent(
                             SignUpEvents.VerifyClick(otpValue, buildVersion!!)
                         )
                     },
@@ -190,7 +201,7 @@ fun VerifyPhoneView(viewModel: SignUpViewModel, buildVersion: Int?) {
                 ClickableText(
                     modifier = Modifier.padding(start = 8.dp, top = 16.dp),
                     onClick = {
-                        viewModel.onEvent(SignUpEvents.ResendOtp)
+                        onEvent(SignUpEvents.ResendOtp)
                     },
                     text = AnnotatedString("Resend OTP"),
                     style = TextStyle(

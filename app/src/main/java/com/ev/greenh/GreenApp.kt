@@ -2,6 +2,9 @@ package com.ev.greenh
 
 import android.app.Application
 import android.util.Log
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.annotation.ExperimentalCoilApi
@@ -21,6 +24,18 @@ class GreenApp : Application(), ImageLoaderFactory {
         FirebaseApp.initializeApp(this)
         FirebaseAppCheck.getInstance().installAppCheckProviderFactory(
             DebugAppCheckProviderFactory.getInstance())
+
+        ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onStart(owner: LifecycleOwner) {
+                super<DefaultLifecycleObserver>.onStart(owner)
+                Log.d("LifecycleEvent", "onStart")
+            }
+
+            override fun onStop(owner: LifecycleOwner) {
+                super<DefaultLifecycleObserver>.onStop(owner)
+                Log.d("LifecycleEvent", "onStop")
+            }
+        })
     }
 
     @OptIn(ExperimentalCoilApi::class)
