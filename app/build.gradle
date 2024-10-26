@@ -34,6 +34,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions "default"
+    productFlavors {
+        production {
+            dimension "default"
+            applicationId "com.ev.greenh"
+            buildConfigField "String", "Android_Push_Enviornment", "\"production\""
+            resValue "string", "app_name", "Gardners Hub"
+        }
+        staging {
+            dimension "default"
+            applicationId "com.ev.greenh.staging"
+            buildConfigField "String", "Android_Push_Enviornment", "\"development\""
+            resValue "string", "app_name", "GardnersStaging"
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

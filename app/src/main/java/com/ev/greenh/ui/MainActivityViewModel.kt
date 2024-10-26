@@ -24,7 +24,7 @@ class MainActivityViewModel @Inject constructor(
     private val configDB: ConfigDatabase
 ) : ViewModel() {
 
-    private val _config = MutableSharedFlow<Resource<MainActivityState>>()
+    private val _config = MutableSharedFlow<Resource<MainActivityState>>(1)
     val config = _config.asSharedFlow()
 
     fun load() = viewModelScope.launch(Dispatchers.IO) {

@@ -3,6 +3,7 @@ package com.example.auth.di
 import com.example.auth.data.repository.PhoneAuthRepository
 import com.example.auth.data.repository.UserDataRepository
 import com.example.auth.data.repositoryimpl.PhoneAuthRepoImpl
+import com.example.auth.data.repositoryimpl.PhoneAuthStagingRepoImpl
 import com.example.auth.data.repositoryimpl.UserDataRepoImpl
 import dagger.Binds
 import dagger.Module
@@ -22,8 +23,8 @@ abstract class RepoModule {
     @Binds
     abstract fun userDataRepository(repository: UserDataRepoImpl): UserDataRepository
 
-    @Singleton
-    @Binds
-    abstract fun phoneAuthRepository(repository: PhoneAuthRepoImpl): PhoneAuthRepository
+//    @Singleton
+//    @Binds
+//    abstract fun phoneAuthRepository(repository: PhoneAuthStagingRepoImpl): PhoneAuthRepository
 
 }

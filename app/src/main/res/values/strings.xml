@@ -1,5 +1,4 @@
 <resources>
-	<string name="app_name">Gardners Hub</string>
 	<string name="plant_sample_ref">samplePlants</string>
 	<string name="user_ref">users</string>
 	<string name="cart">cart</string>

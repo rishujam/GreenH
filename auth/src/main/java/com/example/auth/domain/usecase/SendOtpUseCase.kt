@@ -33,7 +33,5 @@ class SendOtpUseCase @Inject constructor(
                 }
             }
         }
-
     }
-
 }
