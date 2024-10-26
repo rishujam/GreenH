@@ -1,6 +1,6 @@
 package com.example.auth.di
 
-import com.example.auth.domain.ProductFlavour
+import com.core.util.ProductFlavour
 import com.example.auth.data.remotesource.PhoneAuthApi
 import com.example.auth.data.repository.PhoneAuthRepository
 import com.example.auth.data.repositoryimpl.PhoneAuthRepoImpl
@@ -17,7 +17,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepoProvider {
+object PhoneRepoModule {
 
     @Provides
     @Singleton

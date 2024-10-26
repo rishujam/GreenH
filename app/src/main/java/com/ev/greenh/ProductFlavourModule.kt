@@ -1,6 +1,6 @@
 package com.ev.greenh
 
-import com.example.auth.domain.ProductFlavour
+import com.core.util.ProductFlavour
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

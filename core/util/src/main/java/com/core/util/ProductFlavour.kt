@@ -1,4 +1,4 @@
-package com.example.auth.domain
+package com.core.util
 
 /*
  * Created by Sudhanshu Kumar on 26/10/24.
