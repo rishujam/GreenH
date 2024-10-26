@@ -16,6 +16,7 @@ import com.example.auth.data.repository.UserDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -252,7 +253,10 @@ class PlantViewModel @Inject constructor(
     }
 
     fun updateUserDetails(collection: String,profile:Profile) = viewModelScope.launch(Dispatchers.IO) {
-        _updateProfile.value = ViewModelEventWrapper(repository.updateUserDetails(collection, profile))
+        val userDetails = repository.updateUserDetails(collection, profile)
+        withContext(Dispatchers.Main) {
+            _updateProfile.value = ViewModelEventWrapper(userDetails)
+        }
     }
 
     fun getProfileSingleTime(collection: String,uid:String) = viewModelScope.launch(Dispatchers.IO) {
@@ -264,14 +268,24 @@ class PlantViewModel @Inject constructor(
     }
 
     fun getApiKey(collection: String) = viewModelScope.launch(Dispatchers.IO) {
-        apiKey.value = ViewModelEventWrapper(repository.getApiKey(collection))
+        val apiKey = repository.getApiKey(collection)
+        withContext(Dispatchers.Main) {
+            this@PlantViewModel.apiKey.value = ViewModelEventWrapper(apiKey)
+        }
     }
 
     fun getMinVersionToRun(collection: String) = viewModelScope.launch(Dispatchers.IO) {
-        minVersion.value = repository.getMinVersionToRun(collection)
+        val minVersion = repository.getMinVersionToRun(collection)
+        withContext(Dispatchers.Main) {
+            this@PlantViewModel.minVersion.value = minVersion
+        }
     }
 
     fun getPlantVideoUrl(collection:String, plantId: String) = viewModelScope.launch(Dispatchers.IO) {
-        _videoUrl.value = ViewModelEventWrapper(repository.getPlantVideoUrl(collection, plantId))
+        val url = repository.getPlantVideoUrl(collection, plantId)
+        withContext(Dispatchers.Main) {
+            _videoUrl.value = ViewModelEventWrapper(url)
+        }
+
     }
 }
