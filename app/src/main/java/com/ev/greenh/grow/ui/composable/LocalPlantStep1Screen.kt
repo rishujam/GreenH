@@ -30,6 +30,7 @@ import com.core.ui.Mat3SurfaceVariant
 import com.core.ui.composable.GButton
 import com.core.ui.composable.Toolbar
 import com.core.ui.findActivity
+import com.core.ui.model.ButtonType
 import com.ev.greenh.R
 import com.ev.greenh.grow.ui.LocalPlantListFragment
 import com.ev.greenh.grow.ui.composable.components.SelectAreaItem
@@ -98,8 +99,13 @@ fun LocalPlantStep1Screen() {
             color = Mat3OnBg
         )
         Row(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)) {
+            val buttonType = if(selectedIndex != -1) {
+                ButtonType.PrimaryEnabled
+            } else {
+                ButtonType.PrimaryDisabled
+            }
             GButton(
-                Modifier, text = "Next", selectedIndex != -1
+                Modifier, text = "Next", buttonType = buttonType
             ) {
                 val activity = context.findActivity()
                 val fragment = LocalPlantListFragment()

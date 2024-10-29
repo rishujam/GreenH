@@ -184,8 +184,7 @@ fun PlantScannerScreen(
                         GButton(
                             modifier = Modifier
                                 .fillMaxWidth(),
-                            text = "Identify",
-                            isEnabled = true
+                            text = "Identify"
                         ) {
                             selectedImage?.let {
                                 //TODO Create a unique fileName

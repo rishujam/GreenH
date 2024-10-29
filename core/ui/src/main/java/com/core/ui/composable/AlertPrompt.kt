@@ -66,8 +66,7 @@ fun AlertPrompt(
                     cancelText?.let {
                         GButton(
                             modifier = Modifier,
-                            text = cancelText,
-                            isEnabled = true
+                            text = cancelText
                         ) {
                             onCancel?.let { onCancel() }
                         }
@@ -75,8 +74,7 @@ fun AlertPrompt(
                     confirmText?.let {
                         GButton(
                             modifier = Modifier,
-                            text = confirmText,
-                            isEnabled = true
+                            text = confirmText
                         ) {
                             onConfirm?.let { onConfirm() }
                         }
