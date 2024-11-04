@@ -108,7 +108,7 @@ fun GrowDetailScreen(data: GrowDetailData?) {
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                 ) {
-                    GButton(modifier = Modifier, text = "Buy Plant", isEnabled = true) {
+                    GButton(modifier = Modifier, text = "Buy Plant") {
                         val activity = content.findActivity()
                         val fragment = PlantFragment()
                         (activity as? MainActivity)?.setCurrentFragmentBack(fragment)

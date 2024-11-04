@@ -1,7 +1,9 @@
 package com.ev.greenh.navigation
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
 import com.core.data.Constants
 import com.core.ui.nav.Navigation
 import com.ev.greenh.ui.MainActivity
@@ -14,15 +16,25 @@ import javax.inject.Inject
 
 class NavigationImpl @Inject constructor() : Navigation {
 
-    override fun homeActivity(activity: Activity) {
-        val intent = Intent(activity, MainActivity::class.java)
-        activity.startActivity(intent)
+    override fun homeActivity(context: Context?) {
+        val intent = Intent(context, MainActivity::class.java)
+        context?.startActivity(intent)
     }
 
-    override fun authActivity(activity: Activity, buildVersion: Int) {
-        val intent = Intent(activity, AuthActivity::class.java).apply {
-            putExtra(Constants.Args.BUILD_VERSION, buildVersion)
+    override fun authActivity(
+        context: Context?,
+        buildVersion: Int,
+        activityLauncher: ActivityResultLauncher<Intent>?
+    ) {
+        activityLauncher?.let {
+            val intent = Intent(context, AuthActivity::class.java)
+            intent.putExtra(Constants.Args.BUILD_VERSION, buildVersion)
+            activityLauncher.launch(intent)
+        } ?: run {
+            val intent = Intent(context, AuthActivity::class.java).apply {
+                putExtra(Constants.Args.BUILD_VERSION, buildVersion)
+            }
+            context?.startActivity(intent)
         }
-        activity.startActivity(intent)
     }
 }

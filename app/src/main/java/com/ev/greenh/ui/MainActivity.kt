@@ -34,6 +34,7 @@ import com.ev.greenh.R
 import com.ev.greenh.databinding.ActivityMainBinding
 import com.ev.greenh.firebase.FirestoreSource
 import com.ev.greenh.home.ui.HomeFragment
+import com.ev.greenh.profile.ProfileFragment
 import com.ev.greenh.repository.PlantRepository
 import com.ev.greenh.ui.plants.PlantFragment
 import com.ev.greenh.ui.profile.SettingFragment
@@ -111,8 +112,8 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
                 }
 
                 R.id.imSetting -> {
-                    val settingFragment = SettingFragment()
-                    setCurrentFragmentBack(settingFragment)
+                    val profileFragment = ProfileFragment()
+                    setCurrentFragmentBack(profileFragment)
                 }
             }
             true
