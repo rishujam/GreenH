@@ -23,9 +23,6 @@ class LauncherActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLauncherBinding
     private val viewModel: LauncherActivityViewModel by viewModels()
-    private val buildVersion by lazy {
-        BuildConfig.VERSION_CODE
-    }
 
     @Inject
     lateinit var navigation: Navigation
@@ -41,7 +38,7 @@ class LauncherActivity : AppCompatActivity() {
                 if(it.isLoggedIn) {
                     onLoggedIn()
                 } else {
-                    navigation.authActivity(this@LauncherActivity, buildVersion)
+                    navigation.homeActivity(this@LauncherActivity)
                 }
             }
         }

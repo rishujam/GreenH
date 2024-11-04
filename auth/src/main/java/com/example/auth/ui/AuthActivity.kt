@@ -1,12 +1,16 @@
 package com.example.auth.ui
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.core.data.Constants
 import com.core.ui.nav.Navigation
 import com.example.auth.R
 import com.example.auth.databinding.ActivityAuthBinding
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

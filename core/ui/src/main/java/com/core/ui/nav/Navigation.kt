@@ -1,6 +1,8 @@
 package com.core.ui.nav
 
-import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
 
 /*
  * Created by Sudhanshu Kumar on 25/04/24.
@@ -8,8 +10,12 @@ import android.app.Activity
 
 interface Navigation {
 
-    fun homeActivity(activity: Activity)
+    fun homeActivity(context: Context?)
 
-    fun authActivity(activity: Activity, buildVersion: Int)
+    fun authActivity(
+        context: Context?,
+        buildVersion: Int,
+        activityLauncher: ActivityResultLauncher<Intent>? = null
+    )
 
 }

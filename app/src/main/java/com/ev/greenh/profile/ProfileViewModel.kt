@@ -9,6 +9,7 @@ import com.example.auth.data.localsource.UserDataPrefManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /*
@@ -29,10 +30,12 @@ class ProfileViewModel @Inject constructor(
 
     private fun getLoggedInStatus() = viewModelScope.launch(Dispatchers.IO) {
         val isLoggedIn = userDataPref.isLoggedIn()
-        state = state.copy(
-            isLoggedIn = isLoggedIn,
-            isLoading = false
-        )
+        withContext(Dispatchers.Main) {
+            state = state.copy(
+                isLoggedIn = isLoggedIn,
+                isLoading = false
+            )
+        }
     }
 
 }
