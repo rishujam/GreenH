@@ -29,7 +29,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getLoggedInStatus() = viewModelScope.launch(Dispatchers.IO) {
-        val isLoggedIn = userDataPref.isLoggedIn()
+        val isLoggedIn = userDataPref.isLoggedIn() ?: false
         withContext(Dispatchers.Main) {
             state = state.copy(
                 isLoggedIn = isLoggedIn,

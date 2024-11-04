@@ -120,7 +120,7 @@ fun ProfileScreen(
             }
         }
         AnimatedVisibility(
-            visible = state.isLoggedIn == false || state.isLoggedIn == null,
+            visible = state.isLoggedIn == false,
             enter = fadeIn(),
             exit = fadeOut()
         ) {
