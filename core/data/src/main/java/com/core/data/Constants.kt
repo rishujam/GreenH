@@ -37,6 +37,8 @@ object Constants {
 
     object Args {
         const val BUILD_VERSION = "build_version"
+        const val PROFILE = "profile"
+        const val RESULT_USER_LOGGED_IN = "RESULT_USER_LOGGED_IN"
     }
 
     object Other {

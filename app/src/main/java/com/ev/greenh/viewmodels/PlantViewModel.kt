@@ -12,6 +12,7 @@ import com.ev.greenh.models.uimodels.MyOrder
 import com.ev.greenh.models.uimodels.MyOrderDetail
 import com.ev.greenh.repository.PlantRepository
 import com.ev.greenh.util.ViewModelEventWrapper
+import com.example.auth.data.model.UserProfile
 import com.example.auth.data.repository.UserDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -59,12 +60,12 @@ class PlantViewModel @Inject constructor(
     val uid: LiveData<Resource<String?>>
         get() = _uid
 
-    private val _profile:MutableLiveData<Resource<Profile>> = MutableLiveData()
-    val profile:LiveData<Resource<Profile>>
+    private val _profile:MutableLiveData<Resource<UserProfile>> = MutableLiveData()
+    val profile:LiveData<Resource<UserProfile>>
         get() =  _profile
 
-    private val _singleTimeProfile:MutableLiveData<ViewModelEventWrapper<Resource<Profile>>> = MutableLiveData()
-    val singleTimeProfile:LiveData<ViewModelEventWrapper<Resource<Profile>>>
+    private val _singleTimeProfile:MutableLiveData<ViewModelEventWrapper<Resource<UserProfile>>> = MutableLiveData()
+    val singleTimeProfile:LiveData<ViewModelEventWrapper<Resource<UserProfile>>>
         get() = _singleTimeProfile
 
     // add wrapper
@@ -252,7 +253,7 @@ class PlantViewModel @Inject constructor(
         _bagItemIds.value = repository.getBagItemIds(email, collection)
     }
 
-    fun updateUserDetails(collection: String,profile:Profile) = viewModelScope.launch(Dispatchers.IO) {
+    fun updateUserDetails(collection: String,profile:UserProfile) = viewModelScope.launch(Dispatchers.IO) {
         val userDetails = repository.updateUserDetails(collection, profile)
         withContext(Dispatchers.Main) {
             _updateProfile.value = ViewModelEventWrapper(userDetails)

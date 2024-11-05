@@ -1,5 +1,7 @@
 package com.example.auth.data.model
 
+import java.io.Serializable
+
 data class UserProfile(
     val emailId:String="",
     val name:String="",
@@ -10,4 +12,4 @@ data class UserProfile(
     val gender:String="",
     val ageGroup:String="",
     val profileComplete:Boolean = false
-)
+) : Serializable

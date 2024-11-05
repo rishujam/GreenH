@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.util.Resource
+import com.example.auth.data.model.UserProfile
 import com.example.auth.domain.usecase.OtpSignUpUseCase
 import com.example.auth.domain.usecase.SendOtpUseCase
 import com.example.auth.ui.events.SignUpEvents
@@ -94,7 +95,11 @@ class SignUpViewModel @Inject constructor(
                             is Resource.Success -> {
                                 state = state.copy(
                                     loading = false,
-                                    screen = SignUpProgress.VerifiedPhoneStage
+                                    screen = SignUpProgress.VerifiedPhoneStage(
+                                        profile = UserProfile(
+                                            phone = state.phoneNo
+                                        )
+                                    )
                                 )
                             }
 

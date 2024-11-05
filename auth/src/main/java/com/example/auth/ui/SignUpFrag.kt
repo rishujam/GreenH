@@ -12,12 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.core.data.Constants
-import com.core.ui.nav.NavConstants
-import com.core.ui.nav.Navigation
+import com.example.auth.data.model.UserProfile
 import com.example.auth.databinding.SignupFragBinding
 import com.example.auth.ui.composable.SignUpScreen
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 /*
  * Created by Sudhanshu Kumar on 06/07/23.
@@ -44,16 +42,21 @@ class SignUpFrag : Fragment() {
         val buildVersion = arguments?.getInt(Constants.Args.BUILD_VERSION)
         binding?.signUpFragComposeView?.setContent {
             Surface(modifier = Modifier.fillMaxSize()) {
-                SignUpScreen(viewModel.state, onEvent = viewModel::onEvent, buildVersion) {
-                    onLoggedIn()
+                SignUpScreen(
+                    viewModel.state,
+                    onEvent = viewModel::onEvent,
+                    buildVersion
+                ) { profile ->
+                    onLoggedIn(profile)
                 }
             }
         }
     }
 
-    private fun onLoggedIn() {
+    private fun onLoggedIn(profile: UserProfile) {
         val intent = Intent()
-            .putExtra(NavConstants.RESULT_USER_LOGGED_IN, true)
+            .putExtra(Constants.Args.RESULT_USER_LOGGED_IN, true)
+            .putExtra(Constants.Args.PROFILE, profile)
         activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
     }

@@ -7,9 +7,9 @@ import com.core.data.remote.ApiIdentifier
 import com.core.data.remote.RetrofitPool
 import com.ev.greenh.firebase.FirestoreSource
 import com.ev.greenh.models.Order
-import com.ev.greenh.models.Profile
 import com.ev.greenh.pagging.PlantsPagingSource
 import com.ev.greenh.util.Constants.QUERY_PAGE_SIZE
+import com.example.auth.data.model.UserProfile
 import javax.inject.Inject
 
 class PlantRepository @Inject constructor (
@@ -81,7 +81,7 @@ class PlantRepository @Inject constructor (
         source.getBagItemIds(email, collection)
     }
 
-    suspend fun updateUserDetails(collection: String,profile:Profile) = safeApiCall {
+    suspend fun updateUserDetails(collection: String,profile:UserProfile) = safeApiCall {
         source.updateUserDetails(collection, profile)
     }
 

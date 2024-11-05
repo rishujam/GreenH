@@ -19,10 +19,10 @@ import com.core.util.Resource
 import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentBagBuyyBinding
 import com.ev.greenh.models.Order
-import com.ev.greenh.models.Profile
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.ui.profile.EditProfileFragment
+import com.ev.greenh.profile.EditProfileFragment
 import com.ev.greenh.viewmodels.PlantViewModel
+import com.example.auth.data.model.UserProfile
 import com.google.android.material.snackbar.Snackbar
 import com.razorpay.Checkout
 import org.json.JSONObject
@@ -38,7 +38,7 @@ class BagBuyFragment:Fragment() {
     private lateinit var subTotalGlobal: String
     private lateinit var total:String
     private val plantIds = mutableListOf<String>()
-    private lateinit var profile:Profile
+    private lateinit var profile: UserProfile
     private lateinit var user:String
     private lateinit var apiKey:String
 

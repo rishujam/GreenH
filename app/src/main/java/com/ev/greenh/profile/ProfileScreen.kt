@@ -31,6 +31,7 @@ import com.core.ui.Mat3OnPrimary
 import com.core.ui.Mat3Primary
 import com.core.ui.NunitoFontFamily
 import com.core.ui.composable.GButton
+import com.core.ui.composable.LoadingAnimation
 import com.core.ui.composable.TextIcon
 import com.core.ui.model.ButtonType
 
@@ -73,7 +74,7 @@ fun ProfileScreen(
                 ) {
                     Text(
                         modifier = Modifier.padding(start = 16.dp, top = 16.dp),
-                        text = "Hi!",
+                        text = "Hi ${state.profile?.name.orEmpty()}!",
                         style = TextStyle(
                             fontSize = 18.sp,
                             color = Mat3OnPrimary,
@@ -83,7 +84,7 @@ fun ProfileScreen(
                     )
                     TextIcon(
                         modifier = Modifier.padding(start = 16.dp, top = 8.dp),
-                        text = "Phone",
+                        text = state.profile?.phone.orEmpty(),
                         textSize = 14.sp,
                         textColor = Mat3OnPrimary,
                         fontWeight = FontWeight.Normal,
@@ -94,7 +95,7 @@ fun ProfileScreen(
                     )
                     TextIcon(
                         modifier = Modifier.padding(start = 16.dp, top = 8.dp),
-                        text = "Email",
+                        text = state.profile?.emailId.orEmpty(),
                         textSize = 14.sp,
                         textColor = Mat3OnPrimary,
                         fontWeight = FontWeight.Normal,
@@ -133,6 +134,9 @@ fun ProfileScreen(
                     onEvent(ProfileEvents.AuthClick)
                 }
             }
+        }
+        if(state.isLoading == true) {
+            LoadingAnimation()
         }
     }
 }

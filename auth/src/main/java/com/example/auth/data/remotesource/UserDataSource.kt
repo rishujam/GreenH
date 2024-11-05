@@ -53,7 +53,7 @@ class UserDataSource @Inject constructor() {
         }
     }
 
-    suspend fun saveNewUser(profile: UserProfile): ResSaveProfile {
+    suspend fun saveUserProfile(profile: UserProfile): ResSaveProfile {
         return try {
             fireRef.collection(Constants.FirebaseColl.COLL_PROFILE)
                 .document(profile.uid).set(profile).await()
@@ -78,7 +78,7 @@ class UserDataSource @Inject constructor() {
         }
     }
 
-    suspend fun getRecentlyGeneratedUid(): ResUidGen {
+    suspend fun getLastGeneratedUid(): ResUidGen {
         return try {
             val doc = fireRef.collection(Constants.FirebaseColl.UTIL)
                 .document(Constants.FirebaseDoc.UID_GEN).get().await()
@@ -91,6 +91,13 @@ class UserDataSource @Inject constructor() {
         } catch (e: Exception) {
             ResUidGen(false, e.message)
         }
+    }
+
+    suspend fun updateLastGeneratedUid(newUid: String) {
+        fireRef.collection(Constants.FirebaseColl.UTIL)
+            .document(Constants.FirebaseDoc.UID_GEN)
+            .update(Constants.FirebaseField.UID, newUid)
+            .await()
     }
 
     suspend fun getFirebaseMsgToken(): String? {
