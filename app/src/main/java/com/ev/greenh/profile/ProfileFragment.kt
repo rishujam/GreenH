@@ -12,6 +12,8 @@ import com.core.data.Constants
 import com.core.ui.nav.Navigation
 import com.ev.greenh.BuildConfig
 import com.ev.greenh.databinding.FragmentProfileBinding
+import com.ev.greenh.profile.composable.ProfileScreen
+import com.ev.greenh.profile.edit.EditProfileFragment
 import com.ev.greenh.ui.MainActivity
 import com.example.auth.data.model.UserProfile
 import dagger.hilt.android.AndroidEntryPoint
@@ -71,7 +73,7 @@ class ProfileFragment : Fragment() {
                         val bundle = Bundle()
                         bundle.putSerializable(Constants.Args.PROFILE, viewModel.state.profile)
                         editFragment.arguments = bundle
-                        (activity as? MainActivity)?.setCurrentFragment(editFragment)
+                        (activity as? MainActivity)?.setCurrentFragmentBack(editFragment)
                     }
 
                     is ProfileEvents.AuthClick -> {
@@ -81,6 +83,8 @@ class ProfileFragment : Fragment() {
                             activityLauncher = resultLauncher
                         )
                     }
+
+                    else -> viewModel.onEvent(it)
                 }
             }
         }

@@ -29,6 +29,17 @@ class ProfileViewModel @Inject constructor(
         getProfileDetail()
     }
 
+    fun onEvent(event: ProfileEvents) {
+        when(event) {
+            is ProfileEvents.ContactClick -> {
+                state = state.copy(
+                    contactExpanded = !state.contactExpanded
+                )
+            }
+            else -> {}
+        }
+    }
+
     private fun getProfileDetail() = viewModelScope.launch(Dispatchers.IO) {
         val isLoggedIn = userDataRepo.isLoggedIn() ?: false
         withContext(Dispatchers.Main) {
@@ -62,6 +73,14 @@ class ProfileViewModel @Inject constructor(
                 isLoading = false
             )
         }
+    }
+
+    private fun logout() {
+
+    }
+
+    private fun deleteAccount() {
+
     }
 
 }

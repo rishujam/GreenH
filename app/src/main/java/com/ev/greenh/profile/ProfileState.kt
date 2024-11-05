@@ -9,5 +9,6 @@ data class ProfileState(
     val isLoggedIn: Boolean? = null,
     val isLoading: Boolean? = null,
     val profile: UserProfile? = null,
-    val errorMsg: String? = null
+    val errorMsg: String? = null,
+    val contactExpanded: Boolean = false
 )

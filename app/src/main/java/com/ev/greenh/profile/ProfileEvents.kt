@@ -7,4 +7,5 @@ package com.ev.greenh.profile
 sealed class ProfileEvents {
     object EditClick : ProfileEvents()
     object AuthClick : ProfileEvents()
+    object ContactClick : ProfileEvents()
 }

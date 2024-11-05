@@ -82,16 +82,20 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.imHome -> {
+                    if(binding.bottomNavigationView.selectedItemId == R.id.imHome)
+                        return@setOnItemSelectedListener true
                     val homeFragment = HomeFragment()
                     setCurrentFragment(homeFragment)
                 }
 
                 R.id.imShop -> {
+                    if(binding.bottomNavigationView.selectedItemId == R.id.imShop)
+                        return@setOnItemSelectedListener true
                     val shopFeature = activityViewModel.config.replayCache[0]
                         .data?.featureConfig?.get(Constants.Feature.SHOP)?.is_enabled ?: true
                     if (shopFeature) {
                         val fragment = PlantFragment()
-                        setCurrentFragmentBack(fragment)
+                        setCurrentFragment(fragment)
                     } else {
                         buildAlert(
                             { },
@@ -104,8 +108,10 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
                 }
 
                 R.id.imSetting -> {
+                    if(binding.bottomNavigationView.selectedItemId == R.id.imSetting)
+                        return@setOnItemSelectedListener true
                     val profileFragment = ProfileFragment()
-                    setCurrentFragmentBack(profileFragment)
+                    setCurrentFragment(profileFragment)
                 }
             }
             true
