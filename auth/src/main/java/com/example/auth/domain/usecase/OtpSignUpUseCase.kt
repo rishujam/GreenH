@@ -33,7 +33,7 @@ class OtpSignUpUseCase @Inject constructor(
                         val userRes = userDataRepository.checkUserExist(phone)
                         val userExist = userRes.exist
                         if(userExist == true) {
-                            val uid = userRes.userProfile?.uid!!
+                            val uid = userRes.userProfile?.uid
                             handleMsgTokenAndUid(uid)
                             userDataRepository.setLoggedIn(true)
                             emit(
@@ -44,16 +44,17 @@ class OtpSignUpUseCase @Inject constructor(
                                 )
                             )
                         } else {
-                            val recentlyGenUid = userDataRepository.getRecentlyGeneratedUid()
-                            val newUid = recentlyGenUid.uid.toString().toInt() + 1
+                            val lastUid = userDataRepository.getLastGeneratedUid()
+                            val generatedUid = lastUid.uid.toString().toInt() + 1
                             val profile = UserProfile(
                                 phone = phone,
-                                uid = newUid.toString(),
+                                uid = generatedUid.toString(),
                                 profileComplete = false,
                                 version = version
                             )
+                            userDataRepository.updateLastUid(generatedUid.toString())
                             val userDataRes = userDataRepository.saveUserData(profile)
-                            handleMsgTokenAndUid(newUid.toString())
+                            handleMsgTokenAndUid(generatedUid.toString())
                             userDataRepository.setLoggedIn(true)
                             emit(
                                 Resource.Success(
@@ -74,10 +75,10 @@ class OtpSignUpUseCase @Inject constructor(
         }
     }
 
-    private suspend fun handleMsgTokenAndUid(uid: String) {
+    private suspend fun handleMsgTokenAndUid(uid: String?) {
         userDataRepository.saveUidLocally(uid)
         val token = userDataRepository.generateFirebaseMsgToken(uid)
-        if(token.success) {
+        if(token?.success == true) {
             userDataRepository.saveFirebaseMsgTokenLocally(token.token.toString())
         }
     }

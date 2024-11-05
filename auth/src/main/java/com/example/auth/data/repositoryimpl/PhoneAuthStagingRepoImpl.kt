@@ -16,7 +16,7 @@ class PhoneAuthStagingRepoImpl @Inject constructor() : PhoneAuthRepository {
 
     override suspend fun sendCredentials(phone: String): Flow<ResOtp?> = flow {
         delay(1000L)
-        if(phone == Constants.SUCCESS_PHONE_NO) {
+        if(phone == Constants.SUCCESS_PHONE_NO || phone == Constants.SUCCESS_PHONE_NO_2) {
             emit(
                 ResOtp(
                     Constants.RANDOM_STRING,
@@ -50,7 +50,6 @@ class PhoneAuthStagingRepoImpl @Inject constructor() : PhoneAuthRepository {
                 )
             )
         }
-
     }
 
 }

@@ -61,7 +61,7 @@ class UserDataRepoFakeImpl : UserDataRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun saveUidLocally(uid: String) {
+    override suspend fun saveUidLocally(uid: String?) {
         //TODO Test preferences
     }
 
@@ -69,14 +69,18 @@ class UserDataRepoFakeImpl : UserDataRepository {
         return Constants.MOST_RECENT_USER_UID.toString()
     }
 
-    override suspend fun getRecentlyGeneratedUid(): ResUidGen {
+    override suspend fun updateLastUid(newUid: String) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getLastGeneratedUid(): ResUidGen {
         return ResUidGen(
             success = true,
             uid = Constants.MOST_RECENT_USER_UID.toString()
         )
     }
 
-    override suspend fun generateFirebaseMsgToken(uid: String): ResFirebaseMsgToken {
+    override suspend fun generateFirebaseMsgToken(uid: String?): ResFirebaseMsgToken? {
         return ResFirebaseMsgToken(success = true, token = Constants.FIREBASE_MSG_TOKEN)
     }
 
@@ -86,5 +90,9 @@ class UserDataRepoFakeImpl : UserDataRepository {
 
     override suspend fun setLoggedIn(loggedIn: Boolean) {
         // TODO Test preferences
+    }
+
+    override suspend fun isLoggedIn(): Boolean? {
+        TODO("Not yet implemented")
     }
 }

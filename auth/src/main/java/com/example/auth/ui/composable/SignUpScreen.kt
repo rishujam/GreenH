@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.core.ui.LightBgGreen
 import com.core.ui.MediumGreen
 import com.core.ui.findActivity
+import com.example.auth.data.model.UserProfile
 import com.example.auth.ui.SignUpViewModel
 import com.example.auth.ui.events.SignUpEvents
 import com.example.auth.ui.states.SignUpProgress
@@ -48,7 +49,7 @@ fun SignUpScreen(
     state: SignUpState,
     onEvent: (SignUpEvents) -> Unit,
     buildVersion: Int?,
-    onSignUpSuccess: (() -> Unit)
+    onSignUpSuccess: ((profile: UserProfile) -> Unit)
 ) {
     val scaffoldState = rememberScaffoldState()
     var isVisibleBranding by remember {
@@ -66,7 +67,9 @@ fun SignUpScreen(
             state.error = null
         }
         if(state.screen is SignUpProgress.VerifiedPhoneStage) {
-            onSignUpSuccess()
+            (state.screen as? SignUpProgress.VerifiedPhoneStage)?.profile?.let { profile ->
+                onSignUpSuccess(profile)
+            }
         }
     }
 

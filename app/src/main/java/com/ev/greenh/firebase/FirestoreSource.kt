@@ -6,6 +6,7 @@ import com.ev.greenh.models.uimodels.MyOrderDetail
 import com.ev.greenh.models.uimodels.PlantMyOrder
 import com.ev.greenh.util.Constants
 import com.ev.greenh.util.Constants.QUERY_PAGE_SIZE
+import com.example.auth.data.model.UserProfile
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -156,9 +157,9 @@ class FirestoreSource @Inject constructor() {
         return res
     }
 
-    suspend fun getUserDetails(collection: String, email: String): Profile {
+    suspend fun getUserDetails(collection: String, email: String): UserProfile {
         val snap = fireRef.collection(collection).document(email).get().await()
-        return snap.toObject<Profile>()!!
+        return snap.toObject<UserProfile>()!!
     }
 
     suspend fun placeOrder(order: Order, collection: String): Response {
@@ -256,7 +257,7 @@ class FirestoreSource @Inject constructor() {
         return list
     }
 
-    suspend fun updateUserDetails(collection: String, profile: Profile): Response {
+    suspend fun updateUserDetails(collection: String, profile: UserProfile): Response {
         val response = Response()
         return try {
             fireRef.collection(collection).document(profile.uid).set(profile).await()

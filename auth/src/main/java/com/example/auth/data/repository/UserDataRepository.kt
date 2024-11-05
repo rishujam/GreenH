@@ -21,16 +21,20 @@ interface UserDataRepository {
 
     suspend fun getUserData(uid: String): ResGetProfile
 
-    suspend fun saveUidLocally(uid: String)
+    suspend fun saveUidLocally(uid: String?)
 
     suspend fun getUid(): String?
 
-    suspend fun getRecentlyGeneratedUid(): ResUidGen
+    suspend fun getLastGeneratedUid(): ResUidGen
 
-    suspend fun generateFirebaseMsgToken(uid: String): ResFirebaseMsgToken
+    suspend fun updateLastUid(newUid: String)
+
+    suspend fun generateFirebaseMsgToken(uid: String?): ResFirebaseMsgToken?
 
     suspend fun saveFirebaseMsgTokenLocally(token: String)
 
     suspend fun setLoggedIn(loggedIn: Boolean)
+
+    suspend fun isLoggedIn(): Boolean?
 
 }

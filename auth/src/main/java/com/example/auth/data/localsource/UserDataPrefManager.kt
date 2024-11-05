@@ -24,9 +24,11 @@ class UserDataPrefManager @Inject constructor(
         return preferences[KEY_UID]
     }
 
-    suspend fun setUid(value:String) {
-        dataStore.edit { authdata ->
-            authdata[KEY_UID] = value
+    suspend fun setUid(value:String?) {
+        value?.let {
+            dataStore.edit { authdata ->
+                authdata[KEY_UID] = value
+            }
         }
     }
 

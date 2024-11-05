@@ -7,11 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.core.util.Resource
 import com.ev.greenh.models.Order
 import com.ev.greenh.models.Plant
-import com.ev.greenh.models.Profile
 import com.ev.greenh.models.RazorpayOrderId
 import com.ev.greenh.models.Response
 import com.ev.greenh.repository.PlantRepository
 import com.ev.greenh.util.ViewModelEventWrapper
+import com.example.auth.data.model.UserProfile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -31,9 +31,9 @@ class OrderViewModel(
     val placeOrder: LiveData<ViewModelEventWrapper<Resource<Response>>>
         get() = _placeOrder
 
-    private val _singleTimeProfile: MutableLiveData<ViewModelEventWrapper<Resource<Profile>>> =
+    private val _singleTimeProfile: MutableLiveData<ViewModelEventWrapper<Resource<UserProfile>>> =
         MutableLiveData()
-    val singleTimeProfile: LiveData<ViewModelEventWrapper<Resource<Profile>>>
+    val singleTimeProfile: LiveData<ViewModelEventWrapper<Resource<UserProfile>>>
         get() = _singleTimeProfile
 
     private val _bagItems: MutableLiveData<ViewModelEventWrapper<Resource<Map<Plant, String>>>> =

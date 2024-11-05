@@ -1,7 +1,5 @@
 package com.ev.greenh
 
-import android.app.Activity
-import android.app.AlertDialog
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -22,14 +20,13 @@ import com.core.util.Resource
 import com.ev.greenh.databinding.FragmentBuyDirectBinding
 import com.ev.greenh.models.Order
 import com.ev.greenh.models.Plant
-import com.ev.greenh.models.Profile
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.ui.order.MyOrdersFragment
-import com.ev.greenh.ui.profile.EditProfileFragment
+import com.ev.greenh.profile.EditProfileFragment
 import com.ev.greenh.viewmodels.PlantViewModel
+import com.example.auth.data.model.UserProfile
 import com.google.android.material.snackbar.Snackbar
 import com.razorpay.Checkout
-import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,7 +36,7 @@ class DirectBuyFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: PlantViewModel
     private lateinit var plantInfo:Plant
-    private lateinit var profile:Profile
+    private lateinit var profile:UserProfile
     private lateinit var totalAmount:String
 
     override fun onCreateView(

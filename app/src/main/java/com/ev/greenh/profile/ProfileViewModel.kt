@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.auth.data.localsource.UserDataPrefManager
+import com.example.auth.data.repository.UserDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,21 +19,46 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val userDataPref: UserDataPrefManager
+    private val userDataRepo: UserDataRepository
 ) : ViewModel() {
 
     var state by mutableStateOf(ProfileState())
 
     init {
         state = state.copy(isLoading = true)
-        getLoggedInStatus()
+        getProfileDetail()
     }
 
-    private fun getLoggedInStatus() = viewModelScope.launch(Dispatchers.IO) {
-        val isLoggedIn = userDataPref.isLoggedIn()
+    private fun getProfileDetail() = viewModelScope.launch(Dispatchers.IO) {
+        val isLoggedIn = userDataRepo.isLoggedIn() ?: false
         withContext(Dispatchers.Main) {
             state = state.copy(
-                isLoggedIn = isLoggedIn,
+                isLoggedIn = isLoggedIn
+            )
+        }
+        if(isLoggedIn) {
+            val uid = userDataRepo.getUid()
+            uid?.let {
+                val result = userDataRepo.getUserData(uid)
+                result.profile?.let {
+                    state = state.copy(
+                        profile = result.profile,
+                        isLoading = false
+                    )
+                } ?: run {
+                    state = state.copy(
+                        errorMsg = "Unable to fetch profile",
+                        isLoading = false
+                    )
+                }
+            } ?: run {
+                state = state.copy(
+                    errorMsg = "Unable to fetch UID",
+                    isLoading = false
+                )
+            }
+        } else {
+            state = state.copy(
                 isLoading = false
             )
         }

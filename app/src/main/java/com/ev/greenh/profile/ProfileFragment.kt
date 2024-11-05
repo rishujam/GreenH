@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.core.ui.nav.NavConstants
+import com.core.data.Constants
 import com.core.ui.nav.Navigation
 import com.ev.greenh.BuildConfig
 import com.ev.greenh.databinding.FragmentProfileBinding
+import com.ev.greenh.ui.MainActivity
+import com.example.auth.data.model.UserProfile
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -49,9 +51,14 @@ class ProfileFragment : Fragment() {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.apply {
-                    val userLoggedIn = getBooleanExtra(NavConstants.RESULT_USER_LOGGED_IN, false)
+                    val userLoggedIn = getBooleanExtra(
+                        Constants.Args.RESULT_USER_LOGGED_IN,
+                        false
+                    )
+                    val profile = getSerializableExtra(Constants.Args.PROFILE) as? UserProfile
                     viewModel.state = viewModel.state.copy(
-                        isLoggedIn = userLoggedIn
+                        isLoggedIn = userLoggedIn,
+                        profile = profile
                     )
                 }
             }
@@ -60,7 +67,11 @@ class ProfileFragment : Fragment() {
             ProfileScreen(viewModel.state) {
                 when(it) {
                     is ProfileEvents.EditClick -> {
-
+                        val editFragment = EditProfileFragment()
+                        val bundle = Bundle()
+                        bundle.putSerializable(Constants.Args.PROFILE, viewModel.state.profile)
+                        editFragment.arguments = bundle
+                        (activity as? MainActivity)?.setCurrentFragment(editFragment)
                     }
 
                     is ProfileEvents.AuthClick -> {

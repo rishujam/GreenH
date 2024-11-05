@@ -25,7 +25,10 @@ class UserDataRepoImpl @Inject constructor(
     }
 
     override suspend fun saveUserData(profile: UserProfile): ResSaveProfile {
-        return userDataSource.saveNewUser(profile)
+        if(profile.uid.isEmpty()) {
+            return ResSaveProfile(success = false, msg = "Empty uid passed")
+        }
+        return userDataSource.saveUserProfile(profile)
     }
     override suspend fun deleteUserData(uid: String) {
         TODO("Not yet implemented")
@@ -35,7 +38,7 @@ class UserDataRepoImpl @Inject constructor(
         return userDataSource.getProfile(uid)
     }
 
-    override suspend fun saveUidLocally(uid: String) {
+    override suspend fun saveUidLocally(uid: String?) {
         userDataPrefManager.setUid(uid)
     }
 
@@ -43,17 +46,25 @@ class UserDataRepoImpl @Inject constructor(
         return userDataPrefManager.readUid()
     }
 
-    override suspend fun getRecentlyGeneratedUid(): ResUidGen {
-        return userDataSource.getRecentlyGeneratedUid()
+    override suspend fun getLastGeneratedUid(): ResUidGen {
+        return userDataSource.getLastGeneratedUid()
     }
 
-    override suspend fun generateFirebaseMsgToken(uid: String): ResFirebaseMsgToken {
-        val token = userDataSource.getFirebaseMsgToken()
-        token?.let {
-            userDataSource.saveFirebaseMsgToken(uid = uid, token = token)
-            return ResFirebaseMsgToken(true, token = it)
+    override suspend fun updateLastUid(newUid: String) {
+        userDataSource.updateLastGeneratedUid(newUid)
+    }
+
+    override suspend fun generateFirebaseMsgToken(uid: String?): ResFirebaseMsgToken? {
+        uid?.let {
+            val token = userDataSource.getFirebaseMsgToken()
+            token?.let {
+                userDataSource.saveFirebaseMsgToken(uid = uid, token = token)
+                return ResFirebaseMsgToken(true, token = it)
+            } ?: run {
+                return ResFirebaseMsgToken(false,  "null")
+            }
         } ?: run {
-            return ResFirebaseMsgToken(false,  "null")
+            return null
         }
     }
 
@@ -63,5 +74,9 @@ class UserDataRepoImpl @Inject constructor(
 
     override suspend fun setLoggedIn(loggedIn: Boolean) {
         userDataPrefManager.setIsLoggedIn(loggedIn)
+    }
+
+    override suspend fun isLoggedIn(): Boolean? {
+        return userDataPrefManager.isLoggedIn()
     }
 }
