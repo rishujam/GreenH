@@ -1,4 +1,4 @@
-package com.ev.greenh.profile
+package com.ev.greenh.profile.edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

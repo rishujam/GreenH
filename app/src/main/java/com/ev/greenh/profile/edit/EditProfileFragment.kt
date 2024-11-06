@@ -1,14 +1,12 @@
-package com.ev.greenh.profile
+package com.ev.greenh.profile.edit
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.core.data.Constants
 import com.core.ui.hide
@@ -19,7 +17,6 @@ import com.ev.greenh.databinding.FragmentEditProfileBinding
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.util.Constants.VERSION
 import com.example.auth.data.model.UserProfile
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -69,7 +66,7 @@ class EditProfileFragment : Fragment() {
                     is Resource.Success -> {
                         Toast.makeText(context, "Profile updated", Toast.LENGTH_SHORT).show()
                         binding.pbEditProfile.hide()
-                        (activity as? MainActivity)?.supportFragmentManager?.popBackStack()
+                        (activity as? MainActivity)?.onBackPressedDispatcher?.onBackPressed()
                     }
                     is Resource.Error -> {
                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
@@ -130,7 +127,7 @@ class EditProfileFragment : Fragment() {
         }
 
         binding.backBtn.setOnClickListener {
-            (activity as? MainActivity)?.supportFragmentManager?.popBackStack()
+            (activity as? MainActivity)?.onBackPressedDispatcher?.onBackPressed()
         }
 
     }

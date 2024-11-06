@@ -20,7 +20,7 @@ import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentBagBuyyBinding
 import com.ev.greenh.models.Order
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.profile.EditProfileFragment
+import com.ev.greenh.profile.edit.EditProfileFragment
 import com.ev.greenh.viewmodels.PlantViewModel
 import com.example.auth.data.model.UserProfile
 import com.google.android.material.snackbar.Snackbar

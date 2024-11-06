@@ -1,5 +1,7 @@
 package com.core.ui.composable
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
@@ -7,6 +9,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -16,34 +19,42 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.core.ui.Mat3OnPrimary
-import com.core.ui.NunitoFontFamily
 
 /*
  * Created by Sudhanshu Kumar on 27/10/24.
  */
 
 @Composable
-fun TextIcon(
+fun TextG(
     modifier: Modifier,
-    icon: ImageVector,
+    icon: ImageVector? = null,
     text: String,
-    iconTint: Color,
-    iconSize: Dp,
+    iconTint: Color? = null,
+    iconSize: Dp? = null,
     textSize: TextUnit,
     textColor: Color,
     fontFamily: FontFamily,
-    fontWeight: FontWeight
+    fontWeight: FontWeight = FontWeight.Normal,
+    onClick: (() -> Unit)? = null
 ) {
-    Row(modifier = modifier) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            modifier = Modifier.size(iconSize),
-            tint = iconTint
-        )
-        Spacer(modifier = Modifier.width(8.dp))
+    val interactionSource = remember { MutableInteractionSource() }
+    Row(
+        modifier = modifier.clickable(
+            interactionSource = interactionSource,
+            indication = null
+        ) {
+            onClick?.let { onClick() }
+        }
+    ) {
+        icon?.let {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier.size(iconSize ?: 16.dp),
+                tint = iconTint ?: Color.Black
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+        }
         Text(
             text = text,
             style = TextStyle(

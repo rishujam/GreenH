@@ -26,7 +26,7 @@ import com.core.ui.Mat3Bg
 import com.core.ui.Mat3OnBg
 import com.core.ui.Mat3OnSurfaceVariant
 import com.core.ui.NunitoFontFamily
-import com.core.ui.composable.GButton
+import com.core.ui.composable.ButtonG
 import com.core.ui.composable.Toolbar
 import com.core.ui.findActivity
 import com.ev.greenh.R
@@ -108,7 +108,7 @@ fun GrowDetailScreen(data: GrowDetailData?) {
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                 ) {
-                    GButton(modifier = Modifier, text = "Buy Plant") {
+                    ButtonG(modifier = Modifier, text = "Buy Plant") {
                         val activity = content.findActivity()
                         val fragment = PlantFragment()
                         (activity as? MainActivity)?.setCurrentFragmentBack(fragment)
