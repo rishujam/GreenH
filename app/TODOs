@@ -1,8 +1,3 @@
-Profile Section:
-- Contact email from backend
-- After editing and coming back to profile screen call detail api
-  again to show updated data
-
 Auth:
 - Separate opt and phone entry screen
 - In Launcher activity create a fragment to signup and skip signup
@@ -13,12 +8,11 @@ Test:
 - Write unit test for auth
 - Write UI test for auth
 
-Shop feature:
-- Refactor the listing screen
-
-Navigation:
+Refactor:
 - apply nav component in whole app
 - Fix bottom navigation issue (replace method creates a white screen on back press)
+- Refactor the shop listing screen
+- Write all constants in one file
 
 Learn to grow feature:
 - Complete the dev

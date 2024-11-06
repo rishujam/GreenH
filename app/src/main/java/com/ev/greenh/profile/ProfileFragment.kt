@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import com.core.data.Constants
 import com.core.ui.nav.Navigation
@@ -62,6 +63,16 @@ class ProfileFragment : Fragment() {
                         isLoggedIn = userLoggedIn,
                         profile = profile
                     )
+                }
+            }
+        }
+        setFragmentResultListener(
+            requestKey = Constants.Args.RESULT_PROFILE_UPDATE
+        ) { requestKey, bundle ->
+            if(requestKey == Constants.Args.RESULT_PROFILE_UPDATE) {
+                val profileUpdated = bundle.getBoolean(Constants.Args.RESULT_PROFILE_UPDATE)
+                if(profileUpdated) {
+                    viewModel.getProfileDetail()
                 }
             }
         }

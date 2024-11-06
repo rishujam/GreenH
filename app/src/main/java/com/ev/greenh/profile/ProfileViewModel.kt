@@ -26,7 +26,6 @@ class ProfileViewModel @Inject constructor(
     var state by mutableStateOf(ProfileState())
 
     init {
-        state = state.copy(isLoading = true)
         getProfileDetail()
     }
 
@@ -81,11 +80,12 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun getProfileDetail() = viewModelScope.launch(Dispatchers.IO) {
+    fun getProfileDetail() = viewModelScope.launch(Dispatchers.IO) {
         val isLoggedIn = userDataRepo.isLoggedIn() ?: false
         withContext(Dispatchers.Main) {
             state = state.copy(
-                isLoggedIn = isLoggedIn
+                isLoggedIn = isLoggedIn,
+                isLoading = true
             )
         }
         if(isLoggedIn) {
