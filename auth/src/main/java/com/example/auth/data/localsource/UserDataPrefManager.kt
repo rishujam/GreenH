@@ -52,6 +52,12 @@ class UserDataPrefManager @Inject constructor(
         return dataStore.data.first()[KEY_MSG_TOKEN]
     }
 
+    suspend fun clearData() {
+        dataStore.edit {
+            it.clear()
+        }
+    }
+
     companion object{
         private val KEY_UID = stringPreferencesKey("key_uid")
         private val KEY_LOGGED_IN = booleanPreferencesKey("key_logged_in")

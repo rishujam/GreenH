@@ -53,7 +53,7 @@ class UserDataRepoFakeImpl : UserDataRepository {
         return ResSaveProfile(success = true)
     }
 
-    override suspend fun deleteUserData(uid: String) {
+    override suspend fun deleteUserData(uid: String?): ResSaveProfile {
         TODO("Not yet implemented")
     }
 
@@ -93,6 +93,11 @@ class UserDataRepoFakeImpl : UserDataRepository {
     }
 
     override suspend fun isLoggedIn(): Boolean? {
+        TODO("Not yet implemented")
+    }
+
+
+    override suspend fun clearUserPref() {
         TODO("Not yet implemented")
     }
 }

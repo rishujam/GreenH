@@ -63,6 +63,16 @@ class UserDataSource @Inject constructor() {
         }
     }
 
+    suspend fun deleteUserProfile(uid: String): ResSaveProfile {
+        return try {
+            fireRef.collection(Constants.FirebaseColl.COLL_PROFILE)
+                .document(uid).delete().await()
+            ResSaveProfile(true)
+        } catch (e: Exception) {
+            ResSaveProfile(false, e.message)
+        }
+    }
+
     suspend fun getProfile(uid: String): ResGetProfile {
         return try {
             val doc = fireRef.collection(Constants.FirebaseColl.COLL_PROFILE)

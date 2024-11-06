@@ -1,11 +1,7 @@
 Profile Section:
-- Add logout functionality
-    - Clear pref
-    - Clear local db
-    - finish()
-    - start launcher activity
-- Add delete profile functionality
 - Contact email from backend
+- After editing and coming back to profile screen call detail api
+  again to show updated data
 
 Auth:
 - Separate opt and phone entry screen
@@ -22,7 +18,7 @@ Shop feature:
 
 Navigation:
 - apply nav component in whole app
-- Fix bottom navigation issue
+- Fix bottom navigation issue (replace method creates a white screen on back press)
 
 Learn to grow feature:
 - Complete the dev

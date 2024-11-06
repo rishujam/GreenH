@@ -17,7 +17,7 @@ interface UserDataRepository {
 
     suspend fun saveUserData(profile: UserProfile): ResSaveProfile
 
-    suspend fun deleteUserData(uid: String)
+    suspend fun deleteUserData(uid: String?): ResSaveProfile
 
     suspend fun getUserData(uid: String): ResGetProfile
 
@@ -36,5 +36,7 @@ interface UserDataRepository {
     suspend fun setLoggedIn(loggedIn: Boolean)
 
     suspend fun isLoggedIn(): Boolean?
+
+    suspend fun clearUserPref()
 
 }

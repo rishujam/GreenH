@@ -26,12 +26,15 @@ class UserDataRepoImpl @Inject constructor(
 
     override suspend fun saveUserData(profile: UserProfile): ResSaveProfile {
         if(profile.uid.isEmpty()) {
-            return ResSaveProfile(success = false, msg = "Empty uid passed")
+            return ResSaveProfile(success = false, msg = "Empty uid")
         }
         return userDataSource.saveUserProfile(profile)
     }
-    override suspend fun deleteUserData(uid: String) {
-        TODO("Not yet implemented")
+    override suspend fun deleteUserData(uid: String?): ResSaveProfile {
+        if(uid.isNullOrEmpty()) {
+            return ResSaveProfile(success = false, msg = "Empty uid")
+        }
+        return userDataSource.deleteUserProfile(uid)
     }
 
     override suspend fun getUserData(uid: String): ResGetProfile {
@@ -78,5 +81,9 @@ class UserDataRepoImpl @Inject constructor(
 
     override suspend fun isLoggedIn(): Boolean? {
         return userDataPrefManager.isLoggedIn()
+    }
+
+    override suspend fun clearUserPref() {
+        userDataPrefManager.clearData()
     }
 }
