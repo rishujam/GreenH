@@ -5,7 +5,12 @@ package com.ev.greenh.profile
  */
 
 sealed class ProfileEvents {
-    object EditClick : ProfileEvents()
-    object AuthClick : ProfileEvents()
-    object ContactClick : ProfileEvents()
+    object Edit : ProfileEvents()
+    object Auth : ProfileEvents()
+    object Contact : ProfileEvents()
+    object Logout : ProfileEvents()
+    object LogoutConfirm : ProfileEvents()
+    object AlertCancel : ProfileEvents()
+    object DeleteAccount : ProfileEvents()
+    object DeleteAccountConfirm : ProfileEvents()
 }

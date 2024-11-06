@@ -3,7 +3,6 @@ package com.core.ui.composable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,11 +17,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.core.ui.Mat3OnPrimary
-import com.core.ui.Mat3OnSecondary
 import com.core.ui.Mat3OnSurfaceVariant
 import com.core.ui.Mat3Outline
 import com.core.ui.Mat3Primary
-import com.core.ui.Mat3Secondary
 import com.core.ui.Mat3Surface
 import com.core.ui.Mat3SurfaceVariant
 import com.core.ui.NunitoFontFamily
@@ -33,7 +30,7 @@ import com.core.ui.model.ButtonType
  */
 
 @Composable
-fun GButton(
+fun ButtonG(
     modifier: Modifier,
     text: String,
     buttonType: ButtonType = ButtonType.PrimaryEnabled,

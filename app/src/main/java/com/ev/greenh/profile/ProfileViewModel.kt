@@ -1,10 +1,13 @@
 package com.ev.greenh.profile
 
+import android.provider.ContactsContract.Profile
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.core.ui.model.AlertModel
+import com.core.ui.model.AlertType
 import com.example.auth.data.localsource.UserDataPrefManager
 import com.example.auth.data.repository.UserDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,9 +34,53 @@ class ProfileViewModel @Inject constructor(
 
     fun onEvent(event: ProfileEvents) {
         when(event) {
-            is ProfileEvents.ContactClick -> {
+            is ProfileEvents.Contact -> {
                 state = state.copy(
                     contactExpanded = !state.contactExpanded
+                )
+            }
+
+            is ProfileEvents.DeleteAccount -> {
+                state = state.copy(
+                    alert = AlertModel(
+                        isShowing = true,
+                        title = "Delete Profile",
+                        message = "Are you sure you want to delete your profile",
+                        cancelText = "Cancel",
+                        confirmText = "Confirm",
+                        type = AlertType.DeleteConfirmation
+                    )
+                )
+            }
+
+            is ProfileEvents.Logout -> {
+                state = state.copy(
+                    alert = AlertModel(
+                        isShowing = true,
+                        title = "Logout",
+                        message = "Are you sure you want to logout.",
+                        cancelText = "Cancel",
+                        confirmText = "Confirm",
+                        type = AlertType.LogoutConfirmation
+                    )
+                )
+            }
+
+            is ProfileEvents.AlertCancel -> {
+                state = state.copy(
+                    alert = null
+                )
+            }
+
+            is ProfileEvents.DeleteAccountConfirm -> {
+                state = state.copy(
+                    isLoading = true
+                )
+            }
+
+            is ProfileEvents.LogoutConfirm -> {
+                state = state.copy(
+                    isLoading = true
                 )
             }
             else -> {}

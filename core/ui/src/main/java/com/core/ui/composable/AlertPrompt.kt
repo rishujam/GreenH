@@ -1,11 +1,14 @@
 package com.core.ui.composable
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -19,7 +22,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.core.ui.Mat3Outline
 import com.core.ui.NunitoFontFamily
-import com.core.ui.model.DialogModel
+import com.core.ui.model.AlertModel
+import com.core.ui.model.ButtonType
 
 /*
  * Created by Sudhanshu Kumar on 14/11/23.
@@ -27,56 +31,64 @@ import com.core.ui.model.DialogModel
 
 @Composable
 fun AlertPrompt(
-    model: DialogModel,
-    cancelText: String? = null,
-    confirmText: String? = null,
+    model: AlertModel,
     onCancel: (() -> Unit)? = null,
     onConfirm: (() -> Unit)? = null
 ) {
-    Dialog(
-        onDismissRequest = {
-            onCancel?.let { onCancel() }
-        },
-        properties = DialogProperties(
-            usePlatformDefaultWidth = false
-        )
+    AnimatedVisibility(
+        visible = model.isShowing
     ) {
-        Card(
-            elevation = 5.dp,
-            shape = RoundedCornerShape(8.dp),
-            modifier = Modifier
-                .fillMaxWidth(0.95f)
-                .border(1.dp, color = Mat3Outline, shape = RoundedCornerShape(8.dp))
+        Dialog(
+            onDismissRequest = {
+                onCancel?.let { onCancel() }
+            },
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false
+            )
         ) {
-            Column(
+            Card(
+                elevation = 5.dp,
+                shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(25.dp)
+                    .fillMaxWidth(0.95f)
+                    .border(1.dp, color = Mat3Outline, shape = RoundedCornerShape(8.dp))
             ) {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = model.message,
-                    fontFamily = NunitoFontFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    textAlign = TextAlign.Center,
-                    fontSize = 16.sp
-                )
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    cancelText?.let {
-                        GButton(
-                            modifier = Modifier,
-                            text = cancelText
-                        ) {
-                            onCancel?.let { onCancel() }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(25.dp)
+                ) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = model.message,
+                        fontFamily = NunitoFontFamily,
+                        fontWeight = FontWeight.SemiBold,
+                        textAlign = TextAlign.Center,
+                        fontSize = 16.sp
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        model.cancelText?.let {
+                            ButtonG(
+                                modifier = Modifier,
+                                text = model.cancelText,
+                                buttonType = ButtonType.SecondaryEnabled
+                            ) {
+                                onCancel?.let { onCancel() }
+                            }
                         }
-                    }
-                    confirmText?.let {
-                        GButton(
-                            modifier = Modifier,
-                            text = confirmText
-                        ) {
-                            onConfirm?.let { onConfirm() }
+                        Spacer(modifier = Modifier.width(8.dp))
+                        model.confirmText?.let {
+                            ButtonG(
+                                modifier = Modifier,
+                                text = model.confirmText
+                            ) {
+                                onCancel?.let { onCancel() }
+                                onConfirm?.let { onConfirm() }
+                            }
                         }
                     }
                 }

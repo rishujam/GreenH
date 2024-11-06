@@ -42,8 +42,8 @@ import coil.compose.AsyncImage
 import com.core.ui.Mat3Bg
 import com.core.ui.Mat3OnBg
 import com.core.ui.NunitoFontFamily
+import com.core.ui.composable.ButtonG
 import com.core.ui.composable.CameraPreview
-import com.core.ui.composable.GButton
 import com.core.ui.composable.LoadingDialog
 import com.core.ui.composable.Toolbar
 import com.core.ui.findActivity
@@ -181,7 +181,7 @@ fun PlantScannerScreen(
                         enter = fadeIn(),
                         exit = fadeOut()
                     ) {
-                        GButton(
+                        ButtonG(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             text = "Identify"

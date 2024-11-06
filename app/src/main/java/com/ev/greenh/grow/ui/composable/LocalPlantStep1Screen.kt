@@ -27,7 +27,7 @@ import com.core.ui.Mat3Bg
 import com.core.ui.Mat3OnBg
 import com.core.ui.Mat3OnSurfaceVariant
 import com.core.ui.Mat3SurfaceVariant
-import com.core.ui.composable.GButton
+import com.core.ui.composable.ButtonG
 import com.core.ui.composable.Toolbar
 import com.core.ui.findActivity
 import com.core.ui.model.ButtonType
@@ -104,7 +104,7 @@ fun LocalPlantStep1Screen() {
             } else {
                 ButtonType.PrimaryDisabled
             }
-            GButton(
+            ButtonG(
                 Modifier, text = "Next", buttonType = buttonType
             ) {
                 val activity = context.findActivity()

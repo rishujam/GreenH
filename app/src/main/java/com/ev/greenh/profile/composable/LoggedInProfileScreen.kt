@@ -35,9 +35,12 @@ import com.core.ui.Mat3OnSurfaceVariant
 import com.core.ui.Mat3Primary
 import com.core.ui.Mat3SurfaceVariant
 import com.core.ui.NunitoFontFamily
-import com.core.ui.composable.GButton
-import com.core.ui.composable.TextIcon
+import com.core.ui.composable.AlertPrompt
+import com.core.ui.composable.ButtonG
+import com.core.ui.composable.TextG
 import com.core.ui.model.ButtonType
+import com.core.ui.model.AlertModel
+import com.core.ui.model.AlertType
 import com.ev.greenh.profile.ProfileEvents
 import com.ev.greenh.profile.ProfileState
 
@@ -54,6 +57,24 @@ fun LoggedInProfileScreen(
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
+        state.alert?.let {
+            AlertPrompt(
+                model = state.alert,
+                onCancel = { onEvent(ProfileEvents.AlertCancel) }
+            ) {
+                when(state.alert.type) {
+                    is AlertType.LogoutConfirmation -> {
+                        onEvent(ProfileEvents.LogoutConfirm)
+                    }
+
+                    is AlertType.DeleteConfirmation -> {
+                        onEvent(ProfileEvents.DeleteAccountConfirm)
+                    }
+
+                    else -> {}
+                }
+            }
+        }
         Text(
             text = "Profile",
             modifier = Modifier.padding(top = 16.dp, start = 16.dp),
@@ -81,23 +102,21 @@ fun LoggedInProfileScreen(
                     fontWeight = FontWeight.Bold,
                 )
             )
-            TextIcon(
+            TextG(
                 modifier = Modifier.padding(start = 16.dp, top = 8.dp),
                 text = state.profile?.phone.orEmpty(),
                 textSize = 14.sp,
                 textColor = Mat3OnPrimary,
-                fontWeight = FontWeight.Normal,
                 fontFamily = NunitoFontFamily,
                 iconTint = Mat3OnPrimary,
                 icon = Icons.Filled.Phone,
                 iconSize = 20.dp
             )
-            TextIcon(
+            TextG(
                 modifier = Modifier.padding(start = 16.dp, top = 8.dp),
                 text = state.profile?.emailId.orEmpty(),
                 textSize = 14.sp,
                 textColor = Mat3OnPrimary,
-                fontWeight = FontWeight.Normal,
                 fontFamily = NunitoFontFamily,
                 iconTint = Mat3OnPrimary,
                 icon = Icons.Filled.Email,
@@ -105,7 +124,7 @@ fun LoggedInProfileScreen(
             )
             Row(modifier = Modifier.fillMaxWidth()) {
                 Spacer(Modifier.weight(1f))
-                GButton(
+                ButtonG(
                     text = if(state.profile?.profileComplete == true) {
                         "Edit"
                     } else {
@@ -117,7 +136,7 @@ fun LoggedInProfileScreen(
                     buttonType = ButtonType.SecondaryEnabled,
                     buttonPadding = 8.dp
                 ) {
-                    onEvent(ProfileEvents.EditClick)
+                    onEvent(ProfileEvents.Edit)
                 }
             }
         }
@@ -130,12 +149,13 @@ fun LoggedInProfileScreen(
         ) {
             Column(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .padding(start = 16.dp, top = 16.dp, end = 16.dp)
                     .clickable(
                         interactionSource = interactionSource,
                         indication = null
                     ) {
-                        onEvent(ProfileEvents.ContactClick)
+                        onEvent(ProfileEvents.Contact)
                     }
             ) {
                 Row {
@@ -145,7 +165,6 @@ fun LoggedInProfileScreen(
                             fontSize = 16.sp,
                             color = Mat3OnSurfaceVariant,
                             fontFamily = NunitoFontFamily,
-                            fontWeight = FontWeight.Normal,
                         )
                     )
                     Spacer(modifier = Modifier.weight(1f))
@@ -166,43 +185,45 @@ fun LoggedInProfileScreen(
                         style = TextStyle(
                             fontSize = 14.sp,
                             color = Mat3OnSurfaceVariant,
-                            fontFamily = NunitoFontFamily,
-                            fontWeight = FontWeight.Normal,
+                            fontFamily = NunitoFontFamily
                         )
                     )
                 }
 
             }
             Divider(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
                 color = Mat3OnSurfaceVariant,
                 thickness = 0.5.dp
             )
-            Text(
-                modifier = Modifier.padding(start = 16.dp),
+            TextG(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp),
                 text = "Delete account",
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    color = Mat3OnSurfaceVariant,
-                    fontFamily = NunitoFontFamily,
-                    fontWeight = FontWeight.Normal,
-                )
-            )
+                textSize = 16.sp,
+                textColor = Mat3OnSurfaceVariant,
+                fontFamily = NunitoFontFamily
+            ) {
+                onEvent(ProfileEvents.DeleteAccount)
+            }
             Divider(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
                 color = Mat3OnSurfaceVariant,
                 thickness = 0.5.dp
             )
-            Text(
-                modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
+            TextG(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, bottom = 16.dp),
                 text = "Logout",
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    color = Mat3OnSurfaceVariant,
-                    fontFamily = NunitoFontFamily,
-                    fontWeight = FontWeight.Normal,
-                )
-            )
+                textSize = 16.sp,
+                textColor = Mat3OnSurfaceVariant,
+                fontFamily = NunitoFontFamily
+            ) {
+                onEvent(ProfileEvents.Logout)
+            }
         }
     }
 }

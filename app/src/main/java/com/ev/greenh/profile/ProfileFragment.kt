@@ -68,7 +68,7 @@ class ProfileFragment : Fragment() {
         binding?.cvProfileFrag?.setContent {
             ProfileScreen(viewModel.state) {
                 when(it) {
-                    is ProfileEvents.EditClick -> {
+                    is ProfileEvents.Edit -> {
                         val editFragment = EditProfileFragment()
                         val bundle = Bundle()
                         bundle.putSerializable(Constants.Args.PROFILE, viewModel.state.profile)
@@ -76,7 +76,7 @@ class ProfileFragment : Fragment() {
                         (activity as? MainActivity)?.setCurrentFragmentBack(editFragment)
                     }
 
-                    is ProfileEvents.AuthClick -> {
+                    is ProfileEvents.Auth -> {
                         navigation.authActivity(
                             context = activity,
                             buildVersion = buildVersion,

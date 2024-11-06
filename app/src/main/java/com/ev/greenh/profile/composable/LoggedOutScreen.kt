@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.core.ui.composable.GButton
+import com.core.ui.composable.ButtonG
 import com.ev.greenh.profile.ProfileEvents
 
 /*
@@ -22,8 +22,8 @@ fun LoggedOutProfileScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        GButton(modifier = Modifier, text = "Create or Login") {
-            onEvent(ProfileEvents.AuthClick)
+        ButtonG(modifier = Modifier, text = "Create or Login") {
+            onEvent(ProfileEvents.Auth)
         }
     }
 }
