@@ -5,8 +5,8 @@ package com.example.auth.ui.states
  */
 
 data class SignUpState(
-    var phoneNo: String = "",
-    var screen: SignUpProgress = SignUpProgress.EnterPhoneStage,
-    var loading: Boolean = false,
-    var error: String? = null
+    val phoneNo: String = "",
+    val screen: SignUpProgress = SignUpProgress.EnterPhoneStage,
+    val loading: Boolean = false,
+    val error: String? = null
 )

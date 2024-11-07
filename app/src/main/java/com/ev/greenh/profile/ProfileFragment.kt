@@ -63,6 +63,7 @@ class ProfileFragment : Fragment() {
                         isLoggedIn = userLoggedIn,
                         profile = profile
                     )
+                    viewModel.getProfileDetail()
                 }
             }
         }
