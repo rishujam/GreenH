@@ -4,32 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LauncherActivity">
+    tools:context=".launcher.LauncherActivity">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gdLauncherIconTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.45" />
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/cvLauncher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gdLauncherIconBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.55" />
+<!--    <androidx.constraintlayout.widget.Guideline-->
+<!--        android:id="@+id/gdLauncherIconTop"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        app:layout_constraintGuide_percent="0.45" />-->
 
-    <ImageView
-        android:id="@+id/ivAppLauncher"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/app_icon1"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gdLauncherIconTop"
-        app:layout_constraintBottom_toTopOf="@id/gdLauncherIconBottom"/>
+<!--    <androidx.constraintlayout.widget.Guideline-->
+<!--        android:id="@+id/gdLauncherIconBottom"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        app:layout_constraintGuide_percent="0.55" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/ivAppLauncher"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:src="@drawable/app_icon1"-->
+<!--        app:layout_constraintDimensionRatio="1:1"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/gdLauncherIconTop"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/gdLauncherIconBottom"/>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

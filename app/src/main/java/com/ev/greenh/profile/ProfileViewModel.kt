@@ -1,6 +1,5 @@
 package com.ev.greenh.profile
 
-import android.provider.ContactsContract.Profile
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.ui.model.AlertModel
 import com.core.ui.model.AlertType
-import com.example.auth.data.localsource.UserDataPrefManager
 import com.example.auth.data.repository.UserDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +26,6 @@ class ProfileViewModel @Inject constructor(
     var state by mutableStateOf(ProfileState())
 
     init {
-        state = state.copy(isLoading = true)
         getProfileDetail()
     }
 
@@ -73,25 +70,22 @@ class ProfileViewModel @Inject constructor(
             }
 
             is ProfileEvents.DeleteAccountConfirm -> {
-                state = state.copy(
-                    isLoading = true
-                )
+                deleteAccount()
             }
 
             is ProfileEvents.LogoutConfirm -> {
-                state = state.copy(
-                    isLoading = true
-                )
+                logout()
             }
             else -> {}
         }
     }
 
-    private fun getProfileDetail() = viewModelScope.launch(Dispatchers.IO) {
+    fun getProfileDetail() = viewModelScope.launch(Dispatchers.IO) {
         val isLoggedIn = userDataRepo.isLoggedIn() ?: false
         withContext(Dispatchers.Main) {
             state = state.copy(
-                isLoggedIn = isLoggedIn
+                isLoggedIn = isLoggedIn,
+                isLoading = true
             )
         }
         if(isLoggedIn) {
@@ -123,11 +117,45 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun logout() {
-
+        state = state.copy(
+            isLoading = true
+        )
+        viewModelScope.launch(Dispatchers.IO) {
+            userDataRepo.clearUserPref()
+            withContext(Dispatchers.Main) {
+                state = state.copy(
+                    isLoading = false,
+                    isLoggedIn = false,
+                    profile = null
+                )
+            }
+        }
     }
 
     private fun deleteAccount() {
-
+        state = state.copy(
+            isLoading = true
+        )
+        viewModelScope.launch(Dispatchers.IO) {
+            val uid = if(!state.profile?.uid.isNullOrEmpty()) {
+                state.profile?.uid
+            } else {
+                userDataRepo.getUid()
+            }
+            val result = userDataRepo.deleteUserData(uid)
+            if(result.success) {
+                userDataRepo.clearUserPref()
+                withContext(Dispatchers.Main) {
+                    state = state.copy(
+                        isLoading = false,
+                        isLoggedIn = false,
+                        profile = null
+                    )
+                }
+            } else {
+                //TODO Show error toast
+            }
+        }
     }
 
 }

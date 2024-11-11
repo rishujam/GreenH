@@ -1,28 +1,15 @@
-Profile Section:
-- Add logout functionality
-    - Clear pref
-    - Clear local db
-    - finish()
-    - start launcher activity
-- Add delete profile functionality
-- Contact email from backend
-
 Auth:
-- Separate opt and phone entry screen
-- In Launcher activity create a fragment to signup and skip signup
-use the same screen to show on profile when user is logged out
 - Navigation based on nav graph
 
 Test:
 - Write unit test for auth
 - Write UI test for auth
 
-Shop feature:
-- Refactor the listing screen
-
-Navigation:
+Refactor:
 - apply nav component in whole app
-- Fix bottom navigation issue
+- Fix bottom navigation issue (replace method creates a white screen on back press)
+- Refactor the shop listing screen
+- Write all constants in one file
 
 Learn to grow feature:
 - Complete the dev

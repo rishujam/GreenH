@@ -1,6 +1,7 @@
-package com.ev.greenh
+package com.ev.greenh.util
 
 import com.core.util.ProductFlavour
+import com.ev.greenh.BuildConfig
 import javax.inject.Inject
 
 /*

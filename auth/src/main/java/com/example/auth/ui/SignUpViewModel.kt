@@ -43,13 +43,10 @@ class SignUpViewModel @Inject constructor(
                     sendOtpUseCase.invoke(event.phone).collect { response ->
                         when (response) {
                             is Resource.Error -> {
-                                response.message?.let { errorMsg ->
-                                    state = state.copy(
-                                        error = errorMsg,
-                                        loading = false
-                                    )
-                                    state.error = errorMsg
-                                }
+                                state = state.copy(
+                                    error = response.message,
+                                    loading = false
+                                )
                             }
 
                             is Resource.Loading -> {
@@ -81,37 +78,36 @@ class SignUpViewModel @Inject constructor(
 
             is SignUpEvents.VerifyClick -> {
                 viewModelScope.launch(dispatcher) {
-                    otpSignUpUseCase.invoke(state.phoneNo, event.otp, event.buildVersion).collect { response ->
-                        when (response) {
-                            is Resource.Error -> {
-                                state = state.copy(
-                                    error = state.error,
-                                    loading = false
-                                )
-                                response.message?.let {
-                                    state.error = it }
-                            }
+                    otpSignUpUseCase.invoke(state.phoneNo, event.otp, event.buildVersion)
+                        .collect { response ->
+                            when (response) {
+                                is Resource.Error -> {
+                                    state = state.copy(
+                                        error = response.message,
+                                        loading = false
+                                    )
+                                }
 
-                            is Resource.Success -> {
-                                state = state.copy(
-                                    loading = false,
-                                    screen = SignUpProgress.VerifiedPhoneStage(
-                                        profile = UserProfile(
-                                            phone = state.phoneNo
+                                is Resource.Success -> {
+                                    state = state.copy(
+                                        loading = false,
+                                        screen = SignUpProgress.VerifiedPhoneStage(
+                                            profile = UserProfile(
+                                                phone = state.phoneNo
+                                            )
                                         )
                                     )
-                                )
-                            }
+                                }
 
-                            is Resource.Loading -> {
-                                state = state.copy(
-                                    loading = true
-                                )
-                            }
+                                is Resource.Loading -> {
+                                    state = state.copy(
+                                        loading = true
+                                    )
+                                }
 
-                            else -> {}
+                                else -> {}
+                            }
                         }
-                    }
                 }
             }
 

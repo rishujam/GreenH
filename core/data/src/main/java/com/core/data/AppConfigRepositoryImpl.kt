@@ -15,7 +15,7 @@ class AppConfigRepositoryImpl @Inject constructor (
     private val configDb: ConfigDatabase
 ): AppConfigRepository {
 
-    override suspend fun checkMaintenance() {
+    override suspend fun getAndSaveMaintenance() {
         val maintenance = configDataSource.checkMaintenance()
         return if(maintenance.success) {
             configPrefManager.setMaintenance(maintenance.maintenance)
@@ -24,7 +24,7 @@ class AppConfigRepositoryImpl @Inject constructor (
         }
     }
 
-    override suspend fun checkUpdate() {
+    override suspend fun getAndSaveUpdate() {
         val update = configDataSource.checkUpdate()
         if(update.success) {
             update.data?.let {
@@ -34,7 +34,7 @@ class AppConfigRepositoryImpl @Inject constructor (
         }
     }
 
-    override suspend fun getFeatureConfig() {
+    override suspend fun getAndSaveFeatureConfig() {
         val featureConfig = configDataSource.getFeatureConfig()
         if(featureConfig.success) {
             featureConfig.featureList?.let { list ->

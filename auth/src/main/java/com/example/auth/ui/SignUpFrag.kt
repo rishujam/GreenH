@@ -15,6 +15,7 @@ import com.core.data.Constants
 import com.example.auth.data.model.UserProfile
 import com.example.auth.databinding.SignupFragBinding
 import com.example.auth.ui.composable.SignUpScreen
+import com.example.auth.ui.events.SignUpEvents
 import dagger.hilt.android.AndroidEntryPoint
 
 /*
@@ -44,10 +45,15 @@ class SignUpFrag : Fragment() {
             Surface(modifier = Modifier.fillMaxSize()) {
                 SignUpScreen(
                     viewModel.state,
-                    onEvent = viewModel::onEvent,
                     buildVersion
-                ) { profile ->
-                    onLoggedIn(profile)
+                ) {
+                    when(it) {
+                        is SignUpEvents.SignUpSuccess -> {
+                            onLoggedIn(it.profile)
+                        }
+
+                        else -> viewModel.onEvent(it)
+                    }
                 }
             }
         }

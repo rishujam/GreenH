@@ -1,6 +1,7 @@
-package com.ev.greenh
+package com.ev.greenh.di
 
 import com.core.util.ProductFlavour
+import com.ev.greenh.util.ProductFlavourImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

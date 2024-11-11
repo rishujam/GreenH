@@ -55,7 +55,7 @@
 			</intent-filter>
 		</activity>
 		<activity
-			android:name=".LauncherActivity"
+			android:name=".launcher.LauncherActivity"
 			android:exported="true"
 			android:screenOrientation="portrait">
 			<intent-filter>

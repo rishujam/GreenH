@@ -11,10 +11,10 @@ import com.core.data.model.ResUpdate
 
 interface AppConfigRepository {
 
-    suspend fun checkMaintenance()
+    suspend fun getAndSaveMaintenance()
 
-    suspend fun checkUpdate()
+    suspend fun getAndSaveUpdate()
 
-    suspend fun getFeatureConfig()
+    suspend fun getAndSaveFeatureConfig()
 
 }

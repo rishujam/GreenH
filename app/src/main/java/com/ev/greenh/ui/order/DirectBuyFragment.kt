@@ -1,4 +1,4 @@
-package com.ev.greenh
+package com.ev.greenh.ui.order
 
 import android.app.Dialog
 import android.graphics.Color
@@ -17,11 +17,11 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.core.ui.visible
 import com.core.util.Resource
+import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentBuyDirectBinding
 import com.ev.greenh.models.Order
 import com.ev.greenh.models.Plant
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.ui.order.MyOrdersFragment
 import com.ev.greenh.profile.edit.EditProfileFragment
 import com.ev.greenh.viewmodels.PlantViewModel
 import com.example.auth.data.model.UserProfile
