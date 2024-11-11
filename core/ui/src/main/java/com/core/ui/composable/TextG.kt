@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import com.core.ui.NunitoFontFamily
 
 /*
  * Created by Sudhanshu Kumar on 27/10/24.
@@ -33,7 +34,7 @@ fun TextG(
     iconSize: Dp? = null,
     textSize: TextUnit,
     textColor: Color,
-    fontFamily: FontFamily,
+    fontFamily: FontFamily = NunitoFontFamily,
     fontWeight: FontWeight = FontWeight.Normal,
     onClick: (() -> Unit)? = null
 ) {

@@ -92,10 +92,17 @@ class UserDataRepoFakeImpl : UserDataRepository {
         // TODO Test preferences
     }
 
-    override suspend fun isLoggedIn(): Boolean? {
+    override suspend fun isLoggedIn(): Boolean {
         TODO("Not yet implemented")
     }
 
+    override suspend fun isLoginSkipped(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun setLoginSkipped() {
+
+    }
 
     override suspend fun clearUserPref() {
         TODO("Not yet implemented")

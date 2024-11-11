@@ -1,7 +1,4 @@
 Auth:
-- Separate opt and phone entry screen
-- In Launcher activity create a fragment to signup and skip signup
-use the same screen to show on profile when user is logged out
 - Navigation based on nav graph
 
 Test:

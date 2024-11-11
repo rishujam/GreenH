@@ -38,8 +38,18 @@ class UserDataPrefManager @Inject constructor(
         }
     }
 
-    suspend fun isLoggedIn(): Boolean? {
-        return dataStore.data.first()[KEY_LOGGED_IN]
+    suspend fun isLoggedIn(): Boolean {
+        return dataStore.data.first()[KEY_LOGGED_IN] ?: false
+    }
+
+    suspend fun isLoginSkipped(): Boolean {
+        return dataStore.data.first()[KEY_LOGIN_SKIPPED] ?: false
+    }
+
+    suspend fun setLogInSkipped() {
+        dataStore.edit { data ->
+            data[KEY_LOGIN_SKIPPED] = true
+        }
     }
 
     suspend fun setFirebaseMsgToken(value: String) {
@@ -61,6 +71,7 @@ class UserDataPrefManager @Inject constructor(
     companion object{
         private val KEY_UID = stringPreferencesKey("key_uid")
         private val KEY_LOGGED_IN = booleanPreferencesKey("key_logged_in")
+        private val KEY_LOGIN_SKIPPED = booleanPreferencesKey("key_login_skipped")
         private val KEY_MSG_TOKEN = stringPreferencesKey("key_msg_token")
     }
 }

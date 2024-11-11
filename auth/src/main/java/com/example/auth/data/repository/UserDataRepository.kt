@@ -35,7 +35,11 @@ interface UserDataRepository {
 
     suspend fun setLoggedIn(loggedIn: Boolean)
 
-    suspend fun isLoggedIn(): Boolean?
+    suspend fun isLoggedIn(): Boolean
+
+    suspend fun isLoginSkipped(): Boolean
+
+    suspend fun setLoginSkipped()
 
     suspend fun clearUserPref()
 

@@ -40,7 +40,6 @@ fun ButtonG(
     val interactionSource = remember { MutableInteractionSource() }
     Text(
         modifier = modifier
-            .wrapContentSize()
             .clip(RoundedCornerShape(8.dp))
             .background(
                 when (buttonType) {

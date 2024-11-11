@@ -79,8 +79,16 @@ class UserDataRepoImpl @Inject constructor(
         userDataPrefManager.setIsLoggedIn(loggedIn)
     }
 
-    override suspend fun isLoggedIn(): Boolean? {
+    override suspend fun isLoggedIn(): Boolean {
         return userDataPrefManager.isLoggedIn()
+    }
+
+    override suspend fun isLoginSkipped(): Boolean {
+        return userDataPrefManager.isLoginSkipped()
+    }
+
+    override suspend fun setLoginSkipped() {
+        userDataPrefManager.setLogInSkipped()
     }
 
     override suspend fun clearUserPref() {
