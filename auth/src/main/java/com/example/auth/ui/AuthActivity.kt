@@ -1,18 +1,12 @@
 package com.example.auth.ui
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.core.data.Constants
-import com.core.ui.nav.Navigation
 import com.example.auth.R
 import com.example.auth.databinding.ActivityAuthBinding
-import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class AuthActivity : AppCompatActivity() {
@@ -24,8 +18,10 @@ class AuthActivity : AppCompatActivity() {
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val version = intent.getIntExtra(Constants.Args.BUILD_VERSION, 0)
+        val isStartedForResult = intent.getBooleanExtra(Constants.Args.START_FOR_RESULT, false)
         val bundle = Bundle()
         bundle.putInt(Constants.Args.BUILD_VERSION, version)
+        bundle.putBoolean(Constants.Args.START_FOR_RESULT, isStartedForResult)
         val signupFragment = SignUpFrag()
         signupFragment.arguments = bundle
         setCurrentFragment(signupFragment)

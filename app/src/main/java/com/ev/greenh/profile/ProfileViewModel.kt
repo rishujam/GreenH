@@ -29,7 +29,9 @@ class ProfileViewModel @Inject constructor(
         getProfileDetail()
     }
 
-    fun onEvent(event: ProfileEvents) {
+    fun onEvent(
+        event: ProfileEvents
+    ) {
         when(event) {
             is ProfileEvents.Contact -> {
                 state = state.copy(
@@ -74,7 +76,7 @@ class ProfileViewModel @Inject constructor(
             }
 
             is ProfileEvents.LogoutConfirm -> {
-                logout()
+                logout(event.onCompletion)
             }
             else -> {}
         }
@@ -116,7 +118,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun logout() {
+    private fun logout(onCompletion: (() -> Unit)?) {
         state = state.copy(
             isLoading = true
         )
@@ -128,6 +130,7 @@ class ProfileViewModel @Inject constructor(
                     isLoggedIn = false,
                     profile = null
                 )
+                onCompletion?.let { it() }
             }
         }
     }

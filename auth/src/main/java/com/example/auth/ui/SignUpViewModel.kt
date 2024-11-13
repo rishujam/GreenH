@@ -112,7 +112,15 @@ class SignUpViewModel @Inject constructor(
             }
 
             is SignUpEvents.ResendOtp -> {
+                state = state.copy(
+                    isTimerRunning = true
+                )
+            }
 
+            is SignUpEvents.ShowResendButton -> {
+                state = state.copy(
+                    isTimerRunning = false
+                )
             }
 
             else -> {}

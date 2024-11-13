@@ -8,5 +8,6 @@ data class SignUpState(
     val phoneNo: String = "",
     val screen: SignUpProgress = SignUpProgress.EnterPhoneStage,
     val loading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val isTimerRunning: Boolean = true
 )

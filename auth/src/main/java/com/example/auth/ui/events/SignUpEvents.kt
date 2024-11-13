@@ -21,4 +21,6 @@ sealed class SignUpEvents {
     object WrongNo : SignUpEvents()
 
     data class SignUpSuccess(val profile: UserProfile) : SignUpEvents()
+
+    object ShowResendButton : SignUpEvents()
 }

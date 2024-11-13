@@ -19,7 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.core.ui.MediumGreen
+import com.core.ui.Mat3Primary
 import com.example.auth.ui.events.SignUpEvents
 import com.example.auth.ui.states.SignUpProgress
 import com.example.auth.ui.states.SignUpState
@@ -55,7 +55,7 @@ fun SignUpScreen(
             ) {
                 CircularProgressIndicator(
                     modifier = Modifier.testTag(Tags.SIGNUP_SCREEN_PROGRESS),
-                    color = MediumGreen
+                    color = Mat3Primary
                 )
             }
         }
@@ -91,7 +91,7 @@ fun SignUpScreen(
                 PhoneView(onEvent)
             }
             if(state.screen is SignUpProgress.VerifyPhoneStage) {
-                VerifyPhoneView(onEvent, state, buildVersion)
+                VerifyPhone(onEvent, state, buildVersion)
             }
         }
     }

@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.core.ui.DefaultTextColor
-import com.core.ui.MediumGreen
+import com.core.ui.Mat3Primary
 import com.example.testing.Tags
 
 /*
@@ -71,7 +71,7 @@ fun OtpTextField(
                         text = otpText
                     )
                     if(index != otpCount - 1) {
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(modifier = Modifier.width(16.dp))
                     }
                 }
             }
@@ -96,7 +96,7 @@ private fun CharView(
             .aspectRatio(1f)
             .border(
                 1.dp, when {
-                    isFocused -> MediumGreen
+                    isFocused -> Mat3Primary
                     else -> DefaultTextColor
                 }, RoundedCornerShape(8.dp)
             )
@@ -104,7 +104,7 @@ private fun CharView(
         text = char,
         fontSize = 18.sp,
         color = if (isFocused) {
-            MediumGreen
+            Mat3Primary
         } else {
             DefaultTextColor
         },

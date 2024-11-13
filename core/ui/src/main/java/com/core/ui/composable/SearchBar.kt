@@ -15,7 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.core.ui.DefaultTextColor
-import com.core.ui.MediumGreen
+import com.core.ui.Mat3Primary
 
 /*
  * Created by Sudhanshu Kumar on 16/10/23.
@@ -40,10 +40,10 @@ fun SearchBar(hint: String) {
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = DefaultTextColor,
                 textColor = DefaultTextColor,
-                focusedBorderColor = MediumGreen,
-                focusedLabelColor = MediumGreen,
+                focusedBorderColor = Mat3Primary,
+                focusedLabelColor = Mat3Primary,
                 unfocusedLabelColor = DefaultTextColor,
-                cursorColor = MediumGreen
+                cursorColor = Mat3Primary
             ),
             shape = RoundedCornerShape(8.dp)
         )

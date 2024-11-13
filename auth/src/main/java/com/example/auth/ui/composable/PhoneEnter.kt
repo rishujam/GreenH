@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
@@ -21,17 +19,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.core.ui.DefaultTextColor
-import com.core.ui.LightBgGreen
-import com.core.ui.MediumGreen
-import com.example.auth.ui.SignUpViewModel
+import com.core.ui.Mat3Primary
+import com.core.ui.composable.ButtonG
 import com.example.auth.ui.events.SignUpEvents
 import com.example.testing.Tags
 
@@ -80,41 +74,20 @@ fun PhoneView(onEvent: (SignUpEvents) -> Unit) {
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         unfocusedBorderColor = DefaultTextColor,
                         textColor = DefaultTextColor,
-                        focusedBorderColor = MediumGreen,
-                        focusedLabelColor = MediumGreen,
+                        focusedBorderColor = Mat3Primary,
+                        focusedLabelColor = Mat3Primary,
                         unfocusedLabelColor = DefaultTextColor,
-                        cursorColor = MediumGreen
+                        cursorColor = Mat3Primary
                     )
                 )
             }
-            Row(
+            ButtonG(
                 modifier = Modifier
                     .padding(start = 32.dp, end = 32.dp, top = 12.dp)
+                    .fillMaxWidth(),
+                text = "Next"
             ) {
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .testTag(Tags.PHONE_VIEW_NEXT_BTN),
-                    onClick = {
-                        onEvent(SignUpEvents.SendOtp(phoneNoText))
-                    },
-                    shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = LightBgGreen,
-                        contentColor = MediumGreen
-                    )
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(top = 6.dp, bottom = 6.dp)
-                            .semantics {
-                                contentDescription = "NextBtn SignUp"
-                            }
-                            .testTag("NextBtn SignUp"),
-                        text = "Next",
-                        fontWeight = FontWeight.Medium
-                    )
-                }
+                onEvent(SignUpEvents.SendOtp(phoneNoText))
             }
         }
     }

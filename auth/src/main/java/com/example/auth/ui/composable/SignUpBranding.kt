@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.core.ui.CarmenFontFamily
 import com.core.ui.DefaultTextColor
-import com.core.ui.MediumGreen
+import com.core.ui.Mat3Primary
 import com.example.auth.R
 import com.example.testing.Tags
 
@@ -52,7 +52,7 @@ fun SignUpBrandingView() {
                             .padding(start = 8.dp)
                             .testTag(Tags.BRAND_NAME),
                         text = "Gardeners Hub",
-                        color = MediumGreen,
+                        color = Mat3Primary,
                         fontFamily = CarmenFontFamily,
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp

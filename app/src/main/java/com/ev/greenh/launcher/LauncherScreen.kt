@@ -71,7 +71,7 @@ fun LauncherScreen(
             }
             ButtonG(
                 modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                    .padding(start = 32.dp, end = 32.dp, top = 12.dp)
                     .fillMaxWidth(),
                 text = "Sign Up"
             ) {
@@ -79,7 +79,7 @@ fun LauncherScreen(
             }
             ButtonG(
                 modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                    .padding(start = 32.dp, end = 32.dp, top = 12.dp)
                     .fillMaxWidth(),
                 text = "Skip Sign Up",
                 buttonType = ButtonType.SecondaryEnabled
