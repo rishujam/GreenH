@@ -6,10 +6,6 @@ import androidx.compose.ui.graphics.Color
  * Created by Sudhanshu Kumar on 06/07/23.
  */
 
-val LightBgGreen = Color(0xFFEAF5EF)
-val LightTextGreen = Color(0xFF75C291)
-val MediumGreen = Color(0xFF2F9A5A)
-val DarkGreen = Color(0xFF0F3923)
 val DefaultTextColor = Color(0xFF757575)
 
 //Mat3 Light

@@ -64,7 +64,7 @@ fun LoggedInProfileScreen(
             ) {
                 when(state.alert.type) {
                     is AlertType.LogoutConfirmation -> {
-                        onEvent(ProfileEvents.LogoutConfirm)
+                        onEvent(ProfileEvents.LogoutConfirm(null))
                     }
 
                     is AlertType.DeleteConfirmation -> {

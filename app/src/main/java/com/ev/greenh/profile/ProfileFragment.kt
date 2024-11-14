@@ -96,6 +96,15 @@ class ProfileFragment : Fragment() {
                         )
                     }
 
+                    is ProfileEvents.LogoutConfirm -> {
+                        viewModel.onEvent(
+                            it.copy {
+                                navigation.launcherActivity(context)
+                                activity?.finish()
+                            }
+                        )
+                    }
+
                     else -> viewModel.onEvent(it)
                 }
             }

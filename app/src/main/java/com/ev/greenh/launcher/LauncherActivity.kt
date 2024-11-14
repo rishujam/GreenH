@@ -29,7 +29,6 @@ class LauncherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        fullScreen()
         binding.cvLauncher.setContent {
             LauncherScreen(state = viewModel.state) {
                 when (it) {

@@ -10,6 +10,8 @@ import androidx.activity.result.ActivityResultLauncher
 
 interface Navigation {
 
+    fun launcherActivity(context: Context?)
+
     fun homeActivity(context: Context?)
 
     fun authActivity(

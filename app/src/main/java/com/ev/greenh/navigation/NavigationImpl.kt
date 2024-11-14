@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
 import com.core.data.Constants
 import com.core.ui.nav.Navigation
+import com.ev.greenh.launcher.LauncherActivity
 import com.ev.greenh.ui.MainActivity
 import com.example.auth.ui.AuthActivity
 import javax.inject.Inject
@@ -15,6 +16,11 @@ import javax.inject.Inject
  */
 
 class NavigationImpl @Inject constructor() : Navigation {
+
+    override fun launcherActivity(context: Context?) {
+        val intent = Intent(context, LauncherActivity::class.java)
+        context?.startActivity(intent)
+    }
 
     override fun homeActivity(context: Context?) {
         val intent = Intent(context, MainActivity::class.java)
@@ -29,6 +35,7 @@ class NavigationImpl @Inject constructor() : Navigation {
         activityLauncher?.let {
             val intent = Intent(context, AuthActivity::class.java)
             intent.putExtra(Constants.Args.BUILD_VERSION, buildVersion)
+            intent.putExtra(Constants.Args.START_FOR_RESULT, true)
             activityLauncher.launch(intent)
         } ?: run {
             val intent = Intent(context, AuthActivity::class.java).apply {

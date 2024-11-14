@@ -9,7 +9,7 @@ sealed class ProfileEvents {
     object Auth : ProfileEvents()
     object Contact : ProfileEvents()
     object Logout : ProfileEvents()
-    object LogoutConfirm : ProfileEvents()
+    data class LogoutConfirm(val onCompletion: (() -> Unit)?) : ProfileEvents()
     object AlertCancel : ProfileEvents()
     object DeleteAccount : ProfileEvents()
     object DeleteAccountConfirm : ProfileEvents()

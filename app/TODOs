@@ -1,5 +1,5 @@
 Auth:
-- Navigation based on nav graph
+- Show toast on error
 
 Test:
 - Write unit test for auth
