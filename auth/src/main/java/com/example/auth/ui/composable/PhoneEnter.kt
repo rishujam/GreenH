@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.core.ui.DefaultTextColor
 import com.core.ui.Mat3Primary
 import com.core.ui.composable.ButtonG
-import com.example.auth.ui.events.SignUpEvents
+import com.example.auth.ui.states.SignUpEvent
 import com.example.testing.Tags
 
 /*
@@ -35,7 +35,7 @@ import com.example.testing.Tags
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun PhoneView(onEvent: (SignUpEvents) -> Unit) {
+fun PhoneView(onEvent: (SignUpEvent) -> Unit) {
     var phoneNoText by remember {
         mutableStateOf("")
     }
@@ -87,7 +87,7 @@ fun PhoneView(onEvent: (SignUpEvents) -> Unit) {
                     .fillMaxWidth(),
                 text = "Next"
             ) {
-                onEvent(SignUpEvents.SendOtp(phoneNoText))
+                onEvent(SignUpEvent.SendOtp(phoneNoText))
             }
         }
     }

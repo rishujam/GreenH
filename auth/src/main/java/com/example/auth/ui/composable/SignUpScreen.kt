@@ -13,17 +13,27 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Scaffold
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.core.ui.Mat3Primary
-import com.example.auth.ui.events.SignUpEvents
+import com.example.auth.ui.states.SignUpEvent
+import com.example.auth.ui.states.SignUpOneTimeEvent
 import com.example.auth.ui.states.SignUpProgress
 import com.example.auth.ui.states.SignUpState
 import com.example.testing.Tags
+import kotlinx.coroutines.flow.Flow
 
 /*
  * Created by Sudhanshu Kumar on 10/07/23.
@@ -33,66 +43,87 @@ import com.example.testing.Tags
 fun SignUpScreen(
     state: SignUpState,
     buildVersion: Int?,
-    onEvent: (SignUpEvents) -> Unit,
+    oneTimeEventFlow: Flow<SignUpOneTimeEvent>,
+    onEvent: (SignUpEvent) -> Unit,
 ) {
-    if(state.screen is SignUpProgress.VerifiedPhoneStage) {
-        (state.screen as? SignUpProgress.VerifiedPhoneStage)?.profile?.let { profile ->
-            onEvent(SignUpEvents.SignUpSuccess(profile))
-        }
-    }
-    Surface(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        AnimatedVisibility(
-            visible = state.loading,
-            enter = fadeIn(),
-            exit = fadeOut()
+    val snackBarHostState = remember { SnackbarHostState() }
+    Scaffold (
+        snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
+    ) { paddingValues ->
+        Surface(
+            modifier = Modifier.fillMaxSize().padding(paddingValues)
         ) {
-            Column(
-                modifier = Modifier.padding(bottom = 44.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.testTag(Tags.SIGNUP_SCREEN_PROGRESS),
-                    color = Mat3Primary
-                )
+            if(state.screen is SignUpProgress.VerifiedPhoneStage) {
+                (state.screen as? SignUpProgress.VerifiedPhoneStage)?.profile?.let { profile ->
+                    onEvent(SignUpEvent.SignUpSuccess(profile))
+                }
             }
-        }
-        Column(modifier = Modifier.fillMaxSize()) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.5f),
-                verticalArrangement = Arrangement.Center
-            ) {
-                AnimatedVisibility(
-                    visible = true,
-                    enter = slideInVertically() + fadeIn(),
-                    exit = slideOutVertically() + fadeOut()
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        SignUpBrandingView()
+            val lifecycleOwner = LocalLifecycleOwner.current
+            LaunchedEffect(oneTimeEventFlow, lifecycleOwner.lifecycle) {
+                lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    oneTimeEventFlow.collect {
+                        when(it) {
+                            is SignUpOneTimeEvent.ShowToast -> {
+                                snackBarHostState.showSnackbar(
+                                    message = it.msg
+                                )
+                            }
+                        }
                     }
                 }
             }
             AnimatedVisibility(
-                visible = state.screen is SignUpProgress.EnterPhoneStage,
-                enter = slideInVertically(
-                    initialOffsetY = {
-                        it / 2
-                    }
-                ) + fadeIn(),
+                visible = state.loading,
+                enter = fadeIn(),
                 exit = fadeOut()
             ) {
-                PhoneView(onEvent)
+                Column(
+                    modifier = Modifier.padding(bottom = 44.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.testTag(Tags.SIGNUP_SCREEN_PROGRESS),
+                        color = Mat3Primary
+                    )
+                }
             }
-            if(state.screen is SignUpProgress.VerifyPhoneStage) {
-                VerifyPhone(onEvent, state, buildVersion)
+            Column(modifier = Modifier.fillMaxSize()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.5f),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    AnimatedVisibility(
+                        visible = true,
+                        enter = slideInVertically() + fadeIn(),
+                        exit = slideOutVertically() + fadeOut()
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            SignUpBrandingView()
+                        }
+                    }
+                }
+                AnimatedVisibility(
+                    visible = state.screen is SignUpProgress.EnterPhoneStage,
+                    enter = slideInVertically(
+                        initialOffsetY = {
+                            it / 2
+                        }
+                    ) + fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    PhoneView(onEvent)
+                }
+                if(state.screen is SignUpProgress.VerifyPhoneStage) {
+                    VerifyPhone(onEvent, state, buildVersion)
+                }
             }
         }
     }
+
 }

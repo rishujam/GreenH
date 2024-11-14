@@ -23,7 +23,7 @@ import com.core.ui.DefaultTextColor
 import com.core.ui.Mat3Primary
 import com.core.ui.composable.ButtonG
 import com.core.ui.composable.TextG
-import com.example.auth.ui.events.SignUpEvents
+import com.example.auth.ui.states.SignUpEvent
 import com.example.auth.ui.states.SignUpState
 import kotlinx.coroutines.delay
 
@@ -33,7 +33,7 @@ import kotlinx.coroutines.delay
  
 @Composable
 fun VerifyPhone(
-    onEvent: (SignUpEvents) -> Unit,
+    onEvent: (SignUpEvent) -> Unit,
     state: SignUpState,
     buildVersion: Int?
 ) {
@@ -50,7 +50,7 @@ fun VerifyPhone(
                 delay(1000L)
                 timeLeft--
             }
-            onEvent(SignUpEvents.ShowResendButton)
+            onEvent(SignUpEvent.ShowResendButton)
         }
     }
     Column(
@@ -67,7 +67,7 @@ fun VerifyPhone(
             iconTint = Mat3Primary,
             modifier = Modifier.fillMaxWidth()
         ) {
-            onEvent(SignUpEvents.WrongNo)
+            onEvent(SignUpEvent.WrongNo)
         }
         Row(
             modifier = Modifier
@@ -86,7 +86,7 @@ fun VerifyPhone(
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
             text = "Verify"
         ) {
-            onEvent(SignUpEvents.VerifyClick(otpValue, buildVersion!!))
+            onEvent(SignUpEvent.VerifyClick(otpValue, buildVersion!!))
         }
         Row (
             modifier = Modifier
@@ -116,7 +116,7 @@ fun VerifyPhone(
                     fontWeight = FontWeight.Bold
                 ) {
                     timeLeft = 45
-                    onEvent(SignUpEvents.ResendOtp)
+                    onEvent(SignUpEvent.ResendOtp)
                 }
             }
         }
