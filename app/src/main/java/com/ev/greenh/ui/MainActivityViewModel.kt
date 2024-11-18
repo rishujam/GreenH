@@ -2,12 +2,12 @@ package com.ev.greenh.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.core.data.Constants
 import com.core.data.localstorage.ConfigDatabase
 import com.core.data.model.Feature
 import com.core.data.pref.ConfigPrefManager
 import com.core.util.Resource
 import com.ev.greenh.BuildConfig
-import com.ev.greenh.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow

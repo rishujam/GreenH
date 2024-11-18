@@ -5,6 +5,10 @@ package com.core.data
  */
 
 object Constants {
+
+    const val VERSION = 1
+    const val QUERY_PAGE_SIZE = 5
+
     object BaseUrl {
         const val RAZORPAY ="https://razorpay-orderid-genrate.herokuapp.com"
         const val PLANT_NET ="https://my-api.plantnet.org"
@@ -20,6 +24,7 @@ object Constants {
         const val FEATURE_CONFIG = "feature_config"
         const val UTIL = "util"
         const val MSG_TOKEN = "msgtoken"
+        const val PLANTS = "plants"
     }
 
     object FirebaseDoc {
@@ -55,6 +60,20 @@ object Constants {
         const val COMMON = "pref_common"
     }
 
+    object ViewType {
+        const val LOCAL_PLANT_LIST = 0
+        const val LOCAL_PLANT_LIST_QUESTION = 1
+    }
+
+    object Feature {
+        const val GROW = "grow"
+        const val SHOP = "shop"
+        const val IDENTIFY = "identify"
+    }
+
+    object FragTags {
+        const val IDENTIFY_FRAG = "identify_frag"
+    }
 
 
 }

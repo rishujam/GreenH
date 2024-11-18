@@ -1,18 +1,17 @@
 package com.ev.greenh.firebase
 
+import com.core.data.Constants
 import com.ev.greenh.models.*
 import com.ev.greenh.models.uimodels.MyOrder
 import com.ev.greenh.models.uimodels.MyOrderDetail
 import com.ev.greenh.models.uimodels.PlantMyOrder
-import com.ev.greenh.util.Constants
-import com.ev.greenh.util.Constants.QUERY_PAGE_SIZE
+import com.ev.greenh.shop.data.model.ResPlant
 import com.example.auth.data.model.UserProfile
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
@@ -22,8 +21,8 @@ class FirestoreSource @Inject constructor() {
 
     private val fireRef = Firebase.firestore
 
-    suspend fun getAllPlants(collection: String, page: Int, lastFeatureNo: Int): Plants {
-        val list = mutableListOf<Plant>()
+    suspend fun getAllPlants(collection: String, page: Int, lastFeatureNo: Int): ResPlants {
+        val list = mutableListOf<ResPlant>()
         val data = if (lastFeatureNo == 0) {
             fireRef.collection(collection).whereEqualTo("status", "Available").orderBy("featureNo")
                 .startAfter(page * 5).limit(5).get().await()
@@ -32,36 +31,36 @@ class FirestoreSource @Inject constructor() {
                 .startAfter(lastFeatureNo).limit(5).get().await()
         }
         for (i in data.documents) {
-            val plant = i.toObject<Plant>()
+            val plant = i.toObject<ResPlant>()
             if (plant != null) {
                 list.add(plant)
             }
         }
-        return Plants(list)
+        return ResPlants(list, isSuccessful = true)
     }
 
-    suspend fun getAllPlantsPaging(page: Int): Plants {
-        val list = mutableListOf<Plant>()
-        val startAfter = QUERY_PAGE_SIZE * (page - 1)
+    suspend fun getAllPlantsPaging(page: Int): ResPlants {
+        val list = mutableListOf<ResPlant>()
+        val startAfter = Constants.QUERY_PAGE_SIZE * (page - 1)
         val data = fireRef
             .collection("plant_sample_ref")
             .whereEqualTo("status", "Available")
             .orderBy("featureNo")
             .startAfter(startAfter)
-            .limit(QUERY_PAGE_SIZE.toLong()).get().await()
+            .limit(Constants.QUERY_PAGE_SIZE.toLong()).get().await()
         for (i in data.documents) {
-            val plant = i.toObject<Plant>()
+            val plant = i.toObject<ResPlant>()
             plant?.let { list.add(it) }
         }
-        return Plants(list)
+        return ResPlants(list, isSuccessful = true)
     }
 
     suspend fun getPlantsByCategory(
         collection: String,
         category: String,
         lastFeatureNo: Int
-    ): Plants {
-        val list = mutableListOf<Plant>()
+    ): ResPlants {
+        val list = mutableListOf<ResPlant>()
         val data = if (lastFeatureNo == 0) {
             fireRef.collection(collection).whereEqualTo("status", "Available")
                 .whereEqualTo("category", category).orderBy("featureNo").limit(5).get().await()
@@ -71,17 +70,30 @@ class FirestoreSource @Inject constructor() {
                 .limit(5).get().await()
         }
         for (i in data.documents) {
-            val plant = i.toObject<Plant>()
+            val plant = i.toObject<ResPlant>()
             if (plant != null) {
                 list.add(plant)
             }
         }
-        return Plants(list)
+        return ResPlants(list, isSuccessful = true)
     }
 
-    suspend fun getSinglePlant(collection: String, id: String): Plant {
+    suspend fun getSinglePlant(collection: String, id: String): ResPlant {
         val ref = fireRef.collection(collection).document(id).get().await()
-        return ref.toObject<Plant>() ?: Plant()
+        return ref.toObject<ResPlant>() ?: ResPlant(
+            "",
+            "",
+            "",
+            "",
+            "",
+            false,
+            "",
+            "",
+            "",
+            1,
+            1,
+            ""
+        )
     }
 
     suspend fun addPlantToBag(
@@ -124,8 +136,8 @@ class FirestoreSource @Inject constructor() {
         return res
     }
 
-    suspend fun getBagItems(collBag: String, collPlant: String, user: String): Map<Plant, String> {
-        val map = mutableMapOf<Plant, String>()
+    suspend fun getBagItems(collBag: String, collPlant: String, user: String): Map<ResPlant, String> {
+        val map = mutableMapOf<ResPlant, String>()
         val ref = fireRef.collection(collBag).document(user).get().await()
         val data = ref.data
         if (data != null) {
@@ -193,7 +205,7 @@ class FirestoreSource @Inject constructor() {
                     )
                     val plant = getSinglePlant(collectionPlant, plantId.split(",")[0])
                     myOrder.plantName = plant.name
-                    myOrder.plantPhoto = plant.imageLocation
+                    myOrder.plantPhoto = ""
                     out.add(myOrder)
                 }
             }
@@ -213,9 +225,9 @@ class FirestoreSource @Inject constructor() {
             val plantId = i.split(",")[0]
             val quantity = i.split(",")[1]
             val plant = getSinglePlant(collectionPlant, plantId)
-            val plantMyOrder =
-                PlantMyOrder(plantId, plant.name, plant.imageLocation, plant.price, quantity)
-            listOfPlantMyOrder.add(plantMyOrder)
+//            val plantMyOrder =
+//                PlantMyOrder(plantId, plant.name, plant.imageLocation, plant.price, quantity)
+//            listOfPlantMyOrder.add(plantMyOrder)
         }
         val itemsAmount = (order.totalAmount.toInt() - order.deliveryCharges.toInt()).toString()
         return MyOrderDetail(

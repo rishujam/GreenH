@@ -24,13 +24,13 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.core.data.Constants
 import com.core.util.Resource
 import com.ev.greenh.R
 import com.ev.greenh.adapters.PlantAdapter
 import com.ev.greenh.databinding.FragmentPlantBinding
+import com.ev.greenh.shop.ui.detail.PlantDetailFragment
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.util.Constants
-import com.ev.greenh.util.Constants.VERSION
 import com.ev.greenh.viewmodels.PlantViewModel
 
 class PlantFragment:Fragment() {
@@ -190,7 +190,7 @@ class PlantFragment:Fragment() {
             when(it){
                 is Resource.Success ->{
                     it.data?.let { data ->
-                        if(data > VERSION){
+                        if(data > Constants.VERSION){
                             updateDialog()
                         }
                     }

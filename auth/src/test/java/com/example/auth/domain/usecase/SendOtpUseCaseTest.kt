@@ -3,10 +3,8 @@ package com.example.auth.domain.usecase
 import app.cash.turbine.test
 import com.core.util.Resource
 import com.example.auth.test.fakes.PhoneAuthRepoFakeImpl
-import com.example.auth.test.util.Constants
-import io.mockk.impl.annotations.MockK
+import com.example.auth.test.util.AuthConstants
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -22,7 +20,7 @@ class SendOtpUseCaseTest {
 
     @Test
     fun `On failure emit error` () = runTest {
-        sendOtpUseCase.invoke(Constants.FAIL_PHONE_NO).test {
+        sendOtpUseCase.invoke(AuthConstants.FAIL_PHONE_NO).test {
             val firstEmission = awaitItem()
             val secondEmission = awaitItem()
             awaitComplete()
@@ -36,7 +34,7 @@ class SendOtpUseCaseTest {
 
     @Test
     fun `On null response emit error` () = runTest {
-        sendOtpUseCase.invoke(Constants.SEND_OTP_NULL_PHONE_NO).test {
+        sendOtpUseCase.invoke(AuthConstants.SEND_OTP_NULL_PHONE_NO).test {
             val firstEmission = awaitItem()
             val secondEmission = awaitItem()
             awaitComplete()
@@ -50,7 +48,7 @@ class SendOtpUseCaseTest {
 
     @Test
     fun `On success emit success` () = runTest {
-        sendOtpUseCase.invoke(Constants.SUCCESS_PHONE_NO).test {
+        sendOtpUseCase.invoke(AuthConstants.SUCCESS_PHONE_NO).test {
             val firstEmission = awaitItem()
             val secondEmission = awaitItem()
             awaitComplete()
@@ -64,7 +62,7 @@ class SendOtpUseCaseTest {
 
     @Test
     fun `On Invalid number emit error` () = runTest {
-        sendOtpUseCase.invoke(Constants.SEND_OTP_WRONG_PHONE_NO).test {
+        sendOtpUseCase.invoke(AuthConstants.SEND_OTP_WRONG_PHONE_NO).test {
             val firstEmission = awaitItem()
             awaitComplete()
             if(firstEmission is Resource.Error) {

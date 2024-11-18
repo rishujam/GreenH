@@ -7,8 +7,7 @@ import com.example.auth.data.model.ResSaveProfile
 import com.example.auth.data.model.ResUserExist
 import com.example.auth.data.model.UserProfile
 import com.example.auth.data.repository.UserDataRepository
-import com.example.auth.test.util.Constants
-import kotlin.coroutines.CoroutineContext
+import com.example.auth.test.util.AuthConstants
 
 /*
  * Created by Sudhanshu Kumar on 22/02/24.
@@ -18,22 +17,22 @@ class UserDataRepoFakeImpl : UserDataRepository {
 
     override suspend fun checkUserExist(phone: String): ResUserExist {
         return when(phone) {
-            Constants.EXISTING_USER_PHONE -> {
+            AuthConstants.EXISTING_USER_PHONE -> {
                 ResUserExist(
                     success = true,
                     exist = true,
-                    userProfile = UserProfile(uid = Constants.MOST_RECENT_USER_UID.toString())
+                    userProfile = UserProfile(uid = AuthConstants.MOST_RECENT_USER_UID.toString())
                 )
             }
 
-            Constants.USER_EXIST_ERROR_PHONE -> {
+            AuthConstants.USER_EXIST_ERROR_PHONE -> {
                 ResUserExist(
                     success = false,
                     msg = "Error"
                 )
             }
 
-            Constants.NEW_USER -> {
+            AuthConstants.NEW_USER -> {
                 ResUserExist(
                     success = true,
                     exist = false
@@ -66,7 +65,7 @@ class UserDataRepoFakeImpl : UserDataRepository {
     }
 
     override suspend fun getUid(): String {
-        return Constants.MOST_RECENT_USER_UID.toString()
+        return AuthConstants.MOST_RECENT_USER_UID.toString()
     }
 
     override suspend fun updateLastUid(newUid: String) {
@@ -76,12 +75,12 @@ class UserDataRepoFakeImpl : UserDataRepository {
     override suspend fun getLastGeneratedUid(): ResUidGen {
         return ResUidGen(
             success = true,
-            uid = Constants.MOST_RECENT_USER_UID.toString()
+            uid = AuthConstants.MOST_RECENT_USER_UID.toString()
         )
     }
 
     override suspend fun generateFirebaseMsgToken(uid: String?): ResFirebaseMsgToken? {
-        return ResFirebaseMsgToken(success = true, token = Constants.FIREBASE_MSG_TOKEN)
+        return ResFirebaseMsgToken(success = true, token = AuthConstants.FIREBASE_MSG_TOKEN)
     }
 
     override suspend fun saveFirebaseMsgTokenLocally(token: String) {

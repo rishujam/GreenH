@@ -4,7 +4,7 @@ package com.example.auth.test.util
  * Created by Sudhanshu Kumar on 17/02/24.
  */
 
-object Constants {
+object AuthConstants {
 
     const val FAIL_PHONE_NO = "9999999999"
     const val SUCCESS_PHONE_NO = "1111111111"

@@ -1,7 +1,7 @@
 package com.ev.greenh.grow.data
 
 import com.ev.greenh.grow.data.model.res.GrowDetailRes
-import com.ev.greenh.repository.BaseRepository
+import com.ev.greenh.shop.data.repo.BaseRepository
 import com.ev.greenh.util.DummyData
 import javax.inject.Inject
 

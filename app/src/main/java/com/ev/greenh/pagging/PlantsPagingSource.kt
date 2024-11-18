@@ -3,20 +3,20 @@ package com.ev.greenh.pagging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.ev.greenh.firebase.FirestoreSource
-import com.ev.greenh.models.Plant
+import com.ev.greenh.shop.data.model.ResPlant
 
 class PlantsPagingSource(
     private val source: FirestoreSource
-): PagingSource<Int, Plant>(){
+): PagingSource<Int, ResPlant>(){
 
-    override fun getRefreshKey(state: PagingState<Int, Plant>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, ResPlant>): Int? {
         return state.anchorPosition?.let {
             state.closestPageToPosition(it)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Plant> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ResPlant> {
         return try {
             val position = params.key ?: 1
             val response = source.getAllPlantsPaging(position)

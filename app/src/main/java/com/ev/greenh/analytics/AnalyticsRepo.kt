@@ -2,7 +2,7 @@ package com.ev.greenh.analytics
 
 import com.core.data.Constants
 import com.ev.greenh.home.data.Analytic
-import com.ev.greenh.repository.BaseRepository
+import com.ev.greenh.shop.data.repo.BaseRepository
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await

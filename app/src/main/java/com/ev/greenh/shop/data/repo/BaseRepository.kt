@@ -1,4 +1,4 @@
-package com.ev.greenh.repository
+package com.ev.greenh.shop.data.repo
 
 import com.core.util.Resource
 import kotlinx.coroutines.Dispatchers

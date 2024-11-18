@@ -5,7 +5,7 @@ import com.core.data.remote.ApiIdentifier
 import com.core.data.remote.RetrofitPool
 import com.ev.greenh.plantidentify.data.PlantNetApi
 import com.ev.greenh.plantidentify.data.model.req.PlantIdentifyReq
-import com.ev.greenh.repository.BaseRepository
+import com.ev.greenh.shop.data.repo.BaseRepository
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.tasks.await

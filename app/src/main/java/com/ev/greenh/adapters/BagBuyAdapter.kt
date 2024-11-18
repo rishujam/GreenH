@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ev.greenh.databinding.ItemBagBuyBinding
-import com.ev.greenh.models.Plant
+import com.ev.greenh.shop.data.model.ResPlant
 
 class BagBuyAdapter(
-    val map: Map<Plant,String>
+    val map: Map<ResPlant,String>
 ) : RecyclerView.Adapter<BagBuyAdapter.BagBuyViewHolder>(){
 
     inner class BagBuyViewHolder(val binding:ItemBagBuyBinding):RecyclerView.ViewHolder(binding.root)
@@ -23,7 +23,7 @@ class BagBuyAdapter(
             tvQuantityBB.text = "Quantity: ${map.values.toList()[position].split(",")[0]}"
             tvItemNameBB.text = plant.name
             tvPriceBB.text = "₹${plant.price}"
-            Glide.with(root).load(plant.imageLocation).into(thumbnailBB)
+//            Glide.with(root).load(plant.imageLocation).into(thumbnailBB)
         }
     }
 

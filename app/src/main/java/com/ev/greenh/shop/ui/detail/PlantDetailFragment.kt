@@ -1,4 +1,4 @@
-package com.ev.greenh.ui.plants
+package com.ev.greenh.shop.ui.detail
 
 import android.app.Dialog
 import android.graphics.Color
@@ -27,8 +27,9 @@ import com.core.ui.visible
 import com.core.util.Resource
 import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentPlantDetailsBinding
-import com.ev.greenh.models.Plant
+import com.ev.greenh.shop.data.model.ResPlant
 import com.ev.greenh.ui.MainActivity
+import com.ev.greenh.ui.plants.PlantVideoFragment
 import com.ev.greenh.viewmodels.PlantViewModel
 import com.google.android.material.snackbar.Snackbar
 
@@ -39,7 +40,7 @@ class PlantDetailFragment: Fragment() {
     private val binding get() = _binding!!
     private lateinit var plantId:String
     private lateinit var viewModel: PlantViewModel
-    private lateinit var plant: Plant
+    private lateinit var plant: ResPlant
     private lateinit var dialog:Dialog
 
     override fun onCreateView(
@@ -106,30 +107,30 @@ class PlantDetailFragment: Fragment() {
         }
     }
 
-    private fun setupData(plant: Plant){
+    private fun setupData(plant: ResPlant){
         binding.pbPlantDetail.visibility = View.VISIBLE
         binding.pbPlantDetail.visible(true)
         binding.plantName.text = plant.name
         binding.tPrive.text = "₹${plant.price}"
         binding.tvSunlight.text = plant.sunlight
         binding.tvWater.text = plant.water
-        Glide.with(binding.root)
-            .setDefaultRequestOptions(RequestOptions().placeholder(R.drawable.load).error(R.drawable.load))
-            .load(plant.imageLocation).listener(object : RequestListener<Drawable> {
-            override fun onResourceReady(resource: Drawable?, model: Any?, target: com.bumptech.glide.request.target.Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                binding.pbPlantDetail.visibility = View.INVISIBLE
-                return false
-            }
-
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: com.bumptech.glide.request.target.Target<Drawable>?,
-                isFirstResource: Boolean
-            ): Boolean {
-                return false
-            }
-        }).into(binding.plantImage)
+//        Glide.with(binding.root)
+//            .setDefaultRequestOptions(RequestOptions().placeholder(R.drawable.load).error(R.drawable.load))
+//            .load(plant.imageLocation).listener(object : RequestListener<Drawable> {
+//            override fun onResourceReady(resource: Drawable?, model: Any?, target: com.bumptech.glide.request.target.Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+//                binding.pbPlantDetail.visibility = View.INVISIBLE
+//                return false
+//            }
+//
+//            override fun onLoadFailed(
+//                e: GlideException?,
+//                model: Any?,
+//                target: com.bumptech.glide.request.target.Target<Drawable>?,
+//                isFirstResource: Boolean
+//            ): Boolean {
+//                return false
+//            }
+//        }).into(binding.plantImage)
     }
 
     override fun onDestroyView() {
@@ -158,7 +159,7 @@ class PlantDetailFragment: Fragment() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window?.setGravity(Gravity.BOTTOM)
 
-        Glide.with(dialog.context).load(plant.imageLocation).into(image)
+//        Glide.with(dialog.context).load(plant.imageLocation).into(image)
 
 
         pb.visible(false)

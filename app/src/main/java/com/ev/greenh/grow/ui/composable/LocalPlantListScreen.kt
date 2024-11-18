@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.core.data.Constants
 import com.core.ui.Mat3Bg
 import com.core.ui.composable.Toolbar
 import com.core.ui.findActivity
@@ -28,7 +29,6 @@ import com.ev.greenh.grow.ui.composable.components.LocalPlantQuestionItem
 import com.ev.greenh.grow.ui.model.LocalPlantListItem
 import com.ev.greenh.grow.ui.model.LocalPlantListQuestionItem
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.util.Constants
 import com.ev.greenh.util.DummyData
 
 /*

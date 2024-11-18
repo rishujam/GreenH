@@ -20,7 +20,7 @@ import com.core.util.Resource
 import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentBuyDirectBinding
 import com.ev.greenh.models.Order
-import com.ev.greenh.models.Plant
+import com.ev.greenh.shop.data.model.ResPlant
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.profile.edit.EditProfileFragment
 import com.ev.greenh.viewmodels.PlantViewModel
@@ -35,7 +35,7 @@ class DirectBuyFragment : Fragment() {
     private var _binding: FragmentBuyDirectBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: PlantViewModel
-    private lateinit var plantInfo:Plant
+    private lateinit var plantInfo: ResPlant
     private lateinit var profile:UserProfile
     private lateinit var totalAmount:String
 
@@ -106,7 +106,7 @@ class DirectBuyFragment : Fragment() {
                         binding.tvQuantityItemBuy.text = "Quantity: 1"
                         binding.tvPriceItemBuy.text = "₹${plant.price.toInt()}"
                         binding.tvNameItemBuy.text = "${plant.name}"
-                        Glide.with(binding.root).load(plant.imageLocation).into(binding.ivBuyItem)
+//                        Glide.with(binding.root).load(plant.imageLocation).into(binding.ivBuyItem)
                         binding.progressBar2.visible(false)
                         var deliveryCharge = 29
                         if (plant.price.toInt() > 299) {

@@ -26,7 +26,7 @@ import com.core.util.Resource
 import com.ev.greenh.R
 import com.ev.greenh.adapters.BagAdapter
 import com.ev.greenh.databinding.FragmentBagBinding
-import com.ev.greenh.models.Plant
+import com.ev.greenh.shop.data.model.ResPlant
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.viewmodels.PlantViewModel
 
@@ -149,7 +149,7 @@ class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
         }
     }
 
-    private fun setupRv(map:Map<Plant,String>){
+    private fun setupRv(map:Map<ResPlant,String>){
         var total = 0
         for(i in map.values.toList()){
             total +=i.split(",")[1].toInt()
@@ -179,7 +179,7 @@ class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
         }
     }
 
-    private fun showDialog(plant:Plant,quantity:String) {
+    private fun showDialog(plant: ResPlant, quantity:String) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.sheet_quantity)
@@ -192,7 +192,7 @@ class BagFragment: Fragment(), BagAdapter.OnItemClickListener {
         val quantityMinus: ImageButton = dialog.findViewById(R.id.quantityMinus)
         val pb: ProgressBar = dialog.findViewById(R.id.pbQuantity)
 
-        Glide.with(dialog.context).load(plant.imageLocation).into(image)
+//        Glide.with(dialog.context).load(plant.imageLocation).into(image)
         tvName.text = plant.name
         tvPrice.text = "₹${plant.price.toInt()*quantity.toInt()}"
         tvQuantity.text = quantity

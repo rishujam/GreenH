@@ -134,6 +134,7 @@ dependencies {
     implementation("androidx.camera:camera-video:1.3.0-rc01")
     implementation("androidx.camera:camera-view:1.3.0-rc01")
     implementation("androidx.camera:camera-extensions:1.3.0-rc01")
+    implementation 'androidx.activity:activity:1.9.3'
 
     // Local unit tests
     testImplementation "androidx.test:core:1.4.0"

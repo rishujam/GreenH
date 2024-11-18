@@ -53,13 +53,13 @@ object DummyData {
                 "0",
                 "Rose",
                 "",
-                Constants.ViewType.LOCAL_PLANT_LIST
+                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListItem(
                 "1",
                 "Rose",
                 "",
-                Constants.ViewType.LOCAL_PLANT_LIST
+                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListQuestionItem(
                 "2",
@@ -70,55 +70,55 @@ object DummyData {
                     RadioBtnOption("Indirect"),
                     RadioBtnOption("No Sunlight")
                 ),
-                viewType = Constants.ViewType.LOCAL_PLANT_LIST_QUESTION
+                viewType =  com.core.data.Constants.ViewType.LOCAL_PLANT_LIST_QUESTION
             ),
             LocalPlantListItem(
                 "3",
                 "Rose",
                 "",
-                Constants.ViewType.LOCAL_PLANT_LIST
+                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListItem(
                 "4",
                 "Rose",
                 "",
-                Constants.ViewType.LOCAL_PLANT_LIST
+                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListItem(
                 "5",
                 "Rose",
                 "",
-                Constants.ViewType.LOCAL_PLANT_LIST
+                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListItem(
                 "6",
                 "Rose",
                 "",
-                Constants.ViewType.LOCAL_PLANT_LIST
+                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListItem(
                 "7",
                 "Rose",
                 "",
-                Constants.ViewType.LOCAL_PLANT_LIST
+                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListItem(
                 "8",
                 "Rose",
                 "",
-                Constants.ViewType.LOCAL_PLANT_LIST
+                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListItem(
                 "9",
                 "Rose",
                 "",
-                Constants.ViewType.LOCAL_PLANT_LIST
+                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListItem(
                 "10",
                 "Rose",
                 "",
-                Constants.ViewType.LOCAL_PLANT_LIST
+                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
             )
         )
     }

@@ -17,7 +17,7 @@ import com.ev.greenh.databinding.OrderDetailsFragmentBinding
 import com.ev.greenh.models.uimodels.MyOrderDetail
 import com.ev.greenh.models.uimodels.PlantMyOrder
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.ui.plants.PlantDetailFragment
+import com.ev.greenh.shop.ui.detail.PlantDetailFragment
 import com.ev.greenh.viewmodels.PlantViewModel
 import com.google.android.material.snackbar.Snackbar
 

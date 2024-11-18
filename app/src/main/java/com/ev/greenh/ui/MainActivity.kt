@@ -25,6 +25,7 @@ import androidx.camera.view.LifecycleCameraController
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.core.data.Constants
 import com.core.ui.hide
 import com.core.ui.show
 import com.core.util.Resource
@@ -33,7 +34,6 @@ import com.ev.greenh.databinding.ActivityMainBinding
 import com.ev.greenh.home.ui.HomeFragment
 import com.ev.greenh.profile.ProfileFragment
 import com.ev.greenh.ui.plants.PlantFragment
-import com.ev.greenh.util.Constants
 import com.ev.greenh.viewmodels.PlantViewModel
 import com.razorpay.Checkout
 import com.razorpay.PaymentData

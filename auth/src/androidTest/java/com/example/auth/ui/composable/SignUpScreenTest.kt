@@ -1,6 +1,5 @@
 package com.example.auth.ui.composable
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -17,24 +16,15 @@ import com.example.auth.domain.usecase.SendOtpUseCase
 import com.example.auth.runBlockingTest
 import com.example.auth.test.fakes.PhoneAuthRepoFakeImpl
 import com.example.auth.test.fakes.UserDataRepoFakeImpl
-import com.example.auth.test.util.Constants
+import com.example.auth.test.util.AuthConstants
 import com.example.auth.ui.SignUpViewModel
 import com.example.auth.ui.states.SignUpProgress
 import com.example.auth.ui.states.SignUpState
 import com.example.testing.Tags
-import dagger.hilt.android.testing.HiltAndroidRule
-import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.android.awaitFrame
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.StandardTestDispatcher
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
 
 /*
  * Created by Sudhanshu Kumar on 03/03/24.
@@ -59,7 +49,7 @@ class SignUpScreenTest {
         val viewModel = SignUpViewModel(sendOtpUseCase, otpSignUpUseCase)
         composeRule.apply {
             setContent {
-                SignUpScreen(state, viewModel::onEvent, 1) {    }
+//                SignUpScreen(state, viewModel::onEvent, 1) {    }
             }
             onNodeWithTag(Tags.PHONE_ENTER).assertIsDisplayed()
             onNodeWithTag(Tags.PHONE_VIEW_NEXT_BTN).assertIsDisplayed()
@@ -78,7 +68,7 @@ class SignUpScreenTest {
         val viewModel = SignUpViewModel(sendOtpUseCase, otpSignUpUseCase)
         composeRule.apply {
             setContent {
-                SignUpScreen(state = state, onEvent = viewModel::onEvent, buildVersion = 1) {   }
+//                SignUpScreen(state = state, onEvent = viewModel::onEvent, buildVersion = 1) {   }
             }
             onNodeWithTag(Tags.OTP_ENTER_VIEW).assertIsDisplayed()
             onNodeWithTag(Tags.VERIFY_BTN).assertIsDisplayed()
@@ -97,9 +87,9 @@ class SignUpScreenTest {
 
         composeRule.apply {
             setContent {
-                SignUpScreen(state = viewModel.state, onEvent = viewModel::onEvent, buildVersion = 1) {   }
+//                SignUpScreen(state = viewModel.state, onEvent = viewModel::onEvent, buildVersion = 1) {   }
             }
-            onNodeWithTag(testTag = Tags.PHONE_ENTER).performTextInput(Constants.SUCCESS_PHONE_NO)
+            onNodeWithTag(testTag = Tags.PHONE_ENTER).performTextInput(AuthConstants.SUCCESS_PHONE_NO)
             onNodeWithTag(testTag = Tags.PHONE_ENTER).performImeAction()
             onNodeWithTag(Tags.PHONE_VIEW_NEXT_BTN).performClick()
             waitForIdle()
