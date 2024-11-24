@@ -5,20 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.ev.greenh.databinding.ItemPlantBinding
-import com.ev.greenh.shop.data.model.ResPlant
+import com.ev.greenh.models.Order
 
 class PlantAdapter:RecyclerView.Adapter<PlantAdapter.PlantViewHolder>(){
 
     inner class PlantViewHolder (val binding: ItemPlantBinding): RecyclerView.ViewHolder(binding.root)
 
-    private val differCallback = object : DiffUtil.ItemCallback<ResPlant>() {
-        override fun areItemsTheSame(oldItem: ResPlant, newItem: ResPlant): Boolean {
-            return oldItem.id == newItem.id
+    private val differCallback = object : DiffUtil.ItemCallback<Order>() {
+        override fun areItemsTheSame(oldItem: Order, newItem: Order): Boolean {
+            return false
         }
 
-        override fun areContentsTheSame(oldItem: ResPlant, newItem: ResPlant): Boolean {
+        override fun areContentsTheSame(oldItem: Order, newItem: Order): Boolean {
             return oldItem == newItem
         }
     }
@@ -28,12 +27,12 @@ class PlantAdapter:RecyclerView.Adapter<PlantAdapter.PlantViewHolder>(){
         return PlantViewHolder(ItemPlantBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
-    private var onItemClickListener: ((ResPlant) -> Unit)? = null
+    private var onItemClickListener: ((Order) -> Unit)? = null
 
     override fun onBindViewHolder(holder: PlantViewHolder, position: Int) {
         val plant = differ.currentList[position]
         holder.binding.apply {
-            tvPlantName.text = plant.name
+//            tvPlantName.text = plant.name
 //            Glide.with(root).load(plant.imageLocation).into(thumbnail)
             plantItem.setOnClickListener {
                 onItemClickListener?.let { it(plant) }
@@ -45,7 +44,7 @@ class PlantAdapter:RecyclerView.Adapter<PlantAdapter.PlantViewHolder>(){
         return differ.currentList.size
     }
 
-    fun setOnItemClickListener(listener: (ResPlant) -> Unit) {
+    fun setOnItemClickListener(listener: (Order) -> Unit) {
         onItemClickListener = listener
     }
 

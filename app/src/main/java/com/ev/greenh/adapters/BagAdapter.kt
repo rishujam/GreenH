@@ -4,12 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.ev.greenh.databinding.ItemBagBinding
-import com.ev.greenh.shop.data.model.ResPlant
 
 class BagAdapter(
-    val map: Map<ResPlant,String>,
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<BagAdapter.BagViewHolder>(){
 
@@ -37,17 +34,17 @@ class BagAdapter(
 
     override fun onBindViewHolder(holder: BagViewHolder, position: Int) {
         holder.binding.apply {
-            val plant = map.keys.toList()[position]
-            val value = map.values.toList()[position].split(",")
-            tvQuantity.text = "Quantity: ${value[0]}"
-            tvItemName.text = plant.name
-            tvPrice.text = "₹${value[1]}"
+//            val plant = map.keys.toList()[position]
+//            val value = map.values.toList()[position].split(",")
+//            tvQuantity.text = "Quantity: ${value[0]}"
+//            tvItemName.text = plant.name
+//            tvPrice.text = "₹${value[1]}"
 //            Glide.with(root).load(plant.imageLocation).into(thumbnail)
         }
     }
 
     override fun getItemCount(): Int {
-        return map.size
+        return 0
     }
 
     interface OnItemClickListener{

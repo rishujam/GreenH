@@ -5,10 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ev.greenh.databinding.ItemBagBuyBinding
-import com.ev.greenh.shop.data.model.ResPlant
 
 class BagBuyAdapter(
-    val map: Map<ResPlant,String>
 ) : RecyclerView.Adapter<BagBuyAdapter.BagBuyViewHolder>(){
 
     inner class BagBuyViewHolder(val binding:ItemBagBuyBinding):RecyclerView.ViewHolder(binding.root)
@@ -19,15 +17,15 @@ class BagBuyAdapter(
 
     override fun onBindViewHolder(holder: BagBuyViewHolder, position: Int) {
         holder.binding.apply {
-            val plant = map.keys.toList()[position]
-            tvQuantityBB.text = "Quantity: ${map.values.toList()[position].split(",")[0]}"
-            tvItemNameBB.text = plant.name
-            tvPriceBB.text = "₹${plant.price}"
+//            val plant = map.keys.toList()[position]
+//            tvQuantityBB.text = "Quantity: ${map.values.toList()[position].split(",")[0]}"
+//            tvItemNameBB.text = plant.name
+//            tvPriceBB.text = "₹${plant.price}"
 //            Glide.with(root).load(plant.imageLocation).into(thumbnailBB)
         }
     }
 
     override fun getItemCount(): Int {
-        return map.size
+        return 0
     }
 }

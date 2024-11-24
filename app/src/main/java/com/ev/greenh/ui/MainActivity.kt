@@ -27,14 +27,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.core.data.Constants
 import com.core.ui.hide
+import com.core.ui.nav.Navigation
 import com.core.ui.show
 import com.core.util.Resource
 import com.ev.greenh.R
 import com.ev.greenh.databinding.ActivityMainBinding
 import com.ev.greenh.home.ui.HomeFragment
 import com.ev.greenh.profile.ProfileFragment
-import com.ev.greenh.ui.plants.PlantFragment
-import com.ev.greenh.viewmodels.PlantViewModel
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
@@ -42,16 +41,19 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
 
     private lateinit var binding: ActivityMainBinding
-    val viewModel: PlantViewModel by viewModels()
     var successListener = ""
     var paymentData: PaymentData? = null
     val activityViewModel: MainActivityViewModel by viewModels()
+
+    @Inject
+    lateinit var navigator: Navigation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,11 +93,10 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
                 R.id.imShop -> {
                     if(binding.bottomNavigationView.selectedItemId == R.id.imShop)
                         return@setOnItemSelectedListener true
-                    val shopFeature = activityViewModel.config.replayCache[0]
+                    val shopFeature = activityViewModel.config.replayCache.first()
                         .data?.featureConfig?.get(Constants.Feature.SHOP)?.is_enabled ?: true
                     if (shopFeature) {
-                        val fragment = PlantFragment()
-                        setCurrentFragment(fragment)
+                        navigateToShop()
                     } else {
                         buildAlert(
                             { },
@@ -116,6 +117,10 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
             }
             true
         }
+    }
+
+    fun navigateToShop() {
+        navigator.shopActivity(this)
     }
 
     private fun handelSuccessConfigResponse(response: MainActivityState?) {
