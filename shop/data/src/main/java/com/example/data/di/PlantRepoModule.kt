@@ -17,6 +17,7 @@ import javax.inject.Singleton
 abstract class PlantRepoModule {
 
     @Binds
+    @Singleton
     abstract fun bindPlantRepository(impl: PlantRepositoryImpl): PlantRepository
 
 }

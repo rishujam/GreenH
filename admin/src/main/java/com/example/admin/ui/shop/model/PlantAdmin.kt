@@ -14,7 +14,7 @@ data class PlantAdmin(
     val category: String,
     val imageUrl: String?,
     val videoUrl: String,
-    val price: Int,
-    val approxHeight: Int,
+    val price: Long,
+    val approxHeight: Long,
     val maintenance: String
 )

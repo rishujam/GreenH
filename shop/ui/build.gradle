@@ -45,7 +45,6 @@ dependencies {
 
     implementation project(":core:ui")
     implementation project(":shop:domain")
-    implementation project(":shop:data")
     implementation project(":core:util")
 
     // Coroutine Lifecycle Scopes

@@ -23,8 +23,8 @@ class EditPlantViewModel(
     private val _getPlantState = MutableStateFlow<Resource<PlantAdmin>>(Resource.Loading())
     val getPlantState: StateFlow<Resource<PlantAdmin>> = _getPlantState.asStateFlow()
 
-    private val _postPlantState = MutableStateFlow<Resource<Boolean>>(Resource.Loading())
-    val postPlantState: StateFlow<Resource<Boolean>> = _postPlantState.asStateFlow()
+    private val _postPlantState = MutableStateFlow<Resource<Boolean>?>(null)
+    val postPlantState: StateFlow<Resource<Boolean>?> = _postPlantState.asStateFlow()
 
     fun getPlantDetail(id: String) = viewModelScope.launch {
         val res = repo.getModel(
@@ -43,6 +43,7 @@ class EditPlantViewModel(
         plant: PlantAdmin,
         image: ByteArray?
     ) = viewModelScope.launch {
+        _postPlantState.emit(Resource.Loading())
         image?.let {
             val resUrl = repo.uploadFileAndGetUrl(
                 Constants.FirebaseColl.PLANTS,
@@ -69,6 +70,7 @@ class EditPlantViewModel(
     }
 
     fun savePlantDetail(image: ByteArray?, plant: PlantAdmin) = viewModelScope.launch {
+        _postPlantState.emit(Resource.Loading())
         val collection = "${Constants.FirebaseColl.UTIL}/"
         val doc = "${Constants.FirebaseDoc.LAST_PLANT_ID}/"
         val field = Constants.FirebaseField.ID

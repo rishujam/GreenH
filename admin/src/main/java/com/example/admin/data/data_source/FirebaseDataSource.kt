@@ -85,14 +85,16 @@ class FirebaseDataSource {
      * Location is where the last generated id value stored
      * In format Collection/DocumentId/Field
      */
-    suspend fun generateNewId(location: String): Int? {
+    suspend fun generateNewId(location: String): Long? {
         try {
             val collection = location.split("/")[0]
             val docId = location.split("/")[1]
             val field = location.split("/")[2]
             val doc = fireRef.collection(collection).document(docId).get().await()
-            (doc[field] as? Int)?.let {
-                return it + 1
+            (doc[field] as? Long)?.let {
+                val newId = it + 1
+                fireRef.collection(collection).document(docId).update(field, newId).await()
+                return newId
             }
             return null
         } catch (e: Exception) {
