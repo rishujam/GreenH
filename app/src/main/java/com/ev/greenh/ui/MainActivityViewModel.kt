@@ -2,7 +2,7 @@ package com.ev.greenh.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.core.data.Constants
+import com.core.util.Constants
 import com.core.data.localstorage.ConfigDatabase
 import com.core.data.model.Feature
 import com.core.data.pref.ConfigPrefManager

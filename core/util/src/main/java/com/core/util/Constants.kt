@@ -1,4 +1,4 @@
-package com.core.data
+package com.core.util
 
 /*
  * Created by Sudhanshu Kumar on 04/02/24.
@@ -33,11 +33,14 @@ object Constants {
         const val MAINTENANCE = "maintenance"
         const val UID_GEN = "uidgen"
         const val FEATURE = "features"
+        const val LAST_PLANT_ID = "lastPlantId"
     }
 
     object FirebaseField {
         const val TOKEN = "token"
         const val UID = "uid"
+        const val ID = "id"
+        const val NAME = "name"
     }
 
     object Args {
@@ -46,6 +49,7 @@ object Constants {
         const val PROFILE = "profile"
         const val RESULT_USER_LOGGED_IN = "RESULT_USER_LOGGED_IN"
         const val RESULT_PROFILE_UPDATE = "RESULT_PROFILE_UPDATE"
+        const val PLANT_ID = "plant_id"
     }
 
     object Other {

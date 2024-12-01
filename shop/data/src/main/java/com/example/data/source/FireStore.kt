@@ -1,6 +1,6 @@
 package com.example.data.source
 
-import com.core.data.Constants
+import com.core.util.Constants
 import com.example.data.model.ResPlant
 import com.example.data.model.ResPlants
 import com.example.domain.PlantFilter

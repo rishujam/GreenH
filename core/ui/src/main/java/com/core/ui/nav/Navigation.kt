@@ -22,4 +22,6 @@ interface Navigation {
 
     fun shopActivity(context: Context?)
 
+    fun adminActivity(context: Context?)
+
 }

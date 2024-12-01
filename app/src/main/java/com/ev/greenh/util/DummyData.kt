@@ -1,6 +1,7 @@
 package com.ev.greenh.util
 
 import com.core.ui.model.RadioBtnOption
+import com.core.util.Constants
 import com.ev.greenh.grow.data.model.res.GrowDetailRes
 import com.ev.greenh.grow.ui.model.LocalPlantListItem
 import com.ev.greenh.grow.ui.model.LocalPlantListItemBase
@@ -53,13 +54,13 @@ object DummyData {
                 "0",
                 "Rose",
                 "",
-                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
+                Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListItem(
                 "1",
                 "Rose",
                 "",
-                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
+                Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListQuestionItem(
                 "2",
@@ -70,55 +71,55 @@ object DummyData {
                     RadioBtnOption("Indirect"),
                     RadioBtnOption("No Sunlight")
                 ),
-                viewType =  com.core.data.Constants.ViewType.LOCAL_PLANT_LIST_QUESTION
+                viewType =  Constants.ViewType.LOCAL_PLANT_LIST_QUESTION
             ),
             LocalPlantListItem(
                 "3",
                 "Rose",
                 "",
-                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
+                Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListItem(
                 "4",
                 "Rose",
                 "",
-                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
+                Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListItem(
                 "5",
                 "Rose",
                 "",
-                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
+                Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListItem(
                 "6",
                 "Rose",
                 "",
-                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
+                Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListItem(
                 "7",
                 "Rose",
                 "",
-                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
+                Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListItem(
                 "8",
                 "Rose",
                 "",
-                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
+                Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListItem(
                 "9",
                 "Rose",
                 "",
-                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
+                Constants.ViewType.LOCAL_PLANT_LIST
             ),
             LocalPlantListItem(
                 "10",
                 "Rose",
                 "",
-                com.core.data.Constants.ViewType.LOCAL_PLANT_LIST
+                Constants.ViewType.LOCAL_PLANT_LIST
             )
         )
     }

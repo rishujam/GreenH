@@ -1,6 +1,6 @@
 package com.core.data.remote
 
-import com.core.data.Constants
+import com.core.util.Constants
 import com.core.data.model.ApiBase
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.core.ui.Mat3OnBg
@@ -41,6 +42,7 @@ import com.core.ui.composable.TextG
 import com.core.ui.model.ButtonType
 import com.core.ui.model.AlertModel
 import com.core.ui.model.AlertType
+import com.ev.greenh.BuildConfig
 import com.ev.greenh.profile.ProfileEvents
 import com.ev.greenh.profile.ProfileState
 
@@ -223,6 +225,24 @@ fun LoggedInProfileScreen(
                 fontFamily = NunitoFontFamily
             ) {
                 onEvent(ProfileEvents.Logout)
+            }
+            if(state.profile?.phone == "1111111111") {
+                Divider(
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
+                    color = Mat3OnSurfaceVariant,
+                    thickness = 0.5.dp
+                )
+                TextG(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, bottom = 16.dp),
+                    text = "Admin",
+                    textSize = 16.sp,
+                    textColor = Mat3OnSurfaceVariant,
+                    fontFamily = NunitoFontFamily
+                ) {
+                    onEvent(ProfileEvents.Admin)
+                }
             }
         }
     }

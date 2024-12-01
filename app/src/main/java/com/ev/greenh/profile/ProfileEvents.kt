@@ -13,4 +13,5 @@ sealed class ProfileEvents {
     object AlertCancel : ProfileEvents()
     object DeleteAccount : ProfileEvents()
     object DeleteAccountConfirm : ProfileEvents()
+    object Admin : ProfileEvents()
 }

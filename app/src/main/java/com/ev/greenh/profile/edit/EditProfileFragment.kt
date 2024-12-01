@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.core.data.Constants
 import com.core.ui.hide
 import com.core.ui.show
+import com.core.util.Constants
 import com.core.util.Resource
 import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentEditProfileBinding

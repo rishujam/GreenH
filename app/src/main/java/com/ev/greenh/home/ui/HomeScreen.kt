@@ -42,7 +42,7 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
 import coil.request.ImageRequest
-import com.core.data.Constants
+import com.core.util.Constants
 import com.core.ui.LogoFontFamily
 import com.core.ui.Mat3OnBg
 import com.core.ui.Mat3OnPrimary

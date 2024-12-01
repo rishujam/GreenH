@@ -1,6 +1,6 @@
 package com.example.auth.data.remotesource
 
-import com.core.data.Constants
+import com.core.util.Constants
 import com.core.data.model.ResUidGen
 import com.example.auth.data.model.ResFirebaseMsgToken
 import com.example.auth.data.model.ResGetProfile

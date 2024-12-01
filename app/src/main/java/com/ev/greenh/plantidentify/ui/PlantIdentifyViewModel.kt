@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.core.data.Constants
+import com.core.util.Constants
 import com.ev.greenh.analytics.AnalyticsRepo
 import com.ev.greenh.home.data.Analytic
 import com.ev.greenh.plantidentify.doamin.usecase.PlantIdentifyUseCase

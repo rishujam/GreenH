@@ -1,5 +1,9 @@
 package com.core.util
 
+import android.content.ContentResolver
+import android.net.Uri
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
@@ -16,4 +20,22 @@ fun <T : Any> Map<String, Any>.toObject(clazz: KClass<T>): T {
     }
 
     return constructor.callBy(args)
+}
+
+fun Uri.toByteArray(contentResolver: ContentResolver?): ByteArray? {
+    return try {
+        val inputStream: InputStream? = contentResolver?.openInputStream(this)
+        inputStream?.use {
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            val buffer = ByteArray(1024)
+            var bytesRead: Int
+            while (it.read(buffer).also { bytesRead = it } != -1) {
+                byteArrayOutputStream.write(buffer, 0, bytesRead)
+            }
+            byteArrayOutputStream.toByteArray()
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
 }

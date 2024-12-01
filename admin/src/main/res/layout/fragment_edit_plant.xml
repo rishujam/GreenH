@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		xmlns:app="http://schemas.android.com/apk/res-auto">
+
+		<ProgressBar
+			android:id="@+id/pbEditPlant"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:visibility="gone"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintBottom_toBottomOf="parent"/>
+
+		<ImageView
+			android:id="@+id/ivPlantImage"
+			android:layout_width="150dp"
+			android:layout_height="150dp"
+			android:layout_marginTop="16dp"
+			android:src="@color/cardview_dark_background"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"/>
+
+		<ToggleButton
+			android:id="@+id/tbAvailableEditPlant"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Available"
+			android:layout_marginTop="8dp"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/ivPlantImage"/>
+
+		<EditText
+			android:id="@+id/etNameEditPlant"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="16dp"
+			android:hint="Plant name"
+			android:layout_marginTop="16dp"
+			app:layout_constraintTop_toBottomOf="@id/tbAvailableEditPlant" />
+
+		<EditText
+			android:id="@+id/etDesEditPlant"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="16dp"
+			android:layout_marginTop="16dp"
+			android:hint="Plant description"
+			app:layout_constraintTop_toBottomOf="@id/etNameEditPlant" />
+
+		<EditText
+			android:id="@+id/etPriceEditPlant"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="16dp"
+			android:inputType="number"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			android:hint="Price"
+			app:layout_constraintTop_toBottomOf="@id/etDesEditPlant"/>
+
+		<EditText
+			android:id="@+id/etApxHeightEditPlant"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="16dp"
+			android:inputType="number"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			android:hint="Height Apx. (in cm)"
+			app:layout_constraintTop_toBottomOf="@id/etPriceEditPlant"/>
+
+		<TextView
+			android:id="@+id/tvSunlightTitleEditPlant"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Sunlight"
+			app:layout_constraintTop_toBottomOf="@id/etApxHeightEditPlant"
+			app:layout_constraintStart_toStartOf="parent"
+			android:paddingStart="16dp"
+			android:paddingTop="16dp"/>
+
+		<RadioGroup
+			android:id="@+id/rgSunlightEditPlant"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginHorizontal="16dp"
+			app:layout_constraintTop_toBottomOf="@id/tvSunlightTitleEditPlant">
+
+			<RadioButton
+				android:id="@+id/rbDirect"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Direct"/>
+
+			<RadioButton
+				android:id="@+id/rbInDirect"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="In Direct"/>
+
+			<RadioButton
+				android:id="@+id/rbNo"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="No"/>
+		</RadioGroup>
+
+		<TextView
+			android:id="@+id/tvWaterTitleEditPlant"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Water"
+			app:layout_constraintTop_toBottomOf="@id/rgSunlightEditPlant"
+			app:layout_constraintStart_toStartOf="parent"
+			android:paddingStart="16dp"
+			android:paddingTop="16dp"/>
+
+		<RadioGroup
+			android:id="@+id/rgWaterEditPlant"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginHorizontal="16dp"
+			app:layout_constraintTop_toBottomOf="@id/tvWaterTitleEditPlant">
+
+			<RadioButton
+				android:id="@+id/rbOnceADay"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Once a day"/>
+
+			<RadioButton
+				android:id="@+id/rbTwiceADay"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Twice a day"/>
+
+			<RadioButton
+				android:id="@+id/rbOnceAWeek"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Once a Week"/>
+
+			<RadioButton
+				android:id="@+id/rbTwiceAWeek"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Twice a Week"/>
+		</RadioGroup>
+
+		<TextView
+			android:id="@+id/tvCategoryEditPlant"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Category"
+			app:layout_constraintTop_toBottomOf="@id/rgWaterEditPlant"
+			app:layout_constraintStart_toStartOf="parent"
+			android:paddingStart="16dp"
+			android:paddingTop="16dp"/>
+
+		<RadioGroup
+			android:id="@+id/rgCategoryEditPlant"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginHorizontal="16dp"
+			app:layout_constraintTop_toBottomOf="@id/tvCategoryEditPlant">
+
+			<RadioButton
+				android:id="@+id/rbIndoor"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Indoor"/>
+
+			<RadioButton
+				android:id="@+id/rbOutdoor"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Outdoor"/>
+		</RadioGroup>
+
+		<TextView
+			android:id="@+id/tvMaintenanceEditPlant"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Maintenance"
+			app:layout_constraintTop_toBottomOf="@id/rgCategoryEditPlant"
+			app:layout_constraintStart_toStartOf="parent"
+			android:paddingStart="16dp"
+			android:paddingTop="16dp"/>
+
+		<RadioGroup
+			android:id="@+id/rgMaintenanceEditPlant"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginHorizontal="16dp"
+			app:layout_constraintTop_toBottomOf="@id/tvMaintenanceEditPlant">
+
+			<RadioButton
+				android:id="@+id/rbHigh"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="High"/>
+
+			<RadioButton
+				android:id="@+id/rbLow"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Low"/>
+		</RadioGroup>
+
+		<Button
+			android:id="@+id/btnSubmitEditPlant"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Submit"
+			android:layout_marginTop="16dp"
+			android:layout_marginHorizontal="16dp"
+			app:layout_constraintTop_toBottomOf="@id/rgMaintenanceEditPlant"/>
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

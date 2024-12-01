@@ -18,12 +18,6 @@
 		android:roundIcon="@drawable/app_icon1"
 		android:supportsRtl="true"
 		android:theme="@style/Theme.GreenH">
-		<activity
-			android:name=".admin.AdminActivity"
-			android:exported="false" />
-		<activity
-			android:name=".shop.ShopActivity"
-			android:exported="false" />
 
 		<profileable
 			android:enabled="true"

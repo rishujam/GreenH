@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.core.data.Constants
+import com.core.util.Constants
 import com.core.data.di.ConfigPreferences
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject

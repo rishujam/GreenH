@@ -11,7 +11,7 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.core.data.Constants
+import com.core.util.Constants
 import com.core.ui.nav.Navigation
 import com.example.auth.data.model.UserProfile
 import com.example.auth.databinding.SignupFragBinding

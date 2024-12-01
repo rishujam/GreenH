@@ -1,7 +1,7 @@
 package com.core.data.remote
 
 import android.util.Log
-import com.core.data.Constants
+import com.core.util.Constants
 import com.core.data.model.Feature
 import com.core.data.model.ResFeatureConfig
 import com.core.data.model.ResMaintenance

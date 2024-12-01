@@ -25,7 +25,7 @@ import androidx.camera.view.LifecycleCameraController
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.core.data.Constants
+import com.core.util.Constants
 import com.core.ui.hide
 import com.core.ui.nav.Navigation
 import com.core.ui.show

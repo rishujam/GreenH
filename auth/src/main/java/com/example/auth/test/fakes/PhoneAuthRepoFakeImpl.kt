@@ -1,5 +1,6 @@
 package com.example.auth.test.fakes
 
+import com.core.util.Constants
 import com.example.auth.data.model.ResOtp
 import com.example.auth.data.repository.PhoneAuthRepository
 import com.example.auth.test.util.AuthConstants
@@ -18,7 +19,7 @@ class PhoneAuthRepoFakeImpl : PhoneAuthRepository {
                 emit(
                     ResOtp(
                         AuthConstants.RANDOM_STRING,
-                        com.core.data.Constants.Other.SUCCESS_STRING
+                        Constants.Other.SUCCESS_STRING
                     )
                 )
             }
@@ -26,8 +27,8 @@ class PhoneAuthRepoFakeImpl : PhoneAuthRepository {
             AuthConstants.FAIL_PHONE_NO -> {
                 emit(
                     ResOtp(
-                        com.core.data.Constants.Other.EMPTY_STRING,
-                        com.core.data.Constants.Other.ERROR_STRING
+                        Constants.Other.EMPTY_STRING,
+                        Constants.Other.ERROR_STRING
                     )
                 )
             }
@@ -41,8 +42,8 @@ class PhoneAuthRepoFakeImpl : PhoneAuthRepository {
             AuthConstants.VERIFY_OTP_INCORRECT -> {
                 emit(
                     ResOtp(
-                        com.core.data.Constants.Other.EMPTY_STRING,
-                        com.core.data.Constants.Other.ERROR_STRING
+                        Constants.Other.EMPTY_STRING,
+                        Constants.Other.ERROR_STRING
                     )
                 )
             }
@@ -51,7 +52,7 @@ class PhoneAuthRepoFakeImpl : PhoneAuthRepository {
                 emit(
                     ResOtp(
                         AuthConstants.RANDOM_STRING,
-                        com.core.data.Constants.Other.SUCCESS_STRING
+                        Constants.Other.SUCCESS_STRING
                     )
                 )
             }

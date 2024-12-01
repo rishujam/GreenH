@@ -5,7 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.core.data.Constants
+import com.core.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

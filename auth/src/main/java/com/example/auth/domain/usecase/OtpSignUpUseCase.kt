@@ -1,6 +1,6 @@
 package com.example.auth.domain.usecase
 
-import com.core.data.Constants
+import com.core.util.Constants
 import com.core.util.Resource
 import com.example.auth.data.model.UserProfile
 import com.example.auth.data.repository.PhoneAuthRepository

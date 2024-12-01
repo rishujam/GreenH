@@ -1,5 +1,6 @@
 package com.example.auth.data.repositoryimpl
 
+import com.core.util.Constants
 import com.example.auth.data.model.ResOtp
 import com.example.auth.data.repository.PhoneAuthRepository
 import com.example.auth.test.util.AuthConstants
@@ -20,14 +21,14 @@ class PhoneAuthStagingRepoImpl @Inject constructor() : PhoneAuthRepository {
             emit(
                 ResOtp(
                     AuthConstants.RANDOM_STRING,
-                    com.core.data.Constants.Other.SUCCESS_STRING
+                    Constants.Other.SUCCESS_STRING
                 )
             )
         } else {
             emit(
                 ResOtp(
-                    com.core.data.Constants.Other.EMPTY_STRING,
-                    com.core.data.Constants.Other.ERROR_STRING
+                    Constants.Other.EMPTY_STRING,
+                    Constants.Other.ERROR_STRING
                 )
             )
         }
@@ -39,14 +40,14 @@ class PhoneAuthStagingRepoImpl @Inject constructor() : PhoneAuthRepository {
             emit(
                 ResOtp(
                     AuthConstants.RANDOM_STRING,
-                    com.core.data.Constants.Other.SUCCESS_STRING
+                    Constants.Other.SUCCESS_STRING
                 )
             )
         } else {
             emit(
                 ResOtp(
-                    com.core.data.Constants.Other.EMPTY_STRING,
-                    com.core.data.Constants.Other.ERROR_STRING
+                    Constants.Other.EMPTY_STRING,
+                    Constants.Other.ERROR_STRING
                 )
             )
         }

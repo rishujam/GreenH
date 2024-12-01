@@ -3,7 +3,7 @@ package com.example.auth.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.core.data.Constants
+import com.core.util.Constants
 import com.example.auth.R
 import com.example.auth.databinding.ActivityAuthBinding
 import dagger.hilt.android.AndroidEntryPoint
