@@ -40,7 +40,7 @@ class AdminRepositoryFirebaseImpl(
         )
     }
 
-    override suspend fun generateNewId(location: String): Int? {
+    override suspend fun generateNewId(location: String): Long? {
         return firebaseDataSource.generateNewId(location)
     }
 

@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.core.ui.show
+import com.core.util.Constants
 import com.example.admin.data.data_source.FirebaseDataSource
 import com.example.admin.data.repo.AdminRepository
 import com.example.admin.data.repo.AdminRepositoryFirebaseImpl
@@ -54,10 +55,20 @@ class ShopAdminFragment : Fragment() {
                         tvPriceAdminShop.text = it.price.toString()
                         tvNameAdminShop.text = it.name
                         Glide.with(root).load(result.imageUrl).into(ivPlantAdminShop)
+                        binding?.tvNameAdminShop?.setOnClickListener(null)
+                        binding?.tvNameAdminShop?.setOnClickListener {
+                            val editFrag = EditPlantFragment()
+                            val bundle = Bundle()
+                            bundle.putString(Constants.Args.PLANT_ID, result.id)
+                            editFrag.arguments = bundle
+                            (activity as? AdminActivity)?.setCurrentFragmentBack(editFrag)
+                        }
                     }
                 }
             }
         }
+
+
         binding?.etSearchAdminShop?.addTextChangedListener {
             if(it.toString().isNotEmpty()) {
                 viewModel.search(it.toString())

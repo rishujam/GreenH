@@ -27,7 +27,7 @@ interface AdminRepository {
 
     suspend fun generateNewId(
         location: String
-    ): Int?
+    ): Long?
 
     suspend fun searchTerm(
         collection: String,
