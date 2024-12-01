@@ -1,6 +1,6 @@
 package com.example.auth.data.remotesource
 
-import com.core.data.Constants
+import com.core.util.Constants
 import com.example.auth.data.model.ResOtp
 import okhttp3.OkHttpClient
 import retrofit2.Response

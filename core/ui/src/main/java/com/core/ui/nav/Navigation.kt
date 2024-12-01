@@ -20,4 +20,8 @@ interface Navigation {
         activityLauncher: ActivityResultLauncher<Intent>? = null
     )
 
+    fun shopActivity(context: Context?)
+
+    fun adminActivity(context: Context?)
+
 }

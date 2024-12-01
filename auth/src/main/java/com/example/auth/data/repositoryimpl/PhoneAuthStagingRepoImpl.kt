@@ -1,8 +1,9 @@
 package com.example.auth.data.repositoryimpl
 
+import com.core.util.Constants
 import com.example.auth.data.model.ResOtp
 import com.example.auth.data.repository.PhoneAuthRepository
-import com.example.auth.test.util.Constants
+import com.example.auth.test.util.AuthConstants
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,18 +17,18 @@ class PhoneAuthStagingRepoImpl @Inject constructor() : PhoneAuthRepository {
 
     override suspend fun sendCredentials(phone: String): Flow<ResOtp?> = flow {
         delay(1000L)
-        if(phone == Constants.SUCCESS_PHONE_NO || phone == Constants.SUCCESS_PHONE_NO_2) {
+        if(phone == AuthConstants.SUCCESS_PHONE_NO || phone == AuthConstants.SUCCESS_PHONE_NO_2) {
             emit(
                 ResOtp(
-                    Constants.RANDOM_STRING,
-                    com.core.data.Constants.Other.SUCCESS_STRING
+                    AuthConstants.RANDOM_STRING,
+                    Constants.Other.SUCCESS_STRING
                 )
             )
         } else {
             emit(
                 ResOtp(
-                    com.core.data.Constants.Other.EMPTY_STRING,
-                    com.core.data.Constants.Other.ERROR_STRING
+                    Constants.Other.EMPTY_STRING,
+                    Constants.Other.ERROR_STRING
                 )
             )
         }
@@ -35,18 +36,18 @@ class PhoneAuthStagingRepoImpl @Inject constructor() : PhoneAuthRepository {
 
     override suspend fun verifyCredentials(phone: String, otp: String): Flow<ResOtp?> = flow {
         delay(1000L)
-        if(otp == Constants.VERIFY_OTP_SUCCESS) {
+        if(otp == AuthConstants.VERIFY_OTP_SUCCESS) {
             emit(
                 ResOtp(
-                    Constants.RANDOM_STRING,
-                    com.core.data.Constants.Other.SUCCESS_STRING
+                    AuthConstants.RANDOM_STRING,
+                    Constants.Other.SUCCESS_STRING
                 )
             )
         } else {
             emit(
                 ResOtp(
-                    com.core.data.Constants.Other.EMPTY_STRING,
-                    com.core.data.Constants.Other.ERROR_STRING
+                    Constants.Other.EMPTY_STRING,
+                    Constants.Other.ERROR_STRING
                 )
             )
         }

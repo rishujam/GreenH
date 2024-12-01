@@ -10,14 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.core.data.Constants
 import com.core.ui.hide
 import com.core.ui.show
+import com.core.util.Constants
 import com.core.util.Resource
 import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentEditProfileBinding
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.util.Constants.VERSION
 import com.example.auth.data.model.UserProfile
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -120,7 +119,7 @@ class EditProfileFragment : Fragment() {
                     name,
                     "$address%$pin",
                     profile?.phone.orEmpty(),
-                    VERSION,
+                    Constants.VERSION,
                     profile?.uid.orEmpty(),
                     gender,
                     ageGroup,

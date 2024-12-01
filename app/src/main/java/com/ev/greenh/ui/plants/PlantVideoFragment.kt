@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
@@ -15,19 +13,16 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.AspectRatioFrameLayout
-import com.core.util.Resource
-import com.ev.greenh.R
 import com.ev.greenh.databinding.FragmentPlantVideoBinding
 import com.ev.greenh.models.uimodels.PlantVideo
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.viewmodels.PlantViewModel
 
 class PlantVideoFragment:Fragment() {
 
     private var _binding: FragmentPlantVideoBinding?=null
     private val binding get() = _binding!!
     private lateinit var exoPlayer: ExoPlayer
-    private lateinit var viewModel:PlantViewModel
+//    private lateinit var viewModel:PlantViewModel
     private var playerInit = false
 
     override fun onCreateView(
@@ -36,7 +31,7 @@ class PlantVideoFragment:Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPlantVideoBinding.inflate(inflater,container,false)
-        viewModel = (activity as MainActivity).viewModel
+//        viewModel = (activity as MainActivity).viewModel
         return binding.root
     }
 
@@ -44,29 +39,29 @@ class PlantVideoFragment:Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val plantId = arguments?.getString("plantId").toString()
-        viewModel.getPlantVideoUrl(getString(R.string.plant_video_url), plantId)
+//        viewModel.getPlantVideoUrl(getString(R.string.plant_video_url), plantId)
 
-        viewModel.videoUrl.observe(viewLifecycleOwner, Observer {
-            when(it.getContentIfNotHandled()){
-                is Resource.Success->{
-                    val url = it.peekContent().data
-                    if(url!=null && url!="null" && url!="") {
-                        setupPlayer(it.peekContent().data!!)
-                    }else{
-                        binding.pbVideoLoad.visibility = View.INVISIBLE
-                        Toast.makeText(context, "Video not available", Toast.LENGTH_SHORT).show()
-                        (activity as MainActivity).supportFragmentManager.popBackStack()
-                    }
-                }
-                is Resource.Error->{
-                    binding.pbVideoLoad.visibility = View.INVISIBLE
-                    Toast.makeText(context, "Video not available", Toast.LENGTH_SHORT).show()
-                    (activity as MainActivity).supportFragmentManager.popBackStack()
-                }
-                is Resource.Loading ->{}
-                else -> {}
-            }
-        })
+//        viewModel.videoUrl.observe(viewLifecycleOwner, Observer {
+//            when(it.getContentIfNotHandled()){
+//                is Resource.Success->{
+//                    val url = it.peekContent().data
+//                    if(url!=null && url!="null" && url!="") {
+//                        setupPlayer(it.peekContent().data!!)
+//                    }else{
+//                        binding.pbVideoLoad.visibility = View.INVISIBLE
+//                        Toast.makeText(context, "Video not available", Toast.LENGTH_SHORT).show()
+//                        (activity as MainActivity).supportFragmentManager.popBackStack()
+//                    }
+//                }
+//                is Resource.Error->{
+//                    binding.pbVideoLoad.visibility = View.INVISIBLE
+//                    Toast.makeText(context, "Video not available", Toast.LENGTH_SHORT).show()
+//                    (activity as MainActivity).supportFragmentManager.popBackStack()
+//                }
+//                is Resource.Loading ->{}
+//                else -> {}
+//            }
+//        })
 
         binding.backBtnVideo.setOnClickListener {
             if(playerInit){

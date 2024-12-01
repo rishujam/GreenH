@@ -42,6 +42,7 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
 import coil.request.ImageRequest
+import com.core.util.Constants
 import com.core.ui.LogoFontFamily
 import com.core.ui.Mat3OnBg
 import com.core.ui.Mat3OnPrimary
@@ -58,7 +59,6 @@ import com.ev.greenh.grow.ui.LocalPlantListFragment
 import com.ev.greenh.plantidentify.ui.PlantIdentifyFragment
 import com.ev.greenh.ui.MainActivity
 import com.ev.greenh.ui.MainActivityViewModel
-import com.ev.greenh.util.Constants
 import com.example.testing.Tags
 
 

@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.core.util.Constants
 import com.ev.greenh.analytics.AnalyticsRepo
 import com.ev.greenh.home.data.Analytic
 import com.ev.greenh.plantidentify.doamin.usecase.PlantIdentifyUseCase
@@ -15,7 +16,6 @@ import com.ev.greenh.plantidentify.ui.event.PlantIdentifyEvent
 import com.ev.greenh.plantidentify.ui.model.IdentifyImage
 import com.ev.greenh.plantidentify.ui.state.PlantIdentifyScreenState
 import com.ev.greenh.plantidentify.ui.state.PlantIdentifyState
-import com.ev.greenh.util.Constants
 import com.ev.greenh.util.ImageCompressor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

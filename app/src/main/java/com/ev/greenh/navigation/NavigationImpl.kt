@@ -1,14 +1,15 @@
 package com.ev.greenh.navigation
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
-import com.core.data.Constants
+import com.core.util.Constants
 import com.core.ui.nav.Navigation
 import com.ev.greenh.launcher.LauncherActivity
 import com.ev.greenh.ui.MainActivity
+import com.example.admin.ui.AdminActivity
 import com.example.auth.ui.AuthActivity
+import com.example.ui.ShopActivity
 import javax.inject.Inject
 
 /*
@@ -43,5 +44,13 @@ class NavigationImpl @Inject constructor() : Navigation {
             }
             context?.startActivity(intent)
         }
+    }
+
+    override fun shopActivity(context: Context?) {
+        context?.startActivity(Intent(context, ShopActivity::class.java))
+    }
+
+    override fun adminActivity(context: Context?) {
+        context?.startActivity(Intent(context, AdminActivity::class.java))
     }
 }

@@ -33,7 +33,6 @@ import com.ev.greenh.R
 import com.ev.greenh.grow.ui.composable.components.GroupBadgeIcon
 import com.ev.greenh.grow.ui.model.GrowDetailData
 import com.ev.greenh.ui.MainActivity
-import com.ev.greenh.ui.plants.PlantFragment
 import com.example.testing.Tags
 
 /*
@@ -110,8 +109,7 @@ fun GrowDetailScreen(data: GrowDetailData?) {
                 ) {
                     ButtonG(modifier = Modifier, text = "Buy Plant") {
                         val activity = content.findActivity()
-                        val fragment = PlantFragment()
-                        (activity as? MainActivity)?.setCurrentFragmentBack(fragment)
+                        (activity as? MainActivity)?.navigateToShop()
                     }
                 }
 

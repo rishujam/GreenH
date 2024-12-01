@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<com.google.android.material.floatingactionbutton.FloatingActionButton
+		android:id="@+id/fabAddPlant"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/ic_add"
+		android:backgroundTint="@color/dark_green"
+		app:iconTint="@color/grey"
+		android:layout_marginEnd="16dp"
+		android:layout_marginBottom="16dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"/>
+
+	<EditText
+		android:id="@+id/etSearchAdminShop"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="16dp"
+		android:layout_marginHorizontal="16dp"
+		android:hint="Search"
+		app:layout_constraintTop_toTopOf="parent"/>
+
+	<androidx.constraintlayout.widget.Group
+		android:id="@+id/grpResult"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:visibility="gone"
+		app:constraint_referenced_ids="ivPlantAdminShop,tvNameAdminShop,tvPriceAdminShop"/>
+
+	<ImageView
+		android:id="@+id/ivPlantAdminShop"
+		android:layout_width="100dp"
+		android:layout_height="100dp"
+		android:src="@color/black"
+		app:layout_constraintStart_toStartOf="parent"
+		android:layout_marginStart="16dp"
+		app:layout_constraintTop_toBottomOf="@id/etSearchAdminShop"
+		android:layout_marginTop="16dp"/>
+
+	<TextView
+		android:id="@+id/tvNameAdminShop"
+		android:layout_width="0dp"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:textSize="16sp"
+		android:textStyle="bold"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toBottomOf="@id/etSearchAdminShop"
+		app:layout_constraintStart_toEndOf="@id/ivPlantAdminShop"
+		app:layout_constraintEnd_toStartOf="@id/tvPriceAdminShop"
+		tools:text="Tulsi"/>
+
+	<TextView
+		android:id="@+id/tvPriceAdminShop"
+		android:layout_width="0dp"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:layout_marginEnd="16dp"
+		app:layout_goneMarginTop="16dp"
+		android:textSize="16sp"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toBottomOf="@id/etSearchAdminShop"
+		app:layout_constraintEnd_toEndOf="parent"
+		tools:text="40"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

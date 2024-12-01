@@ -5,12 +5,9 @@ import com.core.util.Resource
 import com.example.auth.domain.model.SignUpComplete
 import com.example.auth.test.fakes.PhoneAuthRepoFakeImpl
 import com.example.auth.test.fakes.UserDataRepoFakeImpl
-import com.example.auth.test.util.Constants
+import com.example.auth.test.util.AuthConstants
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
-import org.junit.Before
 import org.junit.Test
 
 /*
@@ -27,9 +24,9 @@ class OtpSignUpUseCaseTest {
     @Test
     fun `When incomplete otp entered emit error` () = runTest {
         otpSignUpUseCase.invoke(
-            Constants.SUCCESS_PHONE_NO,
-            Constants.VERIFY_OTP_INCOMPLETE,
-            Constants.TEST_BUILD_VERSION
+            AuthConstants.SUCCESS_PHONE_NO,
+            AuthConstants.VERIFY_OTP_INCOMPLETE,
+            AuthConstants.TEST_BUILD_VERSION
         ).test {
             val firstEmission = awaitItem()
             awaitComplete()
@@ -45,9 +42,9 @@ class OtpSignUpUseCaseTest {
     fun `When correct otp entered and user already exist ` () = runTest {
         val events = mutableListOf<Resource<SignUpComplete>>()
         otpSignUpUseCase.invoke(
-            Constants.EXISTING_USER_PHONE,
-            Constants.VERIFY_OTP_SUCCESS,
-            Constants.TEST_BUILD_VERSION
+            AuthConstants.EXISTING_USER_PHONE,
+            AuthConstants.VERIFY_OTP_SUCCESS,
+            AuthConstants.TEST_BUILD_VERSION
         ).collect {
             events.add(it)
         }
@@ -71,9 +68,9 @@ class OtpSignUpUseCaseTest {
     fun `When correct otp entered and user is new ` () = runTest {
         val events = mutableListOf<Resource<SignUpComplete>>()
         otpSignUpUseCase.invoke(
-            Constants.NEW_USER,
-            Constants.VERIFY_OTP_SUCCESS,
-            Constants.TEST_BUILD_VERSION
+            AuthConstants.NEW_USER,
+            AuthConstants.VERIFY_OTP_SUCCESS,
+            AuthConstants.TEST_BUILD_VERSION
         ).collect {
             events.add(it)
         }
@@ -97,9 +94,9 @@ class OtpSignUpUseCaseTest {
     fun `on incorrect otp entered emit error` () = runTest {
         val events = mutableListOf<Resource<SignUpComplete>>()
         otpSignUpUseCase.invoke(
-            Constants.EXISTING_USER_PHONE,
-            Constants.VERIFY_OTP_INCORRECT,
-            Constants.TEST_BUILD_VERSION
+            AuthConstants.EXISTING_USER_PHONE,
+            AuthConstants.VERIFY_OTP_INCORRECT,
+            AuthConstants.TEST_BUILD_VERSION
         ).collect {
             events.add(it)
         }
@@ -116,9 +113,9 @@ class OtpSignUpUseCaseTest {
     fun `on null res emit error` () = runTest {
         val events = mutableListOf<Resource<SignUpComplete>>()
         otpSignUpUseCase.invoke(
-            Constants.EXISTING_USER_PHONE,
-            Constants.VERIFY_OTP_NULL_RES,
-            Constants.TEST_BUILD_VERSION
+            AuthConstants.EXISTING_USER_PHONE,
+            AuthConstants.VERIFY_OTP_NULL_RES,
+            AuthConstants.TEST_BUILD_VERSION
         ).collect {
             events.add(it)
         }

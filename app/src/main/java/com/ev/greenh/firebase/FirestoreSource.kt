@@ -1,18 +1,17 @@
 package com.ev.greenh.firebase
 
-import com.ev.greenh.models.*
+import com.core.util.Constants
+import com.ev.greenh.models.Order
+import com.ev.greenh.models.Response
 import com.ev.greenh.models.uimodels.MyOrder
 import com.ev.greenh.models.uimodels.MyOrderDetail
 import com.ev.greenh.models.uimodels.PlantMyOrder
-import com.ev.greenh.util.Constants
-import com.ev.greenh.util.Constants.QUERY_PAGE_SIZE
 import com.example.auth.data.model.UserProfile
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
@@ -22,66 +21,79 @@ class FirestoreSource @Inject constructor() {
 
     private val fireRef = Firebase.firestore
 
-    suspend fun getAllPlants(collection: String, page: Int, lastFeatureNo: Int): Plants {
-        val list = mutableListOf<Plant>()
-        val data = if (lastFeatureNo == 0) {
-            fireRef.collection(collection).whereEqualTo("status", "Available").orderBy("featureNo")
-                .startAfter(page * 5).limit(5).get().await()
-        } else {
-            fireRef.collection(collection).whereEqualTo("status", "Available").orderBy("featureNo")
-                .startAfter(lastFeatureNo).limit(5).get().await()
-        }
-        for (i in data.documents) {
-            val plant = i.toObject<Plant>()
-            if (plant != null) {
-                list.add(plant)
-            }
-        }
-        return Plants(list)
-    }
+//    suspend fun getAllPlants(collection: String, page: Int, lastFeatureNo: Int): ResPlants {
+//        val list = mutableListOf<com.example.shop.data.model.ResPlant>()
+//        val data = if (lastFeatureNo == 0) {
+//            fireRef.collection(collection).whereEqualTo("status", "Available").orderBy("featureNo")
+//                .startAfter(page * 5).limit(5).get().await()
+//        } else {
+//            fireRef.collection(collection).whereEqualTo("status", "Available").orderBy("featureNo")
+//                .startAfter(lastFeatureNo).limit(5).get().await()
+//        }
+//        for (i in data.documents) {
+//            val plant = i.toObject<com.example.shop.data.model.ResPlant>()
+//            if (plant != null) {
+//                list.add(plant)
+//            }
+//        }
+//        return ResPlants(list, isSuccessful = true)
+//    }
 
-    suspend fun getAllPlantsPaging(page: Int): Plants {
-        val list = mutableListOf<Plant>()
-        val startAfter = QUERY_PAGE_SIZE * (page - 1)
-        val data = fireRef
-            .collection("plant_sample_ref")
-            .whereEqualTo("status", "Available")
-            .orderBy("featureNo")
-            .startAfter(startAfter)
-            .limit(QUERY_PAGE_SIZE.toLong()).get().await()
-        for (i in data.documents) {
-            val plant = i.toObject<Plant>()
-            plant?.let { list.add(it) }
-        }
-        return Plants(list)
+    suspend fun getAllPlantsPaging(page: Int) {
+//        val list = mutableListOf<com.example.shop.data.model.ResPlant>()
+//        val startAfter = Constants.QUERY_PAGE_SIZE * (page - 1)
+//        val data = fireRef
+//            .collection("plant_sample_ref")
+//            .whereEqualTo("status", "Available")
+//            .orderBy("featureNo")
+//            .startAfter(startAfter)
+//            .limit(Constants.QUERY_PAGE_SIZE.toLong()).get().await()
+//        for (i in data.documents) {
+//            val plant = i.toObject<com.example.shop.data.model.ResPlant>()
+//            plant?.let { list.add(it) }
+//        }
+//        return ResPlants(list, isSuccessful = true)
     }
 
     suspend fun getPlantsByCategory(
         collection: String,
         category: String,
         lastFeatureNo: Int
-    ): Plants {
-        val list = mutableListOf<Plant>()
-        val data = if (lastFeatureNo == 0) {
-            fireRef.collection(collection).whereEqualTo("status", "Available")
-                .whereEqualTo("category", category).orderBy("featureNo").limit(5).get().await()
-        } else {
-            fireRef.collection(collection).whereEqualTo("status", "Available")
-                .whereEqualTo("category", category).orderBy("featureNo").startAfter(lastFeatureNo)
-                .limit(5).get().await()
-        }
-        for (i in data.documents) {
-            val plant = i.toObject<Plant>()
-            if (plant != null) {
-                list.add(plant)
-            }
-        }
-        return Plants(list)
+    ) {
+//        val list = mutableListOf<ResPlant>()
+//        val data = if (lastFeatureNo == 0) {
+//            fireRef.collection(collection).whereEqualTo("status", "Available")
+//                .whereEqualTo("category", category).orderBy("featureNo").limit(5).get().await()
+//        } else {
+//            fireRef.collection(collection).whereEqualTo("status", "Available")
+//                .whereEqualTo("category", category).orderBy("featureNo").startAfter(lastFeatureNo)
+//                .limit(5).get().await()
+//        }
+//        for (i in data.documents) {
+//            val plant = i.toObject<ResPlant>()
+//            if (plant != null) {
+//                list.add(plant)
+//            }
+//        }
+//        return ResPlants(list, isSuccessful = true)
     }
 
-    suspend fun getSinglePlant(collection: String, id: String): Plant {
+    suspend fun getSinglePlant(collection: String, id: String) {
         val ref = fireRef.collection(collection).document(id).get().await()
-        return ref.toObject<Plant>() ?: Plant()
+//        return ref.toObject<com.example.shop.data.model.ResPlant>() ?: ResPlant(
+//            "",
+//            "",
+//            "",
+//            "",
+//            "",
+//            false,
+//            "",
+//            "",
+//            "",
+//            1,
+//            1,
+//            ""
+//        )
     }
 
     suspend fun addPlantToBag(
@@ -124,23 +136,23 @@ class FirestoreSource @Inject constructor() {
         return res
     }
 
-    suspend fun getBagItems(collBag: String, collPlant: String, user: String): Map<Plant, String> {
-        val map = mutableMapOf<Plant, String>()
-        val ref = fireRef.collection(collBag).document(user).get().await()
-        val data = ref.data
-        if (data != null) {
-            coroutineScope {
-                for (i in data.keys) {
-                    async {
-                        val plant = getSinglePlant(collPlant, i)
-                        val quantity = ref[plant.id].toString()
-                        val price = plant.price.toInt() * quantity.toInt()
-                        map[plant] = "$quantity,$price"
-                    }
-                }
-            }
-        }
-        return map
+    suspend fun getBagItems(collBag: String, collPlant: String, user: String) {
+//        val map = mutableMapOf<com.example.shop.data.model.ResPlant, String>()
+//        val ref = fireRef.collection(collBag).document(user).get().await()
+//        val data = ref.data
+//        if (data != null) {
+//            coroutineScope {
+//                for (i in data.keys) {
+//                    async {
+//                        val plant = getSinglePlant(collPlant, i)
+//                        val quantity = ref[plant.id].toString()
+//                        val price = plant.price.toInt() * quantity.toInt()
+//                        map[plant] = "$quantity,$price"
+//                    }
+//                }
+//            }
+//        }
+//        return map
     }
 
     suspend fun deleteItemFromBag(user: String, collection: String, plantId: String): Response {
@@ -192,8 +204,8 @@ class FirestoreSource @Inject constructor() {
                         orderedDate = order.dateOrdered
                     )
                     val plant = getSinglePlant(collectionPlant, plantId.split(",")[0])
-                    myOrder.plantName = plant.name
-                    myOrder.plantPhoto = plant.imageLocation
+//                    myOrder.plantName = plant.name
+                    myOrder.plantPhoto = ""
                     out.add(myOrder)
                 }
             }
@@ -213,9 +225,9 @@ class FirestoreSource @Inject constructor() {
             val plantId = i.split(",")[0]
             val quantity = i.split(",")[1]
             val plant = getSinglePlant(collectionPlant, plantId)
-            val plantMyOrder =
-                PlantMyOrder(plantId, plant.name, plant.imageLocation, plant.price, quantity)
-            listOfPlantMyOrder.add(plantMyOrder)
+//            val plantMyOrder =
+//                PlantMyOrder(plantId, plant.name, plant.imageLocation, plant.price, quantity)
+//            listOfPlantMyOrder.add(plantMyOrder)
         }
         val itemsAmount = (order.totalAmount.toInt() - order.deliveryCharges.toInt()).toString()
         return MyOrderDetail(

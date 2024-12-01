@@ -9,7 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import com.core.data.Constants
+import com.core.util.Constants
 import com.core.ui.nav.Navigation
 import com.ev.greenh.BuildConfig
 import com.ev.greenh.databinding.FragmentProfileBinding
@@ -103,6 +103,10 @@ class ProfileFragment : Fragment() {
                                 activity?.finish()
                             }
                         )
+                    }
+
+                    is ProfileEvents.Admin -> {
+                        navigation.adminActivity(context)
                     }
 
                     else -> viewModel.onEvent(it)

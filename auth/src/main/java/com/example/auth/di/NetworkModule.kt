@@ -1,6 +1,6 @@
 package com.example.auth.di
 
-import com.core.data.Constants
+import com.core.util.Constants
 import com.example.auth.data.remotesource.PhoneAuthApi
 import dagger.Module
 import dagger.Provides

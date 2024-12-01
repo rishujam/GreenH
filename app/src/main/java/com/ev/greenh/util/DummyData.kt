@@ -1,6 +1,7 @@
 package com.ev.greenh.util
 
 import com.core.ui.model.RadioBtnOption
+import com.core.util.Constants
 import com.ev.greenh.grow.data.model.res.GrowDetailRes
 import com.ev.greenh.grow.ui.model.LocalPlantListItem
 import com.ev.greenh.grow.ui.model.LocalPlantListItemBase
@@ -70,7 +71,7 @@ object DummyData {
                     RadioBtnOption("Indirect"),
                     RadioBtnOption("No Sunlight")
                 ),
-                viewType = Constants.ViewType.LOCAL_PLANT_LIST_QUESTION
+                viewType =  Constants.ViewType.LOCAL_PLANT_LIST_QUESTION
             ),
             LocalPlantListItem(
                 "3",
