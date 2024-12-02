@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.core.ui.hide
 import com.core.ui.show
 import com.core.util.Resource
 import com.example.ui.databinding.FragmentPlantListBinding
@@ -44,12 +45,14 @@ class PlantsListFragment : Fragment() {
             viewModel.uiState.collect {
                 when(it) {
                     is Resource.Error -> {
+                        binding?.pbPlantList?.hide()
                         Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
                     }
                     is Resource.Loading -> {
                         binding?.pbPlantList?.show()
                     }
                     is Resource.Success -> {
+                        binding?.pbPlantList?.hide()
                         Log.d("RishuTest", "data: ${it.data}")
                     }
                 }

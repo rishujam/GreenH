@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<declare-styleable name="ButtonG">
+		<attr name="text" format="string" />
+		<attr name="isEnabled" format="boolean" />
+		<attr name="buttonType">
+			<enum name="primary" value="1" />
+			<enum name="secondary" value="2" />
+		</attr>
+
+		<attr name="verticalPadding" format="integer">
+			<enum name="large" value="1" />
+			<enum name="small" value="2" />
+		</attr>
+
+	</declare-styleable>
+</resources>

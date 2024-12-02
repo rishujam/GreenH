@@ -10,7 +10,7 @@
 		android:layout_height="wrap_content"
 		android:paddingLeft="16dp"
 		android:paddingTop="16dp"
-		android:text="Gardners Hub"
+		android:text="Welcome to Nursery"
 		android:fontFamily="@font/carmen_heavy"
 		android:textColor="@color/mat3_on_bg"
 		android:textSize="22sp"
@@ -31,61 +31,16 @@
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/tvPlantListTitle" />
 
-	<HorizontalScrollView
-		android:id="@+id/filter"
-		android:layout_width="match_parent"
+	<com.core.ui.views.ButtonG
+		android:id="@+id/btnFilterPlantList"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:scrollbars="none"
+		app:text="Filter"
+		android:layout_marginEnd="16dp"
+		android:layout_marginTop="16dp"
+		app:buttonType="secondary"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/tvPlantListSubTitle">
-
-		<LinearLayout
-			android:id="@+id/llFilter"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal">
-
-			<TextView
-				android:id="@+id/filterAll"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:fontFamily="@font/carmen_bold"
-				android:paddingTop="8dp"
-				android:paddingRight="16dp"
-				android:paddingLeft="16dp"
-				android:textColor="@color/mat3_on_bg"
-				android:paddingBottom="8dp"
-				android:text="All"
-				android:textSize="16sp" />
-
-			<TextView
-				android:id="@+id/filterIndoor"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:fontFamily="@font/carmen_bold"
-				android:paddingLeft="16dp"
-				android:paddingTop="8dp"
-				android:paddingRight="16dp"
-				android:paddingBottom="8dp"
-				android:text="Indoor"
-				android:textSize="16sp" />
-
-			<TextView
-				android:id="@+id/filterTable"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:fontFamily="@font/carmen_bold"
-				android:paddingLeft="16dp"
-				android:paddingTop="8dp"
-				android:paddingRight="16dp"
-				android:paddingBottom="8dp"
-				android:text="Table"
-				android:textSize="16sp" />
-
-		</LinearLayout>
-	</HorizontalScrollView>
+		app:layout_constraintTop_toBottomOf="@id/tvPlantListSubTitle"/>
 
 	<androidx.recyclerview.widget.RecyclerView
 		android:id="@+id/rvAllPlants"
@@ -98,7 +53,7 @@
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/filter" />
+		app:layout_constraintTop_toBottomOf="@+id/btnFilterPlantList" />
 
 	<ProgressBar
 		android:id="@+id/pbPlantList"

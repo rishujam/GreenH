@@ -14,7 +14,7 @@ data class Plant(
     val category: PlantCategory,
     val imageUrl: String,
     val videoUrl: String,
-    val price: Int,
-    val approxHeight: Int,
+    val price: Long,
+    val approxHeight: Long,
     val maintenance: Maintenance
 )
