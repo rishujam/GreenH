@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.core.ui.hide
 import com.core.ui.show
 import com.core.util.Resource
@@ -28,7 +30,7 @@ class PlantsListFragment : Fragment() {
     private var _binding: FragmentPlantListBinding?=null
     private val binding get() = _binding
     private val viewModel by viewModels<PlantListViewModel>()
-    private var adapter: PlantAdapter? = null
+    private var plantAdapter: PlantAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,21 +55,21 @@ class PlantsListFragment : Fragment() {
                     }
                     is Resource.Success -> {
                         binding?.pbPlantList?.hide()
-                        Log.d("RishuTest", "data: ${it.data}")
+                        setupRv()
+                        plantAdapter?.differ?.submitList(it.data)
                     }
                 }
             }
         }
         viewModel.getList()
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            delay(3000L)
-            viewModel.getList()
-        }
     }
 
     private fun setupRv() {
-
+        plantAdapter = PlantAdapter()
+        binding?.rvAllPlants?.apply {
+            adapter = plantAdapter
+            layoutManager = PlantListLayoutManager(context)
+        }
     }
 
     override fun onDestroyView() {
