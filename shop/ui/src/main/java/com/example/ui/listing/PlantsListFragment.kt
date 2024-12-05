@@ -9,6 +9,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.core.ui.hide
 import com.core.ui.show
 import com.core.util.Resource
 import com.example.ui.databinding.FragmentPlantListBinding
@@ -27,7 +30,7 @@ class PlantsListFragment : Fragment() {
     private var _binding: FragmentPlantListBinding?=null
     private val binding get() = _binding
     private val viewModel by viewModels<PlantListViewModel>()
-    private var adapter: PlantAdapter? = null
+    private var plantAdapter: PlantAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,27 +47,31 @@ class PlantsListFragment : Fragment() {
             viewModel.uiState.collect {
                 when(it) {
                     is Resource.Error -> {
+                        binding?.pbPlantList?.hide()
                         Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
                     }
                     is Resource.Loading -> {
                         binding?.pbPlantList?.show()
                     }
                     is Resource.Success -> {
-                        Log.d("RishuTest", "data: ${it.data}")
+                        binding?.pbPlantList?.hide()
+                        setupRv()
+                        plantAdapter?.differ?.submitList(it.data)
                     }
                 }
             }
         }
         viewModel.getList()
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            delay(3000L)
-            viewModel.getList()
-        }
     }
 
     private fun setupRv() {
-
+        plantAdapter = PlantAdapter()
+        val snapHelper = PlantListSpanHelper(context)
+        binding?.rvAllPlants?.apply {
+            adapter = plantAdapter
+            layoutManager = PlantListLayoutManager(context)
+            snapHelper.attachToRecyclerView(this)
+        }
     }
 
     override fun onDestroyView() {

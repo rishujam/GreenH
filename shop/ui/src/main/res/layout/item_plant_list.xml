@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	app:cardElevation="6dp"
+	app:cardCornerRadius="12dp">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<ImageView
+			android:id="@+id/ivPlantItem"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			app:layout_constraintDimensionRatio="1:1.6"
+			android:scaleType="centerCrop"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
+		<TextView
+			android:id="@+id/tvNameItemPlant"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/nunito_bold"
+			android:layout_marginStart="16dp"
+			android:paddingTop="16dp"
+			android:textColor="@color/white"
+			android:textSize="18sp"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			tools:text="Tulsi" />
+
+		<TextView
+			android:id="@+id/tvPriceItemPlant"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/nunito_bold"
+			android:layout_marginStart="16dp"
+			android:paddingBottom="16dp"
+			android:textColor="@color/white"
+			android:textSize="18sp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			tools:text="100" />
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
+
