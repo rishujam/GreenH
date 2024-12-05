@@ -66,9 +66,11 @@ class PlantsListFragment : Fragment() {
 
     private fun setupRv() {
         plantAdapter = PlantAdapter()
+        val snapHelper = PlantListSpanHelper(context)
         binding?.rvAllPlants?.apply {
             adapter = plantAdapter
             layoutManager = PlantListLayoutManager(context)
+            snapHelper.attachToRecyclerView(this)
         }
     }
 

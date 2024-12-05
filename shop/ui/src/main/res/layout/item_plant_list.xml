@@ -5,9 +5,8 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:layout_marginBottom="16dp"
-	app:cardCornerRadius="12dp"
-	android:elevation="6dp">
+	app:cardElevation="6dp"
+	app:cardCornerRadius="12dp">
 
 	<androidx.constraintlayout.widget.ConstraintLayout
 		android:layout_width="match_parent"
@@ -17,7 +16,7 @@
 			android:id="@+id/ivPlantItem"
 			android:layout_width="match_parent"
 			android:layout_height="0dp"
-			app:layout_constraintDimensionRatio="1:1.4"
+			app:layout_constraintDimensionRatio="1:1.6"
 			android:scaleType="centerCrop"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
