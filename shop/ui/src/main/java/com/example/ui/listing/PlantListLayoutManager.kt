@@ -10,6 +10,7 @@ import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 
 /*
  * Created by Sudhanshu Kumar on 03/12/24.
@@ -43,20 +44,33 @@ class PlantListLayoutManager(
             addView(view)
 
             val layoutParams = view.layoutParams as RecyclerView.LayoutParams
-            layoutParams.height = (width.toDouble() * 1.6).toInt()
-            layoutParams.width = width
+            layoutParams.width = if(isViewCompletelyVisible(view, height)) {
+                width
+            } else {
+                width - margin
+            }
+            layoutParams.height = (layoutParams.width.toDouble() * 1.6).toInt()
             view.layoutParams = layoutParams
             measureChild(view, width, height)
 
             if (position > 0) {
                 accumulatedTop += margin
             }
-            val left = 0
-            val right = width
+            val left = if(isViewCompletelyVisible(view, height)) {
+                0
+            } else {
+                margin / 2
+            }
+            val right = if(isViewCompletelyVisible(view, height)) {
+                width
+            } else {
+                width - (margin / 2)
+            }
             val top = accumulatedTop
             val bottom = accumulatedTop + layoutParams.height
             layoutDecorated(view, left, top, right, bottom)
             accumulatedTop += layoutParams.height
+            updateViewVisibilityAndAnimations(position)
         }
     }
 
@@ -93,25 +107,23 @@ class PlantListLayoutManager(
         val delta = clampedOffset - offset
         offsetChildrenVertical(-delta)
         offset = clampedOffset
-        updateViewVisibilityAndAnimations(recycler)
+        fill(recycler)
         return delta
     }
 
-    private fun updateViewVisibilityAndAnimations(recycler: RecyclerView.Recycler) {
-        for (i in 0 until childCount) {
-            val view = getChildAt(i) ?: continue
-            val is70PercentVisible = isViewCompletelyVisible(view, height)
-            if (is70PercentVisible) {
-                view.animate()
-                    .alpha(1f)
-                    .setDuration(300)
-                    .start()
-            } else {
-                view.animate()
-                    .alpha(0.5f)
-                    .setDuration(300)
-                    .start()
-            }
+    private fun updateViewVisibilityAndAnimations(i: Int) {
+        val view = getChildAt(i)
+        val is70PercentVisible = isViewCompletelyVisible(view, height)
+        if (is70PercentVisible) {
+            view?.animate()
+                ?.alpha(1f)
+                ?.setDuration(300)
+                ?.start()
+        } else {
+            view?.animate()
+                ?.alpha(0.5f)
+                ?.setDuration(300)
+                ?.start()
         }
     }
 }
