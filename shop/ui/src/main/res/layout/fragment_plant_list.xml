@@ -8,51 +8,46 @@
 		android:id="@+id/tvPlantListTitle"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:paddingLeft="16dp"
-		android:paddingTop="16dp"
-		android:text="Welcome to Nursery"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="16dp"
+		android:elevation="4dp"
+		android:text="Nursery"
 		android:fontFamily="@font/carmen_heavy"
-		android:textColor="@color/mat3_on_bg"
-		android:textSize="22sp"
+		android:textColor="@color/mat3_on_surface_variant"
+		android:textSize="18sp"
 		android:textStyle="bold"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent" />
 
 	<TextView
-		android:id="@+id/tvPlantListSubTitle"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:fontFamily="@font/carmen_regular"
-		android:textColor="@color/mat3_on_bg"
-		android:paddingLeft="16dp"
-		android:paddingTop="6dp"
-		android:text="choose your new green friend."
-		android:textSize="16sp"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/tvPlantListTitle" />
-
-	<com.core.ui.views.ButtonG
 		android:id="@+id/btnFilterPlantList"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		app:text="Filter"
-		android:layout_marginEnd="16dp"
-		android:layout_marginTop="16dp"
-		app:buttonType="secondary"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintTop_toBottomOf="@id/tvPlantListSubTitle"/>
+		android:background="@drawable/text_bg"
+		android:drawableStart="@drawable/ic_filter_filled"
+		android:drawablePadding="8dp"
+		android:drawableTint="@color/mat3_on_surface_variant"
+		android:elevation="5dp"
+		android:paddingVertical="8dp"
+		android:paddingStart="16dp"
+		android:paddingEnd="16dp"
+		android:text="Filter"
+		android:textColor="@color/mat3_on_surface_variant"
+		android:textSize="14sp"
+		app:layout_constraintEnd_toEndOf="@id/rvAllPlants"
+		app:layout_constraintTop_toBottomOf="@+id/tvPlantListTitle" />
 
 	<androidx.recyclerview.widget.RecyclerView
 		android:id="@+id/rvAllPlants"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
-		android:layout_marginTop="16dp"
 		android:layout_marginHorizontal="16dp"
+		android:layout_marginTop="16dp"
 		android:orientation="vertical"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/btnFilterPlantList" />
+		app:layout_constraintTop_toBottomOf="@id/tvPlantListTitle" />
 
 	<ProgressBar
 		android:id="@+id/pbPlantList"
@@ -62,5 +57,18 @@
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent" />
+
+<!--	<androidx.coordinatorlayout.widget.CoordinatorLayout-->
+<!--		android:id="@+id/bottomSheetSurface"-->
+<!--		android:layout_width="match_parent"-->
+<!--		android:layout_height="wrap_content"-->
+<!--		android:elevation="5dp"-->
+<!--		app:layout_constraintBottom_toBottomOf="parent">-->
+
+<!--		<include-->
+<!--			android:id="@+id/bottomSheetInflator"-->
+<!--			layout="@layout/bottom_sheet_container"/>-->
+
+<!--	</androidx.coordinatorlayout.widget.CoordinatorLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
