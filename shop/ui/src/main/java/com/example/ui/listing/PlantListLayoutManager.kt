@@ -1,23 +1,18 @@
 package com.example.ui.listing
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.drawable.BitmapDrawable
-import android.renderscript.Allocation
-import android.renderscript.Element
-import android.renderscript.RenderScript
-import android.renderscript.ScriptIntrinsicBlur
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
+
 
 /*
  * Created by Sudhanshu Kumar on 03/12/24.
  */
 
 class PlantListLayoutManager(
-    private val context: Context
+    private val context: Context?
 ) : RecyclerView.LayoutManager() {
 
     private var offset = 0
@@ -35,46 +30,45 @@ class PlantListLayoutManager(
 
     private fun fill(recycler: RecyclerView.Recycler?) {
         if (itemCount == 0 || recycler == null) return
-        val density = context.resources.displayMetrics.density
-        val margin = (32 * density).toInt()
+        val density = context?.resources?.displayMetrics?.density ?: 1f
+        val marginItem = (32 * density).toInt()
+        val marginLeft = (16 * density).toInt()
         detachAndScrapAttachedViews(recycler)
         var accumulatedTop = -offset
         for (position in 0 until itemCount) {
             val view = recycler.getViewForPosition(position)
             addView(view)
-
+            val isVisible = isViewMostlyVisible(view, height)
             val layoutParams = view.layoutParams as RecyclerView.LayoutParams
-            layoutParams.width = if(isViewCompletelyVisible(view, height)) {
-                width
-            } else {
-                width - margin
-            }
-            layoutParams.height = (layoutParams.width.toDouble() * 1.6).toInt()
+            layoutParams.width = width - marginItem
+            layoutParams.height = (layoutParams.width * 1.6).toInt()
             view.layoutParams = layoutParams
-            measureChild(view, width, height)
+            measureChild(view, layoutParams.width, layoutParams.height)
+            if(isVisible) {
+                scaleView(
+                    view,
+                    1.1f,
+                    1.1f
+                )
+            } else {
+                scaleView(
+                    view,
+                    1f,
+                    1f
+                )
+            }
+            accumulatedTop += marginItem
 
-            if (position > 0) {
-                accumulatedTop += margin
-            }
-            val left = if(isViewCompletelyVisible(view, height)) {
-                0
-            } else {
-                margin / 2
-            }
-            val right = if(isViewCompletelyVisible(view, height)) {
-                width
-            } else {
-                width - (margin / 2)
-            }
+            val right = width - marginLeft
             val top = accumulatedTop
             val bottom = accumulatedTop + layoutParams.height
-            layoutDecorated(view, left, top, right, bottom)
+            layoutDecorated(view, marginLeft, top, right, bottom)
             accumulatedTop += layoutParams.height
-            updateViewVisibilityAndAnimations(position)
+            updateViewVisibilityAndAnimations(position, isVisible)
         }
     }
 
-    private fun isViewCompletelyVisible(view: View?, recyclerViewHeight: Int): Boolean {
+    private fun isViewMostlyVisible(view: View?, recyclerViewHeight: Int): Boolean {
         if (view == null) return false
         val viewTop = getDecoratedTop(view)
         val viewBottom = getDecoratedBottom(view)
@@ -111,10 +105,9 @@ class PlantListLayoutManager(
         return delta
     }
 
-    private fun updateViewVisibilityAndAnimations(i: Int) {
+    private fun updateViewVisibilityAndAnimations(i: Int, isVisible: Boolean) {
         val view = getChildAt(i)
-        val is70PercentVisible = isViewCompletelyVisible(view, height)
-        if (is70PercentVisible) {
+        if (isVisible) {
             view?.animate()
                 ?.alpha(1f)
                 ?.setDuration(300)
@@ -126,4 +119,23 @@ class PlantListLayoutManager(
                 ?.start()
         }
     }
+
+    fun scaleView(
+        v: View,
+        endX: Float,
+        endScale: Float,
+    ) {
+        val anim: Animation = ScaleAnimation(
+            1f,
+            endX,
+            1f,
+            endScale,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f
+        )
+        anim.fillAfter = true
+        anim.duration = 200L
+        v.startAnimation(anim)
+    }
+
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:id="@+id/bottomSheetContainer"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	app:behavior_hideable="false"
+	app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent" >
+
+		<FrameLayout
+			android:id="@+id/flBottomSheet"
+			android:layout_width="match_parent"
+			android:layout_height="400dp"
+			android:background="@color/black"
+			app:layout_constraintTop_toTopOf="parent"/>
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

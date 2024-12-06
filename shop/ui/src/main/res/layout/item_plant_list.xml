@@ -15,8 +15,8 @@
 			android:id="@+id/ivPlantItem"
 			android:layout_width="match_parent"
 			android:layout_height="0dp"
-			app:layout_constraintDimensionRatio="1:1.6"
 			android:scaleType="centerCrop"
+			app:layout_constraintDimensionRatio="1:1.6"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toTopOf="parent" />
@@ -27,11 +27,12 @@
 			android:layout_height="wrap_content"
 			android:fontFamily="@font/nunito_bold"
 			android:layout_marginStart="16dp"
-			android:paddingTop="16dp"
 			android:textColor="@color/white"
 			android:textSize="18sp"
+			android:paddingBottom="16dp"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintBottom_toBottomOf="parent"
 			tools:text="Tulsi" />
 
 		<TextView
@@ -42,6 +43,7 @@
 			android:layout_marginStart="16dp"
 			android:paddingBottom="16dp"
 			android:textColor="@color/white"
+			android:visibility="gone"
 			android:textSize="18sp"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
