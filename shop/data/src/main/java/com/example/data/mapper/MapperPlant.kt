@@ -1,11 +1,11 @@
 package com.example.data.mapper
 
 import com.example.data.model.ResPlant
-import com.example.domain.Maintenance
-import com.example.domain.Plant
-import com.example.domain.PlantCategory
-import com.example.domain.Sunlight
-import com.example.domain.Water
+import com.example.domain.model.Maintenance
+import com.example.domain.model.Plant
+import com.example.domain.model.PlantCategory
+import com.example.domain.model.Sunlight
+import com.example.domain.model.Water
 
 /*
  * Created by Sudhanshu Kumar on 21/11/24.

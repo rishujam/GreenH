@@ -45,9 +45,7 @@ class PlantListSpanHelper(
         return closestChild
     }
 
-    override fun createScroller(layoutManager: RecyclerView.LayoutManager?): RecyclerView.SmoothScroller? {
-        return layoutManager?.let {
-            FastSmoothScroller(context)
-        }
+    override fun createScroller(layoutManager: RecyclerView.LayoutManager): RecyclerView.SmoothScroller {
+        return FastSmoothScroller(context)
     }
 }

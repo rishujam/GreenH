@@ -3,9 +3,9 @@ package com.example.ui.listing
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.util.Resource
-import com.example.domain.Plant
-import com.example.domain.PlantFilter
-import com.example.domain.repo.PlantRepository
+import com.example.domain.model.GetPlantsRequest
+import com.example.domain.model.Plant
+import com.example.domain.model.PlantFilter
 import com.example.domain.usecase.GetPlantListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +32,12 @@ class PlantListViewModel @Inject constructor(
     fun getList(
         filters: List<PlantFilter>? = null
     ) = viewModelScope.launch {
-        plantListUseCase.invoke(page = page, filters).collect {
+        plantListUseCase.invoke(
+            GetPlantsRequest(
+                filters = filters,
+                page = page
+            )
+        ).collect {
             if(it is Resource.Success) {
                 page++
             }

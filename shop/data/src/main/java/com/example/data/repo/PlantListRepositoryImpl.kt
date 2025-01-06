@@ -2,25 +2,28 @@ package com.example.data.repo
 
 import com.core.util.Resource
 import com.example.data.mapper.MapperPlant
-import com.example.data.source.FireStore
-import com.example.domain.Plant
-import com.example.domain.PlantFilter
-import com.example.domain.repo.PlantRepository
+import com.example.data.remote.PlantDataSource
+import com.example.domain.model.GetPlantsRequest
+import com.example.domain.model.Plant
+import com.example.domain.model.PlantFilter
+import com.example.domain.repo.PlantListRepository
 import javax.inject.Inject
 
 /*
  * Created by Sudhanshu Kumar on 14/11/24.
  */
 
-class PlantRepositoryImpl @Inject constructor(
-    private val firestore: FireStore
-) : PlantRepository {
+class PlantListRepositoryImpl @Inject constructor(
+    private val source: PlantDataSource
+) : PlantListRepository {
 
     override suspend fun getPlants(
-        page: Int,
-        filters: List<PlantFilter>?
+        req: GetPlantsRequest
     ): Resource<List<Plant>> {
-        val result = firestore.getPlants(page, filters)
+        val result = source.getPlants(
+            req.page,
+            req.filters
+        )
         return if(result.isSuccessful) {
             val plants = result.plants.map {
                 MapperPlant.toPlant(it)

@@ -37,7 +37,6 @@ class PlantsListFragment : Fragment() {
     private val binding get() = _binding
     private val viewModel by viewModels<PlantListViewModel>()
     private var plantAdapter: PlantAdapter? = null
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,17 +49,6 @@ class PlantsListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        binding?.bottomSheetInflator?.bottomSheetContainer?.let {
-//            bottomSheetBehavior = BottomSheetBehavior.from(it)
-//            val density = resources.displayMetrics.density
-//            val peekHeight = (55 * density).toInt()
-//            bottomSheetBehavior.peekHeight = peekHeight
-//            val frag = BottomSheetFrag()
-//            childFragmentManager.beginTransaction().apply {
-//                replace(R.id.flBottomSheet, frag)
-//                commit()
-//            }
-//        }
         lifecycleScope.launch(Dispatchers.Main) {
             viewModel.uiState.collect {
                 when(it) {
@@ -97,22 +85,6 @@ class PlantsListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    fun scaleView(
-        v: View,
-        startScale: Float,
-        endScale: Float
-    ) {
-        val anim: Animation = ScaleAnimation(
-            1f, 1f,
-            startScale, endScale,
-            Animation.RELATIVE_TO_SELF, 0f,
-            Animation.RELATIVE_TO_SELF, 1f
-        )
-        anim.fillAfter = true
-        anim.duration = 1000L
-        v.startAnimation(anim)
     }
 
 }

@@ -1,7 +1,7 @@
 package com.example.data.di
 
-import com.example.data.repo.PlantRepositoryImpl
-import com.example.domain.repo.PlantRepository
+import com.example.data.repo.PlantListRepositoryImpl
+import com.example.domain.repo.PlantListRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,6 +18,6 @@ abstract class PlantRepoModule {
 
     @Binds
     @Singleton
-    abstract fun bindPlantRepository(impl: PlantRepositoryImpl): PlantRepository
+    abstract fun bindPlantRepository(impl: PlantListRepositoryImpl): PlantListRepository
 
 }
