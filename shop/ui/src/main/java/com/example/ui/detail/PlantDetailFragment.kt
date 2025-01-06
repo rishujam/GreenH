@@ -10,13 +10,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.core.ui.visible
+import com.example.ui.R
+import com.example.ui.bottom_sheet.BottomSheetFrag
 import com.example.ui.databinding.FragmentPlantDetailsBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 
 internal class PlantDetailFragment: Fragment() {
@@ -26,6 +30,7 @@ internal class PlantDetailFragment: Fragment() {
     private lateinit var plantId:String
 //    private lateinit var plant: ResPlant
     private lateinit var dialog:Dialog
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +44,17 @@ internal class PlantDetailFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+//        binding?.bottomSheetInflator?.bottomSheetContainer?.let {
+//            bottomSheetBehavior = BottomSheetBehavior.from(it)
+//            val density = resources.displayMetrics.density
+//            val peekHeight = (55 * density).toInt()
+//            bottomSheetBehavior.peekHeight = peekHeight
+//            val frag = BottomSheetFrag()
+//            childFragmentManager.beginTransaction().apply {
+//                replace(R.id.flBottomSheet, frag)
+//                commit()
+//            }
+//        }
 //        viewModel.plantResponse.observe(viewLifecycleOwner, Observer {
 //            when(it){
 //                is Resource.Loading -> {

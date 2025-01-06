@@ -1,13 +1,12 @@
-package com.example.data.source
+package com.example.data.remote
 
 import com.core.util.Constants
 import com.core.util.toObject
 import com.example.data.model.ResPlant
 import com.example.data.model.ResPlants
-import com.example.domain.PlantFilter
+import com.example.domain.model.PlantFilter
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -16,7 +15,7 @@ import javax.inject.Inject
  * Created by Sudhanshu Kumar on 14/11/24.
  */
 
-class FireStore @Inject constructor() {
+class PlantDataSource @Inject constructor() {
 
     private val fireRef = Firebase.firestore
 

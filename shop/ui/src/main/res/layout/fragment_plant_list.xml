@@ -4,11 +4,22 @@
 	android:layout_height="match_parent"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 
+	<ImageView
+		android:id="@+id/btnBackToolbarPlantList"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/ic_back_arrow"
+		android:paddingStart="16dp"
+		android:tint="@color/mat3_on_surface_variant"
+		app:layout_constraintTop_toTopOf="@id/tvPlantListTitle"
+		app:layout_constraintBottom_toBottomOf="@id/tvPlantListTitle"
+		app:layout_constraintStart_toStartOf="parent" />
+
 	<TextView
 		android:id="@+id/tvPlantListTitle"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="16dp"
+		android:layout_marginStart="8dp"
 		android:layout_marginTop="16dp"
 		android:elevation="4dp"
 		android:text="Nursery"
@@ -16,14 +27,14 @@
 		android:textColor="@color/mat3_on_surface_variant"
 		android:textSize="18sp"
 		android:textStyle="bold"
-		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintStart_toEndOf="@id/btnBackToolbarPlantList"
 		app:layout_constraintTop_toTopOf="parent" />
 
 	<TextView
 		android:id="@+id/btnFilterPlantList"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:background="@drawable/text_bg"
+		android:background="@drawable/bg_text_btn"
 		android:drawableStart="@drawable/ic_filter_filled"
 		android:drawablePadding="8dp"
 		android:drawableTint="@color/mat3_on_surface_variant"

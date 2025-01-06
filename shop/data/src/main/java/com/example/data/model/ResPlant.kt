@@ -1,6 +1,11 @@
 package com.example.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class ResPlant(
+    @PrimaryKey
     val id: String,
     val name: String,
     val des: String,

@@ -120,7 +120,7 @@ class PlantListLayoutManager(
         }
     }
 
-    fun scaleView(
+    private fun scaleView(
         v: View,
         endX: Float,
         endScale: Float,

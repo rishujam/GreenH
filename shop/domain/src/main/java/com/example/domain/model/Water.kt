@@ -1,4 +1,4 @@
-package com.example.domain
+package com.example.domain.model
 
 /*
  * Created by Sudhanshu Kumar on 14/11/24.

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.domain.Plant
+import com.example.domain.model.Plant
 import com.example.ui.databinding.ItemPlantListBinding
 
 /*
