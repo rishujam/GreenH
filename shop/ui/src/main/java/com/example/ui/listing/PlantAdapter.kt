@@ -48,9 +48,9 @@ class PlantAdapter: RecyclerView.Adapter<PlantAdapter.PlantViewHolder>() {
             Glide.with(this.root)
                 .load(plant.imageUrl)
                 .into(ivPlantItem)
-//            root.setOnClickListener {
-//                onItemClickListener?.let { it(plant, position) }
-//            }
+            root.setOnClickListener {
+                onItemClickListener?.let { it(plant, position) }
+            }
         }
     }
 

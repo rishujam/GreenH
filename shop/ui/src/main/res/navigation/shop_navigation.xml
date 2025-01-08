@@ -9,11 +9,15 @@
 		android:name="com.example.ui.listing.PlantsListFragment"
 		android:label="PlantsListFragment" >
 		<action
-			android:id="@+id/action_plantsListFragment_to_plantDetailFragment"
+			android:id="@+id/navigate_to_detail"
 			app:destination="@id/plantDetailFragment" />
 	</fragment>
 	<fragment
 		android:id="@+id/plantDetailFragment"
 		android:name="com.example.ui.detail.PlantDetailFragment"
-		android:label="PlantDetailFragment" />
+		android:label="PlantDetailFragment" >
+		<argument
+			android:name="plantDetailArgs"
+			app:argType="com.example.ui.detail.PlantDetailArgs" />
+	</fragment>
 </navigation>

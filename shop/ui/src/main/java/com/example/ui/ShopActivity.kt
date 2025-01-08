@@ -2,6 +2,7 @@ package com.example.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.ui.databinding.ActivityShopBinding
 import com.example.ui.listing.PlantsListFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,11 +16,6 @@ class ShopActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityShopBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.flTest, PlantsListFragment())
-            commit()
-        }
     }
 
 }

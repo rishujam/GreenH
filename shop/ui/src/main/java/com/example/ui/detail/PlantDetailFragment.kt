@@ -1,36 +1,28 @@
 package com.example.ui.detail
 
 import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.core.ui.visible
-import com.example.ui.R
-import com.example.ui.bottom_sheet.BottomSheetFrag
 import com.example.ui.databinding.FragmentPlantDetailsBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 
-internal class PlantDetailFragment: Fragment() {
+internal class PlantDetailFragment : Fragment() {
 
     private var _binding: FragmentPlantDetailsBinding?=null
-    private val binding get() = _binding!!
+    private val binding get() = _binding
     private lateinit var plantId:String
 //    private lateinit var plant: ResPlant
     private lateinit var dialog:Dialog
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
+
+    private val args: PlantDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,12 +30,12 @@ internal class PlantDetailFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPlantDetailsBinding.inflate(inflater,container,false)
-        plantId = arguments?.getString("ID").toString()
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val plantId = args.plantDetailArgs.id
 //        binding?.bottomSheetInflator?.bottomSheetContainer?.let {
 //            bottomSheetBehavior = BottomSheetBehavior.from(it)
 //            val density = resources.displayMetrics.density
@@ -90,13 +82,13 @@ internal class PlantDetailFragment: Fragment() {
 //            }
 //        })
 
-        binding.backBtn.setOnClickListener {
+        binding?.backBtn?.setOnClickListener {
 //            (activity as MainActivity).supportFragmentManager.popBackStack()
         }
-        binding.addToCart.setOnClickListener {
+        binding?.addToCart?.setOnClickListener {
 //            showDialog()
         }
-        binding.playVideo.setOnClickListener {
+        binding?.playVideo?.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("plantId",plantId)
 //            val videoFrag = PlantVideoFragment()
@@ -106,8 +98,8 @@ internal class PlantDetailFragment: Fragment() {
     }
 
     private fun setupData(){
-        binding.pbPlantDetail.visibility = View.VISIBLE
-        binding.pbPlantDetail.visible(true)
+        binding?.pbPlantDetail?.visibility = View.VISIBLE
+        binding?.pbPlantDetail?.visible(true)
 //        binding.plantName.text = plant.name
 //        binding.tPrive.text = "₹${plant.price}"
 //        binding.tvSunlight.text = plant.sunlight

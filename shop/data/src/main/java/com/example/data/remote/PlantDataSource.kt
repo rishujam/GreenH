@@ -24,7 +24,7 @@ class PlantDataSource @Inject constructor() {
         val startAfter = Constants.QUERY_PAGE_SIZE * (page - 1)
         val query = fireRef.collection(Constants.FirebaseColl.PLANTS)
             .orderBy(Constants.FirebaseField.ID)
-            .startAfter(startAfter)
+            .startAfter(startAfter.toString())
             .limit(Constants.QUERY_PAGE_SIZE.toLong())
         filters?.let {
             for(i in filters) {

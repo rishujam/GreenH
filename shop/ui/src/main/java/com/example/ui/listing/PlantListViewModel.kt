@@ -1,5 +1,6 @@
 package com.example.ui.listing
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.util.Resource
@@ -11,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,31 +25,55 @@ class PlantListViewModel @Inject constructor(
     private val plantListUseCase: GetPlantListUseCase
 ) : ViewModel() {
 
-    private val defaultValue = Resource.Loading<List<Plant>>()
-    private val _uiState = MutableStateFlow<Resource<List<Plant>>>(defaultValue)
-    val uiState: StateFlow<Resource<List<Plant>>> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow<Resource<List<Plant>>?>(null)
+    val uiState: StateFlow<Resource<List<Plant>>?> = _uiState.asStateFlow()
 
     private var page: Int = 1
+    private var lastPageReached = false
+    private var isApiInProgress = false
+    private var currentList = mutableListOf<Plant>()
 
     fun getList(
         filters: List<PlantFilter>? = null
     ) = viewModelScope.launch {
+        if(lastPageReached || isApiInProgress) {
+            return@launch
+        }
+        Log.d("RishuTest", "calling api offset: $page")
+        _uiState.emit(Resource.Loading())
+        isApiInProgress = true
         plantListUseCase.invoke(
             GetPlantsRequest(
                 filters = filters,
                 page = page
             )
-        ).collect {
-            if(it is Resource.Success) {
-                page++
+        ).collectLatest {
+            when(it) {
+                is Resource.Error -> {
+                    isApiInProgress = false
+                    _uiState.emit(it)
+                }
+                is Resource.Success -> {
+                    isApiInProgress = false
+                    page++
+                    it.data?.let { data ->
+                        if(data.size < 5) {
+                            lastPageReached = true
+                        }
+                    }
+                    currentList.addAll(it.data.orEmpty())
+                    _uiState.emit(Resource.Success(currentList.toList()))
+                }
+                is Resource.Loading -> {}
             }
-            _uiState.emit(it)
         }
     }
 
     fun refresh() {
         page = 1
-        _uiState.value = defaultValue
+        _uiState.value = null
+        lastPageReached = false
+        currentList.clear()
         getList()
     }
 

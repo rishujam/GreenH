@@ -7,17 +7,13 @@
 	android:layout_height="match_parent"
 	tools:context=".ShopActivity">
 
-	<FrameLayout
-		android:id="@+id/flTest"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"/>
 
-<!--	<androidx.fragment.app.FragmentContainerView-->
-<!--		android:id="@+id/fragmentContainerShop"-->
-<!--		android:name="androidx.navigation.fragment.NavHostFragment"-->
-<!--		android:layout_width="match_parent"-->
-<!--		android:layout_height="match_parent"-->
-<!--		app:defaultNavHost="true"-->
-<!--		app:navGraph="@navigation/shop_navigation" />-->
+	<androidx.fragment.app.FragmentContainerView
+		android:id="@+id/fcShop"
+		android:name="androidx.navigation.fragment.NavHostFragment"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		app:defaultNavHost="true"
+		app:navGraph="@navigation/shop_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

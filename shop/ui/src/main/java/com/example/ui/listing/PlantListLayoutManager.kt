@@ -5,6 +5,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.math.floor
 
 
 /*
@@ -25,7 +26,60 @@ class PlantListLayoutManager(
     }
 
     override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
-        fill(recycler)
+        fillTest(recycler)
+    }
+
+    private fun fillTest(recycler: RecyclerView.Recycler?) {
+        if (itemCount == 0 || recycler == null) return
+        val density = context?.resources?.displayMetrics?.density ?: 1f
+        val marginItem = (32 * density).toInt()
+        val marginLeft = (16 * density).toInt()
+        val viewWidth = width - marginItem
+        val viewHeight = (viewWidth * 1.6).toInt()
+        val firstVisiblePosition = floor(offset.toDouble() / viewHeight.toDouble()).toInt()
+        val lastVisiblePosition = (offset + height) / viewHeight
+        var accumulatedTop = -offset
+        detachAndScrapAttachedViews(recycler)
+        for (index in firstVisiblePosition..lastVisiblePosition) {
+            var recyclerIndex = index % itemCount
+            if (recyclerIndex < 0) {
+                recyclerIndex += itemCount
+            }
+            val view = recycler.getViewForPosition(recyclerIndex)
+            addView(view)
+
+            val layoutParams = view.layoutParams as RecyclerView.LayoutParams
+            layoutParams.width = viewWidth
+            layoutParams.height = viewHeight
+            view.layoutParams = layoutParams
+            measureChild(view, viewWidth, viewHeight)
+//            val isVisible = isViewMostlyVisible(view, height)
+//            if(isVisible) {
+//                scaleView(
+//                    view,
+//                    1.1f,
+//                    1.1f
+//                )
+//            } else {
+//                scaleView(
+//                    view,
+//                    1f,
+//                    1f
+//                )
+//            }
+            accumulatedTop += marginItem
+
+            val right = width - marginLeft
+            val top = accumulatedTop
+            val bottom = accumulatedTop + layoutParams.height
+            layoutDecorated(view, marginLeft, top, right, bottom)
+            accumulatedTop += layoutParams.height
+//            updateViewVisibilityAndAnimations(index, isVisible)
+        }
+        val scrapListCopy = recycler.scrapList.toList()
+        scrapListCopy.forEach {
+            recycler.recycleView(it.itemView)
+        }
     }
 
     private fun fill(recycler: RecyclerView.Recycler?) {
@@ -101,7 +155,7 @@ class PlantListLayoutManager(
         val delta = clampedOffset - offset
         offsetChildrenVertical(-delta)
         offset = clampedOffset
-        fill(recycler)
+        fillTest(recycler)
         return delta
     }
 
@@ -136,6 +190,44 @@ class PlantListLayoutManager(
         anim.fillAfter = true
         anim.duration = 200L
         v.startAnimation(anim)
+    }
+
+    private fun findOneVisibleChild(
+        fromIndex: Int,
+        toIndex: Int,
+        completelyVisible: Boolean,
+        acceptPartiallyVisible: Boolean
+    ): View? {
+        val start = 0
+        val end = if (toIndex > fromIndex) toIndex else fromIndex
+        for (i in start..end) {
+            val child = getChildAt(i) ?: continue
+            val childStart = getDecoratedTop(child)
+            val childEnd = getDecoratedBottom(child)
+            val parentStart = paddingTop
+            val parentEnd = height - paddingBottom
+
+            if (completelyVisible) {
+                if (childStart >= parentStart && childEnd <= parentEnd) {
+                    return child
+                }
+            } else if (acceptPartiallyVisible) {
+                if (childStart < parentEnd && childEnd > parentStart) {
+                    return child
+                }
+            }
+        }
+        return null
+    }
+
+    fun findFirstVisibleItemPosition(): Int {
+        val child = findOneVisibleChild(
+            0,
+            childCount,
+            false,
+            true
+        )
+        return if (child == null) RecyclerView.NO_POSITION else getPosition(child)
     }
 
 }
