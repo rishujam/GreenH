@@ -1,6 +1,7 @@
 package com.example.ui.detail
 
 import android.app.Dialog
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,20 +9,25 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.core.ui.visible
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.core.ui.hide
+import com.core.ui.show
+import com.example.domain.model.Plant
+import com.example.ui.R
 import com.example.ui.databinding.FragmentPlantDetailsBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 
 internal class PlantDetailFragment : Fragment() {
 
-    private var _binding: FragmentPlantDetailsBinding?=null
+    private var _binding: FragmentPlantDetailsBinding? = null
     private val binding get() = _binding
-    private lateinit var plantId:String
-//    private lateinit var plant: ResPlant
-    private lateinit var dialog:Dialog
+    private lateinit var dialog: Dialog
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
-
     private val args: PlantDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -29,13 +35,15 @@ internal class PlantDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentPlantDetailsBinding.inflate(inflater,container,false)
+        _binding = FragmentPlantDetailsBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val plantId = args.plantDetailArgs.id
+        val plant = args.plantDetailArgs.plant
+        setupData(plant)
 //        binding?.bottomSheetInflator?.bottomSheetContainer?.let {
 //            bottomSheetBehavior = BottomSheetBehavior.from(it)
 //            val density = resources.displayMetrics.density
@@ -47,25 +55,6 @@ internal class PlantDetailFragment : Fragment() {
 //                commit()
 //            }
 //        }
-//        viewModel.plantResponse.observe(viewLifecycleOwner, Observer {
-//            when(it){
-//                is Resource.Loading -> {
-//                    binding.pbPlantDetail.visible(true)
-//                }
-//                is Resource.Success -> {
-//                    it.data?.let { plants ->
-//                        plant = plants
-//                        setupData(plant)
-//                    }
-//                    binding.pbPlantDetail.visible(false)
-//                }
-//                is Resource.Error ->{
-//                    binding.pbPlantDetail.visible(false)
-//                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        })
-//        viewModel.getSinglePlant(getString(R.string.plant_sample_ref),plantId)
 
 //        viewModel.success.observe(viewLifecycleOwner, Observer {
 //            when(it.getContentIfNotHandled()){
@@ -90,42 +79,54 @@ internal class PlantDetailFragment : Fragment() {
         }
         binding?.playVideo?.setOnClickListener {
             val bundle = Bundle()
-            bundle.putString("plantId",plantId)
+            bundle.putString("plantId", plantId)
 //            val videoFrag = PlantVideoFragment()
 //            videoFrag.arguments = bundle
 //            (activity as MainActivity).setCurrentFragmentBack(videoFrag)
         }
     }
 
-    private fun setupData(){
-        binding?.pbPlantDetail?.visibility = View.VISIBLE
-        binding?.pbPlantDetail?.visible(true)
-//        binding.plantName.text = plant.name
-//        binding.tPrive.text = "₹${plant.price}"
-//        binding.tvSunlight.text = plant.sunlight
-//        binding.tvWater.text = plant.water
-//        Glide.with(binding.root)
-//            .setDefaultRequestOptions(RequestOptions().placeholder(R.drawable.load).error(R.drawable.load))
-//            .load(plant.imageLocation).listener(object : RequestListener<Drawable> {
-//            override fun onResourceReady(resource: Drawable?, model: Any?, target: com.bumptech.glide.request.target.Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-//                binding.pbPlantDetail.visibility = View.INVISIBLE
-//                return false
-//            }
-//
-//            override fun onLoadFailed(
-//                e: GlideException?,
-//                model: Any?,
-//                target: com.bumptech.glide.request.target.Target<Drawable>?,
-//                isFirstResource: Boolean
-//            ): Boolean {
-//                return false
-//            }
-//        }).into(binding.plantImage)
+    private fun setupData(plant: Plant) {
+        binding?.apply {
+            plantName.show()
+            plantName.text = plant.name
+            tPrive.text = "₹${plant.price}"
+//            tvSunlight.text = plant.sunlight.value
+//            tvWater.text = plant.water.value
+            Glide.with(root)
+//                .setDefaultRequestOptions(
+//                    RequestOptions()
+//                        .placeholder(R.drawable.load)
+//                        .error(R.drawable.load)
+//                )
+                .load(plant.imageUrl).listener(object : RequestListener<Drawable> {
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: com.bumptech.glide.request.target.Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        pbPlantDetail.hide()
+                        return false
+                    }
+
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: com.bumptech.glide.request.target.Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        return false
+                    }
+                }).into(plantImage)
+            plantImage.clipToOutline = true
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding =null
+        _binding = null
     }
 
 //    private fun showDialog() {

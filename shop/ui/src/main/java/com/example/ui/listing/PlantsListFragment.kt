@@ -90,7 +90,8 @@ class PlantsListFragment : Fragment() {
             })
             plantAdapter?.setOnItemClickListener { plant, _ ->
                 val args = PlantDetailArgs(
-                    id = plant.id
+                    id = plant.id,
+                    plant = plant
                 )
                 val action = PlantsListFragmentDirections.navigateToDetail(args)
                 Navigation.findNavController(root).navigate(action)

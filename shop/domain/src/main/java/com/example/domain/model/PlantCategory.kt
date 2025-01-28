@@ -1,10 +1,12 @@
 package com.example.domain.model
 
+import java.io.Serializable
+
 /*
  * Created by Sudhanshu Kumar on 14/11/24.
  */
 
-enum class PlantCategory(val value: String) {
+enum class PlantCategory(val value: String): Serializable {
     INDOOR("Indoor"),
     OUTDOOR("Outdoor"),
     EMPTY("");

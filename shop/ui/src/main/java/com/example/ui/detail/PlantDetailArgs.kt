@@ -1,5 +1,6 @@
 package com.example.ui.detail
 
+import com.example.domain.model.Plant
 import java.io.Serializable
 
 /*
@@ -7,5 +8,6 @@ import java.io.Serializable
  */
 
 data class PlantDetailArgs(
-    val id: String
+    val id: String,
+    val plant: Plant
 ) : Serializable

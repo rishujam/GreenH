@@ -1,5 +1,6 @@
 package com.ev.greenh.home.ui
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -22,6 +23,15 @@ class HomeViewModel @Inject constructor (
 ) : ViewModel() {
 
     var state by mutableStateOf(HomeState())
+
+    fun x() {
+        viewModelScope.launch {
+            Log.d("ThreadTesting", "currentThread: ${Thread.currentThread().name} threadId: ${Thread.currentThread().id} context: ${this.coroutineContext}")
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.d("ThreadTesting", "currentThread IO: ${Thread.currentThread().name} threadId: ${Thread.currentThread().id} context: ${this.coroutineContext}")
+        }
+    }
 
     fun getTodayTip() = viewModelScope.launch(Dispatchers.IO) {
         val tip = repo.getTodayTip()
