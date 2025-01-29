@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -13,6 +15,8 @@ import androidx.fragment.app.viewModels
 import com.ev.greenh.databinding.FragmentPlantScannerBinding
 import com.ev.greenh.plantidentify.ui.composable.PlantScannerScreen
 import com.ev.greenh.ui.MainActivity
+import com.ev.greenh.util.PermissionManager
+import com.ev.greenh.util.PermissionType
 import dagger.hilt.android.AndroidEntryPoint
 
 /*
@@ -38,10 +42,23 @@ class PlantIdentifyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as? MainActivity)?.hideNav()
-        if (!hasCameraPermission()) {
-            ActivityCompat.requestPermissions(
-                requireActivity(), arrayOf(Manifest.permission.CAMERA), 0
-            )
+        val permissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { result ->
+            PermissionManager.evaluateResult(result) { absResult ->
+                if(absResult) {
+                    Toast.makeText(context, "Permission Granted", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        PermissionManager.launch(
+            PermissionType.CAMERA,
+            requireContext(),
+            permissionLauncher
+        ) {
+            Toast.makeText(context, "Permission Already Granted", Toast.LENGTH_SHORT).show()
         }
         binding?.cvPlantScanner?.setContent {
             context?.let {
@@ -49,11 +66,6 @@ class PlantIdentifyFragment : Fragment() {
             }
         }
     }
-
-    private fun hasCameraPermission() = ContextCompat.checkSelfPermission(
-        requireContext(),
-        Manifest.permission.CAMERA
-    ) == PackageManager.PERMISSION_GRANTED
 
     override fun onDestroyView() {
         super.onDestroyView()
