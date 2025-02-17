@@ -40,6 +40,14 @@ object PermissionManager {
         onUserActionPerformed(true)
     }
 
+    fun checkGranted(
+        permissionKey: String,
+        context: Context
+    ): Boolean = ContextCompat.checkSelfPermission(
+        context,
+        permissionKey
+    ) != PackageManager.PERMISSION_DENIED
+
     private fun getPermissionsToAsk(
         permissionType: PermissionType,
         context: Context
@@ -63,13 +71,5 @@ object PermissionManager {
         }
         return permissionsToAsk
     }
-
-    private fun checkGranted(
-        permissionKey: String,
-        context: Context
-    ): Boolean = ContextCompat.checkSelfPermission(
-        context,
-        permissionKey
-    ) != PackageManager.PERMISSION_DENIED
 
 }

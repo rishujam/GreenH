@@ -25,10 +25,10 @@ import androidx.camera.view.LifecycleCameraController
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.core.util.Constants
 import com.core.ui.hide
 import com.core.ui.nav.Navigation
 import com.core.ui.show
+import com.core.util.Constants
 import com.core.util.Resource
 import com.ev.greenh.R
 import com.ev.greenh.databinding.ActivityMainBinding
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
         activityViewModel.load()
         lifecycleScope.launch(Dispatchers.IO) {
             activityViewModel.config.collect { response ->
-                when(response) {
+                when (response) {
                     is Resource.Success -> {
                         withContext(Dispatchers.Main) {
                             handelSuccessConfigResponse(response.data)
@@ -84,14 +84,14 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.imHome -> {
-                    if(binding.bottomNavigationView.selectedItemId == R.id.imHome)
+                    if (binding.bottomNavigationView.selectedItemId == R.id.imHome)
                         return@setOnItemSelectedListener true
                     val homeFragment = HomeFragment()
                     setCurrentFragment(homeFragment)
                 }
 
                 R.id.imShop -> {
-                    if(binding.bottomNavigationView.selectedItemId == R.id.imShop)
+                    if (binding.bottomNavigationView.selectedItemId == R.id.imShop)
                         return@setOnItemSelectedListener true
                     val shopFeature = activityViewModel.config.replayCache.first()
                         .data?.featureConfig?.get(Constants.Feature.SHOP)?.is_enabled ?: true
@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
                 }
 
                 R.id.imSetting -> {
-                    if(binding.bottomNavigationView.selectedItemId == R.id.imSetting)
+                    if (binding.bottomNavigationView.selectedItemId == R.id.imSetting)
                         return@setOnItemSelectedListener true
                     val profileFragment = ProfileFragment()
                     setCurrentFragment(profileFragment)
@@ -124,8 +124,8 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
     }
 
     private fun handelSuccessConfigResponse(response: MainActivityState?) {
-        if(response?.isToShowUpdate == true || response?.isToShowMaintenance == true) {
-            if(response.isToShowMaintenance) {
+        if (response?.isToShowUpdate == true || response?.isToShowMaintenance == true) {
+            if (response.isToShowMaintenance) {
                 onMaintenance()
             } else {
                 onUpdateRequired()
@@ -284,7 +284,7 @@ class MainActivity : AppCompatActivity(), PaymentResultWithDataListener {
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             btn.setOnClickListener {
                 onBtnClick()
-                if(dismissOnBtnClick) dismiss()
+                if (dismissOnBtnClick) dismiss()
             }
         }
     }
