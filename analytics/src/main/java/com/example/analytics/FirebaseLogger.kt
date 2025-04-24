@@ -4,7 +4,7 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.logEvent
 import com.google.firebase.ktx.Firebase
 
-internal class FirebaseLogger : Logger {
+class FirebaseLogger : Logger {
 
     override fun logEvent(
         event: Event

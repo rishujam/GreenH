@@ -191,4 +191,5 @@ dependencies {
     implementation project(":core:data")
     implementation project(":core:util")
     implementation project(":admin")
+    implementation project(":analytics")
 }
