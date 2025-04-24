@@ -79,5 +79,13 @@ object Constants {
         const val IDENTIFY_FRAG = "identify_frag"
     }
 
+    object ScreenName {
+        const val APP = "APP"
+    }
+
+    object EventName {
+        const val LAUNCH = "LAUNCH"
+    }
+
 
 }

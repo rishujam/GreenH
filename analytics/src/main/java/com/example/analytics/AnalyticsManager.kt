@@ -20,11 +20,10 @@ class AnalyticsManager private constructor(
         }
     }
 
-    fun logEvent(event: Event) {
+    fun logEvent(event: Event.Builder) {
+        event.userId(config.userId)
         logger.logEvent(
-            event.copy(
-                userId = config.userId
-            )
+            event.build()
         )
     }
 

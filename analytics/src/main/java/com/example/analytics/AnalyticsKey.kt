@@ -1,6 +1,6 @@
 package com.example.analytics
 
-object AnalyticsKey {
+internal object AnalyticsKey {
 
     const val SCREEN_NAME = "SCREEN_NAME"
     const val ID = "ID"

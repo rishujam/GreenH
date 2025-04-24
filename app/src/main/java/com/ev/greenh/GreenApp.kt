@@ -11,13 +11,14 @@ import coil.annotation.ExperimentalCoilApi
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import coil.util.DebugLogger
+import com.core.util.Constants
 import com.example.analytics.AnalyticsConfig
 import com.example.analytics.AnalyticsManager
+import com.example.analytics.Event
 import com.example.analytics.FirebaseLogger
 import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -28,7 +29,7 @@ class GreenApp : Application(), ImageLoaderFactory {
         FirebaseApp.initializeApp(this)
         FirebaseAppCheck.getInstance().installAppCheckProviderFactory(
             DebugAppCheckProviderFactory.getInstance())
-
+        AnalyticsManager.init(FirebaseLogger(), AnalyticsConfig(""))
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onStart(owner: LifecycleOwner) {
                 super<DefaultLifecycleObserver>.onStart(owner)
@@ -40,7 +41,12 @@ class GreenApp : Application(), ImageLoaderFactory {
                 Log.d("LifecycleEvent", "onStop")
             }
         })
-        AnalyticsManager.init(FirebaseLogger(), AnalyticsConfig(""))
+        AnalyticsManager.get().logEvent(
+            Event.Builder()
+                .eventName(Constants.EventName.LAUNCH)
+                .screenName(Constants.ScreenName.APP)
+        )
+
     }
 
     @OptIn(ExperimentalCoilApi::class)
