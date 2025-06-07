@@ -38,7 +38,7 @@ fun GrowScreenMainRvItem(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp)
+            .height(300.dp)
             .padding(16.dp, 16.dp, 16.dp, 0.dp)
             .clickable(enabled = true) {
                 itemClickBlock(data.name)
