@@ -30,35 +30,35 @@ class LauncherActivity : AppCompatActivity() {
         binding = ActivityLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navigateToHome()
-        binding.cvLauncher.setContent {
-            LauncherScreen(state = viewModel.state) {
-                when (it) {
-                    is LauncherEvent.ConfigLoaded -> {
-                        viewModel.onEvent(it)
-                        if (
-                            viewModel.state.isLoggedIn == true ||
-                            viewModel.state.isLoginSkippedEarlier == true
-                        ) {
-                            navigateToHome()
-                        }
-                    }
-
-                    is LauncherEvent.Skip -> {
-                        viewModel.onEvent(it) {
-                            if (viewModel.state.configLoaded) {
-                                navigateToHome()
-                            }
-                        }
-                    }
-
-                    is LauncherEvent.SignIn -> {
-                        if (viewModel.state.configLoaded) {
-                            navigateToAuth()
-                        }
-                    }
-                }
-            }
-        }
+//        binding.cvLauncher.setContent {
+//            LauncherScreen(state = viewModel.state) {
+//                when (it) {
+//                    is LauncherEvent.ConfigLoaded -> {
+//                        viewModel.onEvent(it)
+//                        if (
+//                            viewModel.state.isLoggedIn == true ||
+//                            viewModel.state.isLoginSkippedEarlier == true
+//                        ) {
+//                            navigateToHome()
+//                        }
+//                    }
+//
+//                    is LauncherEvent.Skip -> {
+//                        viewModel.onEvent(it) {
+//                            if (viewModel.state.configLoaded) {
+//                                navigateToHome()
+//                            }
+//                        }
+//                    }
+//
+//                    is LauncherEvent.SignIn -> {
+//                        if (viewModel.state.configLoaded) {
+//                            navigateToAuth()
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 
     private fun navigateToHome() {
