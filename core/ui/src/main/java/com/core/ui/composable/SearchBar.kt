@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,10 +37,10 @@ fun SearchBar(hint: String) {
             onValueChange = { textValue = it },
             label = { Text(text = hint) },
             maxLines = 1,
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                unfocusedBorderColor = DefaultTextColor,
-                textColor = DefaultTextColor,
-                focusedBorderColor = Mat3Primary,
+            colors = TextFieldDefaults.colors(
+                unfocusedContainerColor = DefaultTextColor,
+                focusedTextColor = DefaultTextColor,
+                focusedContainerColor = Mat3Primary,
                 focusedLabelColor = Mat3Primary,
                 unfocusedLabelColor = DefaultTextColor,
                 cursorColor = Mat3Primary

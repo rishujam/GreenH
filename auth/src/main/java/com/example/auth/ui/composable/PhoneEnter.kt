@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -71,10 +71,10 @@ fun PhoneView(onEvent: (SignUpEvent) -> Unit) {
                         imeAction = ImeAction.Done,
                         keyboardType = KeyboardType.Phone
                     ),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        unfocusedBorderColor = DefaultTextColor,
-                        textColor = DefaultTextColor,
-                        focusedBorderColor = Mat3Primary,
+                    colors = TextFieldDefaults.colors(
+                        unfocusedContainerColor = DefaultTextColor,
+                        focusedTextColor = DefaultTextColor,
+                        focusedContainerColor = Mat3Primary,
                         focusedLabelColor = Mat3Primary,
                         unfocusedLabelColor = DefaultTextColor,
                         cursorColor = Mat3Primary

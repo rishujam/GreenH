@@ -1,6 +1,6 @@
 package com.core.ui
 
-import androidx.compose.material.Typography
+import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -27,12 +27,12 @@ val LogoFontFamily = FontFamily(
 )
 
 val Typography = Typography(
-    body1 = TextStyle(
+    bodyLarge = TextStyle(
         fontFamily = CarmenFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 18.sp
     ),
-    h1 = TextStyle(
+    headlineLarge = TextStyle(
         fontFamily = CarmenFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp
