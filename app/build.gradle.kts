@@ -9,14 +9,14 @@ plugins {
 
 android {
     namespace = "com.ev.greenh"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.ev.greenh"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 18
-        versionName = "2.7"
+        targetSdk = 36
+        versionCode = 20
+        versionName = "2.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
